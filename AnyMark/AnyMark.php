@@ -24,7 +24,9 @@ class AnyMark implements Parser
 	private $parser;
 
 	/**
-	 * Utility constructor method. Sets up the wiring of objects using Fjor.
+	 * Sets up the wiring of objects using Fjor.
+	 * 
+	 * @return \Fjor\Dsl\Dsl
 	 */
 	static public function setup()
 	{
@@ -51,33 +53,12 @@ class AnyMark implements Parser
 		$fjor->setSingleton('AnyMark\\Pattern\\PatternList');
 		$fjor->setSingleton('AnyMark\\Parser\\RecursiveReplacer');
 
-		return $fjor->get('AnyMark\\AnyMark');
+		return $fjor;
 	}
 
 	public function __construct(Fjor $fjor)
 	{
 		$this->fjor = $fjor;
-	}
-
-	private function getParser()
-	{
-		$patternList = $this->fjor->get('AnyMark\\Pattern\\PatternList');
-		$this->parser = $this->fjor->get('AnyMark\\Parser\\RecursiveReplacer');
-		$patternListFiller = new \AnyMark\Util\PatternListFiller($this->fjor);
-		$ini = __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.ini';
-		$patternListFiller->fill($patternList, $ini);
-
-		return $this->parser;
-	}
-
-	/**
-	 * Change the wiring configuration through Fjor.
-	 * 
-	 * @return Fjor
-	 */
-	public function changeSetup()
-	{
-		return $this->fjor;
 	}
 
 	/**
@@ -121,6 +102,22 @@ class AnyMark implements Parser
 		);
 
 		return $content;
+	}
+
+	private function getParser()
+	{
+		if ($this->parser)
+		{
+			return $this->parser;
+		}
+
+		$patternList = $this->fjor->get('AnyMark\\Pattern\\PatternList');
+		$this->parser = $this->fjor->get('AnyMark\\Parser\\RecursiveReplacer');
+		$patternListFiller = new \AnyMark\Util\PatternListFiller($this->fjor);
+		$ini = __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.ini';
+		$patternListFiller->fill($patternList, $ini);
+
+		return $this->parser;
 	}
 
 	private function preProcess($text)

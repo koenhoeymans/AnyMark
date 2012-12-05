@@ -10,7 +10,7 @@ class AnyMark_EndToEndTests_SampleTextTest extends \AnyMark\EndToEndTests\Suppor
 	public function sampleText()
 	{
 		// given
-		$anyMark = \AnyMark\AnyMark::setup();
+		$anyMark = \AnyMark\AnyMark::setup()->get('AnyMark\\AnyMark');
 		$text = file_get_contents(__DIR__
 			. DIRECTORY_SEPARATOR . 'Support'
 			. DIRECTORY_SEPARATOR . 'SampleText.txt');

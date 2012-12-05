@@ -9,7 +9,7 @@ class AnyMark_PAnyMarkTest extends PHPUnit_Framework_TestCase
 {
 	public function setup()
 	{
-		$this->anyMark = \AnyMark\AnyMark::setup();
+		$this->anyMark = \AnyMark\AnyMark::setup()->get('AnyMark\AnyMark');
 	}
 
 	/**

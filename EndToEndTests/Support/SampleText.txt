@@ -1,0 +1,86 @@
+Transformation test
+-------------------
+
+A regular paragraph with *emphasized* and _italic_ text in. It is followed by a list:
+
+* item, with *emphasized* text and escaped \*emphasized\* text
+* item, with **strong** text and escaped *\*strong\** text
+
+!note
+	A note can span
+multiple lines. Let's create a note in a note:
+
+	!note
+		a subnote with a list
+
+		* item with an ![image test](http://example.com "example image")
+		* item
+
+	And now we're in our parent note again.
+
+!note
+	A note following a note.
+
+ * Item, with _italic_ text and a paragraph.
+
+   The next paragraph in this item.
+
+ * item, with a [link reference] [1]
+ * other [link reference] [2]
+
+!note
+	A note starting unindented. With a [relative] [3] link.
+
+A code example. It can be used to display code:
+
+	CODE:
+		CODE:
+			<?php // code goes here ?>
+			<i>html goes here</i>
+
+Code inline uses `backticks` but...
+
+	~~~
+		code can also use tildes and display html
+		<a>element</a>
+	~~~
+
+Let's try a short definition list:
+
+term A
+:	First paragraph of explanation of term.
+
+	Second paragraph of explanation of term.
+
+term B
+:	explanation of term
+
+	* listitem in term B
+	* other listitem
+
+This is another paragraph with an email link <mail@example.com>. It uses AT&T as in the
+Markdown manual. The ampersand is translated in http://url.com?a=1&b=2 but not in &copy;. Another special
+character is < and >: 4<5 or 4 < 5 should use entities.  
+Previous line had two spaces for a line break.
+
+> a blockquote can contain a blockquote
+>
+> > a subblockquote
+>
+> and code
+>
+> 	> indented code for blockquote
+
+ * * *
+
+Let's end with code indented:
+
+	code example with <b>html</b> in it
+	also with </code>
+	tag
+
+The link definitions below disappear.
+
+ [1]: http://www.example.com
+ [2]: http://example.com "title"
+ [3]: Foo/Bar.html

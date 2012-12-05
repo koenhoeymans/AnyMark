@@ -1,0 +1,11 @@
+manually added tags are left as is:
+
+<div>
+
+&, < and > in text are encoded.
+
+Enitites like &amp; are left as is.
+
+</div>
+
+Special characters in manually <span id="<invalid>">added tags</span> are left as is.

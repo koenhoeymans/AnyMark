@@ -1,0 +1,12 @@
+{table of contents}
+
+a header
+========
+
+paragraph
+
+
+subheader
+---------
+
+paragraph

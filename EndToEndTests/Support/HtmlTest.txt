@@ -1,0 +1,47 @@
+A regular paragraph to start with.
+
+<div>
+
+a header
+--------
+
+</div>
+
+A paragraph containing <span>special</span> text.
+
+<span>Another paragraph.</span>
+
+<div>
+
+!note
+	<span>a note</span>
+
+	<div>
+
+	The note has a paragraph.
+
+	</div>
+
+</div>
+
+<div>
+
+* <span>item</span>
+* item
+
+</div>
+
+<div>
+
+<span>term</span>
+:	<span>explanation</span>
+
+</div>
+
+<div>
+
+	some code
+
+</div>
+
+A regular paragraph to end with.

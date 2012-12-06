@@ -20,7 +20,8 @@ How can I use AnyMark?
 ### Dependencies ###
 
 AnyMark relies on [Fjor](https://github.com/koenhoeymans/fjor) to wire
-its dependencies. It expects to find Fjor in the `Vendor` directory.
+its dependencies. It expects to find Fjor in the `Vendor` directory if
+not already autoloaded (e.g. by another library).
 
 ### Library Use ###
 

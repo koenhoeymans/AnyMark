@@ -71,14 +71,6 @@ class AnyMark_Util_HtmlFileBuilderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
-	public function addsHtmlExtensionWhenAskedToProvideExtension()
-	{
-		$this->assertEquals('file.html', $this->urlBuilder->addExtension('file'));
-	}
-
-	/**
-	 * @test
-	 */
 	public function extensionIsPlacedBeforeDoubleColon()
 	{
 		$this->assertEquals('x.html#y', $this->urlBuilder->createRelativeLink('x#y'));

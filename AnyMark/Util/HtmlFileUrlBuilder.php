@@ -8,7 +8,7 @@ namespace AnyMark\Util;
 /**
  * @package AnyMark
  */
-class HtmlFileUrlBuilder implements InternalUrlBuilder, FileExtensionProvider
+class HtmlFileUrlBuilder implements InternalUrlBuilder
 {
 	/**
 	 * @see AnyMark\Util.InternalUrlBuilder::createLink()
@@ -49,12 +49,7 @@ class HtmlFileUrlBuilder implements InternalUrlBuilder, FileExtensionProvider
 		return count(explode(DIRECTORY_SEPARATOR, $resource)) -1;
 	}
 
-	/**
-	 * Adds '.html' as extension.
-	 * 
-	 * @param string $resource
-	 */
-	public function addExtension($resource)
+	private function addExtension($resource)
 	{
 		return $resource . '.html';
 	}

@@ -44,7 +44,7 @@ Syntax
 ------
 
 The markup follows mostly regular Markdown markup with
-some extensions and some differences.
+but with some differences.
 
 
 ### Handling of special characters ###
@@ -426,38 +426,6 @@ it adds complexity in the rules.
 
 Readability should be the prime goal and I believe that for writing documentation
 using two spaces has the most benefits in that regard.
-
-
-### Table of contents ###
-
-You can create a table of contents and have it filled automatically with
-the headers that follow. It takes all headers and displays a nested list
-stopping at the end of the document or when it encounters a header at a
-higher level of the first one encountered. Optionally you can specify the
-depth.
-
-		{table of contents}
-			depth: 2
-
-			about
-			introduction
-
-		a header
-		========
-
-		A paragraph.
-
-The example above creates a table of contents of the current document, the about document
-and the introduction document with all top-level headers found and their immediate
-subheaders.
-
-There's also the possibility to add custom page titles.
-
-	{table of contents}
-
-		custom title <page>
-
-This follows Sphinx convention.
 
 
 ### Definition lists ###

@@ -34,10 +34,31 @@ class AnyMark_PAnyMarkTest extends PHPUnit_Framework_TestCase
 	{
 		$preProcessor = $this->getMock('\\AnyMark\\Processor\\DomProcessor');
 		$preProcessor
-		->expects($this->atLeastOnce())
-		->method('process');
+			->expects($this->atLeastOnce())
+			->method('process');
 	
 		$this->anyMark->addPostDomProcessor($preProcessor);
 		$this->anyMark->parse('text');
+	}
+
+	/**
+	 * @test
+	 */
+	public function returnsParsingResultAsDomDocument()
+	{
+		$this->assertTrue($this->anyMark->parse('text') instanceof \DomDocument);
+	}
+
+	/**
+	 * @test
+	 */
+	public function savesDomResultToStringInXmlFormat()
+	{
+		$domDoc = new \DOMDocument();
+		$domDoc->loadXML('<doc>text</doc>');
+
+		$this->assertEquals(
+			'<doc>text</doc>', $this->anyMark->saveXml($domDoc)
+		);
 	}
 }

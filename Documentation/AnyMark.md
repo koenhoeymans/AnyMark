@@ -36,9 +36,16 @@ these dependencies. Next create an instance of AnyMark:
 
 Parsing a Markdown document is simple:
 
-	$anyMark->parse('== AnyMark ==');
+	$domDocument = $anyMark->parse('== AnyMark ==');
 
-It will return HTML as a string.
+It will return a `\DomDocument`. If you want to save this to XML as a string call
+
+	$xmlString = $anyMark->saveXml($domDocument);
+
+You could call `\DomDocument::saveXml()` but this could lead to unwanted results.
+The reason is that loading the text into the Dom translated encoded characters
+like `&` (this becoming `&amp;`) and this is done also while
+calling `\DomDocument::saveXml()`, being one time too many.
 
 Syntax
 ------

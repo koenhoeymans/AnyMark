@@ -81,7 +81,7 @@ class AnyMark implements Parser
 	 * Add Markdown text and get the parsed to HTML version back.
 	 *  
 	 * @see AnyMark\Parser.Parser::parse()
-	 * @return string|\DomDocument
+	 * @return \DomDocument
 	 */
 	public function parse($text)
 	{
@@ -92,16 +92,25 @@ class AnyMark implements Parser
 
 		$this->postProcess($domDoc);
 
+		return $domDoc;
+	}
+
+	/**
+	 * DomDocument::saveXml encodes entities like `&` when added within
+	 * a text node. This function reverses the damage done.
+	 * 
+	 * @param \DomDocument $domDoc
+	 * @return string
+	 */
+	public function saveXml(\DomDocument $domDoc)
+	{
 		$content = $domDoc->saveXML($domDoc->documentElement);
-		# DomDocument::saveXml encodes entities like `&` when added within
-		# a text node.
-		$content = str_replace(
+
+		return str_replace(
 			array('&amp;amp;', '&amp;copy;', '&amp;quot;', '&amp;#'),
 			array('&amp;', '&copy;', '&quot;', '&#'),
 			$content
 		);
-
-		return $content;
 	}
 
 	private function getParser()

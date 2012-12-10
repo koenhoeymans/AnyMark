@@ -16,7 +16,7 @@ class AnyMark_EndToEndTests_IndentationTest extends \AnyMark\EndToEndTests\Suppo
 			. DIRECTORY_SEPARATOR . 'Indentation.txt');
 
 		// when
-		$parsedText = $anyMark->parse($text);
+		$parsedText = $anyMark->saveXml($anyMark->parse($text));
 
 		// then
 		$this->assertEquals(

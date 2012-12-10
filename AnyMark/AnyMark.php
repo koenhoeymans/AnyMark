@@ -17,6 +17,8 @@ class AnyMark implements Parser
 {
 	private $fjor;
 
+	private $customIni = false;
+
 	private $preTextProcessors = array();
 
 	private $postDomProcessors = array();
@@ -78,6 +80,16 @@ class AnyMark implements Parser
 	}
 
 	/**
+	 * Set a custom ini which specifies which patterns to load.
+	 * 
+	 * @param string $ini
+	 */
+	public function setPatternsIni($ini)
+	{
+		$this->customIni = $ini;
+	}
+
+	/**
 	 * Add Markdown text and get the parsed to HTML version back.
 	 *  
 	 * @see AnyMark\Parser.Parser::parse()
@@ -123,7 +135,7 @@ class AnyMark implements Parser
 		$patternList = $this->fjor->get('AnyMark\\Pattern\\PatternList');
 		$this->parser = $this->fjor->get('AnyMark\\Parser\\RecursiveReplacer');
 		$patternListFiller = new \AnyMark\Util\PatternListFiller($this->fjor);
-		$ini = __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.ini';
+		$ini = $this->customIni ?: __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.ini';
 		$patternListFiller->fill($patternList, $ini);
 
 		return $this->parser;

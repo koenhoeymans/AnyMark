@@ -26,11 +26,11 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 			->thenUse('AnyMark\\Util\\ExtensionlessUrlBuilder');
 		$anyMark = $fjor->get('AnyMark\\AnyMark');
 
-		$parsedText = $anyMark->parse(file_get_contents(
+		$parsedText = $anyMark->saveXml($anyMark->parse(file_get_contents(
 			__DIR__
 			. DIRECTORY_SEPARATOR . 'PhpMarkdown.mdtest'
 			. DIRECTORY_SEPARATOR . $name . '.text'
-		));
+		)));
 
 		$this->assertEquals(
 			$this->tidy(file_get_contents(

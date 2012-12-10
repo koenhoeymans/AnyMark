@@ -47,6 +47,15 @@ The reason is that loading the text into the Dom translated encoded characters
 like `&` (this becoming `&amp;`) and this is done also while
 calling `\DomDocument::saveXml()`, being one time too many.
 
+### Custom Patterns ###
+
+What patterns, the order in which the patterns are handled and its relations
+are defined in an ini file. The default ini file can be found in the AnyMark
+directory. AnyMark accepts a custom ini file this way:
+
+	$anyMark->setPatternsIni($myCustomIniFile);
+
+
 Syntax
 ------
 

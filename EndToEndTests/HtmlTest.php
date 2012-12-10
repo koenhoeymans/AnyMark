@@ -16,7 +16,7 @@ class AnyMark_EndToEndTests_HtmlTest extends \AnyMark\EndToEndTests\Support\Tidy
 			. DIRECTORY_SEPARATOR . 'HtmlTest.txt');
 	
 		// when
-		$parsedText = $anyMark->parse($text);
+		$parsedText = $anyMark->saveXml($anyMark->parse($text));
 	
 		// then
 		$this->assertEquals(

@@ -75,8 +75,11 @@ class PatternListFiller
 
 	private function getPattern($name)
 	{
-		return $this->objectGraphConstructor->get(
-			'AnyMark\\Pattern\\Patterns\\' . ucfirst($name)
-		);
+		if (!class_exists($name))
+		{
+			$name = 'AnyMark\\Pattern\\Patterns\\' . ucfirst($name);
+		}
+
+		return $this->objectGraphConstructor->get($name);
 	}
 }

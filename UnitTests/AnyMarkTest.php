@@ -61,4 +61,13 @@ class AnyMark_PAnyMarkTest extends PHPUnit_Framework_TestCase
 			'<doc>text</doc>', $this->anyMark->saveXml($domDoc)
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function customIniFileCanBeSpecified()
+	{
+		// @todo refactor
+		$this->anyMark->setPatternsIni('dummy.ini');
+	}
 }

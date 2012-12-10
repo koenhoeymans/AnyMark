@@ -49,4 +49,22 @@ class AnyMark_Util_PatternListFillerTest extends PHPUnit_Framework_TestCase
 		// shouldn't throw maximum nesting level error
 		$this->filler->fill($patternList, $circularIni);
 	}
+
+	/**
+	 * @test
+	 */
+	public function fullyQualifiedPatternNamesArePossible()
+	{
+		$patternListMock = $this->getMock('AnyMark\\Pattern\\PatternList');
+		$patternListMock
+			->expects($this->once())
+			->method('addRootPattern')
+			->with(new \AnyMark\UnitTests\Support\DummyPattern());
+		$dummyIni = __DIR__
+			. DIRECTORY_SEPARATOR . '..'
+			. DIRECTORY_SEPARATOR . 'Support'
+			. DIRECTORY_SEPARATOR . 'Custom.ini';
+
+		$this->filler->fill($patternListMock, $dummyIni);
+	}
 }

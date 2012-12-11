@@ -36,9 +36,6 @@ class AnyMark implements Parser
 
 		$fjor->given('Fjor\\Fjor')->thenUse($fjor);
 		$fjor
-			->given('AnyMark\\Util\\ContentRetriever')
-			->thenUse('AnyMark\\Util\\DocFileRetriever');
-		$fjor
 			->given('AnyMark\\Util\\InternalUrlBuilder')
 			->thenUse('AnyMark\\Util\\HtmlFileUrlBuilder');
 		$fjor->given('AnyMark\\AnyMark')

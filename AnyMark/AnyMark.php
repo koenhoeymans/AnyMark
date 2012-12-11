@@ -49,7 +49,6 @@ class AnyMark implements Parser
 			->addParam(array('AnyMark\\Processor\\Processors\\EmailObfuscator'));
 		$fjor->setSingleton('AnyMark\\Processor\\Processors\\LinkDefinitionCollector');
 		$fjor->setSingleton('AnyMark\\Pattern\\PatternList');
-		$fjor->setSingleton('AnyMark\\Parser\\RecursiveReplacer');
 		$patternList = $fjor->get('AnyMark\\Pattern\\PatternList');
 		$fjor
 			->given('AnyMark\\Parser\\RecursiveReplacer')

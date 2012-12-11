@@ -54,6 +54,10 @@ class AnyMark implements Parser
 		$fjor->setSingleton('AnyMark\\Processor\\Processors\\LinkDefinitionCollector');
 		$fjor->setSingleton('AnyMark\\Pattern\\PatternList');
 		$fjor->setSingleton('AnyMark\\Parser\\RecursiveReplacer');
+		$patternList = $fjor->get('AnyMark\\Pattern\\PatternList');
+		$fjor
+			->given('AnyMark\\Parser\\RecursiveReplacer')
+			->constructWith(array($patternList));
 
 		return $fjor;
 	}
@@ -133,10 +137,10 @@ class AnyMark implements Parser
 		}
 
 		$patternList = $this->fjor->get('AnyMark\\Pattern\\PatternList');
-		$this->parser = $this->fjor->get('AnyMark\\Parser\\RecursiveReplacer');
 		$patternListFiller = new \AnyMark\Util\PatternListFiller($this->fjor);
 		$ini = $this->customIni ?: __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.ini';
 		$patternListFiller->fill($patternList, $ini);
+		$this->parser = $this->fjor->get('AnyMark\\Parser\\RecursiveReplacer');
 
 		return $this->parser;
 	}

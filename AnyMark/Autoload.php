@@ -22,13 +22,13 @@ function AnyMark_Autoload($className)
 
 spl_autoload_register('AnyMark_Autoload');
 
-if (file_exts(__DIR__
+if (file_exists(__DIR__
 		. DIRECTORY_SEPARATOR . '..'
-		. DIRECTORY_SEPARATOR . 'Vendor'
-		. DIRECTORY_SEPARATOR . 'Autoload.php'))
+		. DIRECTORY_SEPARATOR . 'vendor'
+		. DIRECTORY_SEPARATOR . 'autoload.php'))
 {
 	require_once(__DIR__
 		. DIRECTORY_SEPARATOR . '..'
-		. DIRECTORY_SEPARATOR . 'Vendor'
-		. DIRECTORY_SEPARATOR . 'Autoload.php');
+		. DIRECTORY_SEPARATOR . 'vendor'
+		. DIRECTORY_SEPARATOR . 'autoload.php');
 }

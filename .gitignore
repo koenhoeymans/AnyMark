@@ -1,1 +1,6 @@
-Vendor
+vendor/
+composer.phar
+composer.lock
+.buildpath
+.project
+.settings/

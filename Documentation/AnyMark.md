@@ -17,11 +17,22 @@ recommended if speed is your primary concern.
 How can I use AnyMark?
 ----------------------
 
-### Dependencies ###
+### Installation ###
 
-AnyMark relies on [Fjor](https://github.com/koenhoeymans/fjor) to wire
-its dependencies. It expects to find Fjor in the `Vendor` directory if
-not already autoloaded (e.g. by another library).
+AnyMark can be installed through [Composer](http://getcomposer.org/doc/00-intro.md).
+The `composer.json` should contain at least the following:
+
+	{
+		"require": {
+			"anymark/anymark": "0.1.*"
+		}
+	}
+
+Manual installation is also possible. AnyMark can be downloaded from
+[github](https://github.com/koenhoeymans/fjor). It depends on [Fjor]
+(https://github.com/koenhoeymans/fjor) which should be autoloaded too (see
+the Fjor manual).
+
 
 ### Library Use ###
 

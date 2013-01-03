@@ -34,6 +34,7 @@ class Hyperlink extends Pattern
 				\[(?<anchor>					# anchor text
 					(\[(?2)*?\].*?|.+?)			
 				)\]
+				\n?								# optional line break
 				\(
 				(?<url>							# url or <url>
 					<\S*>

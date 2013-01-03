@@ -197,4 +197,18 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 		$dom = $this->createDomForLink('x.html', 'x/6/f4#f');
 		$this->assertCreatesDomFromText($dom, $text);
 	}
+
+	/**
+	 * @test
+	 */
+	public function anchorTextAndUrlCanBePlacedOnDifferentLines()
+	{
+		$this->internalUrlBuilder
+			->expects($this->once())
+			->method('createRelativeLink')->with('link')
+			->will($this->returnValue('link.html'));
+		$text = "See page [link]\n(link) for info.";
+		$dom = $this->createDomForLink('link.html', 'link');
+		$this->assertCreatesDomFromText($dom, $text);
+	}
 }

@@ -354,9 +354,15 @@ becomes
 
 	<a href="http://www.mysite.com">http://www.mysite.com</a>
 
-Full links:
+Full links contain anchore text, the url and optional title text:
 
 	(anchor text)[url "title text"]
+
+Different than with pure Markdown syntax the anchore text and url can be
+placed on different lines.
+
+	This is also possible for a link: (anchor text)
+	[url "title text"].
 
 A link reference can be used to place the actual url somewhere else in your text. Note that
 single brackets are used. The link definition can contain the title attribute:

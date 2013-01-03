@@ -1,0 +1,614 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>AnyMark - PHP Markdown Parser</title>
+<style>
+body {
+	background: #fff;
+	line-height: 1;
+	padding: 0 2em;
+	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-align: center;
+}
+
+h1, h2, h3 {
+	color: #333;
+}
+
+h1 {
+	font-size: 1.3em;
+	text-transform: uppercase;
+	margin-top: 40px;
+}
+
+h2 {
+	font-size: 1.2em;
+}
+
+h3 {
+	font-size: 1em;
+	padding: 0 5px;
+}
+
+/* http://stackoverflow.com/questions/535334/html-css-autonumber-headings */
+
+body{counter-reset: section}
+h1{counter-reset: sub-section}
+h2{counter-reset: composite}
+h3{counter-reset: detail}
+
+h1:before{
+	counter-increment: section;
+	content: counter(section) " ";
+}
+
+h2:before{
+	counter-increment: sub-section;
+	content: counter(section) "." counter(sub-section) " ";
+}
+
+h3:before{
+	counter-increment: composite;
+	content: counter(section) "." counter(sub-section) "." counter(composite) " ";
+}
+
+a {
+	color: #0088CC;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+#page {
+	margin: auto;
+	text-align: left;
+	max-width: 750px;
+}
+
+#site-title {
+	margin-top: 40px;
+}
+
+#site-title a {
+	color: #444;
+	font-size: 50px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#site-description {
+	padding-bottom: 40px;
+	color: #7a7a7a;
+	font-size: 20px;
+	margin-bottom: 20px;
+}
+
+#header img {
+	max-width: 750px;
+	margin-bottom: 50px;
+	padding: 5px 0;
+	border-bottom: 1px solid #444;
+	border-top: 1px solid #444;
+}
+
+#footer {
+	clear: both;
+	margin-top: 50px;
+	padding: 20px;
+	text-align: center;
+	background-color: #333;
+	color: #eee;
+}
+
+#footer a {
+	color: #eee;
+	text-decoration: underline;
+}
+
+code {
+	background: #f4f4f4;
+	font: monospace;
+	font-size: 0.8em;
+	border: 1px solid #ddd;
+	padding: 0 4px;
+}
+
+pre {
+	background: #f4f4f4;
+	border: 1px solid #ddd;
+	padding: 15px;
+}
+
+pre code {
+	border: none;
+	font-size: 0.8em;
+	line-height: 1.3em;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="page">
+	<div id="header">
+		<div id="site-title"><a href="">ANYMARK</a></div>
+		<div id="site-description">PHP Markdown Parser</div>
+		<img src="header.jpg" />
+	</div>
+
+
+	<div id="main">
+		<ul><li><a href="#anymark-documentation">AnyMark Documentation</a><ul><li><a href="#what-is-anymark">What is AnyMark?</a></li><li><a href="#should-i-use-anymark">Should I use AnyMark?</a></li><li><a href="#how-can-i-use-anymark">How can I use AnyMark?</a><ul><li><a href="#installation">Installation</a></li><li><a href="#library-use">Library Use</a></li><li><a href="#custom-patterns">Custom Patterns</a></li></ul></li><li><a href="#syntax">Syntax</a><ul><li><a href="#handling-of-special-characters">Handling of special characters</a></li><li><a href="#raw-html">Raw HTML</a></li><li><a href="#headers">Headers</a></li><li><a href="#paragraphs">Paragraphs</a></li><li><a href="#code">Code</a></li><li><a href="#note">Note</a></li><li><a href="#blockquote">blockquote</a></li><li><a href="#lists">Lists</a></li><li><a href="#horizontal-rules">Horizontal rules</a></li><li><a href="#links">Links</a></li><li><a href="#images">Images</a></li><li><a href="#email">Email</a></li><li><a href="#italic-emphasized-and-important-text">Italic, emphasized and important text</a></li><li><a href="#newlines">Newlines</a></li><li><a href="#definition-lists">Definition lists</a></li></ul></li></ul></li></ul>		<doc><h1 id="anymark-documentation">AnyMark Documentation</h1>
+
+<h2 id="what-is-anymark">What is AnyMark?</h2>
+
+<p>AnyMark is a <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>
+parser written in PHP.</p>
+
+<h2 id="should-i-use-anymark">Should I use AnyMark?</h2>
+
+<p>AnyMark was written to be customizable. It was not written to be the
+fastest Markdown parser available. PHPMarkdown is much faster and is
+recommended if speed is your primary concern.</p>
+
+<h2 id="how-can-i-use-anymark">How can I use AnyMark?</h2>
+
+<h3 id="installation">Installation</h3>
+
+<p>AnyMark can be installed through <a href="http://getcomposer.org/doc/00-intro.md">Composer</a>.
+The <code>composer.json</code> should contain at least the following:</p>
+
+<pre><code>{
+    "require": {
+        "anymark/anymark": "0.1.*"
+    }
+}</code></pre>
+
+<p>Manual installation is also possible. AnyMark can be downloaded from
+<a href="https://github.com/koenhoeymans/fjor">github</a>. It depends on <a href="https://github.com/koenhoeymans/fjor">Fjor</a> which should be autoloaded too (see
+the Fjor manual).</p>
+
+
+<h3 id="library-use">Library Use</h3>
+
+<p>Instatiating AnyMark is a two step procedure.</p>
+
+<pre><code>$fjor = \AnyMark\AnyMark::setup();</code></pre>
+
+<p>This creates an instance of Fjor and wires the dependencies. You can change
+these dependencies. Next create an instance of AnyMark:</p>
+
+<pre><code>$anyMark = $fjor-&gt;get('AnyMark\\AnyMark');</code></pre>
+
+<p>Parsing a Markdown document is simple:</p>
+
+<pre><code>$domDocument = $anyMark-&gt;parse('== AnyMark ==');</code></pre>
+
+<p>It will return a <code>\DomDocument</code>. If you want to save this to XML as a string call</p>
+
+<pre><code>$xmlString = $anyMark-&gt;saveXml($domDocument);</code></pre>
+
+<p>You could call <code>\DomDocument::saveXml()</code> but this could lead to unwanted results.
+The reason is that loading the text into the Dom translated encoded characters
+like <code>&amp;</code> (this becoming <code>&amp;</code>) and this is done also while
+calling <code>\DomDocument::saveXml()</code>, being one time too many.</p>
+
+<h3 id="custom-patterns">Custom Patterns</h3>
+
+<p>What patterns, the order in which the patterns are handled and its relations
+are defined in an ini file. The default ini file can be found in the AnyMark
+directory. AnyMark accepts a custom ini file this way:</p>
+
+<pre><code>$anyMark-&gt;setPatternsIni($myCustomIniFile);</code></pre>
+
+
+<h2 id="syntax">Syntax</h2>
+
+<p>The markup follows mostly regular Markdown markup with
+but with some differences.</p>
+
+
+<h3 id="handling-of-special-characters">Handling of special characters</h3>
+
+<p>As in the <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> implementation
+the ampersand (&amp;), greater than sign (&gt;) and lesser than sign (&gt;) are automatically converted to
+entities so you don't have to worry about that when you are writing. The ampersand is not replaced
+when it is part of an entity (except in code blocks).</p>
+
+<p>When you like to avoid that a character triggers a special meaning you can escape it with a backslash.</p>
+
+<pre><code>This \*word\* won't be rendered as &lt;em&gt;word&lt;/em&gt; but as *word*.</code></pre>
+
+
+<h3 id="raw-html">Raw HTML</h3>
+
+<p>Not everything is possible with the simple syntax rules AnyMark uses. If you would need to
+you can add raw HTML to the text.</p>
+
+<p>A paragraph needs a blank line before and after. That means that you can add HTML like this</p>
+
+<pre><code>A short paragraph.
+
+&lt;div&gt;
+
+A paragraph withing manually added tags.
+
+&lt;/div&gt;
+
+Note the blank lines.</code></pre>
+
+<p>The paragraph will be placed within the div element.</p>
+
+<p>If the pattern is indented, as when you are writing a paragraph in a list item, the tags that
+surround it should also be indented.</p>
+
+<pre><code>* item a
+* Item b has an extra paragraph.
+
+  &lt;div&gt;
+
+  This paragraph is within div tags that need to be indented.
+
+  &lt;/div&gt;</code></pre>
+
+
+<h3 id="headers">Headers</h3>
+
+<p><a href="http://www.aaronsw.com/2002/atx/intro">Atx</a> style headers are headers preceded
+by one or more dash signs. The number of them determines its level.</p>
+
+<pre><code>## level 2 header</code></pre>
+
+<p><a href="http://docutils.sourceforge.net/mirror/setext.html">Setext</a> style headers are
+supported too but are made a bit more powerful. They are assigned a level in order
+of appearance. The first used markup will be used as a level 1 header throughout
+the document.</p>
+
+<p>Allowed signs to mark headers are: -=+*^#. At least three such signs must be used and 
+they can appear before or before and after the header text.</p>
+
+<p>Some examples will make this clear:</p>
+
+<pre><code>---
+a header
+---
+
+=_=_=_=
+another header
+*******</code></pre>
+
+<p>The first three signs are what counts. Eg the following two will have the same level:</p>
+
+<pre><code>---***
+a header
+---***
+
+---+++
+same level header
+---+++</code></pre>
+
+<p>Different than with regular Markdown output is that AnyMark will generate id's based
+upone the header text. It will translate to something like this:</p>
+
+<pre><code>&lt;h1 id="a-header"&gt;a header&lt;/a&gt;</code></pre>
+
+<p>First all white spaces are converted to <code>-</code>. Then all characters that are not
+alfanumeric, underscore, dash or point are removed. After this everything up
+to the first letter is removed. All inspired by Pandoc.</p>
+
+<p>When several headers have the same id a number suffix is added to distinguish them.</p>
+
+<h3 id="paragraphs">Paragraphs</h3>
+
+<p>A paragraph is formed by text preceded and followed by a blank line.</p>
+
+<pre><code>This is a paragraph. It is followed by a blank line.
+
+This is also a paragraph. It is preceded by a blank line. It is not followed by a 
+blank line because it is the end of the virtual file.</code></pre>
+
+<p>Indentation can be used to make the document more readable.</p>
+
+<p>In Markdown a paragraph can be immediately followed by a header or blockquote:</p>
+
+<pre><code>This is a paragraph.
+# header</code></pre>
+
+<p>In my implementation this is not possible. A paragraph is only ended with a blank line
+or indented text:</p>
+
+<pre><code>This is a paragraph.
+  # header indented</code></pre>
+
+<p>One reason is that this makes it less easy to create unexpected headers:</p>
+
+<pre><code>My favorite track on the cd is track
+#8.</code></pre>
+
+
+<h3 id="code">Code</h3>
+
+<p>Code is preceded by the word 'CODE:' with the actual code following on the second 
+line. Both are indented. The code block must be indented in respect to the previous
+lines.</p>
+
+<pre><code>This is a regular paragraph with samples of code blocks:
+
+    CODE:
+    Note the 'CODE:' word. It is followed by the actual code.
+
+    CODE:
+
+        White space is possible.
+
+    CODE: This is another possibility.
+
+This is the next paragraph.</code></pre>
+
+<p>The code block must be preceded and followed by a blank line. Note that the 'code' word is case
+insensitive.</p>
+
+<p>Another option is to write code between two lines of three tildes.</p>
+
+<pre><code>this is also treated as code</code></pre>
+
+<p>Actually, what is after those three tildes doesn't matter, so you could just as well write:</p>
+
+<pre><code>this is also treated as code</code></pre>
+
+<p>This type of code doesn't need to be indented. When you need to write three tildes as code
+you'll have to indent it though:</p>
+
+<pre><code>A short paragraph.
+
+~~~ code ~~~
+    ~~~
+    meta code example
+    ~~~
+~~~~~~~~~~~~
+
+Another Short paragraph.</code></pre>
+
+<p>Inline code is also possible with backticks:</p>
+
+<pre><code>You could write `$this-&gt;foo` for example.</code></pre>
+
+<p>The standard option is to write code by indenting text four spaces or a tab:</p>
+
+<pre><code>A paragraph.
+
+    This is code.
+
+The next paragraph.</code></pre>
+
+<h3 id="note">Note</h3>
+
+<p>Notes can be created as follows:</p>
+
+<pre><code>!NOTE This is a note.
+
+    This sentence is still
+part of the note.
+
+This sentence is outside the note.</code></pre>
+
+<p>The word 'note' is case insensitive. A note block is ended with a blank line
+followed by text equally or less indented.</p>
+
+
+<h3 id="blockquote">blockquote</h3>
+
+<p>Blockquote are quoted text preceded by <code>&gt;</code>.</p>
+
+<pre><code>&gt; this is a blockquote
+&gt; continues on the next line</code></pre>
+
+<p>Lazy quoting is also possible.</p>
+
+<pre><code>&gt; this is a blockquote
+continues on the next line</code></pre>
+
+<p>Blockquotes can contain other markup.</p>
+
+<pre><code>&gt; this is a blockquote
+&gt;
+&gt; &gt; within a blockquote
+&gt; &gt; another blockquote
+&gt;
+&gt; notice the blank lines</code></pre>
+
+
+<h3 id="lists">Lists</h3>
+
+<p>For unordered lists you can use *, + or -.</p>
+
+<pre><code>+ an item
++ other item</code></pre>
+
+<p>For ordered lists use a number followed by a dot.</p>
+
+<pre><code>1. First item
+2. Second item</code></pre>
+
+<p>The actual numbers used do not influence order. Instead of numbers you can also
+use the hash sign followed by a dot (inspired by <a href="http://johnmacfarlane.net/pandoc/README.html#ordered-lists">Pandoc</a>.</p>
+
+<pre><code>#. First item
+#. Second item</code></pre>
+
+<p>A list needs a blank line before and after it if the list item starts unindented. If you
+use one to three spaces a blank line is not necessary.</p>
+
+<pre><code>A paragraph.
+ * a list item indented one space</code></pre>
+
+<p>Nested lists are possible if you follow the rule of either a blank
+line or space indentation.</p>
+
+<pre><code>* item
+* item with a sublist
+
+    * item in sublist
+    * other item in sublist
+
+* item in main list</code></pre>
+
+<p>This is a difference with Markdown which requires only a blank line in the first
+level of the list.</p>
+
+<h3 id="horizontal-rules">Horizontal rules</h3>
+
+<p>Three or more hyphens, underscores or asterisks on its own line. Spacing is allowed
+but take not that if you start the line with four or more spaces it will become code.</p>
+
+<pre><code>* * *
+---
+ _ __</code></pre>
+
+<p>All three will produce a horizontal rule.</p>
+
+
+<h3 id="links">Links</h3>
+
+<p>An url between <code>&lt;</code> and <code>&gt;</code> is automatically converted to a hyperlink. Thus</p>
+
+<pre><code>&lt;http://www.mysite.com&gt;</code></pre>
+
+<p>becomes</p>
+
+<pre><code>&lt;a href="http://www.mysite.com"&gt;http://www.mysite.com&lt;/a&gt;</code></pre>
+
+<p>Full links contain anchore text, the url and optional title text:</p>
+
+<pre><code>(anchor text)[url "title text"]</code></pre>
+
+<p>Different than with pure Markdown syntax the anchore text and url can be
+placed on different lines.</p>
+
+<pre><code>This is also possible for a link: (anchor text)
+[url "title text"].</code></pre>
+
+<p>A link reference can be used to place the actual url somewhere else in your text. Note that
+single brackets are used. The link definition can contain the title attribute:</p>
+
+<pre><code>This is a [link] [1] in text.
+
+The link definition can be placed somewhere else on its own line, 
+optionally indented one to three spaces.
+
+[1]: http://example.com "title"</code></pre>
+
+
+<h3 id="images">Images</h3>
+
+<p>The syntax for images follows the <a href="http://daringfireball.net/projects/markdown/syntax#link">Markdownimplementation</a>.
+The two styles are inline and reference.</p>
+
+<p>Inline images are written as follows:</p>
+
+<pre><code>![alternate text](link/to/image "optional title")</code></pre>
+
+<p>The title can be between single and double quotes.</p>
+
+<p>Reference style images have the following syntax:</p>
+
+<pre><code>![alternate text][link id]</code></pre>
+
+<p>The link id syntax is the same as with regular links. You can place the link
+definition anywhere in the text.</p>
+
+<pre><code>[link id]: link/to/image "optional title"</code></pre>
+
+
+<h3 id="email">Email</h3>
+
+<p>An automatic email link is created by placing the email address between a lesser than
+and greater than sign.</p>
+
+<pre><code>Mail me at my &lt;mail@example.com&gt;.</code></pre>
+
+<p>The regular link syntax allows to create an email link with anchor text.</p>
+
+<pre><code>This is [my email](mailto:mail@example.com).</code></pre>
+
+<h3 id="italic-emphasized-and-important-text">Italic, emphasized and important text</h3>
+
+<p>Words can be italicized by wrapping them between underscores. Underscores 
+in words are left as is. Underscores that span more than one word are allowed.</p>
+
+<pre><code>A couple of _italicized words_.</code></pre>
+
+<p>Becomes</p>
+
+<pre><code>A couple of &lt;i&gt;italicized words&lt;/i&gt;.</code></pre>
+
+<p>Emphasized text is placed between asterisks:</p>
+
+<pre><code>Emphasized text is placed *between* asterisks.</code></pre>
+
+<p>Becomes</p>
+
+<pre><code>Emphasized text is placed &lt;em&gt;between&lt;/em&gt; asterisks.</code></pre>
+
+<p>Important text is achieved by putting words between double asterisks:</p>
+
+<pre><code>A sentence with **important** text.</code></pre>
+
+<p>Becomes</p>
+
+<pre><code>A sentence with &lt;strong&gt;important&lt;/strong&gt; text.</code></pre>
+
+<p>!Note: Importance is chosen instead of strong importance to reflect the change coming with HTML5. See
+the <a href="http://www.w3.org/TR/html5-diff/#changed-elements">section on changed elements</a>.</p>
+
+<p>There is a difference between this implementation and that of Markdown. Italicized text doesn't
+exist in Markdown. The syntax I use for emphasized text in Markdown (`_underscore_`) produces
+italicized text.</p>
+
+
+<h3 id="newlines">Newlines</h3>
+
+<p>Newlines can be inserted by adding a double space at the end of the line. This
+follows Markdown convention. Writing documentation is a different context from
+writing forum or blog posts. I think there are less cases in documentation where
+having a hard line break would be beneficial. More technically oriented users
+will also have less problem adoption this, although admittedly it is
+counterintuitive.</p>
+
+<p>I've considered adopting the <a href="http://michelf.com/weblog/2009/markdown-sustainability/">suggestion</a>
+in the comments of allowing hard line breaks in top-level paragraphs. But
+it adds complexity in the rules.</p>
+
+<p>Readability should be the prime goal and I believe that for writing documentation
+using two spaces has the most benefits in that regard.</p>
+
+
+<h3 id="definition-lists">Definition lists</h3>
+
+<p>A term followed by description followed by a colon. Multiple terms can share the same description. A term can
+have multiple descriptions if they are separated by a tilde. Here's an example:</p>
+
+<pre><code>term a:
+term b:
+    ~explanation of term a and b
+    it continues on the next line
+
+    it contains more than one paragraph
+
+    ~alternative explanation</code></pre>
+
+</doc>	</div>
+
+	<div id="footer">
+		<div id="site-generator">
+			page generated by <a href="https://github.com/koenhoeymans/Vidola">Vidola</a>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

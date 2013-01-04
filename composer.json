@@ -12,8 +12,6 @@
 		"fjor/fjor": "0.1.1"
 	},
 	"require-dev": {
-		"php": ">=5.4.6",
-		"fjor/fjor": "0.1.1",
 		"phpunit/phpunit": "3.7.*"
 	},
 	"autoload": {

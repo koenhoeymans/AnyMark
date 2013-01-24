@@ -1,5 +1,9 @@
 AnyMark Changelog
-==============
+=================
+
+*	0.1.2
+
+	*	Manual HTML was not allowed for some inline patterns. `Patterns.ini` updated.
 
 *	0.1.1
 

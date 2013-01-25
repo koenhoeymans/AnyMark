@@ -463,15 +463,21 @@ using two spaces has the most benefits in that regard.
 
 ### Definition lists ###
 
-A term followed by description followed by a colon. Multiple terms can share the same description. A term can
-have multiple descriptions if they are separated by a tilde. Here's an example:
+A definition list is a list of terms and definitions of these terms. The term is
+put on its own line, while the definition starts on the next line and is preceded
+by a colon. This could be a definition list:
 
-	CODE:
-		term a:
-		term b:
-			~explanation of term a and b
-			it continues on the next line
+	term a
+	:	definition of term a
 
-			it contains more than one paragraph
+ Multiple terms can share the same definition and a term can have multiple
+ descriptions, while the definition can contain other markup elements.
 
-			~alternative explanation
+	term a
+	term b
+	:	Explanation of term a and b
+		that continues on the next line.
+
+		It contains more than one paragraph.
+
+	:	An alternative explanation is possible.

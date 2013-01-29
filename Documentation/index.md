@@ -135,25 +135,23 @@ they can appear before or before and after the header text.
 
 Some examples will make this clear:
 
-	CODE:
-		---
-		a header
-		---
+	---
+	a header
+	---
 
-		=_=_=_=
-		another header
-		*******
+	=_=_=_=
+	another header
+	*******
 
 The first three signs are what counts. Eg the following two will have the same level:
 
-	CODE:
-		---***
-		a header
-		---***
+	---***
+	a header
+	---***
 
-		---+++
-		same level header
-		---+++
+	---+++
+	same level header
+	---+++
 
 Different than with regular Markdown output is that AnyMark will generate id's based
 upone the header text. It will translate to something like this:
@@ -170,11 +168,10 @@ When several headers have the same id a number suffix is added to distinguish th
 
 A paragraph is formed by text preceded and followed by a blank line.
 
-	CODE:
-		This is a paragraph. It is followed by a blank line.
-		
-		This is also a paragraph. It is preceded by a blank line. It is not followed by a 
-		blank line because it is the end of the virtual file.
+	This is a paragraph. It is followed by a blank line.
+	
+	This is also a paragraph. It is preceded by a blank line. It is not followed by a 
+	blank line because it is the end of the virtual file.
 
 Indentation can be used to make the document more readable.
 
@@ -197,6 +194,14 @@ One reason is that this makes it less easy to create unexpected headers:
 
 ### Code ###
 
+The standard option is to write code by indenting text four spaces or a tab:
+
+	A paragraph.
+
+		This is code.
+
+	The next paragraph.
+
 Code is preceded by the word 'CODE:' with the actual code following on the second 
 line. Both are indented. The code block must be indented in respect to the previous
 lines.
@@ -217,44 +222,47 @@ lines.
 The code block must be preceded and followed by a blank line. Note that the 'code' word is case
 insensitive.
 
-Another option is to write code between two lines of three tildes.
+Another option is to write code between two lines of at least three tildes.
 
 	~~~
 	this is also treated as code
 	~~~
-
-Actually, what is after those three tildes doesn't matter, so you could just as well write:
-
-	~~~ code ~~~
-
-	this is also treated as code
-
-	~~~~~~~~~~~~
 
 This type of code doesn't need to be indented. When you need to write three tildes as code
 you'll have to indent it though:
 
 	A short paragraph.
 
-	~~~ code ~~~
+	~~~~~~~~~~
 		~~~
 		meta code example
 		~~~
-	~~~~~~~~~~~~
+	~~~~~~~~~~
 
 	Another Short paragraph.
 
-Inline code is also possible with backticks:
+This way allows you to specify custom attributes which can be interesting for code
+highlighting:
+
+	~~~ {#myId .myClass foo="bar"}
+	$this->createCodeExample();
+	~~~
+
+The `#` creates an id, the `.` creates a class, `foo="bar"` adds an attribute `foo`
+with a value of `bar`. There's a shortcut to specifying the language of the code
+fragment:
+
+	~~~ PHP
+	$this->createCodeExample();
+	~~~
+
+The `PHP` notifies the parser that this is a code block
+containing PHP code so it will add a class `language-php` to the code element.
+
+Inline code can be written using backticks:
 
 	You could write `$this->foo` for example.
 
-The standard option is to write code by indenting text four spaces or a tab:
-
-	A paragraph.
-
-		This is code.
-
-	The next paragraph.
 
 ### Note ###
 

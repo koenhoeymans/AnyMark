@@ -1,6 +1,10 @@
 AnyMark Changelog
 =================
 
+*	0.1.3
+
+	*	Fenced code blocks accept attributes and an indication of the code language.
+
 *	0.1.2
 
 	*	Manual HTML was not allowed for some inline patterns. `Patterns.ini` updated.

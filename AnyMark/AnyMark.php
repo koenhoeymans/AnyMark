@@ -89,7 +89,9 @@ class AnyMark implements Parser
 	}
 
 	/**
-	 * Add Markdown text and get the parsed to HTML version back.
+	 * Add Markdown text and get the parsed to HTML version back in the
+	 * form of a \DomDocument. The \DomDocument has `<doc>` as the
+	 * document element.
 	 *  
 	 * @see AnyMark\Parser.Parser::parse()
 	 * @return \DomDocument

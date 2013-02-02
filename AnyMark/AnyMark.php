@@ -107,8 +107,8 @@ class AnyMark implements Parser
 	}
 
 	/**
-	 * DomDocument::saveXml encodes entities like `&` when added within
-	 * a text node. This function reverses the damage done.
+	 * DomDocument::saveXml encodes characters like `&` in entities
+	 * when added within a text node. This function reverses the damage done.
 	 * 
 	 * @param \DomDocument $domDoc
 	 * @return string

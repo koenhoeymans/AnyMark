@@ -49,11 +49,13 @@ Parsing a Markdown document is simple:
 
 	$domDocument = $anyMark->parse('== AnyMark ==');
 
-It will return a `\DomDocument`. If you want to save this to XML as a string call
+It will return a `\DomDocument` with `<doc>` as document element. If you want
+to save this to XML as a string call
 
 	$xmlString = $anyMark->saveXml($domDocument);
 
-You could call `\DomDocument::saveXml()` but this could lead to unwanted results.
+It will remove the `<doc>` element. Note that you could call
+`\DomDocument::saveXml()` but this could lead to unwanted results.
 The reason is that loading the text into the Dom translated encoded characters
 like `&` (this becoming `&amp;`) and this is done also while
 calling `\DomDocument::saveXml()`, being one time too many.

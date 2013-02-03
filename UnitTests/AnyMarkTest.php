@@ -52,13 +52,13 @@ class AnyMark_PAnyMarkTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
-	public function savesDomResultToStringInXmlFormat()
+	public function savesDomResultToStringInXmlFormatWithoutDocumentElement()
 	{
 		$domDoc = new \DOMDocument();
-		$domDoc->loadXML('<doc>text</doc>');
+		$domDoc->loadXML('<doc><p>text</p><a>b</a></doc>');
 
 		$this->assertEquals(
-			'<doc>text</doc>', $this->anyMark->saveXml($domDoc)
+			'<p>text</p><a>b</a>', $this->anyMark->saveXml($domDoc)
 		);
 	}
 

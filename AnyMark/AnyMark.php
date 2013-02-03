@@ -117,7 +117,13 @@ class AnyMark implements Parser
 	 */
 	public function saveXml(\DomDocument $domDoc)
 	{
-		$content = $domDoc->saveXML($domDoc->documentElement);
+		$content = '';
+		$children = $domDoc->documentElement->childNodes;
+		foreach ($children as $child)
+		{
+			$content .= $domDoc->saveXml($child);
+		}
+//$content = $domDoc->saveXML($domDoc->documentElement);
 
 		return str_replace(
 			array('&amp;amp;', '&amp;copy;', '&amp;quot;', '&amp;#'),

@@ -14,10 +14,10 @@ class AnyMark_EndToEndTests_HtmlTest extends \AnyMark\EndToEndTests\Support\Tidy
 		$text = file_get_contents(__DIR__
 			. DIRECTORY_SEPARATOR . 'Support'
 			. DIRECTORY_SEPARATOR . 'HtmlTest.txt');
-	
+
 		// when
 		$parsedText = $anyMark->saveXml($anyMark->parse($text));
-	
+
 		// then
 		$this->assertEquals(
 			$this->tidy(file_get_contents(

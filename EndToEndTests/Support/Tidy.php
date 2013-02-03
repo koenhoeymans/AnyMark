@@ -12,7 +12,6 @@ class Tidy extends \PHPUnit_Framework_TestCase
 		{
 			$config = array(
 	           'indent'         => true,
-	           'output-xhtml'   => true,
 	           'wrap'           => 200,
 	           'tab-size'		=> 4,
 	           'preserve-entities'	=> 1,

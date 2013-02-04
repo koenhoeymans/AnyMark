@@ -123,7 +123,6 @@ class AnyMark implements Parser
 		{
 			$content .= $domDoc->saveXml($child);
 		}
-//$content = $domDoc->saveXML($domDoc->documentElement);
 
 		return str_replace(
 			array('&amp;amp;', '&amp;copy;', '&amp;quot;', '&amp;#'),

@@ -17,6 +17,15 @@ class AnyMark_Pattern_Patterns_DefinitionListTest extends \AnyMark\UnitTests\Sup
 		return $this->dl;
 	}
 
+	public function createDl($text)
+	{
+		$dl = new \AnyMark\ComponentTree\Element('dl');
+		$text = new \AnyMark\ComponentTree\Text($text);
+		$dl->append($text);
+
+		return $dl;
+	}
+
 	/**
 	 * @test
 	 */
@@ -30,8 +39,9 @@ a term
 
 paragraph';
 
-		$dom = new \DOMElement('dl', "a term\n:	explanation");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals(
+			$this->createDl("a term\n:	explanation"), $this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -45,8 +55,9 @@ paragraph';
 
 paragraph';
 
-		$dom = new \DOMElement('dl', "term\n:	explanation");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals(
+			$this->createDl("term\n:	explanation"), $this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -60,8 +71,9 @@ paragraph';
 term
 :	explanation';
 
-		$dom = new \DOMElement('dl', "term\n:	explanation");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals(
+			$this->createDl("term\n:	explanation"), $this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -78,8 +90,9 @@ term c
 
 paragraph';
 
-		$dom = new \DOMElement('dl', "term c\n:	explanation x\n:	explanation y");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals(
+			$this->createDl("term c\n:	explanation x\n:	explanation y"), $this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -119,8 +132,7 @@ term c
 
 		code';
 
-		$dom = new \DOMElement('dl', $listText);
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createDl($listText), $this->applyPattern($text));
 	}
 
 	/**
@@ -146,8 +158,7 @@ paragraph';
 other term
 :	other term explanation';
 
-		$dom = new \DOMElement('dl', $listText);
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createDl($listText), $this->applyPattern($text));
 	}
 
 	/**
@@ -163,6 +174,6 @@ This paragraph is followed by:
 
 ";
 
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 }

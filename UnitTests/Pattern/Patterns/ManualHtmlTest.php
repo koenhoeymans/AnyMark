@@ -17,26 +17,24 @@ class AnyMark_Pattern_Patterns_ManualHtmlTest extends \AnyMark\UnitTests\Support
 		return $this->pattern;
 	}
 
-	public function createDomFromText($text)
+	public function create($tag, $content)
 	{
-		$domDoc = new \DOMDocument();
-		$domElementCode = new \DOMElement('code', $text);
-		$domElementPre = new \DOMElement('pre');
-		$domDoc->appendChild($domElementPre);
-		$domElementPre->appendChild($domElementCode);
-		return $domElementPre;
+		$element = new \AnyMark\ComponentTree\Element($tag);
+		$text = new \AnyMark\ComponentTree\Text($content);
+		$element->append($text);
+
+		return $element;
 	}
 
 	/**
 	 * @test
 	 */
-	public function grabsCodeTagsToPutIntoDom()
+	public function grabsCodeTagsToPutIntoComponent()
 	{
 		$text = "foo <a>b</a> bar";
+		$el = $this->create('a', 'b');
 
-		$el = new \DOMElement('a', 'b');
-
-		$this->assertCreatesDomFromText($el, $text);
+		$this->assertEquals($el, $this->applyPattern($text));
 	}
 
 	/**
@@ -50,9 +48,9 @@ class AnyMark_Pattern_Patterns_ManualHtmlTest extends \AnyMark\UnitTests\Support
 <!-- comment -->
 
 paragraph";
+		$el = new \AnyMark\ComponentTree\Comment(' comment ');
 
-		$el = new \DOMComment(' comment ');
-		$this->assertCreatesDomFromText($el, $text);
+		$this->assertEquals($el, $this->applyPattern($text));
 	}
 
 	/**
@@ -61,10 +59,9 @@ paragraph";
 	public function canContainOtherHtmlTags()
 	{
 		$text = "foo <a><b>c</b></a> bar";
+		$el = $this->create('a', '<b>c</b>');
 
-		$el = new \DOMElement('a', '<b>c</b>');
-
-		$this->assertCreatesDomFromText($el, $text);
+		$this->assertEquals($el, $this->applyPattern($text));
 	}
 
 	/**
@@ -76,12 +73,11 @@ paragraph";
 "<div><div><div>
 foo
 </div><div style=\">\"/></div><div>bar</div></div>";
-	
-		$el = new \DOMElement('div', "<div><div>
+		$el = $this->create('div', "<div><div>
 foo
 </div><div style=\">\"/></div><div>bar</div>");
 
-		$this->assertCreatesDomFromText($el, $text);
+		$this->assertEquals($el, $this->applyPattern($text));
 	}
 
 	/**
@@ -90,10 +86,9 @@ foo
 	public function handlesRecursion()
 	{
 		$text = "<a><a><a>b</a></a></a>";
+		$el = $this->create('a', '<a><a>b</a></a>');
 
-		$el = new \DOMElement('a', '<a><a>b</a></a>');
-
-		$this->assertCreatesDomFromText($el, $text);
+		$this->assertEquals($el, $this->applyPattern($text));
 	}
 
 	/**
@@ -102,10 +97,9 @@ foo
 	public function replacesSelfClosingElements()
 	{
 		$text = "<hr />";
+		$el = new \AnyMark\ComponentTree\Element('hr');
 
-		$el = new \DOMElement('hr');
-
-		$this->assertCreatesDomFromText($el, $text);
+		$this->assertEquals($el, $this->applyPattern($text));
 	}
 
 	/**
@@ -115,9 +109,9 @@ foo
 	{
 		$text = "<div><div a=\"b\"/></div></div>";
 
-		$el = new \DOMElement('div', '<div a="b"/>');
+		$el = $this->create('div', '<div a="b"/>');
 
-		$this->assertCreatesDomFromText($el, $text);
+		$this->assertEquals($el, $this->applyPattern($text));
 	}
 
 	/**
@@ -126,14 +120,11 @@ foo
 	public function canContainMultipleAttributes()
 	{
 		$text = "<a id='b' class='c'>d</a>";
-	
-		$dom = new \DOMDocument();
-		$el = new \DOMElement('a', 'd');
-		$dom->appendChild($el);
+		$el = $this->create('a', 'd');
 		$el->setAttribute('id', 'b');
 		$el->setAttribute('class', 'c');
 
-		$this->assertCreatesDomFromText($el, $text);
+		$this->assertEquals($el, $this->applyPattern($text));
 	}
 
 	/**
@@ -142,13 +133,10 @@ foo
 	public function attributeValuesCanContainBackticks()
 	{
 		$text = "<a class='`ticks`'>b</a>";
-
-		$dom = new \DOMDocument();
-		$el = new \DOMElement('a', 'b');
-		$dom->appendChild($el);
+		$el = $this->create('a', 'b');
 		$el->setAttribute('class', '`ticks`');
 
-		$this->assertCreatesDomFromText($el, $text);
+		$this->assertEquals($el, $this->applyPattern($text));
 	}
 
 	/**
@@ -157,7 +145,7 @@ foo
 	public function ifBlankLineBeforeAndAfterTagsAndTextOnSameLineAsTagItIsAParagraph()
 	{
 		$text = "\n\n<span>a paragraph</span>\n\n";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -166,7 +154,7 @@ foo
 	public function ifStartOfTextAndAfterTagsBlankLineItIsAParagraph()
 	{
 		$text = "<span>a paragraph</span>\n\n";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -175,10 +163,9 @@ foo
 	public function ifNoBlankLineBeforeAndAfterItIsNoParagraph()
 	{
 		$text = "text <span>not a paragraph</span> text";
+		$el = $this->create('span', 'not a paragraph');
 
-		$el = new \DOMElement('span', 'not a paragraph');
-
-		$this->assertCreatesDomFromText($el, $text);
+		$this->assertEquals($el, $this->applyPattern($text));
 	}
 
 	/**
@@ -188,9 +175,8 @@ foo
 	public function indentedTextBetweenTags()
 	{
 		$text = "\n<div>\n\tinside\n</div>\n";
+		$el = $this->create('div', "\n\tinside\n");
 		
-		$el = new \DOMElement('div', "\n\tinside\n");
-		
-		$this->assertCreatesDomFromText($el, $text);
+		$this->assertEquals($el, $this->applyPattern($text));
 	}
 }

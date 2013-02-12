@@ -17,6 +17,14 @@ class AnyMark_Pattern_Patterns_TextualListTest extends \AnyMark\UnitTests\Suppor
 		return $this->list;
 	}
 
+	public function createList($type, $content)
+	{
+		$list = new \AnyMark\ComponentTree\Element($type);
+		$list->append(new \AnyMark\ComponentTree\Text($content));
+
+		return $list;
+	}
+
 	/**
 	 * @test
 	 */
@@ -29,7 +37,7 @@ class AnyMark_Pattern_Patterns_TextualListTest extends \AnyMark\UnitTests\Suppor
 
 paragraph";
 
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -43,8 +51,9 @@ paragraph";
  * other item
 
 paragraph";
-		$dom = new \DOMElement('ul', "* an item\n* other item");
-		$this->assertCreatesDomFromText($dom, $text);
+		$list = $this->createList('ul', "* an item\n* other item");
+
+		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
 	/**
@@ -59,8 +68,9 @@ paragraph";
 * other item
 
 ";
-		$dom = new \DOMElement('ul', "* an item\n* other item");
-		$this->assertCreatesDomFromText($dom, $text);
+		$list = $this->createList('ul', "* an item\n* other item");
+
+		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
 	/**
@@ -75,9 +85,9 @@ paragraph";
  * other item
 
 ";
+		$list = $this->createList('ul', "* an item\n* other item");
 
-		$dom = new \DOMElement('ul', "* an item\n* other item");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
 	/**
@@ -92,7 +102,7 @@ paragraph";
 
 	* an item";
 
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -107,9 +117,9 @@ paragraph";
 
 paragraph
 ";
+		$list = $this->createList('ul', "* an item\n* other item");
 
-		$dom = new \DOMElement('ul', "* an item\n* other item");
-		$this->assertCreatesDomFromText($dom, $text);		
+		$this->assertEquals($list, $this->applyPattern($text));	
 	}
 
 	/**
@@ -123,7 +133,7 @@ paragraph
 
     * an item";
 
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -136,8 +146,9 @@ paragraph
  * other item
 
 ";
-		$dom = new \DOMElement('ul', "* an item\n* other item");
-		$this->assertCreatesDomFromText($dom, $text);
+		$list = $this->createList('ul', "* an item\n* other item");
+
+		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
 	/**
@@ -149,8 +160,9 @@ paragraph
 
  * an item
  * other item";
-		$dom = new \DOMElement('ul', "* an item\n* other item");
-		$this->assertCreatesDomFromText($dom, $text);
+		$list = $this->createList('ul', "* an item\n* other item");
+
+		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
 	/**
@@ -168,9 +180,9 @@ paragraph
  * other item
 
 ";
+		$list = $this->createList('ul', "* an item\n\n  item continues\n\n* other item");
 
-		$dom = new \DOMElement('ul', "* an item\n\n  item continues\n\n* other item");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
 	/**
@@ -184,8 +196,9 @@ paragraph
 item continues ...  not
 
 ";
-		$dom = new \DOMElement('ul', "* an item");
-		$this->assertCreatesDomFromText($dom, $text);
+		$list = $this->createList('ul', "* an item");
+
+		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
 	/**
@@ -200,8 +213,9 @@ item continues ...  not
 2. other item
 
 paragraph";
-		$dom = new \DOMElement('ol', "1. an item\n2. other item");
-		$this->assertCreatesDomFromText($dom, $text);
+		$list = $this->createList('ol', "1. an item\n2. other item");
+
+		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
 	/**
@@ -216,8 +230,9 @@ paragraph";
 #. other item
 
 paragraph";
-		$dom = new \DOMElement('ol', "#. an item\n#. other item");
-		$this->assertCreatesDomFromText($dom, $text);
+		$list = $this->createList('ol', "#. an item\n#. other item");
+
+		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
 	/**
@@ -232,8 +247,9 @@ paragraph";
 52. other item
 
 paragraph";
-		$dom = new \DOMElement('ol', "15. an item\n52. other item");
-		$this->assertCreatesDomFromText($dom, $text);
+		$list = $this->createList('ol', "15. an item\n52. other item");
+
+		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
 	/**
@@ -251,11 +267,12 @@ paragraph";
 	item continued
 
 paragraph";
-		$dom = new \DOMElement('ul', "*	an item
+		$list = $this->createList('ul', "*	an item
 
 		code
 
 	item continued");
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($list, $this->applyPattern($text));
 	}
 }

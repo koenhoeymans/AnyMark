@@ -33,10 +33,8 @@ multiple lines. Let's create a note in a note:
 
 A code example. It can be used to display code:
 
-	CODE:
-		CODE:
-			<?php // code goes here ?>
-			<i>html goes here</i>
+	<?php // code goes here ?>
+	<i>html goes here</i>
 
 Code inline uses `backticks` but...
 

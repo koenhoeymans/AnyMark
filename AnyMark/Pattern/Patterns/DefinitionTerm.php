@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package
@@ -33,11 +34,11 @@ class DefinitionTerm extends Pattern
 			@x';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-		$dt = $ownerDocument->createElement('dt');
-		$dt->appendChild($ownerDocument->createTextNode($match['term']));
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
+		$dt = $parent->createElement('dt');
+		$dt->append($parent->createText($match['term']));
 
 		return $dt;
 	}

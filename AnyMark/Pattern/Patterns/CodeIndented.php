@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -25,8 +26,9 @@ class CodeIndented extends Code
 			@x';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		if ($parentPattern && $match['newline'] === "\n")
 		{
 			if ($parentPattern instanceof \AnyMark\Pattern\Patterns\ManualHtml)
@@ -36,6 +38,6 @@ class CodeIndented extends Code
 		}
 
 		$code = preg_replace("#(\n|^)(\t|[ ]{4})#", "\${1}", $match['code']);
-		return $this->createCodeReplacement($code, true, $parentNode);
+		return $this->createCodeReplacement($code, true, $parent);
 	}
 }

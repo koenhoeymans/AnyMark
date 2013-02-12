@@ -17,14 +17,25 @@ class AnyMark_Pattern_Patterns_ListItemTest extends \AnyMark\UnitTests\Support\P
 		return $this->list;
 	}
 
+	public function createLi($text = null)
+	{
+		$li = new \AnyMark\ComponentTree\Element('li');
+		if ($text)
+		{
+			$text = new \AnyMark\ComponentTree\Text($text);
+			$li->append($text);
+		}
+
+		return $li;
+	}
+
 	/**
 	 * @test
 	 */
 	public function listItemsArePrecededByAnAsterisk()
 	{
 		$text = "\n * an item\n * other item\n";
-		$dom = new \DOMElement('li', 'an item');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createLi('an item'), $this->applyPattern($text));
 	}
 
 	/**
@@ -33,8 +44,7 @@ class AnyMark_Pattern_Patterns_ListItemTest extends \AnyMark\UnitTests\Support\P
 	public function listItemsCanAlsoBePrecededByPlusSign()
 	{
 		$text = "\n + an item\n + other item\n";
-		$dom = new \DOMElement('li', 'an item');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createLi('an item'), $this->applyPattern($text));
 	}
 
 	/**
@@ -43,8 +53,7 @@ class AnyMark_Pattern_Patterns_ListItemTest extends \AnyMark\UnitTests\Support\P
 	public function listItemsCanBePrecededByMinusSign()
 	{
 		$text = "\n - an item\n - other item\n";
-		$dom = new \DOMElement('li', 'an item');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createLi('an item'), $this->applyPattern($text));
 	}
 
 	/**
@@ -53,8 +62,7 @@ class AnyMark_Pattern_Patterns_ListItemTest extends \AnyMark\UnitTests\Support\P
 	public function listItemsCanBePrecededWithNumbersFollowedByDot()
 	{
 		$text = "\n 1. an item\n 2. other item\n";
-		$dom = new \DOMElement('li', 'an item');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createLi('an item'), $this->applyPattern($text));
 	}
 
 	/**
@@ -63,8 +71,7 @@ class AnyMark_Pattern_Patterns_ListItemTest extends \AnyMark\UnitTests\Support\P
 	public function listItemsCanBePrecededWithHashFollowedByDot()
 	{
 		$text = "\n #. an item\n #. other item\n";
-		$dom = new \DOMElement('li', 'an item');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createLi('an item'), $this->applyPattern($text));
 	}
 
 	/**
@@ -73,8 +80,7 @@ class AnyMark_Pattern_Patterns_ListItemTest extends \AnyMark\UnitTests\Support\P
 	public function canBeUnindented()
 	{
 		$text = "\n* an item\n* other item\n";
-		$dom = new \DOMElement('li', 'an item');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createLi('an item'), $this->applyPattern($text));
 	}
 
 	/**
@@ -83,8 +89,7 @@ class AnyMark_Pattern_Patterns_ListItemTest extends \AnyMark\UnitTests\Support\P
 	public function listItemsCanContinueUnindentedOnFollowingLine()
 	{
 		$text = "\n * an item\nitem continues\n * other item\n";
-		$dom = new \DOMElement('li', "an item\nitem continues");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createLi("an item\nitem continues"), $this->applyPattern($text));
 	}
 
 	/**
@@ -99,8 +104,7 @@ class AnyMark_Pattern_Patterns_ListItemTest extends \AnyMark\UnitTests\Support\P
  * other item
 ";
 
-		$dom = new \DOMElement('li', "an item\nitem continues");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createLi("an item\nitem continues"), $this->applyPattern($text));
  	}
 
 	/**
@@ -116,8 +120,7 @@ class AnyMark_Pattern_Patterns_ListItemTest extends \AnyMark\UnitTests\Support\P
  * other item
 ";
 
-		$dom = new \DOMElement('li', "an item\n\nitem continues");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createLi("an item\n\nitem continues"), $this->applyPattern($text));
 	}
 
 	/**
@@ -133,8 +136,7 @@ item doesnt continue
 
 ";
 		# note: within a list there wouldn't be two blank lines
-		$dom = new \DOMElement('li', "an item\n\n");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createLi("an item\n\n"), $this->applyPattern($text));
 	}
 
 	/**
@@ -143,8 +145,7 @@ item doesnt continue
 	public function aListItemCanContainAsterisks()
 	{
 		$text = "\n * an *item*\n * other item\n";
-		$dom = new \DOMElement('li', 'an *item*');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createLi('an *item*'), $this->applyPattern($text));
 	}
 
 	/**
@@ -159,8 +160,7 @@ item doesnt continue
  * other item
 
 ";
-		$dom = new \DOMElement('li', "an item\n\n");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createLi("an item\n\n"), $this->applyPattern($text));
 	}
 
 	/**
@@ -176,10 +176,9 @@ item doesnt continue
   * item
 para';
 
-		$dom = new \DOMElement('li', "item
+		$this->assertEquals($this->createLi("item
 * subitem
-* subitem");
-		$this->assertCreatesDomFromText($dom, $text);
+* subitem"), $this->applyPattern($text));
 	}
 
 	/**
@@ -194,7 +193,6 @@ para';
 
 ";
 
-		$dom = new \DOMElement('li');
-		$this->assertCreatesDomFromText($dom, $text);		
+		$this->assertEquals($this->createLi(), $this->applyPattern($text));
 	}
 }

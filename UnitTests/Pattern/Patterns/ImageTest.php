@@ -22,16 +22,15 @@ class AnyMark_Pattern_Patterns_ImageTest extends \AnyMark\UnitTests\Support\Patt
 
 	public function createImgDom($alt, $title = null, $url)
 	{
-		$domDoc = new \DOMDocument();
-		$domEl = $domDoc->appendChild(new \DOMElement('img'));
-		$domEl->setAttribute('alt', $alt);
+		$img = new \AnyMark\ComponentTree\Element('img');
+		$img->setAttribute('alt', $alt);
 		if ($title)
 		{
-			$domEl->setAttribute('title', $title);
+			$img->setAttribute('title', $title);
 		}
-		$domEl->setAttribute('src', $url);
+		$img->setAttribute('src', $url);
 
-		return $domEl;
+		return $img;
 	}
 
 	/**
@@ -40,8 +39,8 @@ class AnyMark_Pattern_Patterns_ImageTest extends \AnyMark\UnitTests\Support\Patt
 	public function anInlineImageStartsWithAnExclamationMarkAndHasAltTextBetweenSquareBracketsFollowedByPathToImgBetweenRoundBrackets()
 	{
 		$text = "Image is ![alt text](http://example.com/image.jpg) in between.";
-		$domEl = $this->createImgDom('alt text', null, 'http://example.com/image.jpg');
-		$this->assertCreatesDomFromText($domEl, $text);
+		$img = $this->createImgDom('alt text', null, 'http://example.com/image.jpg');
+		$this->assertEquals($img, $this->applyPattern($text));
 	}
 
 	/**
@@ -50,8 +49,8 @@ class AnyMark_Pattern_Patterns_ImageTest extends \AnyMark\UnitTests\Support\Patt
 	public function titleTextIsOptionalInSingleQuotes()
 	{
 		$text = "Image is ![alt text](http://example.com/image.jpg 'title text') in between.";
-		$domEl = $this->createImgDom('alt text', 'title text', 'http://example.com/image.jpg');
-		$this->assertCreatesDomFromText($domEl, $text);
+		$img = $this->createImgDom('alt text', 'title text', 'http://example.com/image.jpg');
+		$this->assertEquals($img, $this->applyPattern($text));
 	}
 
 	/**
@@ -60,8 +59,8 @@ class AnyMark_Pattern_Patterns_ImageTest extends \AnyMark\UnitTests\Support\Patt
 	public function titleTextIsOptionalInDoubleQuotes()
 	{
 		$text = "Image is ![alt text](http://example.com/image.jpg \"title text\") in between.";
-		$domEl = $this->createImgDom('alt text', 'title text', 'http://example.com/image.jpg');
-		$this->assertCreatesDomFromText($domEl, $text);
+		$img = $this->createImgDom('alt text', 'title text', 'http://example.com/image.jpg');
+		$this->assertEquals($img, $this->applyPattern($text));
 	}
 
 	/**
@@ -76,8 +75,8 @@ class AnyMark_Pattern_Patterns_ImageTest extends \AnyMark\UnitTests\Support\Patt
 				new \AnyMark\Pattern\Patterns\LinkDefinition('id', 'http://example.com/image.jpg')));
 
 		$text = "Image is ![alt text][id] in between.";
-		$domEl = $this->createImgDom('alt text', null, 'http://example.com/image.jpg');
-		$this->assertCreatesDomFromText($domEl, $text);
+		$img = $this->createImgDom('alt text', null, 'http://example.com/image.jpg');
+		$this->assertEquals($img, $this->applyPattern($text));
 	}
 
 	/**
@@ -92,7 +91,7 @@ class AnyMark_Pattern_Patterns_ImageTest extends \AnyMark\UnitTests\Support\Patt
 				new \AnyMark\Pattern\Patterns\LinkDefinition('id', 'http://example.com/image.jpg', 'title')));
 
 		$text = "Image is ![alt text][id] in between.";
-		$domEl = $this->createImgDom('alt text', 'title', 'http://example.com/image.jpg');
-		$this->assertCreatesDomFromText($domEl, $text);
+		$img = $this->createImgDom('alt text', 'title', 'http://example.com/image.jpg');
+		$this->assertEquals($img, $this->applyPattern($text));
 	}
 }

@@ -8,6 +8,7 @@ namespace AnyMark\Pattern\Patterns;
 use AnyMark\Util\InternalUrlBuilder;
 use AnyMark\Processor\Processors\LinkDefinitionCollector;
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -70,19 +71,20 @@ class Hyperlink extends Pattern
 			@xs';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		if (isset($match['reference']))
 		{
-			return $this->createDomForLinkWithDef($match, $parentNode);
+			return $this->createDomForLinkWithDef($match, $parent);
 		}
 		else
 		{
-			return $this->createDomForInlineLink($match, $parentNode);
+			return $this->createDomForInlineLink($match, $parent);
 		}
 	}
 
-	private function createDomForLinkWithDef(array $match, \DOMNode $parentNode)
+	private function createDomForLinkWithDef(array $match, ComponentTree $parent)
 	{
 		if (!isset($match['id']) || ($match['id'] === ''))
 		{
@@ -100,29 +102,28 @@ class Hyperlink extends Pattern
 		$url = $linkDef->getUrl();
 		$anchorText = $match['anchor'];
 
-		return $this->createDomForLink($url, $anchorText, $title, $parentNode);
+		return $this->createDomForLink($url, $anchorText, $title, $parent);
 		
 	}
 
-	private function createDomForInlineLink(array $match, \DOMNode $parentNode)
+	private function createDomForInlineLink(array $match, ComponentTree $parent)
 	{
 		$url = (isset($match['url'][0]) && ($match['url'][0] == '<'))
 			? substr($match['url'], 1, -1) : $match['url'];
 		$title = isset($match['title']) ? $match['title'] : null;
 
-		return $this->createDomForLink($url, $match['anchor'], $title, $parentNode);
+		return $this->createDomForLink($url, $match['anchor'], $title, $parent);
 	}
 
-	private function createDomForLink($url, $anchor, $title = null, \DOMNode $parentNode)
+	private function createDomForLink($url, $anchor, $title = null, ComponentTree $parent)
 	{
 		if ($this->isRelative($url))
 		{
 			$url = $this->internalUrlBuilder->createRelativeLink($url);
 		}
 
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-		$urlNode = $ownerDocument->createElement('a');
-		$urlNode->appendChild($ownerDocument->createTextNode($anchor));
+		$urlNode = $parent->createElement('a');
+		$urlNode->append($parent->createText($anchor));
 		$urlNode->setAttribute('href', $url);
 
 		if ($title)

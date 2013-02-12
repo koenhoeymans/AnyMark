@@ -17,15 +17,19 @@ class AnyMark_Pattern_Patterns_HorizontalRuleTest extends \AnyMark\UnitTests\Sup
 		return $this->pattern;
 	}
 
+	public function createHr()
+	{
+		return new \AnyMark\ComponentTree\Element('hr');
+	}
+
 	/**
 	 * @test
 	 */
 	public function atLeastThreeHyphensOnARuleByThemselvesProduceAHorizontalRule()
 	{
 		$text = "\n---\n";
-		$dom = new \DOMElement('hr');
 
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createHr(), $this->applyPattern($text));
 	}
 
 	/**
@@ -34,9 +38,8 @@ class AnyMark_Pattern_Patterns_HorizontalRuleTest extends \AnyMark\UnitTests\Sup
 	public function atLeastThreeAsteriskOnARuleByThemselvesProduceAHorizontalRule()
 	{
 		$text = "\n***\n";
-		$dom = new \DOMElement('hr');
-		
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createHr(), $this->applyPattern($text));
 	}
 
 	/**
@@ -45,9 +48,8 @@ class AnyMark_Pattern_Patterns_HorizontalRuleTest extends \AnyMark\UnitTests\Sup
 	public function atLeastThreeUnderscoresOnARuleByThemselvesProduceAHorizontalRule()
 	{
 		$text = "\n___\n";
-		$dom = new \DOMElement('hr');
-		
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createHr(), $this->applyPattern($text));
 	}
 
 	/**
@@ -56,9 +58,8 @@ class AnyMark_Pattern_Patterns_HorizontalRuleTest extends \AnyMark\UnitTests\Sup
 	public function spacingIsAllowed()
 	{
 		$text = "\n * * *\n";
-		$dom = new \DOMElement('hr');
-		
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createHr(), $this->applyPattern($text));
 	}
 
 	/**
@@ -67,9 +68,8 @@ class AnyMark_Pattern_Patterns_HorizontalRuleTest extends \AnyMark\UnitTests\Sup
 	public function moreCharactersAreAllowed()
 	{
 		$text = "\n------------\n";
-		$dom = new \DOMElement('hr');
-		
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createHr(), $this->applyPattern($text));
 	}
 
 	/**
@@ -79,6 +79,6 @@ class AnyMark_Pattern_Patterns_HorizontalRuleTest extends \AnyMark\UnitTests\Sup
 	{
 		$text = "\n-*-\n";
 		
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 }

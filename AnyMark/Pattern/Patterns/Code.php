@@ -6,28 +6,28 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
  */
 abstract class Code extends Pattern
 {
-	protected function createCodeReplacement($code, $pre = true, \DOMNode $parentNode)
+	protected function createCodeReplacement($code, $pre = true, ComponentTree $parent)
 	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-		$codeDom = $ownerDocument->createElement('code');
-		$codeDom->appendChild($ownerDocument->createTextNode($code));
+		$codeElement = $parent->createElement('code');
+		$codeElement->append($parent->createText($code));
 
 		if ($pre)
 		{
-			$preDom = $ownerDocument->createElement('pre');
-			$preDom->appendChild($codeDom);
+			$preElement = $parent->createElement('pre');
+			$preElement->append($codeElement);
 
-			return $preDom;
+			return $preElement;
 		}
 		else
 		{
-			return $codeDom;
+			return $codeElement;
 		}
 	}
 }

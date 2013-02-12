@@ -7,9 +7,8 @@ namespace AnyMark\Parser;
 
 use AnyMark\Pattern\Pattern;
 use AnyMark\Pattern\PatternList;
-use AnyMark\Processor\TextProcessor;
-use AnyMark\Processor\DomProcessor;
-use AnyMark\TextReplacer\TextReplacer;
+use AnyMark\ComponentTree\Component;
+use AnyMark\ComponentTree\Text;
 
 
 /**
@@ -30,35 +29,21 @@ class RecursiveReplacer implements Parser
 	 */
 	public function parse($text)
 	{
-		$domDoc = new \DOMDocument();
-		$document = $domDoc->createElement('doc');
-		$textNode = $domDoc->createTextNode($text);
-		$domDoc->appendChild($document);
-		$document->appendChild($textNode);
+		$document = new \AnyMark\ComponentTree\ComponentTree();
+		$text = $document->createText($text);
+		$document->append($text);
 
-		$this->applyPatterns($textNode);
+		$this->applyPatterns($text);
 
-		$xpath = new \DOMXPath($domDoc);
-		$textNodes = $xpath->query('//text()');
-		foreach ($textNodes as $textNode)
-		{
-			if($textNode->parentNode->nodeName !== 'code')
-			{
-				# don't need the backslash for escaped characters anymore
-				$textNode->nodeValue = preg_replace(
-					'@\\\\([^ ])@', "\${1}", $textNode->nodeValue
-				);
-			}
-		}
+		$document->query(function ($a) { $this->restoreEscaped($a); });
 
-		return $domDoc;
+		return $document;
 	}
 
-	private function applyPatterns(\DOMText $node, Pattern $parentPattern = null)
+	private function applyPatterns(Text $text, Pattern $parentPattern = null)
 	{
-		$document = $node->ownerDocument;
-		$parentNode = $node->parentNode;
-		$textToReplace = $node->nodeValue;
+		$parentElement = $text->getParent($text);
+		$textToReplace = $text->getValue();
 		$totalBytes = strlen($textToReplace);
 		$currentByteOffset = 0;
 		$endOfTextReached = false;
@@ -76,33 +61,34 @@ class RecursiveReplacer implements Parser
 				if (!empty($match))
 				{
 					# create dom node from match
-					$patternCreatedDom = $pattern->handleMatch($match, $node, $parentPattern);
+					$patternCreatedElement = $pattern->handleMatch($match, $parentElement, $parentPattern);
 
 					# if pattern decides there's no match after examining regex match
 					# we can continue
-					if (!$patternCreatedDom)
+					if (!$patternCreatedElement)
 					{
 						continue;
 					}
 
 					# add text node from text before match
 					$textBeforeMatch = substr($textToReplace, 0, $currentByteOffset);
-					$parentNode->replaceChild(
-						$document->createTextNode($textBeforeMatch), $node
+					$parentElement->replace(
+						$parentElement->createText($textBeforeMatch), $text
 					);
 
 					# applying subpatterns to dom node from match
-					$parentNode->appendChild($patternCreatedDom);
-					$this->applySubpatterns($patternCreatedDom, $pattern);
+					$parentElement->append($patternCreatedElement);
+					$this->applySubpatterns($patternCreatedElement, $pattern);
 
 					# create text node from text following match
 					$textFollowingMatch = substr(
 						$textToReplace, strlen($match[0]) + $currentByteOffset
 					);
-					$textFollowingMatchNode = $parentNode->appendChild(
-						$document->createTextNode($textFollowingMatch)
+					$textFollowingMatch = $parentElement->createText(
+						$textFollowingMatch
 					);
-					$this->applyPatterns($textFollowingMatchNode, $parentPattern);
+					$parentElement->append($textFollowingMatch);
+					$this->applyPatterns($textFollowingMatch, $parentPattern);
 
 					return;
 				}
@@ -119,16 +105,11 @@ class RecursiveReplacer implements Parser
 		}
 	}
 
-	private function applySubpatterns(\DOMNode $node, Pattern $parentPattern)
+	private function applySubpatterns(Component $elementTree, Pattern $parentPattern)
 	{
-		if (!$node->hasChildNodes())
+		foreach ($elementTree->getChildren() as $childNode)
 		{
-			return;
-		}
-
-		foreach ($node->childNodes as $childNode)
-		{
-			if ($childNode instanceof \DOMText)
+			if ($childNode instanceof \AnyMark\ComponentTree\Text)
 			{
 				$this->applyPatterns($childNode, $parentPattern);
 			}
@@ -136,6 +117,26 @@ class RecursiveReplacer implements Parser
 			{
 				$this->applySubpatterns($childNode, $parentPattern);
 			}
+		}
+	}
+
+	private function restoreEscaped(Component $component)
+	{
+		if (!($component instanceof \AnyMark\ComponentTree\Text))
+		{
+			return;
+		}
+		$parent = $component->getParent();
+		if (!$parent || !($parent instanceof \AnyMark\ComponentTree\Element))
+		{
+			return;
+		}
+		if ($parent->getName() !== 'code')
+		{
+			# don't need the backslash for escaped characters anymore
+			$component->setValue(preg_replace(
+				'@\\\\([^ ])@', "\${1}", $component->getValue()
+			));
 		}
 	}
 }

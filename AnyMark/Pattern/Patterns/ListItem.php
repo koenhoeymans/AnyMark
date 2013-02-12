@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -51,9 +52,9 @@ class ListItem extends Pattern
 			@x';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		$paragraph = (($match['para_before'] == "\n\n") || isset($match['para_after']))
 			? "\n\n" : "";
 		$content = preg_replace(
@@ -62,11 +63,11 @@ class ListItem extends Pattern
 			$match['content']
 		);
 
-		$li = $ownerDocument->createElement('li');
+		$li = $parent->createElement('li');
 
 		if ($paragraph !== '' || $content !== '')
 		{
-			$li->appendChild($ownerDocument->createTextNode($content . $paragraph));
+			$li->append($parent->createText($content . $paragraph));
 		}
 
 		return $li;

@@ -17,14 +17,23 @@ class AnyMark_Pattern_Patterns_CodeInlineTest extends \AnyMark\UnitTests\Support
 		return $this->codeInline;
 	}
 
+	public function createFromText($text)
+	{
+		$code = new \AnyMark\ComponentTree\Element('code');
+		$text = new \AnyMark\ComponentTree\Text($text);
+		$code->append($text);
+
+		return $code;
+	}
+
 	/**
 	 * @test
 	 */
 	public function transformsCodeBetweenBackticks()
 	{
 		$text = 'Text with `code` in between.';
-		$dom = new \DOMElement('code', 'code');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createFromText('code'), $this->applyPattern($text));
 	}
 
 	/**
@@ -33,8 +42,8 @@ class AnyMark_Pattern_Patterns_CodeInlineTest extends \AnyMark\UnitTests\Support
 	public function canStartAndEndWithMultipleBackticks()
 	{
 		$text = 'Text with ``code`` in between.';
-		$dom = new \DOMElement('code', 'code');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createFromText('code'), $this->applyPattern($text));
 	}
 
 	/**
@@ -43,8 +52,8 @@ class AnyMark_Pattern_Patterns_CodeInlineTest extends \AnyMark\UnitTests\Support
 	public function backtickCanBePlacedWithinMultipleBackticks()
 	{
 		$text = 'Text with ``co`de`` in between.';
-		$dom = new \DOMElement('code', 'co`de');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createFromText('co`de'), $this->applyPattern($text));
 	}
 
 	/**
@@ -53,8 +62,8 @@ class AnyMark_Pattern_Patterns_CodeInlineTest extends \AnyMark\UnitTests\Support
 	public function takesTheMostOutwardBackticks()
 	{
 		$text = 'Text with ``code``` in between.';
-		$dom = new \DOMElement('code', 'code`');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createFromText('code`'), $this->applyPattern($text));
 	}
 
 	/**
@@ -63,7 +72,8 @@ class AnyMark_Pattern_Patterns_CodeInlineTest extends \AnyMark\UnitTests\Support
 	public function backslashEscapes()
 	{
 		$text = 'Code \`that` is escaped.';
-		$this->assertDoesNotCreateDomFromText($text);
+
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -72,7 +82,7 @@ class AnyMark_Pattern_Patterns_CodeInlineTest extends \AnyMark\UnitTests\Support
 	public function backticksCanBeFollowedByNonSpace()
 	{
 		$text = 'This `code`: look below.';
-		$dom = new \DOMElement('code', 'code');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createFromText('code'), $this->applyPattern($text));
 	}
 }

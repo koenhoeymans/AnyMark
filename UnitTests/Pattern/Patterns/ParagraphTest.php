@@ -17,14 +17,24 @@ class AnyMark_Pattern_Patterns_ParagraphTest extends \AnyMark\UnitTests\Support\
 		return $this->pattern;
 	}
 
+	public function createP($text)
+	{
+		$p = new \AnyMark\ComponentTree\Element('p');
+		$text = new \AnyMark\ComponentTree\Text($text);
+		$p->append($text);
+
+		return $p;
+	}
+
 	/**
 	 * @test
 	 */
 	public function emptyLineThenTextThenEmptyLineIsParagraph()
 	{
 		$text = "\n\nparagraph\n\n";
-		$dom = new \DOMElement('p', 'paragraph');
-		$this->assertCreatesDomFromText($dom, $text);;
+		$p = $this->createP('paragraph');
+
+		$this->assertEquals($p, $this->applyPattern($text));
 	}
 
 	/**
@@ -33,8 +43,9 @@ class AnyMark_Pattern_Patterns_ParagraphTest extends \AnyMark\UnitTests\Support\
 	public function emptyLineThenTextThenLineBreakAndEndOfTextIsParagraph()
 	{
 		$text = "\n\nparagraph\n";
-		$dom = new \DOMElement('p', 'paragraph');
-		$this->assertCreatesDomFromText($dom, $text);;
+		$p = $this->createP('paragraph');
+
+		$this->assertEquals($p, $this->applyPattern($text));
 	}
 
 	/**
@@ -43,8 +54,9 @@ class AnyMark_Pattern_Patterns_ParagraphTest extends \AnyMark\UnitTests\Support\
 	public function emptyLineThenTextThenEndOfTextIsParagraph()
 	{
 		$text = "\n\nparagraph";
-		$dom = new \DOMElement('p', 'paragraph');
-		$this->assertCreatesDomFromText($dom, $text);;
+		$p = $this->createP('paragraph');
+
+		$this->assertEquals($p, $this->applyPattern($text));
 	}
 
 	/**
@@ -53,8 +65,9 @@ class AnyMark_Pattern_Patterns_ParagraphTest extends \AnyMark\UnitTests\Support\
 	public function canAlsoBeStartOfString()
 	{
 		$text = "paragraph\n\n";
-		$dom = new \DOMElement('p', 'paragraph');
-		$this->assertCreatesDomFromText($dom, $text);;
+		$p = $this->createP('paragraph');
+
+		$this->assertEquals($p, $this->applyPattern($text));
 	}
 
 	/**
@@ -62,8 +75,7 @@ class AnyMark_Pattern_Patterns_ParagraphTest extends \AnyMark\UnitTests\Support\
 	 */
 	public function cannotBeBothStartAndEndOfString()
 	{
-		$text = "paragraph";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern('paragraph'));
 	}
 
 	/**
@@ -77,8 +89,9 @@ class AnyMark_Pattern_Patterns_ParagraphTest extends \AnyMark\UnitTests\Support\
 another
 
 yet another";
-		$dom = new \DOMElement('p', 'paragraph');
-		$this->assertCreatesDomFromText($dom, $text);;
+		$p = $this->createP('paragraph');
+
+		$this->assertEquals($p, $this->applyPattern($text));
 	}
 
 	/**
@@ -86,8 +99,7 @@ yet another";
 	 */
 	public function aParagraphCannotContainOnlyWhiteSpace()
 	{
-		$text = "\n\n  \n\n";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern("\n\n \n\n"));
 	}
 
 	/**
@@ -96,8 +108,9 @@ yet another";
 	public function indentationOfThreeSpacesMaximum()
 	{
 		$text = "\n\n paragraph\n\n";
-		$dom = new \DOMElement('p', 'paragraph');
-		$this->assertCreatesDomFromText($dom, $text);;
+		$p = $this->createP('paragraph');
+
+		$this->assertEquals($p, $this->applyPattern($text));
 	}
 
 	/**
@@ -106,7 +119,7 @@ yet another";
 	public function indentedMoreThanThreeSpacesIsNoParagraph()
 	{
 		$text = "\n\n    paragraph\n\n";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -115,7 +128,7 @@ yet another";
 	public function indentedATabIsNoParagraph()
 	{
 		$text = "\n\n\tparagraph\n\n";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -130,9 +143,9 @@ yet another";
  paragraph continued
 
 ";
+		$p = $this->createP("paragraph\nparagraph continued");
 
-		$dom = new \DOMElement('p', "paragraph\nparagraph continued");
-		$this->assertCreatesDomFromText($dom, $text);;
+		$this->assertEquals($p, $this->applyPattern($text));
 	}
 
 	/**
@@ -147,9 +160,9 @@ yet another";
 paragraph continued
 
 ";
+		$p = $this->createP("paragraph\nparagraph continued");
 
-		$dom = new \DOMElement('p', "paragraph\nparagraph continued");
-		$this->assertCreatesDomFromText($dom, $text);;
+		$this->assertEquals($p, $this->applyPattern($text));
 	}
 
 	/**
@@ -164,8 +177,8 @@ paragraph
  paragraph not continued
 
 ";
-	
-		$dom = new \DOMElement('p', "paragraph");
-		$this->assertCreatesDomFromText($dom, $text);;
+		$p = $this->createP("paragraph");
+
+		$this->assertEquals($p, $this->applyPattern($text));
 	}
 }

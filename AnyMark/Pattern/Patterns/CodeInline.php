@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -22,12 +23,13 @@ class CodeInline extends Code
 			@x';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		# if code between backticks starts or ends with code between
 		# backticks: remove the spacing
 		$code = preg_replace("#^\s*(.+?)\s*$#", "\${1}", $match['code']);
 		
-		return $this->createCodeReplacement($code, false, $parentNode);
+		return $this->createCodeReplacement($code, false, $parent);
 	}
 }

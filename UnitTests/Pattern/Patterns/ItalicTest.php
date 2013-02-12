@@ -17,14 +17,23 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 		return $this->italic;
 	}
 
+	public function createItalic($text)
+	{
+		$i = new \AnyMark\ComponentTree\Element('i');
+		$text = new \AnyMark\ComponentTree\Text($text);
+		$i->append($text);
+
+		return $i;
+	}
+
 	/**
 	 * @test
 	 */
 	public function italicTextIsPlacedBetweenUnderscores()
 	{
 		$text = "This is a sentence with _italicized_ text.";
-		$dom = new \DOMElement('i', 'italicized');
-		$this->assertCreatesDomFromText($dom, $text);
+		$i = $this->createItalic('italicized');
+		$this->assertEquals($i, $this->applyPattern($text));
 	}
 
 	/**
@@ -33,8 +42,8 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 	public function italicTextCanContainMultipleWords()
 	{
 		$text = "This is a sentence with _italicized text_.";
-		$dom = new \DOMElement('i', 'italicized text');
-		$this->assertCreatesDomFromText($dom, $text);
+		$i = $this->createItalic('italicized text');
+		$this->assertEquals($i, $this->applyPattern($text));
 	}
 
 	/**
@@ -43,8 +52,8 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 	public function textCanContainMultipleItalicSections()
 	{
 		$text = "This is _a sentence_ with _italicized text_.";
-		$dom = new \DOMElement('i', 'a sentence');
-		$this->assertCreatesDomFromText($dom, $text);
+		$i = $this->createItalic('a sentence');
+		$this->assertEquals($i, $this->applyPattern($text));
 	}
 
 	/**
@@ -53,7 +62,7 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 	public function aWordCannotContainAnItalicizedPart()
 	{
 		$text = "This word is not _ita_licized.";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -62,7 +71,7 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 	public function firstUnderScoreMustBePrecededBySpace()
 	{
 		$text = "This is not an_italicized_ word.";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -71,7 +80,7 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 	public function theFirstUnderscoreCannotHaveSpaceAfterIt()
 	{
 		$text = "This is not a sentence with _ italicized_ text.";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -80,7 +89,7 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 	public function theLastUnderscoreCannotHaveSpaceBeforeIt()
 	{
 		$text = "This is not a sentence with _italicized _ text.";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -89,7 +98,7 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 	public function onlyUnderscoresAreNotItalicized()
 	{
 		$text = "This is not a sentence with _____.";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -98,8 +107,8 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 	public function canContainStrongText()
 	{
 		$text = "_emphasized with __strong___ text.";
-		$dom = new \DOMElement('i', 'emphasized with __strong__');
-		$this->assertCreatesDomFromText($dom, $text);
+		$i = $this->createItalic('emphasized with __strong__');
+		$this->assertEquals($i, $this->applyPattern($text));
 	}
 	
 	/**
@@ -108,7 +117,7 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 	public function canContainStrongText2()
 	{
 		$text = "___emphasized__ with strong_ text.";
-		$dom = new \DOMElement('i', '__emphasized__ with strong');
-		$this->assertCreatesDomFromText($dom, $text);
+		$i = $this->createItalic('__emphasized__ with strong');
+		$this->assertEquals($i, $this->applyPattern($text));
 	}
 }

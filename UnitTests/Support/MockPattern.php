@@ -3,6 +3,7 @@
 namespace AnyMark\UnitTests\Support;
 
 use \AnyMark\Pattern\Pattern;
+use \AnyMark\ComponentTree\ComponentTree;
 
 class MockPattern extends \AnyMark\Pattern\Pattern
 {
@@ -24,9 +25,13 @@ class MockPattern extends \AnyMark\Pattern\Pattern
 		return $this->regex;
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-		return $ownerDocument->createElement($this->elementName, $this->textInElement);
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
+		$element = $parent->createElement($this->elementName);
+		$text = $parent->createText($this->textInElement);
+		$element->append($text);
+
+		return $element;
 	}
 }

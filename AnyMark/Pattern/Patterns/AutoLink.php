@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -42,18 +43,18 @@ class AutoLink extends Pattern
 			@xi';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-		$a = $ownerDocument->createElement('a');
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
+		$a = $parent->createElement('a');
 		if (isset($match['url']))
 		{
-			$a->appendChild($ownerDocument->createTextNode($match['url']));
+			$a->append($parent->createText($match['url']));
 			$a->setAttribute('href', $match['url']);
 		}
 		else
 		{
-			$a->appendChild($ownerDocument->createTextNode($match['mail']));
+			$a->append($parent->createText($match['mail']));
 			$a->setAttribute('href', 'mailto:' . $match['mail']);
 		}
 

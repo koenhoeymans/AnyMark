@@ -17,14 +17,15 @@ class AnyMark_Pattern_Patterns_CodeWithTildesTest extends \AnyMark\UnitTests\Sup
 		return $this->pattern;
 	}
 
-	public function createDomFromText($text)
+	public function createFromText($text)
 	{
-		$domDoc = new \DOMDocument();
-		$domElementCode = new \DOMElement('code', $text);
-		$domElementPre = new \DOMElement('pre');
-		$domDoc->appendChild($domElementPre);
-		$domElementPre->appendChild($domElementCode);
-		return $domElementPre;
+		$pre = new \AnyMark\ComponentTree\Element('pre');
+		$code = new \AnyMark\ComponentTree\Element('code');
+		$text = new \AnyMark\ComponentTree\Text($text);
+		$pre->append($code);
+		$code->append($text);
+
+		return $pre;
 	}
 
 	/**
@@ -33,7 +34,10 @@ class AnyMark_Pattern_Patterns_CodeWithTildesTest extends \AnyMark\UnitTests\Sup
 	public function codeCanBeSurroundedByTwoLinesOfAtLeastThreeTildes()
 	{
 		$text = "\n\n~~~\nthe code\n~~~\n\n";
-		$this->assertCreatesDomFromText($this->createDomFromText('the code'), $text);
+
+		$this->assertEquals(
+			$this->createFromText('the code'), $this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -65,7 +69,7 @@ code
 
 ~~~";
 
-		$this->assertCreatesDomFromText($this->createDomFromText($codeText), $text);
+		$this->assertEquals($this->createFromText($codeText), $this->applyPattern($text));
 	}
 
 	/**
@@ -74,8 +78,10 @@ code
 	public function firstCharacterDeterminesIndentation()
 	{
 		$text = "\n\n~~~\n\tindented\n\t\tdoubleindented\n~~~\n\n";
-		$this->assertCreatesDomFromText(
-			$this->createDomFromText("indented\n\tdoubleindented"), $text
+
+		$this->assertEquals(
+			$this->createFromText("indented\n\tdoubleindented"),
+			$this->applyPattern($text)
 		);
 	}
 
@@ -85,7 +91,10 @@ code
 	public function wholeTildeCodeBlockCanBeIndented()
 	{
 		$text = "\n\n\t~~~\n\tthe code\n\t~~~\n\n";
-		$this->assertCreatesDomFromText($this->createDomFromText('the code'), $text);
+
+		$this->assertEquals(
+			$this->createFromText('the code'), $this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -94,7 +103,10 @@ code
 	public function tildeCodeBlockIsNonGreedy()
 	{
 		$text = "\n\n~~~\nthe code\n~~~\n\nparagraph\n\n~~~\ncode\n~~~\n\n";
-		$this->assertCreatesDomFromText($this->createDomFromText('the code'), $text);
+
+		$this->assertEquals(
+			$this->createFromText('the code'), $this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -103,9 +115,10 @@ code
 	public function canHaveOwnClassSpecified()
 	{
 		$text = "\n\n~~~{.language-foo .example}\nthe code\n~~~\n\n";
-		$dom = $this->createDomFromText('the code');
-		$dom->setAttribute('class', 'language-foo example');
-		$this->assertCreatesDomFromText($dom, $text);
+		$code = $this->createFromText('the code');
+		$code->setAttribute('class', 'language-foo example');
+
+		$this->assertEquals($code, $this->applyPattern($text));
 	}
 
 	/**
@@ -114,9 +127,10 @@ code
 	public function canHaveIdSpecified()
 	{
 		$text = "\n\n~~~{#example}\nthe code\n~~~\n\n";
-		$dom = $this->createDomFromText('the code');
-		$dom->setAttribute('id', 'example');
-		$this->assertCreatesDomFromText($dom, $text);
+		$code = $this->createFromText('the code');
+		$code->setAttribute('id', 'example');
+
+		$this->assertEquals($code, $this->applyPattern($text));
 	}
 
 	/**
@@ -125,9 +139,10 @@ code
 	public function canHaveAttributeSpecified()
 	{
 		$text = "\n\n~~~{foo=\"bar\"}\nthe code\n~~~\n\n";
-		$dom = $this->createDomFromText('the code');
-		$dom->setAttribute('foo', 'bar');
-		$this->assertCreatesDomFromText($dom, $text);
+		$code = $this->createFromText('the code');
+		$code->setAttribute('foo', 'bar');
+
+		$this->assertEquals($code, $this->applyPattern($text));
 	}
 
 	/**
@@ -136,11 +151,12 @@ code
 	public function canHaveCombinationsOfMultipleClassIdAttributeSpecified()
 	{
 		$text = "\n\n~~~{foo=\"bar\" .myClass #myId .otherClass #otherId}\nthe code\n~~~\n\n";
-		$dom = $this->createDomFromText('the code');
-		$dom->setAttribute('id', 'myId otherId');
-		$dom->setAttribute('class', 'myClass otherClass');
-		$dom->setAttribute('foo', 'bar');
-		$this->assertCreatesDomFromText($dom, $text);
+		$code = $this->createFromText('the code');
+		$code->setAttribute('foo', 'bar');
+		$code->setAttribute('id', 'myId otherId');
+		$code->setAttribute('class', 'myClass otherClass');
+		
+		$this->assertEquals($code, $this->applyPattern($text));
 	}
 
 	/**
@@ -149,9 +165,10 @@ code
 	public function canHaveDuplicateAttributesWithDifferentValues()
 	{
 		$text = "\n\n~~~{foo=\"bar\" foo=\"baz\"}\nthe code\n~~~\n\n";
-		$dom = $this->createDomFromText('the code');
-		$dom->setAttribute('foo', 'bar baz');
-		$this->assertCreatesDomFromText($dom, $text);		
+		$code = $this->createFromText('the code');
+		$code->setAttribute('foo', 'bar baz');
+		
+		$this->assertEquals($code, $this->applyPattern($text));
 	}
 
 	/**
@@ -160,8 +177,9 @@ code
 	public function shortCutToDeclaringLanguage()
 	{
 		$text = "\n\n~~~ html\nthe code\n~~~\n\n";
-		$dom = $this->createDomFromText('the code');
-		$dom->setAttribute('class', 'language-html');
-		$this->assertCreatesDomFromText($dom, $text);
+		$code = $this->createFromText('the code');
+		$code->setAttribute('class', 'language-html');
+		
+		$this->assertEquals($code, $this->applyPattern($text));
 	}
 }

@@ -23,6 +23,15 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 		return $this->pattern;
 	}
 
+	public function createHeader($level, $text)
+	{
+		$header = new \AnyMark\ComponentTree\Element($level);
+		$text = new \AnyMark\ComponentTree\Text($text);
+		$header->append($text);
+
+		return $header;
+	}
+
 	// ------------ Setext style ------------
 
 	/**
@@ -31,11 +40,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function headerIsFollowedByLineOfAtLeastThreeCharacters()
 	{
 		$text = "\n\nheader\n---\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'header');
+		$header->setAttribute('id', 'header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -44,7 +52,7 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function theLineOfAtLeastThreeCharactersMayNotBePrecededByABlankLine()
 	{
 		$text = "\n\nno header\n\n---\n\n";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -53,11 +61,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function headerIsOptionallyPrecededByLineOfCharacters()
 	{
 		$text = "\n\n---\na header\n---\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'a header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'a-header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'a header');
+		$header->setAttribute('id', 'a-header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -66,11 +73,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function characterLinesCanBeMoreThanThreeCharacters()
 	{
 		$text = "\n\n-----\na header\n-----\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'a header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'a-header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'a header');
+		$header->setAttribute('id', 'a-header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -79,11 +85,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function onlyTheFirstThreeCharactersCount()
 	{
 		$text = "\n\na header\n---###\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'a header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'a-header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'a header');
+		$header->setAttribute('id', 'a-header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -92,7 +97,7 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function characterLinesCannotBeLessThanThreeCharacters()
 	{
 		$text = "\n\n--\nthis is no header\n--\n\n";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -101,11 +106,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function lineCharactersMayContainDashSigns()
 	{
 		$text = "\n\n---\na header\n---\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'a header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'a-header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'a header');
+		$header->setAttribute('id', 'a-header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -114,11 +118,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function lineCharactersMayContainEqualSigns()
 	{
 		$text = "\n\n===\na header\n===\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'a header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'a-header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'a header');
+		$header->setAttribute('id', 'a-header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -127,11 +130,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function lineCharactersMayContainPlusSigns()
 	{
 		$text = "\n\n+++\na header\n+++\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'a header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'a-header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'a header');
+		$header->setAttribute('id', 'a-header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -140,11 +142,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function lineCharactersMayContainStarSigns()
 	{
 		$text = "\n\n***\na header\n***\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'a header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'a-header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'a header');
+		$header->setAttribute('id', 'a-header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -153,11 +154,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function lineCharactersMayContainCaretSigns()
 	{
 		$text = "\n\n^^^\na header\n^^^\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'a header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'a-header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'a header');
+		$header->setAttribute('id', 'a-header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -166,11 +166,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function lineCharactersMayContainNumberSignSigns()
 	{
 		$text = "\n\n###\na header\n###\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'a header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'a-header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'a header');
+		$header->setAttribute('id', 'a-header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -179,11 +178,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function lineOfStartingAndEndingCharactersMustNotBeSame()
 	{
 		$text = "\n\n=-=\na header\n=-=\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'a header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'a-header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'a header');
+		$header->setAttribute('id', 'a-header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -192,46 +190,40 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function levelOfHeadersIsAssignedByOrderOfAppearance()
 	{
 		$text = "\n\nfirst\n---\n\nsecond\n===\n\nthird\n+++\n\nfourth\n***\n\nfifth\n^^^\n\nsixth\n###\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'first');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'first');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'first');
+		$header->setAttribute('id', 'first');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\nsecond\n===\n\nthird\n+++\n\nfourth\n***\n\nfifth\n^^^\n\nsixth\n###\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h2', 'second');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'second');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h2', 'second');
+		$header->setAttribute('id', 'second');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\nthird\n+++\n\nfourth\n***\n\nfifth\n^^^\n\nsixth\n###\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h3', 'third');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'third');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h3', 'third');
+		$header->setAttribute('id', 'third');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\nfourth\n***\n\nfifth\n^^^\n\nsixth\n###\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h4', 'fourth');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'fourth');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h4', 'fourth');
+		$header->setAttribute('id', 'fourth');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\nfifth\n^^^\n\nsixth\n###\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h5', 'fifth');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'fifth');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h5', 'fifth');
+		$header->setAttribute('id', 'fifth');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\nsixth\n###\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h6', 'sixth');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'sixth');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h6', 'sixth');
+		$header->setAttribute('id', 'sixth');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -240,25 +232,22 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function levelOfHeadersIsRemembered()
 	{
 		$text = "\n\nfirst\n---\n\nsecond\n===\n\nthird\n+++\n\nfourth\n***\n\nfifth\n^^^\n\nsixth\n###\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'first');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'first');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'first');
+		$header->setAttribute('id', 'first');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\nsecond\n===\n\nthird\n+++\n\nfourth\n***\n\nfifth\n^^^\n\nsixth\n###\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h2', 'second');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'second');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h2', 'second');
+		$header->setAttribute('id', 'second');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "para\n\nother second\n===\n\npara";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h2', 'other second');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'other-second');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h2', 'other second');
+		$header->setAttribute('id', 'other-second');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -267,11 +256,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function headerCanBeStartOfDocument()
 	{
 		$text = "header\n---\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'header');
+		$header->setAttribute('id', 'header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -280,11 +268,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function headerCanFollowStartPlusNewline()
 	{
 		$text = "\nheader\n---\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'header');
+		$header->setAttribute('id', 'header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -293,11 +280,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function headerMustNotFollowABlankLine()
 	{
 		$text = "para\nheader\n---\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'header');
+		$header->setAttribute('id', 'header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -306,11 +292,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function headerMustNotBeFollowedByBlankLine()
 	{
 		$text = "\n\nheader\n---\nparagraph\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'header');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'header');
+		$header->setAttribute('id', 'header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -319,17 +304,16 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function canBeIndentedByUptoThreeSpaces()
 	{
 		$text = "\n\n   header preceded by 3 spaces\n---\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'header preceded by 3 spaces');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'header-preceded-by-3-spaces');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'header preceded by 3 spaces');
+		$header->setAttribute('id', 'header-preceded-by-3-spaces');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\n    header preceded by 4 spaces\n---\n\n";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
-	//	------------ atx style ------------
+ 	//	------------ atx style ------------
 
 	/**
 	 * @test
@@ -337,25 +321,22 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function oneToSixHashesBeforeHeaderDeterminesHeaderLevel()
 	{
 		$text = "paragraph\n\n# level 1\n\nparagraph";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'level 1');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'level-1');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h1', 'level 1');
+		$header->setAttribute('id', 'level-1');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "paragraph\n\n## level 2\n\nparagraph";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h2', 'level 2');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'level-2');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h2', 'level 2');
+		$header->setAttribute('id', 'level-2');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "paragraph\n\n###### level 6\n\nparagraph";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h6', 'level 6');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'level-6');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h6', 'level 6');
+		$header->setAttribute('id', 'level-6');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -364,11 +345,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function closingHashesAreOptional()
 	{
 		$text = "paragraph\n\n## level 2 #####\n\nparagraph";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h2', 'level 2');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'level-2');
-		$this->assertCreatesDomFromText($el, $text);
+		$header = $this->createHeader('h2', 'level 2');
+		$header->setAttribute('id', 'level-2');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -377,11 +357,10 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function headerMustNotBeFollowedByBlankLine_2()
 	{
 		$text = "\n\n# header\nparagraph\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', 'header');
-		$doc->appendChild($el);
-		$el->setAttribute('id', 'header');
-		$this->assertCreatesDomFromText($doc, $text);
+		$header = $this->createHeader('h1', 'header');
+		$header->setAttribute('id', 'header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -392,19 +371,18 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	public function headerMustBePrecededByBlankLine()
 	{
 		$text = "paragraph\n# header\n\n";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
-	//	------------ id ------------
+ 	//	------------ id ------------
 
 	public function assertCreatesId($expectedId, $fromHeaderText)
 	{
 		$text = "\n\n# $fromHeaderText\nparagraph\n\n";
-		$doc = new \DOMDocument();
-		$el = $doc->createElement('h1', $fromHeaderText);
-		$doc->appendChild($el);
-		$el->setAttribute('id', $expectedId);
-		$this->assertCreatesDomFromText($doc, $text);
+		$header = $this->createHeader('h1', $fromHeaderText);
+		$header->setAttribute('id', $expectedId);
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
 	/**
@@ -428,18 +406,17 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	 */
 	public function appendsNumbersToDistinguishIds()
 	{
-		$doc = new \DOMDocument();
 		$text1 = "\n\n# header\nparagraph\n\n";
 		$text2 = "\n\n# header\nparagraph\n\n";
 
-		$el1 = $doc->createElement('h1', 'header');
-		$doc->appendChild($el1);
-		$el1->setAttribute('id', 'header');
-		$this->assertCreatesDomFromText($doc, $text1);
+		$header = $this->createHeader('h1', 'header');
+		$header->setAttribute('id', 'header');
+		
+		$this->assertEquals($header, $this->applyPattern($text1));
 
-		$el2 = $doc->createElement('h1', 'header');
-		$doc->replaceChild($el2, $el1);
-		$el2->setAttribute('id', 'header-2');
-		$this->assertCreatesDomFromText($doc, $text2);
+		$header = $this->createHeader('h1', 'header');
+		$header->setAttribute('id', 'header-2');
+
+		$this->assertEquals($header, $this->applyPattern($text2));
 	}
 }

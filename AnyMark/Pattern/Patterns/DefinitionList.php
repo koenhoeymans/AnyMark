@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -45,11 +46,11 @@ class DefinitionList extends Pattern
 			@x';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-		$dl = $ownerDocument->createElement('dl');
-		$dl->appendChild($ownerDocument->createTextNode($match['list']));
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
+		$dl = $parent->createElement('dl');
+		$dl->append($parent->createText($match['list']));
 
 		return $dl;
 	}

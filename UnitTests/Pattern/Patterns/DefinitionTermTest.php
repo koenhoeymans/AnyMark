@@ -17,6 +17,15 @@ class AnyMark_Pattern_Patterns_DefinitionTermTest extends \AnyMark\UnitTests\Sup
 		return $this->dt;
 	}
 
+	public function createDt($text)
+	{
+		$dt = new \AnyMark\ComponentTree\Element('dt');
+		$text = new \AnyMark\ComponentTree\Text($text);
+		$dt->append($text);
+
+		return $dt;
+	}
+
 	/**
 	 * @test
 	 */
@@ -30,8 +39,7 @@ term a
 
 para';
 
-		$dom = new \DOMElement('dt', 'term a');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createDt('term a'), $this->applyPattern($text));
 	}
 
 	/**
@@ -48,8 +56,7 @@ term b
 
 para';
 
-		$dom = new \DOMElement('dt', 'term a');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createDt('term a'), $this->applyPattern($text));
 	}
 
 	/**
@@ -66,8 +73,7 @@ term a
 
 para';
 
-		$dom = new \DOMElement('dt', 'term a');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createDt('term a'), $this->applyPattern($text));
 	}
 
 	/**
@@ -85,8 +91,7 @@ term b
 
 para';
 
-		$dom = new \DOMElement('dt', 'term a');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createDt('term a'), $this->applyPattern($text));
 	}
 
 	/**
@@ -104,7 +109,6 @@ term b
 
 para';
 
-		$dom = new \DOMElement('dt', 'term a');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createDt('term a'), $this->applyPattern($text));
 	}
 }

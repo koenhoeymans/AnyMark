@@ -1,5 +1,7 @@
 <?php
 
+use AnyMark\ComponentTree\Element;
+
 require_once dirname(__FILE__)
 	. DIRECTORY_SEPARATOR . '..'
 	. DIRECTORY_SEPARATOR . '..'
@@ -17,14 +19,15 @@ class AnyMark_Pattern_Patterns_CodeIndentedTest extends \AnyMark\UnitTests\Suppo
 		return $this->pattern;
 	}
 
-	public function createDomFromText($text)
+	public function createFromText($text)
 	{
-		$domDoc = new \DOMDocument();
-		$domElementCode = new \DOMElement('code', $text);
-		$domElementPre = new \DOMElement('pre');
-		$domDoc->appendChild($domElementPre);
-		$domElementPre->appendChild($domElementCode);
-		return $domElementPre;
+		$pre = new \AnyMark\ComponentTree\Element('pre');
+		$code = new \AnyMark\ComponentTree\Element('code');
+		$text = new \AnyMark\ComponentTree\Text($text);
+		$pre->append($code);
+		$code->append($text);
+
+		return $pre;
 	}
 
 	/**
@@ -39,7 +42,7 @@ class AnyMark_Pattern_Patterns_CodeIndentedTest extends \AnyMark\UnitTests\Suppo
 
 paragraph";
 
-		$this->assertCreatesDomFromText($this->createDomFromText('code'), $text);
+		$this->assertEquals($this->createFromText('code'), $this->applyPattern($text));
 	}
 
 	/**
@@ -60,8 +63,10 @@ paragraph";
 "	a
 b
 	c";
-		
-		$this->assertCreatesDomFromText($this->createDomFromText($codeText), $text);
+
+		$this->assertEquals(
+			$this->createFromText($codeText), $this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -75,8 +80,8 @@ b
 	code
 
 ";
-		
-		$this->assertCreatesDomFromText($this->createDomFromText('code'), $text);		
+
+		$this->assertEquals($this->createFromText('code'), $this->applyPattern($text));
 	}
 
 	/**
@@ -93,6 +98,8 @@ b
 
 paragraph";
 
-		$this->assertCreatesDomFromText($this->createDomFromText("code\n\ncontinued"), $text);
+		$this->assertEquals(
+			$this->createFromText("code\n\ncontinued"), $this->applyPattern($text)
+		);
 	}
 }

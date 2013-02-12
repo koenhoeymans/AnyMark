@@ -23,13 +23,6 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	private function domDocWith($xml)
-	{
-		$domDoc = new \DOMDocument();
-		$domDoc->loadXML($xml);
-		return $domDoc;
-	}
-
 	/**
 	 * @test
 	 */
@@ -43,7 +36,7 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 		$mockPattern
 			->expects($this->atLeastOnce())
 			->method('handleMatch')
-			->will($this->returnValue(new \DOMElement('a')));
+			->will($this->returnValue(new \AnyMark\ComponentTree\Element('a')));
 		$this->patternList
 			->expects($this->atLeastOnce())
 			->method('getPatterns')
@@ -74,8 +67,7 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue(array($mockPattern)));
 		
 		$this->assertEquals(
-			$this->domDocWith('<doc>text</doc>'),
-			$this->replacer->parse('text')
+			'text', $this->replacer->parse('text')->saveXmlStyle()
 		);
 	}
 
@@ -97,8 +89,8 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue(array()));
 
 		$this->assertEquals(
-			$this->domDocWith('<doc>t<a>a</a><b>b</b>t</doc>'),
-			$this->replacer->parse('text')
+			't<a>a</a><b>b</b>t',
+			$this->replacer->parse('text')->saveXmlStyle()
 		);
 	}
 
@@ -120,8 +112,8 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue(array($mockSubpattern)));
 
 		$this->assertEquals(
-			$this->domDocWith('<doc>t<a><b>c</b></a>xt</doc>'),
-			$this->replacer->parse('text')
+			't<a><b>c</b></a>xt',
+			$this->replacer->parse('text')->saveXmlStyle()
 		);
 	}
 
@@ -149,8 +141,8 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue(array($mockSubpattern1, $mockSubpattern2)));
 
 		$this->assertEquals(
-			$this->domDocWith('<doc>t<a><b><c>x</c></b><d><e>y</e></d></a>xt</doc>'),
-			$this->replacer->parse('text')
+			't<a><b><c>x</c></b><d><e>y</e></d></a>xt',
+			$this->replacer->parse('text')->saveXmlStyle()
 		);
 	}
 }

@@ -8,7 +8,9 @@ namespace AnyMark;
 use AnyMark\Parser\Parser;
 use Fjor\Fjor;
 use AnyMark\Processor\TextProcessor;
-use AnyMark\Processor\DomProcessor;
+use AnyMark\Processor\ComponentTreeProcessor;
+use AnyMark\ComponentTree\Element;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -21,7 +23,7 @@ class AnyMark implements Parser
 
 	private $preTextProcessors = array();
 
-	private $postDomProcessors = array();
+	private $postComponentTreeProcessors = array();
 
 	private $parser;
 
@@ -45,7 +47,7 @@ class AnyMark implements Parser
 			->addParam(array('AnyMark\\Processor\\Processors\\Detab'))
 			->addParam(array('AnyMark\\Processor\\Processors\\LinkDefinitionCollector'));
 		$fjor->given('AnyMark\\AnyMark')
-			->andMethod('addPostDomProcessor')
+			->andMethod('addPostComponentTreeProcessor')
 			->addParam(array('AnyMark\\Processor\\Processors\\EmailObfuscator'));
 		$fjor->setSingleton('AnyMark\\Processor\\Processors\\LinkDefinitionCollector');
 		$fjor->setSingleton('AnyMark\\Pattern\\PatternList');
@@ -73,9 +75,9 @@ class AnyMark implements Parser
 	/**
 	 * @param DomProcessor $domProcessor
 	 */
-	public function addPostDomProcessor(DomProcessor $domProcessor)
+	public function addPostComponentTreeProcessor(ComponentTreeProcessor $componentTreeProcessor)
 	{
-		$this->postDomProcessors[] = $domProcessor;
+		$this->postComponentTreeProcessors[] = $componentTreeProcessor;
 	}
 
 	/**
@@ -108,29 +110,6 @@ class AnyMark implements Parser
 		return $domDoc;
 	}
 
-	/**
-	 * DomDocument::saveXml encodes characters like `&` in entities
-	 * when added within a text node. This function reverses the damage done.
-	 * 
-	 * @param \DomDocument $domDoc
-	 * @return string
-	 */
-	public function saveXml(\DomDocument $domDoc)
-	{
-		$content = '';
-		$children = $domDoc->documentElement->childNodes;
-		foreach ($children as $child)
-		{
-			$content .= $domDoc->saveXml($child);
-		}
-
-		return str_replace(
-			array('&amp;amp;', '&amp;copy;', '&amp;quot;', '&amp;#'),
-			array('&amp;', '&copy;', '&quot;', '&#'),
-			$content
-		);
-	}
-
 	private function getParser()
 	{
 		if ($this->parser)
@@ -157,11 +136,11 @@ class AnyMark implements Parser
 		return $text;
 	}
 
-	private function postProcess(\DOMDocument $document)
+	private function postProcess(ComponentTree $componentTree)
 	{
-		foreach ($this->postDomProcessors as $processor)
+		foreach ($this->postComponentTreeProcessors as $processor)
 		{
-			$processor->process($document);
+			$processor->process($componentTree);
 		}
 	}
 }

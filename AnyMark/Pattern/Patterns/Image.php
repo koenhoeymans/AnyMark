@@ -7,6 +7,7 @@ namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use AnyMark\Processor\Processors\LinkDefinitionCollector;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -49,20 +50,20 @@ class Image extends Pattern
 			@xU';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		if (isset($match['reference']))
 		{
-			return $this->replaceReference($match, $ownerDocument);
+			return $this->replaceReference($match, $parent);
 		}
 		else
 		{
-			return $this->replaceInline($match, $ownerDocument);
+			return $this->replaceInline($match, $parent);
 		}
 	}
 
-	private function replaceInline(array $match, \DOMDocument $domDoc)
+	private function replaceInline(array $match, ComponentTree $parent)
 	{
 		$path = str_replace('"', '&quot;', $match['path']);
 		if (isset($path[0]) && $path[0] === '<')
@@ -70,7 +71,7 @@ class Image extends Pattern
 			$path = substr($path, 1, -1);
 		}
 
-		$img = $domDoc->createElement('img');
+		$img = $parent->createElement('img');
 		$img->setAttribute('alt', $match['alt']);
 		if (isset($match['title']))
 		{
@@ -84,7 +85,7 @@ class Image extends Pattern
 	/**
 	 * @todo replace circular handling
 	 */
-	private function replaceReference(array $match, \DOMDocument $domDoc)
+	private function replaceReference(array $match, ComponentTree $parent)
 	{
 		$linkDefinition = $this->linkDefinitions->get($match['id']);
 		if (!$linkDefinition)
@@ -95,7 +96,7 @@ class Image extends Pattern
 		}
 		$title = $linkDefinition->getTitle();
 			
-		$img = $domDoc->createElement('img');
+		$img = $parent->createElement('img');
 		$img->setAttribute('alt', $match['alt']);
 		if ($title)
 		{

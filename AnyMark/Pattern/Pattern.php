@@ -5,6 +5,8 @@
  */
 namespace AnyMark\Pattern;
 
+use AnyMark\ComponentTree\ComponentTree;
+
 /**
  * @package vidola
  * 
@@ -14,10 +16,7 @@ abstract class Pattern
 {
 	abstract public function getRegex();
 
-	abstract public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null);
-
-	protected function getOwnerDocument(\DOMNode $node)
-	{
-		return ($node->ownerDocument) ?: $node;
-	}
+	abstract public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	);
 }

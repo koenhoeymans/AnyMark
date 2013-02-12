@@ -27,16 +27,15 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 
 	public function createDomForLink($url, $text, $title = null)
 	{
-		$domDoc = new \DOMDocument();
-		$domEl = $domDoc->createElement('a', $text);
-		$domEl->setAttribute('href', $url);
-		$domDoc->appendChild($domEl);
+		$a = new \AnyMark\ComponentTree\Element('a');
+		$a->setAttribute('href', $url);
 		if ($title)
 		{
-			$domEl->setAttribute('title', $title);
+			$a->setAttribute('title', $title);
 		}
+		$a->append(new \AnyMark\ComponentTree\Text($text));
 
-		return $domEl;
+		return $a;
 	}
 
 	/**
@@ -45,8 +44,8 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	public function anUrlHasAnchoTextInSquareBracketsFollowedByTheLinkInParentheses()
 	{
 		$text = "Visit [my site](http://example.com) for info.";
-		$dom = $this->createDomForLink('http://example.com', 'my site');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('http://example.com', 'my site');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 
 	/**
@@ -55,8 +54,8 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	public function aLinkTitleCanBeSpecifiedAfterTheUrlInDoubleQuotes()
 	{
 		$text = "Visit [my site](http://example.com \"title\") for info.";
-		$dom = $this->createDomForLink('http://example.com', 'my site', 'title');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('http://example.com', 'my site', 'title');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 
 	/**
@@ -65,8 +64,8 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	public function aLinkTitleCanBeSpecifiedAfterTheUrlBetweenSingleQuotes()
 	{
 		$text = "Visit [my site](http://example.com 'title') for info.";
-		$dom = $this->createDomForLink('http://example.com', 'my site', 'title');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('http://example.com', 'my site', 'title');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 
 
@@ -82,8 +81,8 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 				new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com')));
 		$text = "Visit [my site][1] for info.\n\n"
 			. "paragraph\n\n";
-		$dom = $this->createDomForLink('http://example.com', 'my site');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('http://example.com', 'my site');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 
 	/**
@@ -98,8 +97,8 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 				new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com', 'title')));
 		$text = "Visit [my site][1] for info.\n\n"
 			. "paragraph\n\n";
-		$dom = $this->createDomForLink('http://example.com', 'my site', 'title');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('http://example.com', 'my site', 'title');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 
 	/**
@@ -114,8 +113,8 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 				new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com')));
 		$text = "Visit [my site] [1] for info.\n\n"
 			. "paragraph\n\n";
-		$dom = $this->createDomForLink('http://example.com', 'my site');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('http://example.com', 'my site');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 
 	/**
@@ -130,8 +129,8 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 		new \AnyMark\Pattern\Patterns\LinkDefinition('my site', 'http://example.com')));
 		$text = "Visit [my site] [] for info.\n\n"
 			. "paragraph\n\n";
-		$dom = $this->createDomForLink('http://example.com', 'my site');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('http://example.com', 'my site');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 
 	/**
@@ -146,8 +145,8 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 		new \AnyMark\Pattern\Patterns\LinkDefinition('my site', 'http://example.com')));
 		$text = "Visit [my site] for info.\n\n"
 			. "paragraph\n\n";
-		$dom = $this->createDomForLink('http://example.com', 'my site');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('http://example.com', 'my site');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 
 	/**
@@ -156,8 +155,8 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	public function anchorTextCanContainATextLink()
 	{
 		$text = "Visit [site http://x.com](http://y.com \"title\") for info.";
-		$dom = $this->createDomForLink('http://y.com', 'site http://x.com', 'title');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('http://y.com', 'site http://x.com', 'title');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 
 	/**
@@ -166,8 +165,8 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	public function squareBracketsInLinksAreOk()
 	{
 		$text = "Visit [my website](http://example.com?x=[y]&amp;foo=[bar]) for info.";
-		$dom = $this->createDomForLink('http://example.com?x=[y]&amp;foo=[bar]', 'my website');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('http://example.com?x=[y]&amp;foo=[bar]', 'my website');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 
 	/**
@@ -180,8 +179,8 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 			->method('createRelativeLink')->with('x')
 			->will($this->returnValue('x.html'));
 		$text = "See page [x](x) for info.";
-		$dom = $this->createDomForLink('x.html', 'x');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('x.html', 'x');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 
 	/**
@@ -194,8 +193,8 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 			->method('createRelativeLink')->with('x/6/f4#f')
 			->will($this->returnValue('x.html'));
 		$text = "See page [x/6/f4#f](x/6/f4#f) for info.";
-		$dom = $this->createDomForLink('x.html', 'x/6/f4#f');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('x.html', 'x/6/f4#f');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 
 	/**
@@ -208,7 +207,7 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 			->method('createRelativeLink')->with('link')
 			->will($this->returnValue('link.html'));
 		$text = "See page [link]\n(link) for info.";
-		$dom = $this->createDomForLink('link.html', 'link');
-		$this->assertCreatesDomFromText($dom, $text);
+		$expected = $this->createDomForLink('link.html', 'link');
+		$this->assertEquals($expected, $this->applyPattern($text));
 	}
 }

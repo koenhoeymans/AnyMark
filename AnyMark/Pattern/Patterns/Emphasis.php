@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -32,11 +33,11 @@ class Emphasis extends Pattern
 			@x';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-		$em = $ownerDocument->createElement('em');
-		$em->appendChild($ownerDocument->createTextNode($match['text']));
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
+		$em = $parent->createElement('em');
+		$em->append($parent->createText($match['text']));
 
 		return $em;
 	}

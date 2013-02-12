@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -49,8 +50,9 @@ class ManualHtml extends Pattern
 			@xs';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		# some checks to see if it should be a paragraph
 		$para = false;
 
@@ -107,14 +109,13 @@ class ManualHtml extends Pattern
 			return false;
 		}
 
-		$ownerDocument = $this->getOwnerDocument($parentNode);
 		if (isset($match['tag']) || isset($match['selfclosing']))
 		{
-			$element = $ownerDocument->createElement($match['tag']);
+			$element = $parent->createElement($match['tag']);
 			if ($match['content'] !== '')
 			{
-				$element->appendChild(
-					$ownerDocument->createTextNode($match['content'])
+				$element->append(
+					$parent->createText($match['content'])
 				);
 			}
 			$attributes = $this->getAttributes($match['attributes']);
@@ -127,7 +128,7 @@ class ManualHtml extends Pattern
 		}
 		else # a comment
 		{
-			$element = $ownerDocument->createComment($match['comment']);
+			$element = $parent->createComment($match['comment']);
 		}
 
 		return $element;

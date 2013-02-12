@@ -22,11 +22,14 @@ class AnyMark_Pattern_Patterns_AutoLinkTest extends \AnyMark\UnitTests\Support\P
 	 */
 	public function anEmailAddressIsLinkedWhenPlacedBetweenALesserThanAndGreaterThanSign()
 	{
-		$text = "Mail to <me@xmpl.com>.";
-		$domDoc = new \DOMDocument();
-		$domEl = $domDoc->appendChild(new \DOMElement('a', 'me@xmpl.com'));
-		$domEl->setAttribute('href', 'mailto:me@xmpl.com');
-		$this->assertCreatesDomFromText($domEl, $text);
+		$a = new \AnyMark\ComponentTree\Element('a');
+		$a->setAttribute('href', "mailto:me@xmpl.com");
+		$a->append(new \AnyMark\ComponentTree\Text("me@xmpl.com"));
+
+		$this->assertEquals(
+			$a,
+			$this->applyPattern("Mail to <me@xmpl.com>.")
+		);
 	}
 
 	/**
@@ -35,7 +38,8 @@ class AnyMark_Pattern_Patterns_AutoLinkTest extends \AnyMark\UnitTests\Support\P
 	public function withoutAngledBracketsNoMailLinkIsCreated()
 	{
 		$text = "Mail to me@example.com, it's an email address link.";
-		$this->assertDoesNotCreateDomFromText($text);
+		preg_match($this->getPattern()->getRegex(), $text, $match);
+		$this->assertTrue(empty($match));
 	}
 
 	/**
@@ -43,22 +47,13 @@ class AnyMark_Pattern_Patterns_AutoLinkTest extends \AnyMark\UnitTests\Support\P
 	 */
 	public function anUrlBetweenLesserThanAndreaterThanSignIsAutolinked()
 	{
-		$text = "Visit <http://example.com>.";
-		$domDoc = new \DOMDocument();
-		$domEl = $domDoc->appendChild(new \DOMElement('a', 'http://example.com'));
-		$domEl->setAttribute('href', 'http://example.com');
-		$this->assertCreatesDomFromText($domEl, $text);
-	}
+		$a = new \AnyMark\ComponentTree\Element('a');
+		$a->setAttribute('href', "http://example.com");
+		$a->append(new \AnyMark\ComponentTree\Text("http://example.com"));
 
-	/**
-	 * @test
-	 */
-	public function handlesInternationalDomainNames()
-	{
-		$text = "Visit <http://example.com>.";
-		$domDoc = new \DOMDocument();
-		$domEl = $domDoc->appendChild(new \DOMElement('a', 'http://example.com'));
-		$domEl->setAttribute('href', 'http://example.com');
-		$this->assertCreatesDomFromText($domEl, $text);
+		$this->assertEquals(
+			$a,
+			$this->applyPattern("Visit <http://example.com>.")
+		);
 	}
 }

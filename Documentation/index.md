@@ -24,7 +24,7 @@ The `composer.json` should contain at least the following:
 
 	{
 		"require": {
-			"anymark/anymark": "0.1.*"
+			"anymark/anymark": "0.2.*"
 		}
 	}
 
@@ -47,18 +47,19 @@ these dependencies. Next create an instance of AnyMark:
 
 Parsing a Markdown document is simple:
 
-	$domDocument = $anyMark->parse('== AnyMark ==');
+	$componentTree = $anyMark->parse('== AnyMark ==');
 
-It will return a `\DomDocument` with `<doc>` as document element. If you want
+It will return a `\AnyMark\ElementTree\ComponentTree`. If you want
 to save this to XML as a string call
 
-	$xmlString = $anyMark->saveXml($domDocument);
+	$result = $componentTree->saveXmlStyle();
 
-It will remove the `<doc>` element. Note that you could call
-`\DomDocument::saveXml()` but this could lead to unwanted results.
-The reason is that loading the text into the Dom translated encoded characters
-like `&` (this becoming `&amp;`) and this is done also while
-calling `\DomDocument::saveXml()`, being one time too many.
+It is called XmlStyle because it is not strictly XML. Eg there is not
+necessarily a single root element (eg. a document can contain only
+a set of paragraphs).
+
+The ComponentTree is a tree of components. These can be an `Element`, `Comment`,
+`Text` or a `ComponentTree` itself.
 
 ### Custom Patterns ###
 

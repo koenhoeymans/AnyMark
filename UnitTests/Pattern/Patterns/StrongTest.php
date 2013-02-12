@@ -17,14 +17,23 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 		return $this->pattern;
 	}
 
+	public function createStrong($text)
+	{
+		$strong = new \AnyMark\ComponentTree\Element('strong');
+		$strong->append(new \AnyMark\ComponentTree\Text($text));
+
+		return $strong;
+	}
+
 	/**
 	 * @test
 	 */
 	public function strongTextIsPlacedBetweenDoubleAsterisks()
 	{
 		$text = "This is a sentence with **strong** text.";
-		$dom = new \DOMElement('strong', 'strong');
-		$this->assertCreatesDomFromText($dom, $text);
+		$strong = $this->createStrong('strong');
+
+		$this->assertEquals($strong, $this->applyPattern($text));
 	}
 
 	/**
@@ -33,8 +42,9 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	public function strongTextCanSpanMultipleWords()
 	{
 		$text = "This is a sentence with **strong text**.";
-		$dom = new \DOMElement('strong', 'strong text');
-		$this->assertCreatesDomFromText($dom, $text);
+		$strong = $this->createStrong('strong text');
+
+		$this->assertEquals($strong, $this->applyPattern($text));
 	}
 
 	/**
@@ -43,8 +53,9 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	public function textCanContainMultipleStrongSections()
 	{
 		$text = "This is __a sentence__ with __strong text__.";
-		$dom = new \DOMElement('strong', 'a sentence');
-		$this->assertCreatesDomFromText($dom, $text);
+		$strong = $this->createStrong('a sentence');
+
+		$this->assertEquals($strong, $this->applyPattern($text));
 	}
 
 	/**
@@ -53,7 +64,7 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	public function aWordCannotContainStrongParts()
 	{
 		$text = "This is not a st**ro**ng word.";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -62,7 +73,7 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	public function firstDoubleAsterisksCannotHaveSpaceBehindIt()
 	{
 		$text = "This is not a sentence with ** strong** text.";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -71,7 +82,7 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	public function lastDoubleAsterisksCannotHaveSpaceBeforeIt()
 	{
 		$text = "This is not a sentence with **strong ** text.";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -80,7 +91,7 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	public function firstAsteriskMustBePrecededBySpace()
 	{
 		$text = "This is not a sentence with**strong** text.";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -89,8 +100,9 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	public function usesMostOutwardAsterisksOnConsequtive()
 	{
 		$text = "This is a sentence with ***strong text***.";
-		$dom = new \DOMElement('strong', '*strong text*');
-		$this->assertCreatesDomFromText($dom, $text);
+		$strong = $this->createStrong('*strong text*');
+
+		$this->assertEquals($strong, $this->applyPattern($text));
 	}
 
 	/**
@@ -99,7 +111,7 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	public function knowsWhenEmphasisShouldBeFirst()
 	{
 		$text = "a ***test** test*.";
-		$this->assertDoesNotCreateDomFromText($text);
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -108,8 +120,9 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	public function canContainMultiplication()
 	{
 		$text = "The **result of 5*6 is thirtyfive**.";
-		$dom = new \DOMElement('strong', 'result of 5*6 is thirtyfive');
-		$this->assertCreatesDomFromText($dom, $text);
+		$strong = $this->createStrong('result of 5*6 is thirtyfive');
+
+		$this->assertEquals($strong, $this->applyPattern($text));
 	}
 
 	/**
@@ -118,8 +131,9 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	public function incorrectNesting()
 	{
 		$text = "**test  *test** test*";
-		$dom = new \DOMElement('strong', 'test  *test');
-		$this->assertCreatesDomFromText($dom, $text);
+		$strong = $this->createStrong('test  *test');
+
+		$this->assertEquals($strong, $this->applyPattern($text));
 	}
 
 	/**
@@ -130,7 +144,8 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	public function canBeSingleListItemContentContainingFullyItalicizedText()
 	{
 		$text = "___test test___";
-		$dom = new \DOMElement('strong', '_test test_');
-		$this->assertCreatesDomFromText($dom, $text);
+		$strong = $this->createStrong('_test test_');
+
+		$this->assertEquals($strong, $this->applyPattern($text));
 	}
 }

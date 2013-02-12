@@ -17,6 +17,14 @@ class AnyMark_Pattern_Patterns_sectionTest extends \AnyMark\UnitTests\Support\Pa
 		return $this->pattern;
 	}
 
+	public function createSection($text)
+	{
+		$section = new \AnyMark\ComponentTree\Element('section');
+		$section->append(new \AnyMark\ComponentTree\Text($text));
+
+		return $section;
+	}
+
 	/**
 	 * @test
 	 */
@@ -29,9 +37,9 @@ section:
 	some text
 
 Another paragraph.";
+		$specialSection = $this->createSection('some text');
 
-		$dom = new \DOMElement('section', 'some text');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($specialSection, $this->applyPattern($text));
 	}
 
 	/**
@@ -47,9 +55,9 @@ section:
 		some text
 
 Another paragraph.";
-	
-		$dom = new \DOMElement('section', "\tsome text");
-		$this->assertCreatesDomFromText($dom, $text);
+		$specialSection = $this->createSection("\tsome text");
+
+		$this->assertEquals($specialSection, $this->applyPattern($text));
 	}
 
 	/**
@@ -65,9 +73,9 @@ section:
 	continued on another line
 
 Another paragraph.";
+		$specialSection = $this->createSection("some text\ncontinued on another line");
 
-		$dom = new \DOMElement('section', "some text\ncontinued on another line");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($specialSection, $this->applyPattern($text));
 	}
 
 	/**
@@ -83,9 +91,9 @@ section:
 continued on another line
 
 Another paragraph.";
+		$specialSection = $this->createSection("some text\ncontinued on another line");
 
-		$dom = new \DOMElement('section', "some text\ncontinued on another line");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($specialSection, $this->applyPattern($text));
 	}
 
 	/**
@@ -107,9 +115,9 @@ section:
 	section continued
 
 another paragraph";
+		$specialSection = $this->createSection("a section\n\nsection continued\n\nsection:\n\tdeeper nested section\n\nsection continued");
 
-		$dom = new \DOMElement('section', "a section\n\nsection continued\n\nsection:\n\tdeeper nested section\n\nsection continued");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($specialSection, $this->applyPattern($text));
 	}
 
 	/**
@@ -126,11 +134,10 @@ section:
 	a section
 
 another paragraph";
+		$specialSection = $this->createSection('a section');
+		$specialSection->setAttribute('class', 'class');
 
-		$domDoc = new \DOMDocument();
-		$domEl = $domDoc->appendChild($domDoc->createElement('section', 'a section'));
-		$domEl->setAttribute('class', 'class');
-		$this->assertCreatesDomFromText($domEl, $text);
+		$this->assertEquals($specialSection, $this->applyPattern($text));
 	}
 
 	/**
@@ -145,9 +152,10 @@ another paragraph";
 
 section:
 	a section";
-	
-		$dom = new \DOMElement('section', 'a section');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$specialSection = $this->createSection('a section');
+
+		$this->assertEquals($specialSection, $this->applyPattern($text));
 	}
 
 	/**
@@ -165,10 +173,9 @@ section:
 	a section
 
 another paragraph";
-		
-		$domDoc = new \DOMDocument();
-		$domEl = $domDoc->appendChild($domDoc->createElement('section', "a section\n\n"));
-		$domEl->setAttribute('class', 'class');
-		$this->assertCreatesDomFromText($domEl, $text);
+		$specialSection = $this->createSection("a section\n\n");
+		$specialSection->setAttribute('class', 'class');
+
+		$this->assertEquals($specialSection, $this->applyPattern($text));
 	}
 } 

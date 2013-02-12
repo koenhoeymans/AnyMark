@@ -17,14 +17,23 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 		return $this->pattern;
 	}
 
+	public function createEm($text)
+	{
+		$em = new \AnyMark\ComponentTree\Element('em');
+		$text = new \AnyMark\ComponentTree\Text($text);
+		$em->append($text);
+
+		return $em;
+	}
+
 	/**
 	 * @test
 	 */
 	public function emphasizedTextIsPlacedBetweenSingleAsterisks()
 	{
 		$text = "This is a sentence with *emphasized* text.";
-		$dom = new \DOMElement('em', 'emphasized');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createEm('emphasized'), $this->applyPattern($text));
 	}
 
 	/**
@@ -33,8 +42,8 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function emphasizedTextCanSpanMultipleWords()
 	{
 		$text = "This is a sentence with *emphasized text*.";
-		$dom = new \DOMElement('em', 'emphasized text');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createEm('emphasized text'), $this->applyPattern($text));
 	}
 
 	/**
@@ -43,8 +52,8 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function textCanContainMultipleEmphasizedSections()
 	{
 		$text = "This is *a sentence* with *emphasized text*.";
-		$dom = new \DOMElement('em', 'a sentence');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createEm('a sentence'), $this->applyPattern($text));
 	}
 
 	/**
@@ -53,7 +62,8 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function aWordCannotContainEmphasizedParts()
 	{
 		$text = "This is not a b*ol*d word.";
-		$this->assertDoesNotCreateDomFromText($text);
+
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -62,8 +72,8 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function multiplicationsDoNotInfluenceEmphasizedText()
 	{
 		$text = "The result of 5*6, or 6 * 5 is 35, or *thirtyfive* in letters.";
-		$dom = new \DOMElement('em', 'thirtyfive');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createEm('thirtyfive'), $this->applyPattern($text));
 	}
 
 	/**
@@ -72,8 +82,8 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function canContainMultiplication()
 	{
 		$text = "The *result of 5*6 is thirtyfive*.";
-		$dom = new \DOMElement('em', 'result of 5*6 is thirtyfive');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createEm('result of 5*6 is thirtyfive'), $this->applyPattern($text));
 	}
 
 	/**
@@ -82,7 +92,8 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function firstAsteriskCannotHaveSpaceBehindIt()
 	{
 		$text = "This is not a sentence with * emphasized* text.";
-		$this->assertDoesNotCreateDomFromText($text);
+
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -91,7 +102,8 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function lastAsteriskCannotHaveSpaceBeforeIt()
 	{
 		$text = "This is not a sentence with *emphasized * text.";
-		$this->assertDoesNotCreateDomFromText($text);
+
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -100,7 +112,8 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function firstAsteriskMustBePrecededBySpace()
 	{
 		$text = "This is not a sentence with*emphasized* text.";
-		$this->assertDoesNotCreateDomFromText($text);
+
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -109,8 +122,8 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function canBeStartOfText()
 	{
 		$text = "*emphasized* text.";
-		$dom = new \DOMElement('em', 'emphasized');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createEm('emphasized'), $this->applyPattern($text));
 	}
 
 	/**
@@ -119,8 +132,8 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function canContainStrongText()
 	{
 		$text = "*emphasized with **strong*** text.";
-		$dom = new \DOMElement('em', 'emphasized with **strong**');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createEm('emphasized with **strong**'), $this->applyPattern($text));
 	}
 
 	/**
@@ -129,8 +142,8 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function canContainStrongText2()
 	{
 		$text = "***emphasized** with strong* text.";
-		$dom = new \DOMElement('em', '**emphasized** with strong');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createEm('**emphasized** with strong'), $this->applyPattern($text));
 	}
 
 	/**
@@ -139,7 +152,7 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function canContainStrongText3()
 	{
 		$text = "*also **emphasized** with strong* text.";
-		$dom = new \DOMElement('em', 'also **emphasized** with strong');
-		$this->assertCreatesDomFromText($dom, $text);
+
+		$this->assertEquals($this->createEm('also **emphasized** with strong'), $this->applyPattern($text));
 	}
 }

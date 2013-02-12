@@ -6,6 +6,8 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
+use AnyMark\ComponentTree\Element;
 
 /**
  * @package AnyMark
@@ -28,17 +30,18 @@ class CodeWithTildes extends Code
 		@x';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		$code = preg_replace("#\n$match[3](\s*.+)#", "\n\${1}", $match[4]);
-		$code = $this->createCodeReplacement($code, true, $parentNode);
+		$code = $this->createCodeReplacement($code, true, $parent);
 
 		$this->addAttributes($code, $match['attr']);
 
 		return $code;
 	}
 
-	private function addAttributes(\DomElement $code, $attrMatch)
+	private function addAttributes(Element $code, $attrMatch)
 	{
 		$attributes = $this->getAttributes($attrMatch);
 

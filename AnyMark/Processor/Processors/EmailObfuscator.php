@@ -5,59 +5,43 @@
  */
 namespace AnyMark\Processor\Processors;
 
-use AnyMark\Processor\DomProcessor;
+use AnyMark\Processor\ComponentTreeProcessor;
+use AnyMark\ComponentTree\Element;
+use AnyMark\ComponentTree\ComponentTree;
+use AnyMark\ComponentTree\Component;
 
 /**
  * @package AnyMark
  */
-class EmailObfuscator implements DomProcessor
+class EmailObfuscator implements ComponentTreeProcessor
 {
-	public function process(\DOMDocument $domDocument)
+	public function process(ComponentTree $componentTree)
 	{
-		$xpath = new \DOMXPath($domDocument);
-		
-		$nodes = $xpath->query('//*');
-		foreach ($nodes as $node)
+		$callback = function(Component $component)
 		{
-			foreach ($node->attributes as $attr)
+			if (!($component instanceof \AnyMark\ComponentTree\Element))
 			{
-				if ($attr->ownerElement->nodeName !== 'a')
-				{
-					continue;
-				}
-		
-				if(substr($attr->value, 0, 7) !== 'mailto:')
-				{
-					continue;
-				}
-
-				$email = $attr->value;
-				$anchorText = $attr->ownerElement->nodeValue;
-
-				$attr->value = '';
-				$attr->ownerElement->nodeValue = '';
-
-				# first the link itself
-				$emailChars = $this->encode($email);
-				$encodedEmail = implode('', $emailChars);
-				$attr->appendChild($attr->ownerDocument->createTextNode($encodedEmail));
-
-				# next the anchor text of the a element
-				if ($email ===  'mailto:' . $anchorText)
-				{
-					$anchorTextChars = array_slice($emailChars, 7);
-				}
-				else
-				{
-					$anchorTextChars = $this->encode($anchorText);
-				}
-				$anchorText = implode('', $anchorTextChars);
-				$attr->ownerElement->appendChild(
-					$attr->ownerDocument->createTextNode($anchorText)
-				);
+				return;
 			}
-		}
+			if ($component->getName() !== 'a')
+			{
+				return;
+			}
+			$mailto = $component->getAttributeValue('href');
+			if (!$mailto || substr($mailto, 0, 7) !== 'mailto:')
+			{
+				return;
+			}
+			$mailto = implode('', $this->encode('mailto:' . $mailto));
+			$component->setAttribute('href', $mailto);
+			$child = $component->getChildren()[0];
+			$anchor = implode('', $this->encode($child->getValue()));
+			$text = $component->createText($anchor);
+			$component->remove($child);
+			$component->append($text);
+		};
 
+		$componentTree->query($callback);
 	}
 
 	private function encode($text)

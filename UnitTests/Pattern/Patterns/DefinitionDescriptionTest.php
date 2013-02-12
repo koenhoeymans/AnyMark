@@ -17,6 +17,15 @@ class AnyMark_Pattern_Patterns_DefinitionDescriptionTest extends \AnyMark\UnitTe
 		return $this->dd;
 	}
 
+	public function createDd($text)
+	{
+		$dd = new \AnyMark\ComponentTree\Element('dd');
+		$text = new \AnyMark\ComponentTree\Text($text);
+		$dd->append($text);
+
+		return $dd;
+	}
+
 	/**
 	 * @test
 	 */
@@ -27,8 +36,7 @@ class AnyMark_Pattern_Patterns_DefinitionDescriptionTest extends \AnyMark\UnitTe
 : explanation
 ';
 
-		$dom = new \DOMElement('dd', 'explanation');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createDd('explanation'), $this->applyPattern($text));
 	}
 
 	/**
@@ -42,8 +50,10 @@ class AnyMark_Pattern_Patterns_DefinitionDescriptionTest extends \AnyMark\UnitTe
 multiple lines
 ';
 
-		$dom = new \DOMElement('dd', "explanation on\nmultiple lines");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals(
+			$this->createDd("explanation on\nmultiple lines"),
+			$this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -57,8 +67,10 @@ multiple lines
   multiple lines
 ';
 
-		$dom = new \DOMElement('dd', "explanation on\nmultiple lines");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals(
+			$this->createDd("explanation on\nmultiple lines"),
+			$this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -71,8 +83,7 @@ multiple lines
    : explanation
 ';
 
-		$dom = new \DOMElement('dd', 'explanation');
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals($this->createDd('explanation'), $this->applyPattern($text));
 	}
 
 	/**
@@ -86,8 +97,10 @@ multiple lines
  	multiple lines
 ';
 
-		$dom = new \DOMElement('dd', "explanation on\nmultiple lines");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals(
+			$this->createDd("explanation on\nmultiple lines"),
+			$this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -101,8 +114,10 @@ multiple lines
      multiple lines
 ';
 
-		$dom = new \DOMElement('dd', "explanation on\nmultiple lines");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals(
+			$this->createDd("explanation on\nmultiple lines"),
+			$this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -117,8 +132,10 @@ more than one line
 : second explanation
 : third explanation
 ';
-		$dom = new \DOMElement('dd', "explanation on\nmore than one line");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals(
+			$this->createDd("explanation on\nmore than one line"),
+			$this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -132,8 +149,10 @@ term b
 :   explanation on
     more than one line
 ';
-		$dom = new \DOMElement('dd', "explanation on\nmore than one line");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals(
+			$this->createDd("explanation on\nmore than one line"),
+			$this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -149,8 +168,10 @@ term b
 	explanation continues with new paragraph
 ';
 
-		$dom = new \DOMElement('dd', "explanation on\nmore than one line\n\nexplanation continues with new paragraph");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals(
+			$this->createDd("explanation on\nmore than one line\n\nexplanation continues with new paragraph"),
+			$this->applyPattern($text)
+		);
 	}
 
 	/**
@@ -168,7 +189,9 @@ term b
 :	second explanation
 ';
 
-		$dom = new \DOMElement('dd', "explanation on\nmore than one line\n\nexplanation continues with new paragraph");
-		$this->assertCreatesDomFromText($dom, $text);
+		$this->assertEquals(
+				$this->createDd("explanation on\nmore than one line\n\nexplanation continues with new paragraph"),
+				$this->applyPattern($text)
+		);
 	}
 }

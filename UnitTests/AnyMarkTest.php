@@ -5,7 +5,7 @@ require_once dirname(__FILE__)
 
 use \AnyMark\UnitTests\Support;
 
-class AnyMark_PAnyMarkTest extends PHPUnit_Framework_TestCase
+class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
 {
 	public function setup()
 	{
@@ -32,34 +32,21 @@ class AnyMark_PAnyMarkTest extends PHPUnit_Framework_TestCase
 	 */
 	public function afterProcessingPostDomProcessorsAreCalled()
 	{
-		$preProcessor = $this->getMock('\\AnyMark\\Processor\\DomProcessor');
+		$preProcessor = $this->getMock('\\AnyMark\\Processor\\ComponentTreeProcessor');
 		$preProcessor
 			->expects($this->atLeastOnce())
 			->method('process');
 	
-		$this->anyMark->addPostDomProcessor($preProcessor);
+		$this->anyMark->addPostComponentTreeProcessor($preProcessor);
 		$this->anyMark->parse('text');
 	}
 
 	/**
 	 * @test
 	 */
-	public function returnsParsingResultAsDomDocument()
+	public function returnsParsingResultAsElementTree()
 	{
-		$this->assertTrue($this->anyMark->parse('text') instanceof \DomDocument);
-	}
-
-	/**
-	 * @test
-	 */
-	public function savesDomResultToStringInXmlFormatWithoutDocumentElement()
-	{
-		$domDoc = new \DOMDocument();
-		$domDoc->loadXML('<doc><p>text</p><a>b</a></doc>');
-
-		$this->assertEquals(
-			'<p>text</p><a>b</a>', $this->anyMark->saveXml($domDoc)
-		);
+		$this->assertTrue($this->anyMark->parse('text') instanceof \AnyMark\ComponentTree\ComponentTree);
 	}
 
 	/**

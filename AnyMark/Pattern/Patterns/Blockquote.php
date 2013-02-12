@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -27,11 +28,12 @@ class Blockquote extends Pattern
 			@x';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		$text = preg_replace("#(^|\n)> ?#", "\${1}", $match['quote']);
-		$blockquote = $ownerDocument->createElement('blockquote', $text . "\n\n");
+		$blockquote = $parent->createElement('blockquote');
+		$blockquote->append($parent->createText($text . "\n\n"));
 
 		return $blockquote;
 	}

@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -36,11 +37,11 @@ class Italic extends Pattern
 			@xU";
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-		$i = $ownerDocument->createElement('i');
-		$i->appendChild($ownerDocument->createTextNode($match[1]));
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
+		$i = $parent->createElement('i');
+		$i->append($parent->createText($match[1]));
 
 		return $i;
 	}

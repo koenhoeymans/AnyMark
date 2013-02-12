@@ -30,8 +30,10 @@ class AnyMark_Pattern_Patterns_BlockquoteTest extends \AnyMark\UnitTests\Support
 
 paragraph";
 
-		$dom = new \DOMElement('blockquote', "quote\ncontinued\n\n");
-		$this->assertCreatesDomFromText($dom, $text);
+		$bq = new \AnyMark\ComponentTree\Element('blockquote');
+		$bq->append(new \AnyMark\ComponentTree\Text("quote\ncontinued\n\n"));
+
+		$this->assertEquals($bq, $this->applyPattern($text));
 	}
 
 	/**
@@ -47,8 +49,11 @@ continued
 
 paragraph";
 
-		$dom = new \DOMElement('blockquote', "quote\ncontinued\n\n");
-		$this->assertCreatesDomFromText($dom, $text);		
+		$bq = new \AnyMark\ComponentTree\Element('blockquote');
+		$bq->append(new \AnyMark\ComponentTree\Text("quote\ncontinued\n\n"));
+
+		$this->assertEquals($bq, $this->applyPattern($text));
+		
 	}
 
 	/**
@@ -67,7 +72,9 @@ paragraph";
 
 paragraph";
 
-		$dom = new \DOMElement('blockquote', "quote\n\n&gt; subquote\n\nquote continued\n\n");
-		$this->assertCreatesDomFromText($dom, $text);		
+		$bq = new \AnyMark\ComponentTree\Element('blockquote');
+		$bq->append(new \AnyMark\ComponentTree\Text("quote\n\n> subquote\n\nquote continued\n\n"));
+
+		$this->assertEquals($bq, $this->applyPattern($text));
 	}
 }

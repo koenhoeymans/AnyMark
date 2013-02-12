@@ -15,11 +15,11 @@ class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\
 			->thenUse('AnyMark\\Util\\ExtensionlessUrlBuilder');
 		$anyMark = $fjor->get('AnyMark\\AnyMark');
 
-		$parsedText = $anyMark->saveXml($anyMark->parse(file_get_contents(
+		$parsedText = $anyMark->parse(file_get_contents(
 			__DIR__
 			. DIRECTORY_SEPARATOR . 'Markdown.mdtest'
 			. DIRECTORY_SEPARATOR . $name . '.text'
-		)));
+		))->saveXmlStyle();
 
 		$this->assertEquals(
 			$this->tidy(file_get_contents(

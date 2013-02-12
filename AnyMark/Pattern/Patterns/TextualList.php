@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -48,8 +49,9 @@ class TextualList extends Pattern
 			@x';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		$listType = (isset($match['ol']) && ($match['ol'] !== '')) ? 'ol' : 'ul';
 
 		# unindent
@@ -57,9 +59,8 @@ class TextualList extends Pattern
 			"@(\n|^)" . $match['indentation'] . "@", "\${1}", $match['list']
 		);
 
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-		$list = $ownerDocument->createElement($listType);
-		$list->appendChild($ownerDocument->createTextNode($items));
+		$list = $parent->createElement($listType);
+		$list->append($parent->createText($items));
 
 		return $list;
 	}

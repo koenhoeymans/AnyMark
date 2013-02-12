@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use AnyMark\Document\Element;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -36,13 +36,13 @@ class Paragraph extends Pattern
 			@x';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		$text = preg_replace("@(^|\n)[ ]*@", "\${1}", $match['text']);
 
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-		$p = $ownerDocument->createElement('p');
-		$p->appendChild($ownerDocument->createTextNode($text));
+		$p = $parent->createElement('p');
+		$p->append($parent->createText($text));
 
 		return $p;
 	}

@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -49,8 +50,9 @@ class SpecialSection extends Pattern
 			@ix';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		$text = preg_replace("@(^|\n)" . $match['indentation'] . "@", "\${1}", $match['text']);
 
 		if ($match['blank_line_before'] != '')
@@ -58,15 +60,14 @@ class SpecialSection extends Pattern
 			$text = $text . "\n\n";
 		}
 
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-		$node = $ownerDocument->createElement($this->elementName);
-		$node->appendChild($ownerDocument->createTextNode($text));
+		$el = $parent->createElement($this->elementName);
+		$el->append($parent->createText($text));
 
 		if ($this->className)
 		{
-			$node->setAttribute('class', $this->className);
+			$el->setAttribute('class', $this->className);
 		}
 
-		return $node;
+		return $el;
 	}
 }

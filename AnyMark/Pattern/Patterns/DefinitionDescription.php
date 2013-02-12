@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package
@@ -72,10 +73,9 @@ class DefinitionDescription extends Pattern
 			@x';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		# unindent
 		$contents = preg_replace(
 			"@\n"
@@ -86,8 +86,8 @@ class DefinitionDescription extends Pattern
 			$match['description']
 		);
 
-		$dd = $ownerDocument->createElement('dd');
-		$dd->appendChild($ownerDocument->createTextNode($contents));
+		$dd = $parent->createElement('dd');
+		$dd->append($parent->createText($contents));
 
 		return $dd;
 	}

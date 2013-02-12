@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -17,8 +18,9 @@ class NewLine extends Pattern
 		return "@[ ][ ](?=\n)@";
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		return $this->getOwnerDocument($parentNode)->createElement('br');
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
+		return $parent->createElement('br');
 	}
 }

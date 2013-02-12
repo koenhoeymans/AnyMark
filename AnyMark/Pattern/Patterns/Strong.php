@@ -6,6 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
 
 /**
  * @package AnyMark
@@ -43,11 +44,11 @@ class Strong extends Pattern
 			@xU';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
-		$strong = $ownerDocument->createElement('strong');
-		$strong->appendChild($ownerDocument->createTextNode($match['content']));
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
+		$strong = $parent->createElement('strong');
+		$strong->append($parent->createText($match['content']));
 
 		return $strong;
 	}

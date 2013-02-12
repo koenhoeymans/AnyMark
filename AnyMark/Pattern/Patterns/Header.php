@@ -6,6 +6,8 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
+use AnyMark\ComponentTree\ComponentTree;
+use AnyMark\ComponentTree\Element;
 
 /**
  * @package AnyMark
@@ -50,20 +52,20 @@ class Header extends Pattern
 		@x';
 	}
 
-	public function handleMatch(array $match, \DOMNode $parentNode, Pattern $parentPattern = null)
-	{
-		$ownerDocument = $this->getOwnerDocument($parentNode);
+	public function handleMatch(
+		array $match, ComponentTree $parent, Pattern $parentPattern = null
+	) {
 		if (isset($match['atx']))
 		{
-			return $this->createAtxHeaders($match, $ownerDocument);
+			return $this->createAtxHeaders($match, $parent);
 		}
 		else
 		{
-			return $this->createSetextHeaders($match, $ownerDocument);
+			return $this->createSetextHeaders($match, $parent);
 		}
 	}
 
-	private function createSetextHeaders(array $match, \DOMDocument $domDoc)
+	private function createSetextHeaders(array $match, ComponentTree $parent)
 	{
 		foreach ($this->headerList as $level => $header)
 		{
@@ -80,26 +82,26 @@ class Header extends Pattern
 			}
 		}
 
-		$h = $domDoc->createElement('h' . $level);
-		$h->appendChild($domDoc->createTextNode($match['text']));
+		$h = $parent->createElement('h' . $level);
+		$h->append($parent->createText($match['text']));
 		$this->addId($h, $match['text']);
 
 		return $h;
 	}
 
-	private function createAtxHeaders(array $match, \DOMDocument $domDoc)
+	private function createAtxHeaders(array $match, ComponentTree $parent)
 	{	
 		$level = strlen($match['level']);
 		$level = ($level > 5) ? 6 : $level;
 
-		$h = $domDoc->createElement('h' . $level);
-		$h->appendChild($domDoc->createTextNode($match['text']));
+		$h = $parent->createElement('h' . $level);
+		$h->append($parent->createText($match['text']));
 		$this->addId($h, $match['text']);
 
 		return $h;
 	}
 
-	private function addId(\DOMElement $element, $text)
+	private function addId(Element $element, $text)
 	{
 		$id = $this->appendUnique($this->createId($text));
 		$element->setAttribute('id', $id);

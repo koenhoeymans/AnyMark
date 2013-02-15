@@ -19,8 +19,8 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 
 	public function createEm($text)
 	{
-		$em = new \AnyMark\ComponentTree\Element('em');
-		$text = new \AnyMark\ComponentTree\Text($text);
+		$em = new \AnyMark\ElementTree\Element('em');
+		$text = new \AnyMark\ElementTree\Text($text);
 		$em->append($text);
 
 		return $em;

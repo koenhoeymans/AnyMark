@@ -3,7 +3,7 @@
 namespace AnyMark\UnitTests\Support;
 
 use \AnyMark\Pattern\Pattern;
-use \AnyMark\ComponentTree\ComponentTree;
+use \AnyMark\ElementTree\ElementTree;
 
 class MockPatternCreatingMultiNodes extends \AnyMark\Pattern\Pattern
 {
@@ -27,7 +27,7 @@ class MockPatternCreatingMultiNodes extends \AnyMark\Pattern\Pattern
 	}
 
 	public function handleMatch(
-		array $match, ComponentTree $parent, Pattern $parentPattern = null
+		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
 		$el = $parent->createElement($this->elementName);
 		foreach ($this->subElements as $subElement)

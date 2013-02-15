@@ -36,7 +36,7 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 		$mockPattern
 			->expects($this->atLeastOnce())
 			->method('handleMatch')
-			->will($this->returnValue(new \AnyMark\ComponentTree\Element('a')));
+			->will($this->returnValue(new \AnyMark\ElementTree\Element('a')));
 		$this->patternList
 			->expects($this->atLeastOnce())
 			->method('getPatterns')

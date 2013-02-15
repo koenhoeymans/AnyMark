@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use AnyMark\ComponentTree\ComponentTree;
+use AnyMark\ElementTree\ElementTree;
 
 /**
  * @package AnyMark
@@ -38,7 +38,7 @@ class Italic extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, ComponentTree $parent, Pattern $parentPattern = null
+		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
 		$i = $parent->createElement('i');
 		$i->append($parent->createText($match[1]));

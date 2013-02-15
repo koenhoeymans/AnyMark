@@ -19,8 +19,8 @@ class AnyMark_Pattern_Patterns_ManualHtmlTest extends \AnyMark\UnitTests\Support
 
 	public function create($tag, $content)
 	{
-		$element = new \AnyMark\ComponentTree\Element($tag);
-		$text = new \AnyMark\ComponentTree\Text($content);
+		$element = new \AnyMark\ElementTree\Element($tag);
+		$text = new \AnyMark\ElementTree\Text($content);
 		$element->append($text);
 
 		return $element;
@@ -48,7 +48,7 @@ class AnyMark_Pattern_Patterns_ManualHtmlTest extends \AnyMark\UnitTests\Support
 <!-- comment -->
 
 paragraph";
-		$el = new \AnyMark\ComponentTree\Comment(' comment ');
+		$el = new \AnyMark\ElementTree\Comment(' comment ');
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -97,7 +97,7 @@ foo
 	public function replacesSelfClosingElements()
 	{
 		$text = "<hr />";
-		$el = new \AnyMark\ComponentTree\Element('hr');
+		$el = new \AnyMark\ElementTree\Element('hr');
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}

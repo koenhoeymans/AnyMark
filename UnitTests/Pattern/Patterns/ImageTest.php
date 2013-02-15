@@ -22,7 +22,7 @@ class AnyMark_Pattern_Patterns_ImageTest extends \AnyMark\UnitTests\Support\Patt
 
 	public function createImgDom($alt, $title = null, $url)
 	{
-		$img = new \AnyMark\ComponentTree\Element('img');
+		$img = new \AnyMark\ElementTree\Element('img');
 		$img->setAttribute('alt', $alt);
 		if ($title)
 		{

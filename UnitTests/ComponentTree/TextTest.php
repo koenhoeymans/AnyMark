@@ -4,7 +4,7 @@ require_once dirname(__FILE__)
 	. DIRECTORY_SEPARATOR . '..'
 	. DIRECTORY_SEPARATOR . 'TestHelper.php';
 
-class AnyMark_ComponentTree_TextTest extends PHPUnit_Framework_TestCase
+class AnyMark_ElementTree_TextTest extends PHPUnit_Framework_TestCase
 {
 	public function setup()
 	{
@@ -16,7 +16,7 @@ class AnyMark_ComponentTree_TextTest extends PHPUnit_Framework_TestCase
 	 */
 	public function hasValue()
 	{
-		$text = new \AnyMark\ComponentTree\Text('foo');
+		$text = new \AnyMark\ElementTree\Text('foo');
 
 		$this->assertEquals('foo', $text->getValue());
 	}
@@ -26,7 +26,7 @@ class AnyMark_ComponentTree_TextTest extends PHPUnit_Framework_TestCase
 	 */
 	public function returnsValueForXmlUse()
 	{
-		$text = new \AnyMark\ComponentTree\Text('foo');
+		$text = new \AnyMark\ElementTree\Text('foo');
 
 		$this->assertEquals('foo', $text->saveXmlStyle());
 	}

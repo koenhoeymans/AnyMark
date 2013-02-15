@@ -19,8 +19,8 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 
 	public function createStrong($text)
 	{
-		$strong = new \AnyMark\ComponentTree\Element('strong');
-		$strong->append(new \AnyMark\ComponentTree\Text($text));
+		$strong = new \AnyMark\ElementTree\Element('strong');
+		$strong->append(new \AnyMark\ElementTree\Text($text));
 
 		return $strong;
 	}

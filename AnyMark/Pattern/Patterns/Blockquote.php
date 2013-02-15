@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use AnyMark\ComponentTree\ComponentTree;
+use AnyMark\ElementTree\ElementTree;
 
 /**
  * @package AnyMark
@@ -29,7 +29,7 @@ class Blockquote extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, ComponentTree $parent, Pattern $parentPattern = null
+		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
 		$text = preg_replace("#(^|\n)> ?#", "\${1}", $match['quote']);
 		$blockquote = $parent->createElement('blockquote');

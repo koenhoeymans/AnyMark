@@ -19,8 +19,8 @@ class AnyMark_Pattern_Patterns_ParagraphTest extends \AnyMark\UnitTests\Support\
 
 	public function createP($text)
 	{
-		$p = new \AnyMark\ComponentTree\Element('p');
-		$text = new \AnyMark\ComponentTree\Text($text);
+		$p = new \AnyMark\ElementTree\Element('p');
+		$text = new \AnyMark\ElementTree\Text($text);
 		$p->append($text);
 
 		return $p;

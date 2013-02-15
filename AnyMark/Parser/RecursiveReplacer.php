@@ -7,8 +7,8 @@ namespace AnyMark\Parser;
 
 use AnyMark\Pattern\Pattern;
 use AnyMark\Pattern\PatternList;
-use AnyMark\ComponentTree\Component;
-use AnyMark\ComponentTree\Text;
+use AnyMark\ElementTree\Component;
+use AnyMark\ElementTree\Text;
 
 
 /**
@@ -29,7 +29,7 @@ class RecursiveReplacer implements Parser
 	 */
 	public function parse($text)
 	{
-		$document = new \AnyMark\ComponentTree\ComponentTree();
+		$document = new \AnyMark\ElementTree\ElementTree();
 		$text = $document->createText($text);
 		$document->append($text);
 
@@ -109,7 +109,7 @@ class RecursiveReplacer implements Parser
 	{
 		foreach ($elementTree->getChildren() as $childNode)
 		{
-			if ($childNode instanceof \AnyMark\ComponentTree\Text)
+			if ($childNode instanceof \AnyMark\ElementTree\Text)
 			{
 				$this->applyPatterns($childNode, $parentPattern);
 			}
@@ -122,12 +122,12 @@ class RecursiveReplacer implements Parser
 
 	private function restoreEscaped(Component $component)
 	{
-		if (!($component instanceof \AnyMark\ComponentTree\Text))
+		if (!($component instanceof \AnyMark\ElementTree\Text))
 		{
 			return;
 		}
 		$parent = $component->getParent();
-		if (!$parent || !($parent instanceof \AnyMark\ComponentTree\Element))
+		if (!$parent || !($parent instanceof \AnyMark\ElementTree\Element))
 		{
 			return;
 		}

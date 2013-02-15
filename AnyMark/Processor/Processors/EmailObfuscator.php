@@ -5,21 +5,21 @@
  */
 namespace AnyMark\Processor\Processors;
 
-use AnyMark\Processor\ComponentTreeProcessor;
-use AnyMark\ComponentTree\Element;
-use AnyMark\ComponentTree\ComponentTree;
-use AnyMark\ComponentTree\Component;
+use AnyMark\Processor\ElementTreeProcessor;
+use AnyMark\ElementTree\Element;
+use AnyMark\ElementTree\ElementTree;
+use AnyMark\ElementTree\Component;
 
 /**
  * @package AnyMark
  */
-class EmailObfuscator implements ComponentTreeProcessor
+class EmailObfuscator implements ElementTreeProcessor
 {
-	public function process(ComponentTree $componentTree)
+	public function process(ElementTree $componentTree)
 	{
 		$callback = function(Component $component)
 		{
-			if (!($component instanceof \AnyMark\ComponentTree\Element))
+			if (!($component instanceof \AnyMark\ElementTree\Element))
 			{
 				return;
 			}

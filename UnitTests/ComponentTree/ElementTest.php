@@ -4,14 +4,14 @@ require_once dirname(__FILE__)
 	. DIRECTORY_SEPARATOR . '..'
 	. DIRECTORY_SEPARATOR . 'TestHelper.php';
 
-class AnyMark_ComponentTree_ElementTest extends PHPUnit_Framework_TestCase
+class AnyMark_ElementTree_ElementTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @test
 	 */
 	public function elementsHaveName()
 	{
-		$element = new \AnyMark\ComponentTree\Element('a');
+		$element = new \AnyMark\ElementTree\Element('a');
 
 		$this->assertEquals('a', $element->getName());
 	}
@@ -21,7 +21,7 @@ class AnyMark_ComponentTree_ElementTest extends PHPUnit_Framework_TestCase
 	 */
 	public function elementsHaveAttributes()
 	{
-		$element = new \AnyMark\ComponentTree\Element('a');
+		$element = new \AnyMark\ElementTree\Element('a');
 		$element->setAttribute('name', 'value');
 
 		$this->assertEquals('value', $element->getAttributeValue('name'));		
@@ -32,8 +32,8 @@ class AnyMark_ComponentTree_ElementTest extends PHPUnit_Framework_TestCase
 	 */
 	public function elementsCanHaveElements()
 	{
-		$a = new \AnyMark\ComponentTree\Element('a');
-		$b = new \AnyMark\ComponentTree\Element('b');
+		$a = new \AnyMark\ElementTree\Element('a');
+		$b = new \AnyMark\ElementTree\Element('b');
 		$a->append($b);
 
 		$this->assertEquals(array($b), $a->getChildren());
@@ -44,8 +44,8 @@ class AnyMark_ComponentTree_ElementTest extends PHPUnit_Framework_TestCase
 	 */
 	public function elementsCanHaveText()
 	{
-		$a = new \AnyMark\ComponentTree\Element('a');
-		$text = new \AnyMark\ComponentTree\Text('text');
+		$a = new \AnyMark\ElementTree\Element('a');
+		$text = new \AnyMark\ElementTree\Text('text');
 		$a->append($text);
 
 		$this->assertEquals(array($text), $a->getChildren());
@@ -56,8 +56,8 @@ class AnyMark_ComponentTree_ElementTest extends PHPUnit_Framework_TestCase
 	 */
 	public function isParentOfAppended()
 	{
-		$parent = new \AnyMark\ComponentTree\Element('parent');
-		$child = new \AnyMark\ComponentTree\Element('child');
+		$parent = new \AnyMark\ElementTree\Element('parent');
+		$child = new \AnyMark\ElementTree\Element('child');
 		$parent->append($child);
 
 		$this->assertEquals($parent, $child->getParent());
@@ -68,10 +68,10 @@ class AnyMark_ComponentTree_ElementTest extends PHPUnit_Framework_TestCase
 	 */
 	public function canAppendAfterComponent()
 	{
-		$a = new \AnyMark\ComponentTree\Element('a');
-		$b = new \AnyMark\ComponentTree\Element('b');
-		$c = new \AnyMark\ComponentTree\Element('c');
-		$d = new \AnyMark\ComponentTree\Element('d');
+		$a = new \AnyMark\ElementTree\Element('a');
+		$b = new \AnyMark\ElementTree\Element('b');
+		$c = new \AnyMark\ElementTree\Element('c');
+		$d = new \AnyMark\ElementTree\Element('d');
 		$a->append($b);
 		$a->append($c);
 		$a->append($d, $b);
@@ -84,8 +84,8 @@ class AnyMark_ComponentTree_ElementTest extends PHPUnit_Framework_TestCase
 	 */
 	public function canRemoveChild()
 	{
-		$parent = new \AnyMark\ComponentTree\Element('parent');
-		$child = new \AnyMark\ComponentTree\Element('child');
+		$parent = new \AnyMark\ElementTree\Element('parent');
+		$child = new \AnyMark\ElementTree\Element('child');
 		$parent->append($child);
 		$parent->remove($child);
 
@@ -98,9 +98,9 @@ class AnyMark_ComponentTree_ElementTest extends PHPUnit_Framework_TestCase
 	 */
 	public function canReplaceChild()
 	{
-		$a = new \AnyMark\ComponentTree\Element('a');
-		$b = new \AnyMark\ComponentTree\Element('b');
-		$c = new \AnyMark\ComponentTree\Element('c');
+		$a = new \AnyMark\ElementTree\Element('a');
+		$b = new \AnyMark\ElementTree\Element('b');
+		$c = new \AnyMark\ElementTree\Element('c');
 		$a->append($b);
 		$a->replace($c, $b);
 
@@ -112,8 +112,8 @@ class AnyMark_ComponentTree_ElementTest extends PHPUnit_Framework_TestCase
 	 */
 	public function wrapsChildXmlInOwnTags()
 	{
-		$a = new \AnyMark\ComponentTree\Element('a');
-		$b = new \AnyMark\ComponentTree\Element('b');
+		$a = new \AnyMark\ElementTree\Element('a');
+		$b = new \AnyMark\ElementTree\Element('b');
 		$a->append($b);
 
 		$this->assertEquals('<a><b /></a>', $a->saveXmlStyle());
@@ -124,7 +124,7 @@ class AnyMark_ComponentTree_ElementTest extends PHPUnit_Framework_TestCase
 	 */
 	public function attributesAreInXmlStyleOutput()
 	{
-		$a = new \AnyMark\ComponentTree\Element('a');
+		$a = new \AnyMark\ElementTree\Element('a');
 		$a->setAttribute('name', 'value');
 
 		$this->assertEquals('<a name="value" />', $a->saveXmlStyle());

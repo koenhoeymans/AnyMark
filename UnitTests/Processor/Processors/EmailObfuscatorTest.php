@@ -17,8 +17,8 @@ class AnyMark_Processor_Processors_EmailObfuscatorTest extends PHPUnit_Framework
 	 */
 	public function encodesEmail()
 	{
-		$element = new \AnyMark\ComponentTree\Element('a');
-		$text = new \AnyMark\ComponentTree\Text('my email');
+		$element = new \AnyMark\ElementTree\Element('a');
+		$text = new \AnyMark\ElementTree\Text('my email');
 		$element->append($text);
 		$element->setAttribute('href', 'mailto:me@example.com');
 		$this->processor->process($element);

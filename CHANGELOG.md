@@ -3,7 +3,7 @@ AnyMark Changelog
 
 *	0.2.0
 
-	*	Now relies on a ComponentTree instead of the Dom.
+	*	Now relies on a AnyMark\ElementTree instead of the Dom.
 
 *	0.1.3
 

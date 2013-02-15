@@ -7,7 +7,7 @@ namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use AnyMark\Processor\Processors\LinkDefinitionCollector;
-use AnyMark\ComponentTree\ComponentTree;
+use AnyMark\ElementTree\ElementTree;
 
 /**
  * @package AnyMark
@@ -51,7 +51,7 @@ class Image extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, ComponentTree $parent, Pattern $parentPattern = null
+		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
 		if (isset($match['reference']))
 		{
@@ -63,7 +63,7 @@ class Image extends Pattern
 		}
 	}
 
-	private function replaceInline(array $match, ComponentTree $parent)
+	private function replaceInline(array $match, ElementTree $parent)
 	{
 		$path = str_replace('"', '&quot;', $match['path']);
 		if (isset($path[0]) && $path[0] === '<')
@@ -85,7 +85,7 @@ class Image extends Pattern
 	/**
 	 * @todo replace circular handling
 	 */
-	private function replaceReference(array $match, ComponentTree $parent)
+	private function replaceReference(array $match, ElementTree $parent)
 	{
 		$linkDefinition = $this->linkDefinitions->get($match['id']);
 		if (!$linkDefinition)

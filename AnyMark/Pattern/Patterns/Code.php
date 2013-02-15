@@ -6,14 +6,14 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use AnyMark\ComponentTree\ComponentTree;
+use AnyMark\ElementTree\ElementTree;
 
 /**
  * @package AnyMark
  */
 abstract class Code extends Pattern
 {
-	protected function createCodeReplacement($code, $pre = true, ComponentTree $parent)
+	protected function createCodeReplacement($code, $pre = true, ElementTree $parent)
 	{
 		$codeElement = $parent->createElement('code');
 		$codeElement->append($parent->createText($code));

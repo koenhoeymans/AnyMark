@@ -1,6 +1,6 @@
 <?php
 
-use AnyMark\ComponentTree\Element;
+use AnyMark\ElementTree\Element;
 
 require_once dirname(__FILE__)
 	. DIRECTORY_SEPARATOR . '..'
@@ -21,9 +21,9 @@ class AnyMark_Pattern_Patterns_CodeIndentedTest extends \AnyMark\UnitTests\Suppo
 
 	public function createFromText($text)
 	{
-		$pre = new \AnyMark\ComponentTree\Element('pre');
-		$code = new \AnyMark\ComponentTree\Element('code');
-		$text = new \AnyMark\ComponentTree\Text($text);
+		$pre = new \AnyMark\ElementTree\Element('pre');
+		$code = new \AnyMark\ElementTree\Element('code');
+		$text = new \AnyMark\ElementTree\Text($text);
 		$pre->append($code);
 		$code->append($text);
 

@@ -3,7 +3,7 @@
 /**
  * @package AnyMark
  */
-namespace AnyMark\ComponentTree;
+namespace AnyMark\ElementTree;
 
 /**
  * @package AnyMark
@@ -15,7 +15,7 @@ abstract class Component
 	protected $children = array();
 
 	/**
-	 * @return \AnyMark\ComponentTree\Element
+	 * @return \AnyMark\ElementTree\Element
 	 */
 	public function createElement($name)
 	{
@@ -23,7 +23,7 @@ abstract class Component
 	}
 
 	/**
-	 * @return \AnyMark\ComponentTree\Text
+	 * @return \AnyMark\ElementTree\Text
 	 */
 	public function createText($value)
 	{
@@ -31,7 +31,7 @@ abstract class Component
 	}
 
 	/**
-	 * @return \AnyMark\ComponentTree\Comment
+	 * @return \AnyMark\ElementTree\Comment
 	 */
 	public function createComment($value)
 	{
@@ -39,7 +39,7 @@ abstract class Component
 	}
 
 	/**
-	 * @return \AnyMark\ComponentTree\Component|null
+	 * @return \AnyMark\ElementTree\Component|null
 	 */
 	public function getParent()
 	{

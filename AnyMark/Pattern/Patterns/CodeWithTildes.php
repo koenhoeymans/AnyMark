@@ -6,8 +6,8 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use AnyMark\ComponentTree\ComponentTree;
-use AnyMark\ComponentTree\Element;
+use AnyMark\ElementTree\ElementTree;
+use AnyMark\ElementTree\Element;
 
 /**
  * @package AnyMark
@@ -31,7 +31,7 @@ class CodeWithTildes extends Code
 	}
 
 	public function handleMatch(
-		array $match, ComponentTree $parent, Pattern $parentPattern = null
+		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
 		$code = preg_replace("#\n$match[3](\s*.+)#", "\n\${1}", $match[4]);
 		$code = $this->createCodeReplacement($code, true, $parent);

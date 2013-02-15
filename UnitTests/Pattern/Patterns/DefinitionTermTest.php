@@ -19,8 +19,8 @@ class AnyMark_Pattern_Patterns_DefinitionTermTest extends \AnyMark\UnitTests\Sup
 
 	public function createDt($text)
 	{
-		$dt = new \AnyMark\ComponentTree\Element('dt');
-		$text = new \AnyMark\ComponentTree\Text($text);
+		$dt = new \AnyMark\ElementTree\Element('dt');
+		$text = new \AnyMark\ElementTree\Text($text);
 		$dt->append($text);
 
 		return $dt;

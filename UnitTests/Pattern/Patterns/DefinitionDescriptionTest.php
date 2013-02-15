@@ -19,8 +19,8 @@ class AnyMark_Pattern_Patterns_DefinitionDescriptionTest extends \AnyMark\UnitTe
 
 	public function createDd($text)
 	{
-		$dd = new \AnyMark\ComponentTree\Element('dd');
-		$text = new \AnyMark\ComponentTree\Text($text);
+		$dd = new \AnyMark\ElementTree\Element('dd');
+		$text = new \AnyMark\ElementTree\Text($text);
 		$dd->append($text);
 
 		return $dd;

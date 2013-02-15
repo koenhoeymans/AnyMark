@@ -14,7 +14,7 @@ abstract class PatternReplacementAssertions extends \PHPUnit_Framework_TestCase
 			return null;
 		}
 		$result = $this->getPattern()->handleMatch(
-			$match, new \AnyMark\ComponentTree\Element('foo')
+			$match, new \AnyMark\ElementTree\Element('foo')
 		);
 
 		return $result;

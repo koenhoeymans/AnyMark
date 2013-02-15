@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use AnyMark\ComponentTree\ComponentTree;
+use AnyMark\ElementTree\ElementTree;
 
 /**
  * @package AnyMark
@@ -27,7 +27,7 @@ class CodeIndented extends Code
 	}
 
 	public function handleMatch(
-		array $match, ComponentTree $parent, Pattern $parentPattern = null
+		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
 		if ($parentPattern && $match['newline'] === "\n")
 		{

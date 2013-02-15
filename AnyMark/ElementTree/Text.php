@@ -3,12 +3,12 @@
 /**
  * @package AnyMark
  */
-namespace AnyMark\ComponentTree;
+namespace AnyMark\ElementTree;
 
 /**
  * @package AnyMark
  */
-class Comment extends Component
+class Text extends Component
 {
 	private $value;
 
@@ -25,17 +25,19 @@ class Comment extends Component
 		return $this->value;
 	}
 
+	/**
+	 * @param string $value
+	 */
 	public function setValue($value)
 	{
 		$this->value = $value;
 	}
 
 	/**
-	 * `<!-- comment -->`
-	 * @see \AnyMark\ComponentTree\Component::saveXmlStyle()
+	 * @see \AnyMark\ElementTree\Component::saveXmlStyle()
 	 */
 	public function saveXmlStyle()
 	{
-		return '<!--' . $this->value . '-->';
+		return htmlentities($this->value, ENT_NOQUOTES, 'UTF-8', false);
 	}
 }

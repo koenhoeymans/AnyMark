@@ -19,8 +19,8 @@ class AnyMark_Pattern_Patterns_TextualListTest extends \AnyMark\UnitTests\Suppor
 
 	public function createList($type, $content)
 	{
-		$list = new \AnyMark\ComponentTree\Element($type);
-		$list->append(new \AnyMark\ComponentTree\Text($content));
+		$list = new \AnyMark\ElementTree\Element($type);
+		$list->append(new \AnyMark\ElementTree\Text($content));
 
 		return $list;
 	}

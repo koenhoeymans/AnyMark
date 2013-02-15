@@ -3,12 +3,12 @@
 /**
  * @package AnyMark
  */
-namespace AnyMark\ComponentTree;
+namespace AnyMark\ElementTree;
 
 /**
  * @package AnyMark
  */
-class ComponentTree extends Component
+class ElementTree extends Component
 {
 	/**
 	 * Append a Component as a child. Optionally specifying after which other
@@ -68,7 +68,7 @@ class ComponentTree extends Component
 	}
 
 	/**
-	 * @see \AnyMark\ComponentTree\Component::saveXmlStyle()
+	 * @see \AnyMark\ElementTree\Component::saveXmlStyle()
 	 */
 	public function saveXmlStyle()
 	{

@@ -27,13 +27,13 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 
 	public function createDomForLink($url, $text, $title = null)
 	{
-		$a = new \AnyMark\ComponentTree\Element('a');
+		$a = new \AnyMark\ElementTree\Element('a');
 		$a->setAttribute('href', $url);
 		if ($title)
 		{
 			$a->setAttribute('title', $title);
 		}
-		$a->append(new \AnyMark\ComponentTree\Text($text));
+		$a->append(new \AnyMark\ElementTree\Text($text));
 
 		return $a;
 	}

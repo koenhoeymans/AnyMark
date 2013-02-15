@@ -5,7 +5,7 @@
  */
 namespace AnyMark\Pattern;
 
-use AnyMark\ComponentTree\ComponentTree;
+use AnyMark\ElementTree\ElementTree;
 
 /**
  * @package vidola
@@ -17,6 +17,6 @@ abstract class Pattern
 	abstract public function getRegex();
 
 	abstract public function handleMatch(
-		array $match, ComponentTree $parent, Pattern $parentPattern = null
+		array $match, ElementTree $parent, Pattern $parentPattern = null
 	);
 }

@@ -8,9 +8,9 @@ namespace AnyMark;
 use AnyMark\Parser\Parser;
 use Fjor\Fjor;
 use AnyMark\Processor\TextProcessor;
-use AnyMark\Processor\ComponentTreeProcessor;
-use AnyMark\ComponentTree\Element;
-use AnyMark\ComponentTree\ComponentTree;
+use AnyMark\Processor\ElementTreeProcessor;
+use AnyMark\ElementTree\Element;
+use AnyMark\ElementTree\ElementTree;
 
 /**
  * @package AnyMark
@@ -23,7 +23,7 @@ class AnyMark implements Parser
 
 	private $preTextProcessors = array();
 
-	private $postComponentTreeProcessors = array();
+	private $postElementTreeProcessors = array();
 
 	private $parser;
 
@@ -47,7 +47,7 @@ class AnyMark implements Parser
 			->addParam(array('AnyMark\\Processor\\Processors\\Detab'))
 			->addParam(array('AnyMark\\Processor\\Processors\\LinkDefinitionCollector'));
 		$fjor->given('AnyMark\\AnyMark')
-			->andMethod('addPostComponentTreeProcessor')
+			->andMethod('addPostElementTreeProcessor')
 			->addParam(array('AnyMark\\Processor\\Processors\\EmailObfuscator'));
 		$fjor->setSingleton('AnyMark\\Processor\\Processors\\LinkDefinitionCollector');
 		$fjor->setSingleton('AnyMark\\Pattern\\PatternList');
@@ -75,9 +75,9 @@ class AnyMark implements Parser
 	/**
 	 * @param DomProcessor $domProcessor
 	 */
-	public function addPostComponentTreeProcessor(ComponentTreeProcessor $componentTreeProcessor)
+	public function addPostElementTreeProcessor(ElementTreeProcessor $componentTreeProcessor)
 	{
-		$this->postComponentTreeProcessors[] = $componentTreeProcessor;
+		$this->postElementTreeProcessors[] = $componentTreeProcessor;
 	}
 
 	/**
@@ -136,9 +136,9 @@ class AnyMark implements Parser
 		return $text;
 	}
 
-	private function postProcess(ComponentTree $componentTree)
+	private function postProcess(ElementTree $componentTree)
 	{
-		foreach ($this->postComponentTreeProcessors as $processor)
+		foreach ($this->postElementTreeProcessors as $processor)
 		{
 			$processor->process($componentTree);
 		}

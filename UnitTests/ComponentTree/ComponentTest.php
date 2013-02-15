@@ -1,6 +1,6 @@
 <?php
 
-use AnyMark\ComponentTree\Component;
+use AnyMark\ElementTree\Component;
 
 require_once dirname(__FILE__)
 	. DIRECTORY_SEPARATOR . '..'
@@ -12,7 +12,7 @@ class ComponentImp extends Component
 	public function hasChildren() {}
 }
 
-class AnyMark_ComponentTree_ComponentTest extends PHPUnit_Framework_TestCase
+class AnyMark_ElementTree_ComponentTest extends PHPUnit_Framework_TestCase
 {
 	public function setup()
 	{
@@ -25,7 +25,7 @@ class AnyMark_ComponentTree_ComponentTest extends PHPUnit_Framework_TestCase
 	public function createsElement()
 	{
 		$this->assertEquals(
-			new \AnyMark\ComponentTree\Element('foo'),
+			new \AnyMark\ElementTree\Element('foo'),
 			$this->eTree->createElement('foo')
 		);
 	}
@@ -36,7 +36,7 @@ class AnyMark_ComponentTree_ComponentTest extends PHPUnit_Framework_TestCase
 	public function createsText()
 	{
 		$this->assertEquals(
-			new \AnyMark\ComponentTree\Text('foo'),
+			new \AnyMark\ElementTree\Text('foo'),
 			$this->eTree->createText('foo')
 		);
 	}
@@ -54,7 +54,7 @@ class AnyMark_ComponentTree_ComponentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function elementsInWholeTreeCanBeSelectedWithCallback()
 	{
-		$callback = function(\AnyMark\ComponentTree\Component $elementTree) {
+		$callback = function(\AnyMark\ElementTree\Component $elementTree) {
 			if ($elementTree !== $this->eTree)
 			{
 				$this->assertFalse(true);

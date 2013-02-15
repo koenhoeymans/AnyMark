@@ -19,7 +19,7 @@ class AnyMark_Pattern_Patterns_HorizontalRuleTest extends \AnyMark\UnitTests\Sup
 
 	public function createHr()
 	{
-		return new \AnyMark\ComponentTree\Element('hr');
+		return new \AnyMark\ElementTree\Element('hr');
 	}
 
 	/**

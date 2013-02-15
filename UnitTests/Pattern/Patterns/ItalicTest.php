@@ -19,8 +19,8 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 
 	public function createItalic($text)
 	{
-		$i = new \AnyMark\ComponentTree\Element('i');
-		$text = new \AnyMark\ComponentTree\Text($text);
+		$i = new \AnyMark\ElementTree\Element('i');
+		$text = new \AnyMark\ElementTree\Text($text);
 		$i->append($text);
 
 		return $i;

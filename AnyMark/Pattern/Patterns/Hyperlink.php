@@ -8,7 +8,7 @@ namespace AnyMark\Pattern\Patterns;
 use AnyMark\Util\InternalUrlBuilder;
 use AnyMark\Processor\Processors\LinkDefinitionCollector;
 use AnyMark\Pattern\Pattern;
-use AnyMark\ComponentTree\ComponentTree;
+use AnyMark\ElementTree\ElementTree;
 
 /**
  * @package AnyMark
@@ -72,7 +72,7 @@ class Hyperlink extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, ComponentTree $parent, Pattern $parentPattern = null
+		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
 		if (isset($match['reference']))
 		{
@@ -84,7 +84,7 @@ class Hyperlink extends Pattern
 		}
 	}
 
-	private function createDomForLinkWithDef(array $match, ComponentTree $parent)
+	private function createDomForLinkWithDef(array $match, ElementTree $parent)
 	{
 		if (!isset($match['id']) || ($match['id'] === ''))
 		{
@@ -106,7 +106,7 @@ class Hyperlink extends Pattern
 		
 	}
 
-	private function createDomForInlineLink(array $match, ComponentTree $parent)
+	private function createDomForInlineLink(array $match, ElementTree $parent)
 	{
 		$url = (isset($match['url'][0]) && ($match['url'][0] == '<'))
 			? substr($match['url'], 1, -1) : $match['url'];
@@ -115,7 +115,7 @@ class Hyperlink extends Pattern
 		return $this->createDomForLink($url, $match['anchor'], $title, $parent);
 	}
 
-	private function createDomForLink($url, $anchor, $title = null, ComponentTree $parent)
+	private function createDomForLink($url, $anchor, $title = null, ElementTree $parent)
 	{
 		if ($this->isRelative($url))
 		{

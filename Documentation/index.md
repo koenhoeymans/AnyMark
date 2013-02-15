@@ -49,7 +49,7 @@ Parsing a Markdown document is simple:
 
 	$componentTree = $anyMark->parse('== AnyMark ==');
 
-It will return a `\AnyMark\ElementTree\ComponentTree`. If you want
+It will return a `\AnyMark\ElementTree\AnyMark\ElementTree`. If you want
 to save this to XML as a string call
 
 	$result = $componentTree->saveXmlStyle();
@@ -58,8 +58,8 @@ It is called XmlStyle because it is not strictly XML. Eg there is not
 necessarily a single root element (eg. a document can contain only
 a set of paragraphs).
 
-The ComponentTree is a tree of components. These can be an `Element`, `Comment`,
-`Text` or a `ComponentTree` itself.
+The AnyMark\ElementTree is a tree of components. These can be an `Element`, `Comment`,
+`Text` or a `AnyMark\ElementTree` itself.
 
 ### Custom Patterns ###
 

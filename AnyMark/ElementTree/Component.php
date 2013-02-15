@@ -46,6 +46,11 @@ abstract class Component
 		return $this->parent;
 	}
 
+	public function hasParent()
+	{
+		return $this->parent ? true : false;
+	}
+
 	/**
 	 * @return boolean
 	 */

@@ -47,6 +47,7 @@ class AnyMark_ElementTree_ComponentTest extends PHPUnit_Framework_TestCase
 	public function hasNoParentElementIfNotAppended()
 	{
 		$this->assertEquals(null, $this->eTree->getParent());
+		$this->assertEquals(false, $this->eTree->hasParent());
 	}
 
 	/**

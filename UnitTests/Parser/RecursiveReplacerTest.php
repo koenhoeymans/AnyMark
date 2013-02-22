@@ -36,7 +36,7 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 		$mockPattern
 			->expects($this->atLeastOnce())
 			->method('handleMatch')
-			->will($this->returnValue(new \AnyMark\ElementTree\Element('a')));
+			->will($this->returnValue(new \ElementTree\ElementTreeElement('a')));
 		$this->patternList
 			->expects($this->atLeastOnce())
 			->method('getPatterns')
@@ -67,7 +67,7 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue(array($mockPattern)));
 		
 		$this->assertEquals(
-			'text', $this->replacer->parse('text')->saveXmlStyle()
+			'text', $this->replacer->parse('text')->toString()
 		);
 	}
 
@@ -90,7 +90,7 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			't<a>a</a><b>b</b>t',
-			$this->replacer->parse('text')->saveXmlStyle()
+			$this->replacer->parse('text')->toString()
 		);
 	}
 
@@ -113,7 +113,7 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			't<a><b>c</b></a>xt',
-			$this->replacer->parse('text')->saveXmlStyle()
+			$this->replacer->parse('text')->toString()
 		);
 	}
 
@@ -142,7 +142,7 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			't<a><b><c>x</c></b><d><e>y</e></d></a>xt',
-			$this->replacer->parse('text')->saveXmlStyle()
+			$this->replacer->parse('text')->toString()
 		);
 	}
 }

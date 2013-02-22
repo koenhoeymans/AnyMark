@@ -8,7 +8,7 @@ namespace AnyMark\Pattern\Patterns;
 use AnyMark\Util\InternalUrlBuilder;
 use AnyMark\Processor\Processors\LinkDefinitionCollector;
 use AnyMark\Pattern\Pattern;
-use AnyMark\ElementTree\ElementTree;
+use ElementTree\ElementTree;
 
 /**
  * @package AnyMark

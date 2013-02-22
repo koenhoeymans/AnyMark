@@ -52,7 +52,7 @@ Parsing a Markdown document is simple:
 It will return a `\AnyMark\ElementTree\AnyMark\ElementTree`. If you want
 to save this to XML as a string call
 
-	$result = $componentTree->saveXmlStyle();
+	$result = $componentTree->toString();
 
 It is called XmlStyle because it is not strictly XML. Eg there is not
 necessarily a single root element (eg. a document can contain only

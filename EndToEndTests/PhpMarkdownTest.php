@@ -30,7 +30,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 			__DIR__
 			. DIRECTORY_SEPARATOR . 'PhpMarkdown.mdtest'
 			. DIRECTORY_SEPARATOR . $name . '.text'
-		))->saveXmlStyle();
+		))->toString();
 
 		$this->assertEquals(
 			$this->tidy(file_get_contents(

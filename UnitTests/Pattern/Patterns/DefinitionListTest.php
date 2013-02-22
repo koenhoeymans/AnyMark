@@ -19,8 +19,8 @@ class AnyMark_Pattern_Patterns_DefinitionListTest extends \AnyMark\UnitTests\Sup
 
 	public function createDl($text)
 	{
-		$dl = new \AnyMark\ElementTree\Element('dl');
-		$text = new \AnyMark\ElementTree\Text($text);
+		$dl = $this->elementTree()->createElement('dl');
+		$text = $this->elementTree()->createText($text);
 		$dl->append($text);
 
 		return $dl;

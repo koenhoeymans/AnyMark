@@ -22,9 +22,9 @@ class AnyMark_Pattern_Patterns_AutoLinkTest extends \AnyMark\UnitTests\Support\P
 	 */
 	public function anEmailAddressIsLinkedWhenPlacedBetweenALesserThanAndGreaterThanSign()
 	{
-		$a = new \AnyMark\ElementTree\Element('a');
+		$a = $this->elementTree()->createElement('a');
 		$a->setAttribute('href', "mailto:me@xmpl.com");
-		$a->append(new \AnyMark\ElementTree\Text("me@xmpl.com"));
+		$a->append(new \ElementTree\ElementTreeText("me@xmpl.com"));
 
 		$this->assertEquals(
 			$a,
@@ -47,9 +47,9 @@ class AnyMark_Pattern_Patterns_AutoLinkTest extends \AnyMark\UnitTests\Support\P
 	 */
 	public function anUrlBetweenLesserThanAndreaterThanSignIsAutolinked()
 	{
-		$a = new \AnyMark\ElementTree\Element('a');
+		$a = $this->elementTree()->createElement('a');
 		$a->setAttribute('href', "http://example.com");
-		$a->append(new \AnyMark\ElementTree\Text("http://example.com"));
+		$a->append(new \ElementTree\ElementTreeText("http://example.com"));
 
 		$this->assertEquals(
 			$a,

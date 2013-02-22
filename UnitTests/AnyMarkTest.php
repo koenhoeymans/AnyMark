@@ -46,7 +46,7 @@ class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
 	 */
 	public function returnsParsingResultAsElementTree()
 	{
-		$this->assertTrue($this->anyMark->parse('text') instanceof \AnyMark\ElementTree\ElementTree);
+		$this->assertTrue($this->anyMark->parse('text') instanceof \ElementTree\ElementTree);
 	}
 
 	/**

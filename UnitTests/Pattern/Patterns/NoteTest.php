@@ -30,8 +30,8 @@ class AnyMark_Pattern_Patterns_NoteTest extends \AnyMark\UnitTests\Support\Patte
 
 Another paragraph.";
 
-		$div = new \AnyMark\ElementTree\Element('div');
-		$div->append(new \AnyMark\ElementTree\Text('This is a note.'));
+		$div = $this->elementTree()->createElement('div');
+		$div->append(new \ElementTree\ElementTreeText('This is a note.'));
 		$div->setAttribute('class', 'note');
 
 		$this->assertEquals($div, $this->applyPattern($text));

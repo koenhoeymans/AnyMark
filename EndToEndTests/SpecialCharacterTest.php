@@ -16,7 +16,7 @@ class AnyMark_EndToEndTests_SpecialCharacterTest extends \AnyMark\EndToEndTests\
 			. DIRECTORY_SEPARATOR . 'SpecialCharacterTest.txt');
 
 		// when
-		$parsedText = $anyMark->parse($text)->saveXmlStyle();
+		$parsedText = $anyMark->parse($text)->toString();
 
 		// then
 		$this->assertEquals(

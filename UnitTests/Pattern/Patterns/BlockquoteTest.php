@@ -30,8 +30,8 @@ class AnyMark_Pattern_Patterns_BlockquoteTest extends \AnyMark\UnitTests\Support
 
 paragraph";
 
-		$bq = new \AnyMark\ElementTree\Element('blockquote');
-		$bq->append(new \AnyMark\ElementTree\Text("quote\ncontinued\n\n"));
+		$bq = $this->elementTree()->createElement('blockquote');
+		$bq->append(new \ElementTree\ElementTreeText("quote\ncontinued\n\n"));
 
 		$this->assertEquals($bq, $this->applyPattern($text));
 	}
@@ -49,8 +49,8 @@ continued
 
 paragraph";
 
-		$bq = new \AnyMark\ElementTree\Element('blockquote');
-		$bq->append(new \AnyMark\ElementTree\Text("quote\ncontinued\n\n"));
+		$bq = $this->elementTree()->createElement('blockquote');
+		$bq->append(new \ElementTree\ElementTreeText("quote\ncontinued\n\n"));
 
 		$this->assertEquals($bq, $this->applyPattern($text));
 		
@@ -72,8 +72,8 @@ paragraph";
 
 paragraph";
 
-		$bq = new \AnyMark\ElementTree\Element('blockquote');
-		$bq->append(new \AnyMark\ElementTree\Text("quote\n\n> subquote\n\nquote continued\n\n"));
+		$bq = $this->elementTree()->createElement('blockquote');
+		$bq->append(new \ElementTree\ElementTreeText("quote\n\n> subquote\n\nquote continued\n\n"));
 
 		$this->assertEquals($bq, $this->applyPattern($text));
 	}

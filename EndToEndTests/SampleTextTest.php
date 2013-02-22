@@ -16,7 +16,7 @@ class AnyMark_EndToEndTests_SampleTextTest extends \AnyMark\EndToEndTests\Suppor
 			. DIRECTORY_SEPARATOR . 'SampleText.txt');
 
 		// when
-		$parsedText = $anyMark->parse($text)->saveXmlStyle();
+		$parsedText = $anyMark->parse($text)->toString();
 
 		// then
 		$this->assertEquals(

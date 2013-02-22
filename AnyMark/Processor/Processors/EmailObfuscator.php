@@ -6,9 +6,9 @@
 namespace AnyMark\Processor\Processors;
 
 use AnyMark\Processor\ElementTreeProcessor;
-use AnyMark\ElementTree\Element;
-use AnyMark\ElementTree\ElementTree;
-use AnyMark\ElementTree\Component;
+use ElementTree\Element;
+use ElementTree\ElementTree;
+use ElementTree\Component;
 
 /**
  * @package AnyMark
@@ -19,7 +19,7 @@ class EmailObfuscator implements ElementTreeProcessor
 	{
 		$callback = function(Component $component)
 		{
-			if (!($component instanceof \AnyMark\ElementTree\Element))
+			if (!($component instanceof \ElementTree\Element))
 			{
 				return;
 			}

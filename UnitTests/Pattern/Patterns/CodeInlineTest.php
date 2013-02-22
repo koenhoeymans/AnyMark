@@ -19,8 +19,8 @@ class AnyMark_Pattern_Patterns_CodeInlineTest extends \AnyMark\UnitTests\Support
 
 	public function createFromText($text)
 	{
-		$code = new \AnyMark\ElementTree\Element('code');
-		$text = new \AnyMark\ElementTree\Text($text);
+		$code = $this->elementTree()->createElement('code');
+		$text = $this->elementTree()->createText($text);
 		$code->append($text);
 
 		return $code;

@@ -19,9 +19,9 @@ class AnyMark_Pattern_Patterns_CodeWithTildesTest extends \AnyMark\UnitTests\Sup
 
 	public function createFromText($text)
 	{
-		$pre = new \AnyMark\ElementTree\Element('pre');
-		$code = new \AnyMark\ElementTree\Element('code');
-		$text = new \AnyMark\ElementTree\Text($text);
+		$pre = $this->elementTree()->createElement('pre');
+		$code = $this->elementTree()->createElement('code');
+		$text = $this->elementTree()->createText($text);
 		$pre->append($code);
 		$code->append($text);
 

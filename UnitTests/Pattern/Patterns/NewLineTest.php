@@ -23,7 +23,7 @@ class AnyMark_Pattern_Patterns_NewLineTest extends \AnyMark\UnitTests\Support\Pa
 	public function doubleSpaceAtEndOfLineBecomesNewLine()
 	{
 		$text = "Some text before  \nand after double space";
-		$br = new \AnyMark\ElementTree\Element('br');
+		$br = $this->elementTree()->createElement('br');
 		$this->assertEquals($br, $this->applyPattern($text));
 	}
 }

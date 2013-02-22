@@ -19,7 +19,7 @@ class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\
 			__DIR__
 			. DIRECTORY_SEPARATOR . 'Markdown.mdtest'
 			. DIRECTORY_SEPARATOR . $name . '.text'
-		))->saveXmlStyle();
+		))->toString();
 
 		$this->assertEquals(
 			$this->tidy(file_get_contents(

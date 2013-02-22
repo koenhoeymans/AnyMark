@@ -5,7 +5,7 @@
  */
 namespace AnyMark\Processor;
 
-use AnyMark\ElementTree\ElementTree;
+use ElementTree\ElementTree;
 
 /**
  * @package AnyMark

@@ -19,10 +19,10 @@ class AnyMark_Pattern_Patterns_ListItemTest extends \AnyMark\UnitTests\Support\P
 
 	public function createLi($text = null)
 	{
-		$li = new \AnyMark\ElementTree\Element('li');
+		$li = $this->elementTree()->createElement('li');
 		if ($text)
 		{
-			$text = new \AnyMark\ElementTree\Text($text);
+			$text = $this->elementTree()->createText($text);
 			$li->append($text);
 		}
 

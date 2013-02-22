@@ -6,8 +6,8 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use AnyMark\ElementTree\ElementTree;
-use AnyMark\ElementTree\Element;
+use ElementTree\ElementTree;
+use ElementTree\Element;
 
 /**
  * @package AnyMark

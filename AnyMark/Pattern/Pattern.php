@@ -5,7 +5,7 @@
  */
 namespace AnyMark\Pattern;
 
-use AnyMark\ElementTree\ElementTree;
+use ElementTree\ElementTree;
 
 /**
  * @package vidola

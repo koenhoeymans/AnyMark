@@ -17,14 +17,14 @@ class AnyMark_Processor_Processors_EmailObfuscatorTest extends PHPUnit_Framework
 	 */
 	public function encodesEmail()
 	{
-		$element = new \AnyMark\ElementTree\Element('a');
-		$text = new \AnyMark\ElementTree\Text('my email');
+		$element = new \ElementTree\ElementTreeElement('a');
+		$text = new \ElementTree\ElementTreeText('my email');
 		$element->append($text);
 		$element->setAttribute('href', 'mailto:me@example.com');
 		$this->processor->process($element);
 		$this->assertEquals(
 			'<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#109;a&#x69;&#108;&#x74;&#111;&#x3a;&#109;&#x65;&#64;e&#x78;&#97;&#x6d;&#112;&#x6c;&#101;&#x2e;&#x63;&#111;&#x6d;">&#109;&#x79;&#32;&#x65;&#109;&#x61;i&#108;</a>',
-			$element->saveXMLStyle()
+			$element->toString()
 		);
 	}
 }

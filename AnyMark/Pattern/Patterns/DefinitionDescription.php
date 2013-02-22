@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use AnyMark\ElementTree\ElementTree;
+use ElementTree\ElementTree;
 
 /**
  * @package

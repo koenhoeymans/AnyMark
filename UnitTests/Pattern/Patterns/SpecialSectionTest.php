@@ -19,8 +19,8 @@ class AnyMark_Pattern_Patterns_sectionTest extends \AnyMark\UnitTests\Support\Pa
 
 	public function createSection($text)
 	{
-		$section = new \AnyMark\ElementTree\Element('section');
-		$section->append(new \AnyMark\ElementTree\Text($text));
+		$section = $this->elementTree()->createElement('section');
+		$section->append($this->elementTree()->createText($text));
 
 		return $section;
 	}

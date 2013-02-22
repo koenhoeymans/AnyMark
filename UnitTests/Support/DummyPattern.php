@@ -6,7 +6,7 @@
 namespace AnyMark\UnitTests\Support;
 
 use AnyMark\Pattern\Pattern;
-use AnyMark\ElementTree\ElementTree;
+use ElementTree\ElementTree;
 
 /**
  * @package AnyMark

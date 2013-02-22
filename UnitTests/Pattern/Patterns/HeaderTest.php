@@ -25,8 +25,8 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 
 	public function createHeader($level, $text)
 	{
-		$header = new \AnyMark\ElementTree\Element($level);
-		$text = new \AnyMark\ElementTree\Text($text);
+		$header = $this->elementTree()->createElement($level);
+		$text = $this->elementTree()->createText($text);
 		$header->append($text);
 
 		return $header;

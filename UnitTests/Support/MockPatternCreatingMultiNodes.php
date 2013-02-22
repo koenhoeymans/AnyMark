@@ -3,7 +3,7 @@
 namespace AnyMark\UnitTests\Support;
 
 use \AnyMark\Pattern\Pattern;
-use \AnyMark\ElementTree\ElementTree;
+use ElementTree\ElementTree;
 
 class MockPatternCreatingMultiNodes extends \AnyMark\Pattern\Pattern
 {

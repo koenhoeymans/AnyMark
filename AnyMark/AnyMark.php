@@ -9,8 +9,8 @@ use AnyMark\Parser\Parser;
 use Fjor\Fjor;
 use AnyMark\Processor\TextProcessor;
 use AnyMark\Processor\ElementTreeProcessor;
-use AnyMark\ElementTree\Element;
-use AnyMark\ElementTree\ElementTree;
+use ElementTree\Element;
+use ElementTree\ElementTree;
 
 /**
  * @package AnyMark

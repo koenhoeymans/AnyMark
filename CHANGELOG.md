@@ -1,6 +1,11 @@
 AnyMark Changelog
 =================
 
+*	0.3.0
+
+	*	Extracted AnyMark\ElementTree into a seperate library which
+		is now used (ElementTree\ElementTree).
+
 *	0.2.0
 
 	*	Now relies on a AnyMark\ElementTree instead of the Dom.

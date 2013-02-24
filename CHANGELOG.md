@@ -1,6 +1,10 @@
 AnyMark Changelog
 =================
 
+*	0.3.1
+
+	*	More flexible elementtree version requirement.
+
 *	0.3.0
 
 	*	Extracted AnyMark\ElementTree into a seperate library which

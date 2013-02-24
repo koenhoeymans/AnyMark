@@ -7,6 +7,7 @@ namespace AnyMark\Parser;
 
 use AnyMark\Pattern\Pattern;
 use AnyMark\Pattern\PatternList;
+use ElementTree\ElementTree;
 use ElementTree\Component;
 use ElementTree\Text;
 
@@ -36,11 +37,7 @@ class RecursiveReplacer implements Parser
 
 		$this->applyPatterns($text);
 
-		$document->query(
-			$document->createFilter(
-				function ($a) { $this->restoreEscaped($a); }
-			)->allText()
-		);
+		$this->restoreEscaped($document);
 
 		return $document;
 	}
@@ -120,19 +117,22 @@ class RecursiveReplacer implements Parser
 		$elementTree->query($ownerTree->createFilter($callback)->allText());
 	}
 
-	private function restoreEscaped(Text $component)
+	private function restoreEscaped(ElementTree $document)
 	{
-		$parent = $component->getParent();
-		if (!$parent || !($parent instanceof \ElementTree\Element))
-		{
-			return;
-		}
-		if ($parent->getName() !== 'code')
+		$filter = $document->createFilter(function (Text $component)
 		{
 			# don't need the backslash for escaped characters anymore
 			$component->setValue(preg_replace(
 				'@\\\\([^ ])@', "\${1}", $component->getValue()
 			));
-		}
+		});
+
+		$document->query(
+			$filter->lAnd(
+				$filter->allText(),
+				$filter->hasParentElement(),
+				$filter->not($filter->hasParentElement('code'))
+			)
+		);
 	}
 }

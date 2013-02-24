@@ -15,14 +15,10 @@ use ElementTree\Component;
  */
 class EmailObfuscator implements ElementTreeProcessor
 {
-	public function process(ElementTree $componentTree)
+	public function process(ElementTree $elementTree)
 	{
 		$callback = function(Component $component)
 		{
-			if (!($component instanceof \ElementTree\Element))
-			{
-				return;
-			}
 			if ($component->getName() !== 'a')
 			{
 				return;
@@ -41,7 +37,7 @@ class EmailObfuscator implements ElementTreeProcessor
 			$component->append($text);
 		};
 
-		$componentTree->query($callback);
+		$elementTree->query($elementTree->createFilter($callback)->allElements());
 	}
 
 	private function encode($text)

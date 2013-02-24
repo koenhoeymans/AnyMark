@@ -108,17 +108,12 @@ class RecursiveReplacer implements Parser
 
 	private function applySubpatterns(Component $elementTree, Pattern $parentPattern)
 	{
-		foreach ($elementTree->getChildren() as $childNode)
+		$ownerTree = $elementTree->getOwnerTree();
+		$callback = function($text) use ($parentPattern)
 		{
-			if ($childNode instanceof \ElementTree\Text)
-			{
-				$this->applyPatterns($childNode, $parentPattern);
-			}
-			else
-			{
-				$this->applySubpatterns($childNode, $parentPattern);
-			}
-		}
+			$this->applyPatterns($text, $parentPattern);
+		};
+		$elementTree->query($ownerTree->createFilter($callback)->allText());
 	}
 
 	private function restoreEscaped(Component $component)

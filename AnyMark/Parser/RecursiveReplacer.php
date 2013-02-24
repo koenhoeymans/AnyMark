@@ -36,7 +36,11 @@ class RecursiveReplacer implements Parser
 
 		$this->applyPatterns($text);
 
-		$document->query(function ($a) { $this->restoreEscaped($a); });
+		$document->query(
+			$document->createFilter(
+				function ($a) { $this->restoreEscaped($a); }
+			)->allText()
+		);
 
 		return $document;
 	}
@@ -116,12 +120,8 @@ class RecursiveReplacer implements Parser
 		$elementTree->query($ownerTree->createFilter($callback)->allText());
 	}
 
-	private function restoreEscaped(Component $component)
+	private function restoreEscaped(Text $component)
 	{
-		if (!($component instanceof \ElementTree\Text))
-		{
-			return;
-		}
 		$parent = $component->getParent();
 		if (!$parent || !($parent instanceof \ElementTree\Element))
 		{

@@ -101,7 +101,7 @@ class AnyMark implements Parser
 	public function parse($text)
 	{
 		# adding the \n for texts containing only a paragraph
-		$text = $this->preProcess($text . "\n");
+		$text = $this->preProcess($text . "\n\n");
 
 		$domDoc = $this->getParser()->parse($text);
 

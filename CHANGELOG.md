@@ -1,6 +1,11 @@
 AnyMark Changelog
 =================
 
+*	xxxxx
+
+	*	Added double newline (`\n\n`) before the text string to parse. Otherwise
+		a single paragraph wouldn't be recognised as such.
+
 *	0.3.1
 
 	*	More flexible elementtree version requirement.

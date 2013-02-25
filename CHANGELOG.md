@@ -1,10 +1,11 @@
 AnyMark Changelog
 =================
 
-*	xxxxx
+*	0.3.2
 
 	*	Added double newline (`\n\n`) before the text string to parse. Otherwise
 		a single paragraph wouldn't be recognised as such.
+	*	Change InternalUrlBuilder interface definition.
 
 *	0.3.1
 

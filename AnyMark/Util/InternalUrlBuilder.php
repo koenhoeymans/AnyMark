@@ -8,12 +8,10 @@ namespace AnyMark\Util;
 interface InternalUrlBuilder
 {
 	/**
-	 * Creates the link pointing to a resource relative to a given resource. Both
-	 * should be internal to the project and be relative to the root of
-	 * the project.
+	 * Creates the url pointing to a resource. The resource must be specified
+	 * as a relative path.
 	 * 
-	 * @param string $to
-	 * @param string $from
+	 * @param string $resource
 	 */
-	public function createRelativeLink($toResource, $from = null);
+	public function urlTo($resource);
 }

@@ -117,10 +117,7 @@ class Hyperlink extends Pattern
 
 	private function createDomForLink($url, $anchor, $title = null, ElementTree $parent)
 	{
-		if ($this->isRelative($url))
-		{
-			$url = $this->internalUrlBuilder->createRelativeLink($url);
-		}
+		$url = $this->internalUrlBuilder->urlTo($url);
 
 		$urlNode = $parent->createElement('a');
 		$urlNode->append($parent->createText($anchor));

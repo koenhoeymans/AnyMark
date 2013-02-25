@@ -11,11 +11,10 @@ namespace AnyMark\Util;
 class ExtensionlessUrlBuilder implements InternalUrlBuilder
 {
 	/**
-	 * @todo take relative links into accout
 	 * @see AnyMark\Util.InternalUrlBuilder::createLink()
 	 */
-	public function createRelativeLink($toResource, $from = null)
+	public function urlTo($resource)
 	{
-		return $toResource;
+		return $resource;
 	}
 }

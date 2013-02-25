@@ -43,6 +43,10 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	 */
 	public function anUrlHasAnchoTextInSquareBracketsFollowedByTheLinkInParentheses()
 	{
+		$this->internalUrlBuilder
+			->expects($this->once())
+			->method('urlTo')->with('http://example.com')
+			->will($this->returnValue('http://example.com'));
 		$text = "Visit [my site](http://example.com) for info.";
 		$expected = $this->createDomForLink('http://example.com', 'my site');
 		$this->assertEquals($expected, $this->applyPattern($text));
@@ -54,6 +58,10 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	public function aLinkTitleCanBeSpecifiedAfterTheUrlInDoubleQuotes()
 	{
 		$text = "Visit [my site](http://example.com \"title\") for info.";
+		$this->internalUrlBuilder
+			->expects($this->once())
+			->method('urlTo')->with('http://example.com')
+			->will($this->returnValue('http://example.com'));
 		$expected = $this->createDomForLink('http://example.com', 'my site', 'title');
 		$this->assertEquals($expected, $this->applyPattern($text));
 	}
@@ -64,6 +72,10 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	public function aLinkTitleCanBeSpecifiedAfterTheUrlBetweenSingleQuotes()
 	{
 		$text = "Visit [my site](http://example.com 'title') for info.";
+		$this->internalUrlBuilder
+			->expects($this->once())
+			->method('urlTo')->with('http://example.com')
+			->will($this->returnValue('http://example.com'));
 		$expected = $this->createDomForLink('http://example.com', 'my site', 'title');
 		$this->assertEquals($expected, $this->applyPattern($text));
 	}
@@ -78,7 +90,12 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 			->expects($this->once())
 			->method('get')->with('1')
 			->will($this->returnValue(
-				new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com')));
+				new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com'))
+		);
+		$this->internalUrlBuilder
+			->expects($this->once())
+			->method('urlTo')->with('http://example.com')
+			->will($this->returnValue('http://example.com'));
 		$text = "Visit [my site][1] for info.\n\n"
 			. "paragraph\n\n";
 		$expected = $this->createDomForLink('http://example.com', 'my site');
@@ -94,7 +111,12 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 			->expects($this->once())
 			->method('get')->with('1')
 			->will($this->returnValue(
-				new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com', 'title')));
+				new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com', 'title'))
+		);
+		$this->internalUrlBuilder
+			->expects($this->once())
+			->method('urlTo')->with('http://example.com')
+			->will($this->returnValue('http://example.com'));
 		$text = "Visit [my site][1] for info.\n\n"
 			. "paragraph\n\n";
 		$expected = $this->createDomForLink('http://example.com', 'my site', 'title');
@@ -111,6 +133,10 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 			->method('get')->with('1')
 			->will($this->returnValue(
 				new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com')));
+		$this->internalUrlBuilder
+			->expects($this->once())
+			->method('urlTo')->with('http://example.com')
+			->will($this->returnValue('http://example.com'));
 		$text = "Visit [my site] [1] for info.\n\n"
 			. "paragraph\n\n";
 		$expected = $this->createDomForLink('http://example.com', 'my site');
@@ -126,7 +152,12 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 			->expects($this->once())
 			->method('get')->with('my site')
 			->will($this->returnValue(
-		new \AnyMark\Pattern\Patterns\LinkDefinition('my site', 'http://example.com')));
+				new \AnyMark\Pattern\Patterns\LinkDefinition('my site', 'http://example.com'))
+		);
+		$this->internalUrlBuilder
+			->expects($this->once())
+			->method('urlTo')->with('http://example.com')
+			->will($this->returnValue('http://example.com'));
 		$text = "Visit [my site] [] for info.\n\n"
 			. "paragraph\n\n";
 		$expected = $this->createDomForLink('http://example.com', 'my site');
@@ -142,7 +173,12 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 			->expects($this->once())
 			->method('get')->with('my site')
 			->will($this->returnValue(
-		new \AnyMark\Pattern\Patterns\LinkDefinition('my site', 'http://example.com')));
+				new \AnyMark\Pattern\Patterns\LinkDefinition('my site', 'http://example.com'))
+		);
+		$this->internalUrlBuilder
+			->expects($this->once())
+			->method('urlTo')->with('http://example.com')
+			->will($this->returnValue('http://example.com'));
 		$text = "Visit [my site] for info.\n\n"
 			. "paragraph\n\n";
 		$expected = $this->createDomForLink('http://example.com', 'my site');
@@ -155,6 +191,10 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	public function anchorTextCanContainATextLink()
 	{
 		$text = "Visit [site http://x.com](http://y.com \"title\") for info.";
+		$this->internalUrlBuilder
+			->expects($this->once())
+			->method('urlTo')->with('http://y.com')
+			->will($this->returnValue('http://y.com'));
 		$expected = $this->createDomForLink('http://y.com', 'site http://x.com', 'title');
 		$this->assertEquals($expected, $this->applyPattern($text));
 	}
@@ -164,6 +204,10 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	 */
 	public function squareBracketsInLinksAreOk()
 	{
+		$this->internalUrlBuilder
+			->expects($this->once())
+			->method('urlTo')->with('http://example.com?x=[y]&amp;foo=[bar]')
+			->will($this->returnValue('http://example.com?x=[y]&amp;foo=[bar]'));
 		$text = "Visit [my website](http://example.com?x=[y]&amp;foo=[bar]) for info.";
 		$expected = $this->createDomForLink('http://example.com?x=[y]&amp;foo=[bar]', 'my website');
 		$this->assertEquals($expected, $this->applyPattern($text));
@@ -176,7 +220,7 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	{
 		$this->internalUrlBuilder
 			->expects($this->once())
-			->method('createRelativeLink')->with('x')
+			->method('urlTo')->with('x')
 			->will($this->returnValue('x.html'));
 		$text = "See page [x](x) for info.";
 		$expected = $this->createDomForLink('x.html', 'x');
@@ -190,7 +234,7 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	{
 		$this->internalUrlBuilder
 			->expects($this->once())
-			->method('createRelativeLink')->with('x/6/f4#f')
+			->method('urlTo')->with('x/6/f4#f')
 			->will($this->returnValue('x.html'));
 		$text = "See page [x/6/f4#f](x/6/f4#f) for info.";
 		$expected = $this->createDomForLink('x.html', 'x/6/f4#f');
@@ -204,7 +248,7 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	{
 		$this->internalUrlBuilder
 			->expects($this->once())
-			->method('createRelativeLink')->with('link')
+			->method('urlTo')->with('link')
 			->will($this->returnValue('link.html'));
 		$text = "See page [link]\n(link) for info.";
 		$expected = $this->createDomForLink('link.html', 'link');

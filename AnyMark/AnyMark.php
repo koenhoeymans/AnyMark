@@ -39,7 +39,7 @@ class AnyMark implements Parser
 		$fjor->given('Fjor\\Fjor')->thenUse($fjor);
 		$fjor
 			->given('AnyMark\\Util\\InternalUrlBuilder')
-			->thenUse('AnyMark\\Util\\HtmlFileUrlBuilder');
+			->thenUse('AnyMark\\Util\\ExtensionlessUrlBuilder');
 		$fjor->given('AnyMark\\AnyMark')
 			->andMethod('addPreTextProcessor')
 			->addParam(array('AnyMark\\Processor\\Processors\\EmptyLineFixer'))

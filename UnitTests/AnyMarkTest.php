@@ -21,7 +21,7 @@ class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
 		$preProcessor
 			->expects($this->atLeastOnce())
 			->method('process')
-			->with("text\n");
+			->with("text\n\n");
 
 		$this->anyMark->addPreTextProcessor($preProcessor);
 		$this->anyMark->parse('text');

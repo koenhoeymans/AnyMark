@@ -120,7 +120,7 @@ class AnyMark implements Parser
 		$patternList = $this->fjor->get('AnyMark\\Pattern\\PatternList');
 		$patternListFiller = new \AnyMark\Util\PatternListFiller($this->fjor);
 		$ini = $this->customIni ?: __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.ini';
-		$patternListFiller->fill($patternList, $ini);
+		$patternListFiller->iniFill($patternList, $ini);
 		$this->parser = $this->fjor->get('AnyMark\\Parser\\RecursiveReplacer');
 
 		return $this->parser;

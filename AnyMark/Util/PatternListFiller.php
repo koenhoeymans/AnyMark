@@ -30,7 +30,7 @@ class PatternListFiller
 	 * 
 	 * @return PatternList
 	 */
-	public function fill(PatternList $patternList, $iniFile)
+	public function iniFill(PatternList $patternList, $iniFile)
 	{
 		$patternTree = parse_ini_file($iniFile);
 

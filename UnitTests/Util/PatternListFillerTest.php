@@ -32,7 +32,7 @@ class AnyMark_Util_PatternListFillerTest extends PHPUnit_Framework_TestCase
 			. DIRECTORY_SEPARATOR . 'Support'
 			. DIRECTORY_SEPARATOR . 'Dummy.ini';
 
-		$this->filler->fill($patternListMock, $dummyIni);
+		$this->filler->iniFill($patternListMock, $dummyIni);
 	}
 
 	/**
@@ -47,7 +47,7 @@ class AnyMark_Util_PatternListFillerTest extends PHPUnit_Framework_TestCase
 				. DIRECTORY_SEPARATOR . 'Circular.ini';
 
 		// shouldn't throw maximum nesting level error
-		$this->filler->fill($patternList, $circularIni);
+		$this->filler->iniFill($patternList, $circularIni);
 	}
 
 	/**
@@ -65,6 +65,6 @@ class AnyMark_Util_PatternListFillerTest extends PHPUnit_Framework_TestCase
 			. DIRECTORY_SEPARATOR . 'Support'
 			. DIRECTORY_SEPARATOR . 'Custom.ini';
 
-		$this->filler->fill($patternListMock, $dummyIni);
+		$this->filler->iniFill($patternListMock, $dummyIni);
 	}
 }

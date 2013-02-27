@@ -17,12 +17,15 @@ class AnyMark_Pattern_Patterns_TextualListTest extends \AnyMark\UnitTests\Suppor
 		return $this->list;
 	}
 
-	public function createList($type, $content)
+	public function create($tag, $text = null)
 	{
-		$list = $this->elementTree()->createElement($type);
-		$list->append($this->elementTree()->createText($content));
+		$element = $this->elementTree()->createElement($tag);
+		if ($text)
+		{
+			$element->append($this->elementTree()->createText($text));
+		}
 
-		return $list;
+		return $element;
 	}
 
 	/**
@@ -51,7 +54,9 @@ paragraph";
  * other item
 
 paragraph";
-		$list = $this->createList('ul', "* an item\n* other item");
+		$list = $this->create('ul');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
@@ -68,7 +73,9 @@ paragraph";
 * other item
 
 ";
-		$list = $this->createList('ul', "* an item\n* other item");
+		$list = $this->create('ul');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
@@ -85,7 +92,9 @@ paragraph";
  * other item
 
 ";
-		$list = $this->createList('ul', "* an item\n* other item");
+		$list = $this->create('ul');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
@@ -102,7 +111,29 @@ paragraph";
 
 	* an item";
 
-		$this->assertEquals(null, $this->applyPattern($text));
+		$this->assertNull($this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function listItemsDoNotNeedBlankLineWhenIndented()
+	{
+		$text =
+'para
+  * item
+    * subitem
+    * subitem
+  * item
+
+para';
+		$list = $this->create('ul');
+		$list->append($this->create('li', "item
+* subitem
+* subitem"));
+		$list->append($this->create('li', 'item'));
+
+		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
 	/**
@@ -117,7 +148,9 @@ paragraph";
 
 paragraph
 ";
-		$list = $this->createList('ul', "* an item\n* other item");
+		$list = $this->create('ul');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
 
 		$this->assertEquals($list, $this->applyPattern($text));	
 	}
@@ -146,7 +179,9 @@ paragraph
  * other item
 
 ";
-		$list = $this->createList('ul', "* an item\n* other item");
+		$list = $this->create('ul');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
@@ -160,7 +195,9 @@ paragraph
 
  * an item
  * other item";
-		$list = $this->createList('ul', "* an item\n* other item");
+		$list = $this->create('ul');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
@@ -180,7 +217,28 @@ paragraph
  * other item
 
 ";
-		$list = $this->createList('ul', "* an item\n\n  item continues\n\n* other item");
+		$list = $this->create('ul');
+		$list->append($this->create('li', "an item\n\nitem continues\n\n"));
+		$list->append($this->create('li', "other item\n\n"));
+	
+		$this->assertEquals($list, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function listItemsCanBeSeperatedByABlankLine()
+	{
+		$text =
+"
+ * an item
+
+ * other item
+
+";
+		$list = $this->create('ul');
+		$list->append($this->create('li', "an item\n\n"));
+		$list->append($this->create('li', "other item\n\n"));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
@@ -196,7 +254,43 @@ paragraph
 item continues ...  not
 
 ";
-		$list = $this->createList('ul', "* an item");
+		$list = $this->create('ul');
+		$list->append($this->create('li', 'an item'));
+
+		$this->assertEquals($list, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function listItemsCanContinueUnindentedOnFollowingLine()
+	{
+		$text = "
+ * an item
+item continues
+ * other item
+";
+		$list = $this->create('ul');
+		$list->append($this->create('li', "an item\nitem continues"));
+		$list->append($this->create('li', "other item"));
+
+		$this->assertEquals($list, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function listItemsCanContinueIndentedOnFollowingLine()
+	{
+		$text =
+"
+ * an item
+   item continues
+ * other item
+";
+		$list = $this->create('ul');
+		$list->append($this->create('li', "an item\nitem continues"));
+		$list->append($this->create('li', "other item"));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
@@ -213,8 +307,10 @@ item continues ...  not
 2. other item
 
 paragraph";
-		$list = $this->createList('ol', "1. an item\n2. other item");
-
+		$list = $this->create('ol');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
+	
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
@@ -230,7 +326,9 @@ paragraph";
 #. other item
 
 paragraph";
-		$list = $this->createList('ol', "#. an item\n#. other item");
+		$list = $this->create('ol');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
@@ -247,7 +345,9 @@ paragraph";
 52. other item
 
 paragraph";
-		$list = $this->createList('ol', "15. an item\n52. other item");
+		$list = $this->create('ol');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
@@ -267,11 +367,95 @@ paragraph";
 	item continued
 
 paragraph";
-		$list = $this->createList('ul', "*	an item
+		$list = $this->create('ul');
+		$list->append($this->create('li', "\tan item
 
 		code
 
-	item continued");
+	item continued"));
+		
+		$this->assertEquals($list, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function listItemsCanAlsoBePrecededByPlusSign()
+	{
+		$text = "\n + an item\n + other item\n";
+		$list = $this->create('ul');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
+
+		$this->assertEquals($list, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function listItemsCanBePrecededByMinusSign()
+	{
+		$text = "\n - an item\n - other item\n";
+		$list = $this->create('ul');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
+
+		$this->assertEquals($list, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function listItemsCanBePrecededWithNumbersFollowedByDot()
+	{
+		$text = "\n 1. an item\n 2. other item\n";
+		$list = $this->create('ol');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
+
+		$this->assertEquals($list, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function listItemsCanBePrecededWithHashFollowedByDot()
+	{
+		$text = "\n #. an item\n #. other item\n";
+		$list = $this->create('ol');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
+
+		$this->assertEquals($list, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function aListItemCanContainAsterisks()
+	{
+		$text = "\n * an *item*\n * other item\n";
+		$list = $this->create('ul');
+		$list->append($this->create('li', 'an *item*'));
+		$list->append($this->create('li', 'other item'));
+
+		$this->assertEquals($list, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function listItemsCanBeEmpty()
+	{
+		$text =
+"
+ *
+ * an item
+
+";
+
+		$list = $this->create('ul');
+		$list->append($this->create('li', 'an item'));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}

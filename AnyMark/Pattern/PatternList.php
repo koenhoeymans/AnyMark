@@ -59,11 +59,11 @@ class PatternList
 	 * 
 	 * @return PatternList
 	 */
-	public function addSubpattern(Pattern $subpattern, Pattern $pattern)
+	public function addSubpattern(Pattern $subpattern, Pattern $parentPattern)
 	{
 		foreach ($this->subpatterns as &$patternArr)
 		{
-			if ($patternArr['pattern'] == $pattern)
+			if ($patternArr['pattern'] == $parentPattern)
 			{
 				$patternArr['subpatterns'][] = $subpattern;
 				return $this;
@@ -71,7 +71,7 @@ class PatternList
 		}
 
 		$this->subpatterns[] = array(
-			'pattern' => $pattern, 'subpatterns' => array($subpattern)
+			'pattern' => $parentPattern, 'subpatterns' => array($subpattern)
 		);
 
 		return $this;

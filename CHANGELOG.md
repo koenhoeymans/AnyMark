@@ -1,6 +1,13 @@
 AnyMark Changelog
 =================
 
+*	0.4.0
+
+	*	Markdown lists are now one pattern instead of two (one for the list and
+		one for the list items).
+	*	Pattern relationships and processing order are no longer contained in an
+		`ini` file but through an array.
+
 *	0.3.2
 
 	*	Added double newline (`\n\n`) before the text string to parse. Otherwise

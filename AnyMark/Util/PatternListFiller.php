@@ -15,62 +15,140 @@ class PatternListFiller
 {
 	private $objectGraphConstructor;
 
-	private $doneCombinations = array();
-
 	public function __construct(Fjor $objectGraphConstructor)
 	{
 		$this->objectGraphConstructor = $objectGraphConstructor;
 	}
 
-	/**
-	 * Fill PatternList based on patterns in config (ini) file.
-	 * 
-	 * @param PatternList $patternList
-	 * @param string $iniFile
-	 * 
-	 * @return PatternList
-	 */
-	public function iniFill(PatternList $patternList, $iniFile)
+	public function fill(PatternList $patternList, $patternsFile)
 	{
-		$patternTree = parse_ini_file($iniFile);
+		$patterns = require $patternsFile;
 
-		foreach ($patternTree['root'] as $pattern)
+		if (isset($patterns['alias']))
 		{
-			$patternList->addRootPattern($this->getPattern($pattern));
-			$this->addSubpatterns($pattern, $patternList, $patternTree);
+			# removing all aliases and have a list of patterns and subpatterns only
+			$aliases = $this->deAliasAliases((array) $patterns['alias']);
+			$patterns = $this->deAliasPatterns((array) $patterns['patterns'], $aliases);
+		}
+		else
+		{
+			$patterns = $patterns['patterns'];
 		}
 
-		$this->doneCombinations = array();
-
-		return $patternTree;
+		$this->addPatterns($patterns, $patternList);
 	}
 
-	private function addSubpatterns($pattern, PatternList $patternList, array $patternTree)
+	private function addPatterns($patterns, PatternList $patternList)
 	{
-		if (!isset($patternTree[$pattern]))
+		foreach ($patterns as $parentPattern => $subpatterns)
 		{
-			return;
+			foreach ($subpatterns as $subpattern)
+			{
+				$subpattern = $this->getPattern($subpattern);
+				if ($parentPattern === 'root')
+				{
+					$patternList->addRootPattern($subpattern);
+				}
+				else
+				{
+					$patternList->addSubpattern(
+						$subpattern, $this->getPattern($parentPattern)
+					);
+				}
+			}
+		}
+	}
+
+	# $alias => array('no', 'aliases', '(all replaced)')
+	private function deAliasAliases(array $aliases)
+	{
+		foreach ($aliases as $alias => $substitutes)
+		{
+			$originals = array();
+			foreach ($substitutes as $substitute)
+			{
+				$originals = array_merge(
+					$originals, $this->getOriginalReferenced($substitute, $aliases)
+				);
+			}
+			$aliases[$alias] = array_unique($originals);
 		}
 
-		foreach ($patternTree[$pattern] as $subpattern)
+		return $aliases;
+	}
+
+	# if an alias references another alias we want a list of all original referenced
+	private function getOriginalReferenced($name, $aliases)
+	{
+		if (!isset($aliases[$name]))
 		{
-			if (in_array(array($pattern, $subpattern), $this->doneCombinations))
+			return array($name);
+		}
+
+		$originalReferenced = array();
+		$referenced = $aliases[$name];
+		foreach ($referenced as $ref)
+		{
+			$originalReferenced = array_merge(
+				$originalReferenced, $this->getOriginalReferenced($ref, $aliases)
+			);
+		}
+
+		return array_unique($originalReferenced);
+	}
+
+	# we know $aliases has been de-aliased, now it's time for the $patterns
+	private function deAliasPatterns(array $patterns, array $aliases)
+	{
+		$patterns = $this->deAliasParentPatterns($patterns, $aliases);
+		foreach ($patterns as $pattern => $subpatterns)
+		{
+			$patterns[$pattern] = $this->deAliasSubpatterns($subpatterns, $aliases);
+		}
+
+		return $patterns;
+	}
+
+	# replace aliases for patterns, don't care if there are aliases within subpatterns
+	private function deAliasParentPatterns(array $patterns, array $aliases)
+	{
+		foreach ($patterns as $parentPattern => $subpatterns)
+		{
+			if (!isset($aliases[$parentPattern]))
 			{
 				continue;
 			}
 
-			$this->doneCombinations[] = array($pattern, $subpattern);
-
-			$patternList->addSubpattern(
-				$this->getPattern($subpattern),
-				$this->getPattern($pattern)
-			);
-
-			if ($pattern != $subpattern)
+			$parentPatternAliases = $aliases[$parentPattern];
+			foreach ($parentPatternAliases as $pattern)
 			{
-				$this->addSubpatterns($subpattern, $patternList, $patternTree);
+				$existing = isset($patterns[$pattern]) ? $patterns[$pattern] : array();
+				$patterns[$pattern] = array_merge($existing, $subpatterns);
+			}
+			unset($patterns[$parentPattern]);
+		}
+
+		return $patterns;
+	}
+
+	# remove all aliases from subpatterns and replace them by non-aliased patterns
+	private function deAliasSubpatterns(array $subpatterns, array $aliases)
+	{
+		$deAliasedSubpatterns = array();
+		foreach ($subpatterns as $subpattern)
+		{
+			if (isset($aliases[$subpattern]))
+			{
+				$deAliasedSubpatterns = array_merge(
+					$deAliasedSubpatterns, $aliases[$subpattern]
+				);
+			}
+			else
+			{
+				$deAliasedSubpatterns[] = $subpattern;
 			}
 		}
+		return $deAliasedSubpatterns;
 	}
 
 	private function getPattern($name)

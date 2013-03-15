@@ -19,7 +19,7 @@ class AnyMark implements Parser
 {
 	private $fjor;
 
-	private $customIni = false;
+	private $customPatterns = false;
 
 	private $preTextProcessors = array();
 
@@ -81,13 +81,13 @@ class AnyMark implements Parser
 	}
 
 	/**
-	 * Set a custom ini which specifies which patterns to load.
+	 * Set a custom pattern-tree which specifies which patterns to load.
 	 * 
-	 * @param string $ini
+	 * @param string $file
 	 */
-	public function setPatternsIni($ini)
+	public function setPatternsFile($file)
 	{
-		$this->customIni = $ini;
+		$this->customPatterns = $file;
 	}
 
 	/**
@@ -119,8 +119,15 @@ class AnyMark implements Parser
 
 		$patternList = $this->fjor->get('AnyMark\\Pattern\\PatternList');
 		$patternListFiller = new \AnyMark\Util\PatternListFiller($this->fjor);
-		$ini = $this->customIni ?: __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.ini';
-		$patternListFiller->iniFill($patternList, $ini);
+		if ($this->customPatterns)
+		{
+			$file = $this->customPatterns;
+		}
+		else
+		{
+			$file = __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.php';
+		}
+		$patternListFiller->fill($patternList, $file);
 		$this->parser = $this->fjor->get('AnyMark\\Parser\\RecursiveReplacer');
 
 		return $this->parser;

@@ -7,17 +7,21 @@ class AnyMark_EndToEndTests_SampleTextTest extends \AnyMark\EndToEndTests\Suppor
 	/**
 	 * @test
 	 */
-	public function sampleText()
+	public function acceptsCustomPatternsFile()
 	{
 		// given
 		$anyMark = \AnyMark\AnyMark::setup()->get('AnyMark\\AnyMark');
+		$anyMark->setPatternsFile(__DIR__
+			. DIRECTORY_SEPARATOR . '..'
+			. DIRECTORY_SEPARATOR . 'AnyMark'
+			. DIRECTORY_SEPARATOR . 'Patterns.php');
 		$text = file_get_contents(__DIR__
 			. DIRECTORY_SEPARATOR . 'Support'
 			. DIRECTORY_SEPARATOR . 'SampleText.txt');
-
+		
 		// when
 		$parsedText = $anyMark->parse($text)->toString();
-
+		
 		// then
 		$this->assertEquals(
 			$this->tidy(file_get_contents(

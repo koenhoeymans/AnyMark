@@ -52,9 +52,9 @@ class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
-	public function customIniFileCanBeSpecified()
+	public function customPatternsFileCanBeSpecified()
 	{
 		// @todo refactor
-		$this->anyMark->setPatternsIni('dummy.ini');
+		$this->anyMark->setPatternsFile('Dummy.php');
 	}
 }

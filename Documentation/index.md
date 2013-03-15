@@ -64,10 +64,14 @@ The AnyMark\ElementTree is a tree of components. These can be an `Element`, `Com
 ### Custom Patterns ###
 
 What patterns, the order in which the patterns are handled and its relations
-are defined in an ini file. The default ini file can be found in the AnyMark
-directory. AnyMark accepts a custom ini file this way:
+are defined in a file returning an array. The default can be found in the AnyMark
+directory (`Patterns.php`). AnyMark accepts a custom patterns file by passing its
+location:
 
-	$anyMark->setPatternsIni($myCustomIniFile);
+	$anyMark->setPatternsFile($myCustomPatternsFile);
+
+The best way to learn how such a file can be created is by taking a look at the
+default one. 
 
 
 Syntax

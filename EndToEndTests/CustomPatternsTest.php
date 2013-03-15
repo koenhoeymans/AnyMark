@@ -7,21 +7,20 @@ class AnyMark_EndToEndTests_CustomPatternsTest extends \AnyMark\EndToEndTests\Su
 	/**
 	 * @test
 	 */
-	public function customPatterns()
+	public function customPatternsFile()
 	{
 		// given
 		$anyMark = \AnyMark\AnyMark::setup()->get('AnyMark\\AnyMark');
-		$anyMark->setPatternsIni(__DIR__
+		$anyMark->setPatternsFile(__DIR__
 			. DIRECTORY_SEPARATOR . 'Support'
-			. DIRECTORY_SEPARATOR . 'CustomPatterns.ini');
-	
+			. DIRECTORY_SEPARATOR . 'CustomPatterns.php');
+
 		// when
-		$parsedText = $anyMark->saveXml($anyMark->parse('foo bar'));
-	
+		$parsedText = trim($anyMark->parse('**foo *_bar_* baz**')->toString());
+
 		// then
 		$this->assertEquals(
-			'foo foo',
-			$this->tidy($parsedText)
+			'<strong>foo <em>_bar_</em> baz</strong>', $parsedText
 		);
 	}
 }

@@ -1,5 +1,7 @@
 <?php
 
+use AnyMark\Pattern\Patterns\Strong;
+
 require_once dirname(__FILE__)
 	. DIRECTORY_SEPARATOR . '..'
 	. DIRECTORY_SEPARATOR . 'TestHelper.php';
@@ -16,55 +18,134 @@ class AnyMark_Util_PatternListFillerTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
-	public function canFillPatternListFromIni()
-	{
-		$patternListMock = $this->getMock('AnyMark\\Pattern\\PatternList');
-		$patternListMock
-			->expects($this->once())
-			->method('addRootPattern')
-			->with(new \AnyMark\Pattern\Patterns\Emphasis());
-		$patternListMock
-			->expects($this->once())
-			->method('addSubPattern')
-			->with(new \AnyMark\Pattern\Patterns\Italic(), new \AnyMark\Pattern\Patterns\Emphasis());
-		$dummyIni = __DIR__
-			. DIRECTORY_SEPARATOR . '..'
-			. DIRECTORY_SEPARATOR . 'Support'
-			. DIRECTORY_SEPARATOR . 'Dummy.ini';
-
-		$this->filler->iniFill($patternListMock, $dummyIni);
-	}
-
-	/**
-	 * @test
-	 */
-	public function handlesCircularDependencies()
-	{
-		$patternList = new \AnyMark\Pattern\PatternList();
-		$circularIni = __DIR__
-				. DIRECTORY_SEPARATOR . '..'
-				. DIRECTORY_SEPARATOR . 'Support'
-				. DIRECTORY_SEPARATOR . 'Circular.ini';
-
-		// shouldn't throw maximum nesting level error
-		$this->filler->iniFill($patternList, $circularIni);
-	}
-
-	/**
-	 * @test
-	 */
-	public function fullyQualifiedPatternNamesArePossible()
+	public function canFillPatternListFromFile()
 	{
 		$patternListMock = $this->getMock('AnyMark\\Pattern\\PatternList');
 		$patternListMock
 			->expects($this->once())
 			->method('addRootPattern')
 			->with(new \AnyMark\UnitTests\Support\DummyPattern());
-		$dummyIni = __DIR__
+		$patternListMock
+			->expects($this->once())
+			->method('addSubPattern')
+			->with(
+				new \AnyMark\UnitTests\Support\DummyPattern(),
+				new \AnyMark\UnitTests\Support\DummyPattern()
+			);
+		$dummyJson = __DIR__
 			. DIRECTORY_SEPARATOR . '..'
 			. DIRECTORY_SEPARATOR . 'Support'
-			. DIRECTORY_SEPARATOR . 'Custom.ini';
+			. DIRECTORY_SEPARATOR . 'CustomPatterns.php';
 
-		$this->filler->iniFill($patternListMock, $dummyIni);
+		$this->filler->fill($patternListMock, $dummyJson);
+	}
+
+	/**
+	 * @test
+	 */
+	public function canContainRecursiveNesting()
+	{
+		$patternList = new \AnyMark\Pattern\PatternList();
+		$circularJson = __DIR__
+			. DIRECTORY_SEPARATOR . '..'
+			. DIRECTORY_SEPARATOR . 'Support'
+			. DIRECTORY_SEPARATOR . 'CircularPatterns.php';
+
+		$this->filler->fill($patternList, $circularJson);
+	}
+
+	/**
+	 * @test
+	 */
+	public function canContainAliasForSubpatterns()
+	{
+		$patternListMock = $this->getMock('AnyMark\\Pattern\\PatternList');
+		$patternListMock
+			->expects($this->at(0))
+			->method('addRootPattern')
+			->with(new \AnyMark\Pattern\Patterns\Paragraph());
+		$patternListMock
+			->expects($this->at(1))
+			->method('addSubPattern')
+			->with(
+				new \AnyMark\Pattern\Patterns\Strong(),
+				new \AnyMark\Pattern\Patterns\Paragraph()
+			);
+		$patternListMock
+			->expects($this->at(2))
+			->method('addSubPattern')
+			->with(
+				new \AnyMark\Pattern\Patterns\Italic(),
+				new \AnyMark\Pattern\Patterns\Paragraph()
+			);
+		$dummyJson = __DIR__
+			. DIRECTORY_SEPARATOR . '..'
+			. DIRECTORY_SEPARATOR . 'Support'
+			. DIRECTORY_SEPARATOR . 'AliasSubpattern.php';
+
+		$this->filler->fill($patternListMock, $dummyJson);
+	}
+
+	/**
+	 * @test
+	 */
+	public function canContainAliasForParentPatterns()
+	{
+		$patternListMock = $this->getMock('AnyMark\\Pattern\\PatternList');
+		$patternListMock
+			->expects($this->at(0))
+			->method('addRootPattern')
+			->with(new \AnyMark\Pattern\Patterns\Strong());
+		$patternListMock
+			->expects($this->at(1))
+			->method('addRootPattern')
+			->with(new \AnyMark\Pattern\Patterns\Italic());
+		$patternListMock
+			->expects($this->at(2))
+			->method('addSubPattern')
+			->with(
+				new \AnyMark\Pattern\Patterns\Emphasis(),
+				new \AnyMark\Pattern\Patterns\Strong()
+			);
+		$patternListMock
+			->expects($this->at(3))
+			->method('addSubPattern')
+			->with(
+				new \AnyMark\Pattern\Patterns\Emphasis(),
+				new \AnyMark\Pattern\Patterns\Italic()
+			);
+
+		$dummyJson = __DIR__
+			. DIRECTORY_SEPARATOR . '..'
+			. DIRECTORY_SEPARATOR . 'Support'
+			. DIRECTORY_SEPARATOR . 'AliasParentPattern.php';
+
+		$this->filler->fill($patternListMock, $dummyJson);
+	}
+
+	/**
+	 * @test
+	 */
+	public function canContainAliasWithinAlias()
+	{
+		$patternListMock = $this->getMock('AnyMark\\Pattern\\PatternList');
+		$patternListMock
+			->expects($this->at(0))
+			->method('addRootPattern')
+			->with(new \AnyMark\Pattern\Patterns\Strong());
+		$patternListMock
+			->expects($this->at(1))
+			->method('addSubPattern')
+			->with(
+				new \AnyMark\Pattern\Patterns\Strong(),
+				new \AnyMark\Pattern\Patterns\Strong()
+			);
+
+		$dummyJson = __DIR__
+			. DIRECTORY_SEPARATOR . '..'
+			. DIRECTORY_SEPARATOR . 'Support'
+			. DIRECTORY_SEPARATOR . 'AliasedAlias.php';
+
+		$this->filler->fill($patternListMock, $dummyJson);
 	}
 }

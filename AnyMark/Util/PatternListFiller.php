@@ -47,11 +47,11 @@ class PatternListFiller
 				$subpattern = $this->getPattern($subpattern);
 				if ($parentPattern === 'root')
 				{
-					$patternList->addRootPattern($subpattern);
+					$patternList->addPattern($subpattern);
 				}
 				else
 				{
-					$patternList->addSubpattern(
+					$patternList->addPattern(
 						$subpattern, $this->getPattern($parentPattern)
 					);
 				}

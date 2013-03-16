@@ -42,24 +42,32 @@ class PatternList
 	}
 
 	/**
-	 * @param Pattern $pattern
+	 * Add a pattern to the list. If a parent is specified the pattern will
+	 * be a subpattern of the parent.
 	 * 
-	 * @return PatternList
+	 * @param Pattern $pattern
+	 * @param Pattern $parentPattern
 	 */
-	public function addRootPattern(Pattern $pattern)
+	public function addPattern(Pattern $pattern, Pattern $parentPattern = null)
+	{
+		if (!$parentPattern)
+		{
+			$this->addRootPattern($pattern);
+		}
+		else
+		{
+			$this->addSubpattern($pattern, $parentPattern);
+		}
+	}
+
+	private function addRootPattern(Pattern $pattern)
 	{
 		$this->patterns[] = $pattern;
 
 		return $this;
 	}
 
-	/**
-	 * @param Pattern $subpattern
-	 * @param Pattern $pattern
-	 * 
-	 * @return PatternList
-	 */
-	public function addSubpattern(Pattern $subpattern, Pattern $parentPattern)
+	private function addSubpattern(Pattern $subpattern, Pattern $parentPattern)
 	{
 		foreach ($this->subpatterns as &$patternArr)
 		{

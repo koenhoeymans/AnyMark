@@ -21,8 +21,8 @@ class AnyMark_Pattern_PatternListTest extends PHPUnit_Framework_TestCase
 		$patternB = new \AnyMark\UnitTests\Support\MockPattern('@x@', 'a', 'b');
 
 		// when
-		$this->patternList->addRootPattern($patternA);
-		$this->patternList->addRootPattern($patternB);
+		$this->patternList->addPattern($patternA);
+		$this->patternList->addPattern($patternB);
 
 		// then
 		$this->assertEquals(
@@ -42,9 +42,9 @@ class AnyMark_Pattern_PatternListTest extends PHPUnit_Framework_TestCase
 		$patternC = new \AnyMark\UnitTests\Support\MockPattern('@x@', 'a', 'b');
 
 		// when
-		$this->patternList->addRootPattern($patternA);
-		$this->patternList->addSubpattern($patternB, $patternA);
-		$this->patternList->addSubpattern($patternC, $patternA);
+		$this->patternList->addPattern($patternA);
+		$this->patternList->addPattern($patternB, $patternA);
+		$this->patternList->addPattern($patternC, $patternA);
 
 		// then
 		$this->assertEquals(

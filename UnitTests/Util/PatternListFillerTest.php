@@ -22,12 +22,12 @@ class AnyMark_Util_PatternListFillerTest extends PHPUnit_Framework_TestCase
 	{
 		$patternListMock = $this->getMock('AnyMark\\Pattern\\PatternList');
 		$patternListMock
-			->expects($this->once())
-			->method('addRootPattern')
+			->expects($this->at(0))
+			->method('addPattern')
 			->with(new \AnyMark\UnitTests\Support\DummyPattern());
 		$patternListMock
-			->expects($this->once())
-			->method('addSubPattern')
+			->expects($this->at(1))
+			->method('addPattern')
 			->with(
 				new \AnyMark\UnitTests\Support\DummyPattern(),
 				new \AnyMark\UnitTests\Support\DummyPattern()
@@ -62,18 +62,18 @@ class AnyMark_Util_PatternListFillerTest extends PHPUnit_Framework_TestCase
 		$patternListMock = $this->getMock('AnyMark\\Pattern\\PatternList');
 		$patternListMock
 			->expects($this->at(0))
-			->method('addRootPattern')
+			->method('addPattern')
 			->with(new \AnyMark\Pattern\Patterns\Paragraph());
 		$patternListMock
 			->expects($this->at(1))
-			->method('addSubPattern')
+			->method('addPattern')
 			->with(
 				new \AnyMark\Pattern\Patterns\Strong(),
 				new \AnyMark\Pattern\Patterns\Paragraph()
 			);
 		$patternListMock
 			->expects($this->at(2))
-			->method('addSubPattern')
+			->method('addPattern')
 			->with(
 				new \AnyMark\Pattern\Patterns\Italic(),
 				new \AnyMark\Pattern\Patterns\Paragraph()
@@ -94,22 +94,22 @@ class AnyMark_Util_PatternListFillerTest extends PHPUnit_Framework_TestCase
 		$patternListMock = $this->getMock('AnyMark\\Pattern\\PatternList');
 		$patternListMock
 			->expects($this->at(0))
-			->method('addRootPattern')
+			->method('addPattern')
 			->with(new \AnyMark\Pattern\Patterns\Strong());
 		$patternListMock
 			->expects($this->at(1))
-			->method('addRootPattern')
+			->method('addPattern')
 			->with(new \AnyMark\Pattern\Patterns\Italic());
 		$patternListMock
 			->expects($this->at(2))
-			->method('addSubPattern')
+			->method('addPattern')
 			->with(
 				new \AnyMark\Pattern\Patterns\Emphasis(),
 				new \AnyMark\Pattern\Patterns\Strong()
 			);
 		$patternListMock
 			->expects($this->at(3))
-			->method('addSubPattern')
+			->method('addPattern')
 			->with(
 				new \AnyMark\Pattern\Patterns\Emphasis(),
 				new \AnyMark\Pattern\Patterns\Italic()
@@ -131,11 +131,11 @@ class AnyMark_Util_PatternListFillerTest extends PHPUnit_Framework_TestCase
 		$patternListMock = $this->getMock('AnyMark\\Pattern\\PatternList');
 		$patternListMock
 			->expects($this->at(0))
-			->method('addRootPattern')
+			->method('addPattern')
 			->with(new \AnyMark\Pattern\Patterns\Strong());
 		$patternListMock
 			->expects($this->at(1))
-			->method('addSubPattern')
+			->method('addPattern')
 			->with(
 				new \AnyMark\Pattern\Patterns\Strong(),
 				new \AnyMark\Pattern\Patterns\Strong()

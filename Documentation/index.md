@@ -28,6 +28,11 @@ The `composer.json` should contain at least the following:
 		}
 	}
 
+Composer installs the library in the `vendor` directory and you will need
+to `require` the vendors autoload:
+
+	require vendor/autoload.php;
+
 Manual installation is also possible. AnyMark can be downloaded from
 [github](https://github.com/koenhoeymans/fjor). It depends on [Fjor]
 (https://github.com/koenhoeymans/fjor) which should be autoloaded too (see
@@ -36,21 +41,20 @@ the Fjor manual).
 
 ### Library Use ###
 
-Instatiating AnyMark is a two step procedure.
+Instatiating AnyMark can be one in one pass:
 
-	$fjor = \AnyMark\AnyMark::setup();
+	\AnyMark\AnyMark::createWith(\AnyMark\AnyMark::defaultSetup());
 
-This creates an instance of Fjor and wires the dependencies. You can change
-these dependencies. Next create an instance of AnyMark:
-
-	$anyMark = $fjor->get('AnyMark\\AnyMark');
+This instantiates AnyMark with a default setup. If you are more
+intimate with its inner workings you can change the setup. The
+default setup returns a `Fjor` instance which you can modify.
 
 Parsing a Markdown document is simple:
 
 	$componentTree = $anyMark->parse('== AnyMark ==');
 
-It will return a `\AnyMark\ElementTree\AnyMark\ElementTree`. If you want
-to save this to XML as a string call
+It will return a `\ElementTree\ElementTree` (see [https://github.com/koenhoeymans/ElementTree](https://github.com/koenhoeymans/ElementTree)).
+If you want to save this to XML as a string call
 
 	$result = $componentTree->toString();
 

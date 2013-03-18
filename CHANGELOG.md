@@ -1,6 +1,12 @@
 AnyMark Changelog
 =================
 
+*	0.5.0
+
+	*	Instantiating `AnyMark` is simpler and more meaningful.
+
+			\AnyMark\AnyMark::createWith(\AnyMark\AnyMark::defaultSetup());
+
 *	0.4.0
 
 	*	Markdown lists are now one pattern instead of two (one for the list and

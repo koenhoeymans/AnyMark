@@ -10,7 +10,7 @@ class AnyMark_EndToEndTests_SpecialCharacterTest extends \AnyMark\EndToEndTests\
 	public function specialCharacterTest()
 	{
 		// given
-		$anyMark = \AnyMark\AnyMark::setup()->get('AnyMark\\AnyMark');
+		$anyMark = \AnyMark\AnyMark::createWith(\AnyMark\AnyMark::defaultSetup());
 		$text = file_get_contents(__DIR__
 			. DIRECTORY_SEPARATOR . 'Support'
 			. DIRECTORY_SEPARATOR . 'SpecialCharacterTest.txt');

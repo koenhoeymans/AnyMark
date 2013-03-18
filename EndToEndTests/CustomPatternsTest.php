@@ -10,7 +10,7 @@ class AnyMark_EndToEndTests_CustomPatternsTest extends \AnyMark\EndToEndTests\Su
 	public function customPatternsFile()
 	{
 		// given
-		$anyMark = \AnyMark\AnyMark::setup()->get('AnyMark\\AnyMark');
+		$anyMark = \AnyMark\AnyMark::createWith(\AnyMark\AnyMark::defaultSetup());
 		$anyMark->setPatternsFile(__DIR__
 			. DIRECTORY_SEPARATOR . 'Support'
 			. DIRECTORY_SEPARATOR . 'CustomPatterns.php');

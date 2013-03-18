@@ -32,7 +32,7 @@ class AnyMark implements Parser
 	 * 
 	 * @return \Fjor\Dsl\Dsl
 	 */
-	static public function setup()
+	static public function defaultSetup()
 	{
 		$fjor = new \Fjor\Dsl\Dsl(new \Fjor\ObjectFactory\GenericObjectFactory());
 
@@ -57,6 +57,19 @@ class AnyMark implements Parser
 			->constructWith(array($patternList));
 
 		return $fjor;
+	}
+
+	/**
+	 * Syntactic method to create an instance. Eg
+	 * 
+	 *     \AnyMark\AnyMark::createWith(\AnyMark\AnyMark::defaultWiring());
+	 * 
+	 * @param Fjor $wiring
+	 * @return \AnyMark\AnyMark
+	 */
+	static public function createWith(Fjor $wiring)
+	{
+		return $wiring->get('\\AnyMark\\AnyMark');
 	}
 
 	public function __construct(Fjor $fjor)

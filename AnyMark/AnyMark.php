@@ -5,10 +5,15 @@
  */
 namespace AnyMark;
 
-use AnyMark\Parser\Parser;
+use AnyMark\Util\PatternListFiller;
+
+use AnyMark\Parser\RecursiveReplacer;
+
 use Fjor\Fjor;
 use AnyMark\Processor\TextProcessor;
 use AnyMark\Processor\ElementTreeProcessor;
+use AnyMark\Pattern\PatternList;
+use AnyMark\Parser\Parser;
 use ElementTree\Element;
 use ElementTree\ElementTree;
 
@@ -17,13 +22,17 @@ use ElementTree\ElementTree;
  */
 class AnyMark implements Parser
 {
-	private $fjor;
-
 	private $customPatterns = false;
 
 	private $preTextProcessors = array();
 
 	private $postElementTreeProcessors = array();
+
+	private $patternListFiller;
+
+	private $patternList;
+
+	private $patternListIsFilled = false;
 
 	private $parser;
 
@@ -50,11 +59,7 @@ class AnyMark implements Parser
 			->andMethod('addPostElementTreeProcessor')
 			->addParam(array('AnyMark\\Processor\\Processors\\EmailObfuscator'));
 		$fjor->setSingleton('AnyMark\\Processor\\Processors\\LinkDefinitionCollector');
-		$fjor->setSingleton('AnyMark\\Pattern\\PatternList');
-		$patternList = $fjor->get('AnyMark\\Pattern\\PatternList');
-		$fjor
-			->given('AnyMark\\Parser\\RecursiveReplacer')
-			->constructWith(array($patternList));
+		$patternList = $fjor->setSingleton('AnyMark\\Pattern\\PatternList');
 
 		return $fjor;
 	}
@@ -72,9 +77,11 @@ class AnyMark implements Parser
 		return $wiring->get('\\AnyMark\\AnyMark');
 	}
 
-	public function __construct(Fjor $fjor)
+	public function __construct(PatternListFiller $filler, PatternList $patternList, RecursiveReplacer $parser)
 	{
-		$this->fjor = $fjor;
+		$this->patternListFiller = $filler;
+		$this->patternList = $patternList;
+		$this->parser = $parser;
 	}
 
 	/**
@@ -125,13 +132,11 @@ class AnyMark implements Parser
 
 	private function getParser()
 	{
-		if ($this->parser)
+		if ($this->patternListIsFilled)
 		{
 			return $this->parser;
 		}
 
-		$patternList = $this->fjor->get('AnyMark\\Pattern\\PatternList');
-		$patternListFiller = new \AnyMark\Util\PatternListFiller($this->fjor);
 		if ($this->customPatterns)
 		{
 			$file = $this->customPatterns;
@@ -140,8 +145,9 @@ class AnyMark implements Parser
 		{
 			$file = __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.php';
 		}
-		$patternListFiller->fill($patternList, $file);
-		$this->parser = $this->fjor->get('AnyMark\\Parser\\RecursiveReplacer');
+		$this->patternListFiller->fill($this->patternList, $file);;
+
+		$this->patternListIsFilled = true;
 
 		return $this->parser;
 	}

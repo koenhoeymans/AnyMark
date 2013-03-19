@@ -49,6 +49,7 @@ class AnyMark implements Parser
 		$fjor
 			->given('AnyMark\\Util\\InternalUrlBuilder')
 			->thenUse('AnyMark\\Util\\ExtensionlessUrlBuilder');
+
 		$fjor->given('AnyMark\\AnyMark')
 			->andMethod('addPreTextProcessor')
 			->addParam(array('AnyMark\\Processor\\Processors\\EmptyLineFixer'))
@@ -58,8 +59,9 @@ class AnyMark implements Parser
 		$fjor->given('AnyMark\\AnyMark')
 			->andMethod('addPostElementTreeProcessor')
 			->addParam(array('AnyMark\\Processor\\Processors\\EmailObfuscator'));
+
 		$fjor->setSingleton('AnyMark\\Processor\\Processors\\LinkDefinitionCollector');
-		$patternList = $fjor->setSingleton('AnyMark\\Pattern\\PatternList');
+		$fjor->setSingleton('AnyMark\\Pattern\\PatternList');
 
 		return $fjor;
 	}

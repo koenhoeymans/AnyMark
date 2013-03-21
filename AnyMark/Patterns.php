@@ -8,7 +8,7 @@
 // 		"composite-block"	=> ["definitionDescription", "manualHtml", "textualList",
 // 								"blockquote", "note"],
 // 		"block"				=> ["definitionList", "horizontalRule", "composite-block",
-// 								"header", "codeWithTildes", "codeIndented", "paragraph",
+// 								"header", "codeWithTildes", "codeIndented",
 // 								"codeInline", "paragraph"]
 // 	],
 

@@ -19,7 +19,7 @@
 // 		"inline"			=> ["inline", "codeInline"],
 // 		"header"			=> ["inline"],
 // 		"definitionList"	=> ["definitionTerm", "definitionDescription"],
-// 		"paragraph"			=> ["manualHtml", "inline", "codeInline"]
+// 		"paragraph"			=> ["inline", "codeInline"]
 // 	]
 // ];
 

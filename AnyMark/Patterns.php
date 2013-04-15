@@ -1,212 +1,50 @@
 <?php
 
-// return [
-// 	"alias" =>
-// 	[
-// 		"inline"			=> ["manualHtml", "autoLink", "image", "strong", "emphasis",
-// 								"italic", "hyperlink", "definitionTerm", "newLine"],
-// 		"composite-block"	=> ["definitionDescription", "manualHtml", "textualList",
-// 								"blockquote", "note"],
-// 		"block"				=> ["definitionList", "horizontalRule", "composite-block",
-// 								"header", "codeWithTildes", "codeIndented",
-// 								"codeInline", "paragraph"]
-// 	],
-
-// 	"patterns" =>
-// 	[
-// 		"root"				=> ["block", "inline"],
-// 		"composite-block"	=> ["block", "inline"],
-// 		"inline"			=> ["inline", "codeInline"],
-// 		"header"			=> ["inline"],
-// 		"definitionList"	=> ["definitionTerm", "definitionDescription"],
-// 		"paragraph"			=> ["inline", "codeInline"]
-// 	]
-// ];
-
 return [
-
-"patterns" => [
-
-	"root" => [
-		"header",
-		"horizontalRule",
-		"textualList",
-		"blockquote",
-		"note",
-		"definitionList",
-		"codeWithTildes",
-		"codeIndented",
-		"manualHtml",
-		"paragraph",
-		"autoLink",
-		"image",
-		"strong",
-		"emphasis",
-		"italic",
-		"hyperlink"
+	"implementations" => [
+		"autoLink" => "\\AnyMark\\Pattern\\Patterns\\AutoLink",
+		"blockquote" => "\\AnyMark\\Pattern\\Patterns\\Blockquote",
+		"codeIndented" => "\\AnyMark\\Pattern\\Patterns\\CodeIndented",
+		"codeInline" => "\\AnyMark\\Pattern\\Patterns\\CodeInline",
+		"emphasis" => "\\AnyMark\\Pattern\\Patterns\\Emphasis",
+		"header" => "\\AnyMark\\Pattern\\Patterns\\Header",
+		"horizontalRule" => "\\AnyMark\\Pattern\\Patterns\\HorizontalRule",
+		"hyperlink" => "\\AnyMark\\Pattern\\Patterns\\Hyperlink",
+		"image" => "\\AnyMark\\Pattern\\Patterns\\Image",
+		"italic" => "\\AnyMark\\Pattern\\Patterns\\Italic",
+		"list" => "\\AnyMark\\Pattern\\Patterns\\TextualList",
+		"manualHtml" => "\\AnyMark\\Pattern\\Patterns\\ManualHtml",
+		"newLine" => "\\AnyMark\\Pattern\\Patterns\\NewLine",
+		"paragraph" => "\\AnyMark\\Pattern\\Patterns\\Paragraph",
+		"strong" => "\\AnyMark\\Pattern\\Patterns\\Strong",
+		"textualList" => "\\AnyMark\\Pattern\\Patterns\\TextualList"
 	],
-
-	"manualHtml" => [
-		"header",
-		"horizontalRule",
-		"textualList",
-		"blockquote",
-		"note",
-		"definitionList",
-		"codeWithTildes",
-		"codeIndented",
-		"manualHtml",
-		"paragraph",
-		"autoLink",
-		"image",
-		"strong",
-		"emphasis",
-		"italic",
-		"hyperlink"
+	"alias" => [
+		"block" => [
+			"header",
+			"horizontalRule",
+			"textualList",
+			"blockquote",
+			"manualHtml",
+			"paragraph"
+		],
+		"inline" => [
+			"manualHtml",
+			"newLine",
+			"autoLink",
+			"image",
+			"strong",
+			"emphasis",
+			"italic",
+			"hyperlink"
+		]
 	],
-
-	"note" => [
-		"manualHtml",
-		"header",
-		"horizontalRule",
-		"textualList",
-		"blockquote",
-		"note",
-		"definitionList",
-		"codeWithTildes",
-		"codeIndented",
-		"paragraph",
-		"newLine",
-		"codeInline",
-		"autoLink",
-		"image",
-		"strong",
-		"emphasis",
-		"italic",
-		"hyperlink"
-	],
-
-	"paragraph" => [
-		"manualHtml",
-		"newLine",
-		"codeInline",
-		"autoLink",
-		"image",
-		"strong",
-		"emphasis",
-		"italic",
-		"hyperlink"
-	],
-
-	"definitionList" => [
-		"definitionTerm",
-		"definitionDescription"
-	],
-
-	"definitionTerm" => [
-		"manualHtml",
-		"newLine",
-		"codeInline",
-		"autoLink",
-		"image",
-		"strong",
-		"emphasis",
-		"italic",
-		"hyperlink"
-	],
-
-	"definitionDescription" => [
-		"manualHtml",
-		"header",
-		"horizontalRule",
-		"textualList",
-		"blockquote",
-		"note",
-		"definitionList",
-		"codeWithTildes",
-		"codeIndented",
-		"paragraph",
-		"newLine",
-		"codeInline",
-		"autoLink",
-		"image",
-		"strong",
-		"emphasis",
-		"italic",
-		"hyperlink"
-	],
-
-	"textualList" => [
-		"manualHtml",
-		"header",
-		"horizontalRule",
-		"textualList",
-		"blockquote",
-		"note",
-		"definitionList",
-		"codeWithTildes",
-		"codeIndented",
-		"paragraph",
-		"newLine",
-		"codeInline",
-		"autoLink",
-		"image",
-		"strong",
-		"emphasis",
-		"italic",
-		"hyperlink"
-	],
-
-	"blockquote" => [
-		"manualHtml",
-		"header",
-		"horizontalRule",
-		"textualList",
-		"note",
-		"definitionList",
-		"codeWithTildes",
-		"codeIndented",
-		"blockquote",
-		"paragraph",
-		"newLine",
-		"codeInline",
-		"autoLink",
-		"image",
-		"strong",
-		"emphasis",
-		"italic",
-		"hyperlink"
-	],
-
-	"hyperlink" => [
-		"strong",
-		"emphasis",
-		"italic"
-	],
-
-	"strong" => [
-		"manualHtml",
-		"strong",
-		"emphasis",
-		"italic",
-		"hyperlink"
-	],
-
-	"emphasis" => [
-		"manualHtml",
-		"strong",
-		"emphasis",
-		"italic",
-		"hyperlink"
-	],
-
-	"italic" => [
-		"manualHtml",
-		"strong",
-		"emphasis",
-		"italic",
-		"hyperlink"
+	"tree" => [
+		"root" => ["block", "codeIndented"],
+		"block" => ["inline", "codeIndented", "codeInline"],
+		"inline" => ["inline", "codeInline"],
+		"textualList" => ["block"],
+		"blockquote" => ["block"],
+		"manualHtml" => ["block"]
 	]
-]
-
 ];

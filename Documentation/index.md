@@ -67,15 +67,7 @@ The AnyMark\ElementTree is a tree of components. These can be an `Element`, `Com
 
 ### Custom Patterns ###
 
-What patterns, the order in which the patterns are handled and its relations
-are defined in a file returning an array. The default can be found in the AnyMark
-directory (`Patterns.php`). AnyMark accepts a custom patterns file by passing its
-location:
-
-	$anyMark->setPatternsFile($myCustomPatternsFile);
-
-The best way to learn how such a file can be created is by taking a look at the
-default one. 
+xxxxxxxxxxxxxxxxxxxx 
 
 
 Syntax

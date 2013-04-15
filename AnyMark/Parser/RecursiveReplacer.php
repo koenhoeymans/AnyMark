@@ -6,7 +6,7 @@
 namespace AnyMark\Parser;
 
 use AnyMark\Pattern\Pattern;
-use AnyMark\Pattern\PatternList;
+use AnyMark\Pattern\PatternTree;
 use ElementTree\ElementTree;
 use ElementTree\Component;
 use ElementTree\Text;
@@ -17,11 +17,11 @@ use ElementTree\Text;
  */
 class RecursiveReplacer implements Parser
 {
-	private $patternList;
+	private $patternTree;
 
-	public function __construct(PatternList $patternList)
+	public function __construct(PatternTree $patternTree)
 	{
-		$this->patternList = $patternList;
+		$this->patternTree = $patternTree;
 	}
 
 	/**
@@ -49,9 +49,7 @@ class RecursiveReplacer implements Parser
 		$totalBytes = strlen($textToReplace);
 		$currentByteOffset = 0;
 		$endOfTextReached = false;
-		$patterns = ($parentPattern == null) ?
-			$this->patternList->getPatterns() :
-			$this->patternList->getSubpatterns($parentPattern);
+		$patterns = $this->patternTree->getSubpatterns($parentPattern);
 
 		while (!$endOfTextReached)
 		{

@@ -9,7 +9,7 @@ class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
 {
 	public function setup()
 	{
-		$this->anyMark = \AnyMark\AnyMark::createWith(\AnyMark\AnyMark::defaultSetup());
+		$this->anyMark = \AnyMark\AnyMark::createWith(\AnyMark\AnyMark::defaultWiring());
 	}
 
 	/**
@@ -47,14 +47,5 @@ class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
 	public function returnsParsingResultAsElementTree()
 	{
 		$this->assertTrue($this->anyMark->parse('text') instanceof \ElementTree\ElementTree);
-	}
-
-	/**
-	 * @test
-	 */
-	public function customPatternsFileCanBeSpecified()
-	{
-		// @todo refactor
-		$this->anyMark->setPatternsFile('Dummy.php');
 	}
 }

@@ -13,7 +13,7 @@ class MockPatternCreatingMultiNodes extends \AnyMark\Pattern\Pattern
 
 	private $subElements;
 
-	public function __construct($regex, $elementName, $textInElement, array $subElement1)
+	public function __construct($regex, $elementName, array $subElement1)
 	{
 		$arguments = func_get_args();
 		$this->regex = array_shift($arguments);

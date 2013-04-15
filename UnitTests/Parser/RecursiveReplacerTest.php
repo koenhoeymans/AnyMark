@@ -15,11 +15,9 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setup()
 	{
-		$this->patternList = $this->getMockBuilder('\\AnyMark\\Pattern\\PatternList')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->patternTree = $this->getMock('\\AnyMark\\Pattern\\PatternTree');
 		$this->replacer = new \AnyMark\Parser\RecursiveReplacer(
-			$this->patternList
+			$this->patternTree
 		);
 	}
 
@@ -37,9 +35,9 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 			->expects($this->atLeastOnce())
 			->method('handleMatch')
 			->will($this->returnValue(new \ElementTree\ElementTreeElement('a')));
-		$this->patternList
+		$this->patternTree
 			->expects($this->atLeastOnce())
-			->method('getPatterns')
+			->method('getSubpatterns')
 			->will($this->returnValue(array($mockPattern)));
 
 		$this->replacer->parse('<doc>text
@@ -61,9 +59,9 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 			->method('handleMatch')
 			->will($this->returnValue(null));
 
-		$this->patternList
+		$this->patternTree
 			->expects($this->atLeastOnce())
-			->method('getPatterns')
+			->method('getSubpatterns')
 			->will($this->returnValue(array($mockPattern)));
 		
 		$this->assertEquals(
@@ -79,11 +77,11 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 		$mockPatternA = new Support\MockPattern('@e@', 'a', 'a');
 		$mockPatternB = new Support\MockPattern('@x@', 'b', 'b');
 
-		$this->patternList
+		$this->patternTree
 			->expects($this->atLeastOnce())
-			->method('getPatterns')
+			->method('getSubpatterns')
 			->will($this->returnValue(array($mockPatternA, $mockPatternB)));
-		$this->patternList
+		$this->patternTree
 			->expects($this->atLeastOnce())
 			->method('getSubpatterns')
 			->will($this->returnValue(array()));
@@ -102,14 +100,15 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 		$mockPattern = new Support\MockPattern('@e@', 'a', 'a');
 		$mockSubpattern = new Support\MockPattern('@a@', 'b', 'c');
 
-		$this->patternList
-			->expects($this->any())
-			->method('getPatterns')
-			->will($this->returnValue(array($mockPattern)));
-		$this->patternList
-			->expects($this->any())
+		$map = array(
+			array(null, array($mockPattern)),
+			array($mockPattern, array($mockSubpattern)),
+			array($mockSubpattern, array())
+		);
+		$this->patternTree
+			->expects($this->atLeastOnce())
 			->method('getSubpatterns')
-			->will($this->returnValue(array($mockSubpattern)));
+			->will($this->returnValueMap($map));
 
 		$this->assertEquals(
 			't<a><b>c</b></a>xt',
@@ -131,18 +130,21 @@ class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
 		$mockSubpattern1 = new Support\MockPattern('@foo@', 'c', 'x');
 		$mockSubpattern2 = new Support\MockPattern('@bar@', 'e', 'y');
 
-		$this->patternList
-			->expects($this->any())
-			->method('getPatterns')
-			->will($this->returnValue(array($mockPattern)));
-		$this->patternList
-			->expects($this->any())
+		$map = array(
+			array(null, array($mockPattern)),
+			array($mockPattern, array($mockSubpattern1, $mockSubpattern2)),
+			array($mockSubpattern1, array()),
+			array($mockSubpattern2, array())
+		);
+		$this->patternTree
+			->expects($this->atLeastOnce())
 			->method('getSubpatterns')
-			->will($this->returnValue(array($mockSubpattern1, $mockSubpattern2)));
+			->will($this->returnValueMap($map));
 
 		$this->assertEquals(
 			't<a><b><c>x</c></b><d><e>y</e></d></a>xt',
 			$this->replacer->parse('text')->toString()
 		);
 	}
+
 }

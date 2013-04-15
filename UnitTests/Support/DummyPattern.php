@@ -14,9 +14,7 @@ use ElementTree\ElementTree;
 class DummyPattern extends Pattern
 {
 	public function getRegex()
-	{
-		
-	}
+	{}
 	
 	public function handleMatch(
 		array $match, ElementTree $parent, Pattern $parentPattern = null

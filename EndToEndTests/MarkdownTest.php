@@ -9,7 +9,7 @@ class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\
 {
 	public function createTestFor($name)
 	{
-		$fjor = \AnyMark\AnyMark::defaultSetup();
+		$fjor = \AnyMark\AnyMark::defaultWiring();
 		$fjor
 			->given('AnyMark\\Util\\InternalUrlBuilder')
 			->thenUse('AnyMark\\Util\\ExtensionlessUrlBuilder');

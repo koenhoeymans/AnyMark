@@ -5,33 +5,47 @@
  */
 namespace AnyMark;
 
-use Fjor\Fjor;
+use AnyMark\Pattern\FileArrayPatternConfig;
 use AnyMark\Parser\Parser;
 use AnyMark\Processor\TextProcessor;
 use AnyMark\Processor\ElementTreeProcessor;
 use ElementTree\ElementTree;
+use Epa\EventDispatcher;
+use Epa\Plugin;
+use Epa\Pluggable;
+use Epa\Observable;
+use Fjor\Fjor;
+
 
 /**
  * @package AnyMark
  */
-class AnyMark implements Parser
+class AnyMark implements Parser, Observable
 {
+	use Pluggable;
+
 	private $preTextProcessors = array();
 
 	private $postElementTreeProcessors = array();
 
 	private $parser;
 
-	/**
-	 * Sets up the wiring of objects using Fjor.
-	 * 
-	 * @return \Fjor\Dsl\Dsl
-	 */
-	static public function defaultWiring($patternsFile = null)
-	{
-		$patternsFile = $patternsFile ?: __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.php';
+	private $eventDispatcher;
 
-		$fjor = new \Fjor\Dsl\Dsl(new \Fjor\ObjectFactory\GenericObjectFactory());
+	private $patternConfig;
+
+	private $patternConfigFileEventThrown = false;
+
+	/**
+	 * Sets up the wiring of objects and return an instance.
+	 * 
+	 * @return \AnyMark\AnyMark
+	 */
+	static public function setup()
+	{
+		$patternsFile = __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.php';
+
+		$fjor = \Fjor\Fjor::defaultSetup();
 
 		$fjor->given('Fjor\\Fjor')->thenUse($fjor);
 		$fjor
@@ -51,33 +65,34 @@ class AnyMark implements Parser
 		$fjor->given('AnyMark\\Pattern\\PatternConfig')
 			->thenUse('AnyMark\\Pattern\\FileArrayPatternConfig');
 		$fjor->given('AnyMark\\Pattern\\FileArrayPatternConfig')
-			->constructWith(array($patternsFile));
+			->andMethod('fillFrom')
+			->addParam(array($patternsFile));
 		$fjor->given('AnyMark\\Pattern\\PatternFactory')
 			->thenUse('AnyMark\\Pattern\\FjorPatternFactory');
 		$fjor->given('AnyMark\\Pattern\\PatternTree')
 			->thenUse('AnyMark\\Pattern\\PatternList');
 		$fjor->setSingleton('AnyMark\\Processor\\Processors\\LinkDefinitionCollector');
 		$fjor->setSingleton('AnyMark\\Pattern\\PatternList');
+		$fjor->setSingleton('Epa\\EventDispatcher');
+		$fjor->setSingleton('AnyMark\\Pattern\\FileArrayPatternConfig');
+		$fjor->given('Epa\\Observable')
+			->andMethod('addObserver')
+			->addParam(array('Epa\\EventDispatcher'));
 
-		return $fjor;
+		return $fjor->get('\\AnyMark\\AnyMark');
 	}
 
-	/**
-	 * Syntactic method to create an instance. Eg
-	 * 
-	 *     \AnyMark\AnyMark::createWith(\AnyMark\AnyMark::defaultWiring());
-	 * 
-	 * @param Fjor $wiring
-	 * @return \AnyMark\AnyMark
-	 */
-	static public function createWith(Fjor $wiring)
-	{
-		return $wiring->get('\\AnyMark\\AnyMark');
-	}
-
-	public function __construct(Parser $parser)
-	{
+	public function __construct(
+		Parser $parser, EventDispatcher $eventDispatcher, FileArrayPatternConfig $patternConfig
+	) {
 		$this->parser = $parser;
+		$this->eventDispatcher = $eventDispatcher;
+		$this->patternConfig = $patternConfig;
+	}
+
+	public function registerPlugin(Plugin $plugin)
+	{
+		$this->eventDispatcher->registerPlugin($plugin);
 	}
 
 	/**
@@ -98,14 +113,19 @@ class AnyMark implements Parser
 
 	/**
 	 * Add Markdown text and get the parsed to HTML version back in the
-	 * form of a \DomDocument. The \DomDocument has `<doc>` as the
-	 * document element.
+	 * form of a `\ElementTree\ElementTree`.
 	 *  
 	 * @see AnyMark\Parser.Parser::parse()
-	 * @return \DomDocument
+	 * @return \ElementTree\ElementTree
 	 */
 	public function parse($text)
 	{
+		if (!$this->patternConfigFileEventThrown)
+		{
+			$this->notify(new \AnyMark\Events\PatternConfigFile($this->patternConfig));
+			$this->patternConfigFileEventThrown = true;
+		}
+
 		# adding the \n for texts containing only a paragraph
 		$text = $this->preProcess($text . "\n\n");
 

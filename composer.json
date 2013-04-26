@@ -9,8 +9,9 @@
 	}],
 	"require": {
 		"php": ">=5.4.6",
-		"fjor/fjor": "0.1.*",
-		"elementtree/elementtree": "0.1.*"
+		"fjor/fjor": "~0.1.3",
+		"elementtree/elementtree": "0.1.*",
+		"epa/epa": "~0.2.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "3.7.*"

@@ -9,7 +9,7 @@ class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
 {
 	public function setup()
 	{
-		$this->anyMark = \AnyMark\AnyMark::createWith(\AnyMark\AnyMark::defaultWiring());
+		$this->anyMark = \AnyMark\AnyMark::setup();
 	}
 
 	/**

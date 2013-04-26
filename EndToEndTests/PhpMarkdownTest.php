@@ -20,11 +20,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 {
 	public function createTestFor($name)
 	{
-		$fjor = \AnyMark\AnyMark::defaultWiring();
-		$fjor
-			->given('AnyMark\\Util\\InternalUrlBuilder')
-			->thenUse('AnyMark\\Util\\ExtensionlessUrlBuilder');
-		$anyMark = \AnyMark\AnyMark::createWith($fjor);
+		$anyMark = \AnyMark\AnyMark::setup();
 
 		$parsedText = $anyMark->parse(file_get_contents(
 			__DIR__

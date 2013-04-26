@@ -14,7 +14,8 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 			. DIRECTORY_SEPARATOR . '..'
 			. DIRECTORY_SEPARATOR . 'Support'
 			. DIRECTORY_SEPARATOR . 'SimpleConfig.php';
-		$this->config = new \AnyMark\Pattern\FileArrayPatternConfig($file);
+		$this->config = new \AnyMark\Pattern\FileArrayPatternConfig();
+		$this->config->fillFrom($file);
 	}
 
 	/**

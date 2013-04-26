@@ -67,7 +67,40 @@ The AnyMark\ElementTree is a tree of components. These can be an `Element`, `Com
 
 ### Custom Patterns ###
 
-xxxxxxxxxxxxxxxxxxxx 
+A new pattern can be created by implementing `\AnyMark\Pattern\Pattern`. The best
+way to see how this works is to look at some examples of AnyMark patterns.
+
+Patterns can be added when the event `AnyMark\Events\PatternConfigLoaded` is thrown.
+You can access this event by creating a plugin and let your plugin register a
+callback for this event.
+
+### Creating Plugins ###
+
+AnyMark uses the [EPA library](https://github.com/koenhoeymans/epa) to create a
+pluggable architecture. A plugin can be created by implementing `\Epa\Plugin`:
+
+	class MyCustomPluginRegistrat implements \Epa\Plugin
+	{
+		public function register(EventMapper $mapper)
+		{
+			$mapper->registerForEvent(
+				'AnyMark\\Events\\PatternConfigLoaded',
+				function(PatternConfigLoaded $event) {
+					$this->addPatterns($event->getPatternConfig());
+				}
+			);
+		}
+
+		public function addPatterns(Add $patternConfig)
+		{
+			$patternConfig
+				->add('AnyMark\\EndToEndTests\\Support\\Patterns\\FooChange')
+				->to('italic')
+				->first(); 
+		}
+	}
+
+The plugin registers a callback for an event (`registerForEvent`).
 
 
 Syntax

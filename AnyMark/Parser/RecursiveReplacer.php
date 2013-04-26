@@ -26,7 +26,7 @@ class RecursiveReplacer implements Parser
 
 	/**
 	 * @see AnyMark\Parser.Parser::parse()
-	 * @return \DomDocument
+	 * @return \ElementTree\ElementTree
 	 */
 	public function parse($text)
 	{

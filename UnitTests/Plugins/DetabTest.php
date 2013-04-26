@@ -27,7 +27,7 @@ class AnyMark_Plugins_DetabTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
-	public function lineWithOnlySpacesAndOrTabsIsCleaned()
+	public function replacesTabBySpaces()
 	{
 		$callback = $this->eventMapper->getCallback();
 		$event = new \AnyMark\Events\BeforeParsing("para\n\t\npara");

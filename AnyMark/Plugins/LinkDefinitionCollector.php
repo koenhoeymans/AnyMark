@@ -3,23 +3,34 @@
 /**
  * @package AnyMark
  */
-namespace AnyMark\Processor\Processors;
+namespace AnyMark\Plugins;
 
-use AnyMark\Processor\TextProcessor;
+use AnyMark\Events\BeforeParsing;
+use Epa\EventMapper;
+use Epa\Plugin;
 
 /**
  * @package AnyMark
  */
-class LinkDefinitionCollector implements TextProcessor
+class LinkDefinitionCollector implements Plugin
 {
 	private $linkDefinitions = array();
 
-	public function process($text)
+	public function register(EventMapper $mapper)
+	{
+		$mapper->registerForEvent(
+			'AnyMark\\Events\\BeforeParsing', function(BeforeParsing $event) {
+				$event->setText($this->process($event->getText()));
+			}
+		);
+	}
+
+	private function process($text)
 	{
 		return preg_replace_callback(
-			'@
+				'@
 			(^|\n+)[ ]{0,3}							# new line, 0-3 spaces
-			(\[(?<id>.+)\]):[ ]+ 					# id:space 
+			(\[(?<id>.+)\]):[ ]+ 					# id:space
 			(<(?<url1>\S+)>|(?<url2>\S+))			# url or <url>
 			(										# "title"|\'title\'|(title)
 			\n?[\t ]*								# options: on new line, indented
@@ -40,12 +51,12 @@ class LinkDefinitionCollector implements TextProcessor
 		$url = ($definition['url1']) ?: $definition['url2'];
 		$title = isset($definition['title']) ? $definition['title'] : null;
 		$this->linkDefinitions[$id] =
-			new \AnyMark\Pattern\Patterns\LinkDefinition($id, $url, $title);
+		new \AnyMark\Pattern\Patterns\LinkDefinition($id, $url, $title);
 	}
 
 	/**
 	 * Returns a link definition based on reference.
-	 * 
+	 *
 	 * @param string $linkDefinition
 	 * @return AnyMark\Pattern\Patterns\LinkDefinition
 	 */

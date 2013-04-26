@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use AnyMark\Processor\Processors\LinkDefinitionCollector;
+use AnyMark\Plugins\LinkDefinitionCollector;
 use ElementTree\ElementTree;
 
 /**

@@ -52,9 +52,6 @@ class AnyMark implements Parser, Observable
 			->given('AnyMark\\Util\\InternalUrlBuilder')
 			->thenUse('AnyMark\\Util\\ExtensionlessUrlBuilder');
 		$fjor->given('AnyMark\\AnyMark')
-			->andMethod('addPreTextProcessor')
-			->addParam(array('AnyMark\\Processor\\Processors\\LinkDefinitionCollector'));
-		$fjor->given('AnyMark\\AnyMark')
 			->andMethod('addPostElementTreeProcessor')
 			->addParam(array('AnyMark\\Processor\\Processors\\EmailObfuscator'));
 		$fjor->given('AnyMark\\Parser\\Parser')
@@ -68,7 +65,7 @@ class AnyMark implements Parser, Observable
 			->thenUse('AnyMark\\Pattern\\FjorPatternFactory');
 		$fjor->given('AnyMark\\Pattern\\PatternTree')
 			->thenUse('AnyMark\\Pattern\\PatternList');
-		$fjor->setSingleton('AnyMark\\Processor\\Processors\\LinkDefinitionCollector');
+		$fjor->setSingleton('AnyMark\\Plugins\\LinkDefinitionCollector');
 		$fjor->setSingleton('AnyMark\\Pattern\\PatternList');
 		$fjor->setSingleton('Epa\\EventDispatcher');
 		$fjor->setSingleton('AnyMark\\Pattern\\FileArrayPatternConfig');
@@ -81,6 +78,7 @@ class AnyMark implements Parser, Observable
 		$anyMark->registerPlugin(new \AnyMark\Plugins\EmptyLineFixer());
 		$anyMark->registerPlugin(new \AnyMark\Plugins\NewLineStandardizer());
 		$anyMark->registerPlugin(new \AnyMark\Plugins\Detab());
+		$anyMark->registerPlugin($fjor->get('AnyMark\\Plugins\\LinkDefinitionCollector'));
 
 		return $anyMark;
 	}

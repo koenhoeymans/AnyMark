@@ -12,13 +12,13 @@ use Epa\Plugin;
 /**
  * @package AnyMark
  */
-class EmptyLineFixer implements Plugin
+class NewLineStandardizer implements Plugin
 {
 	public function register(EventMapper $mapper)
 	{
 		$mapper->registerForEvent(
 			'AnyMark\\Events\\BeforeParsing', function(BeforeParsing $event) {
-				$event->setText(preg_replace("#\n[\t ]+\n#", "\n\n", $event->getText()));
+				$event->setText(preg_replace("#\r\n?#", "\n", $event->getText()));
 			}
 		);
 	}

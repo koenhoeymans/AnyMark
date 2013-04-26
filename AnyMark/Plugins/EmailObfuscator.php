@@ -3,19 +3,29 @@
 /**
  * @package AnyMark
  */
-namespace AnyMark\Processor\Processors;
+namespace AnyMark\Plugins;
 
-use AnyMark\Processor\ElementTreeProcessor;
-use ElementTree\Element;
 use ElementTree\ElementTree;
 use ElementTree\Component;
+use AnyMark\Events\AfterParsing;
+use Epa\EventMapper;
+use Epa\Plugin;
 
 /**
  * @package AnyMark
  */
-class EmailObfuscator implements ElementTreeProcessor
+class EmailObfuscator implements Plugin
 {
-	public function process(ElementTree $elementTree)
+	public function register(EventMapper $mapper)
+	{
+		$mapper->registerForEvent(
+			'AnyMark\\Events\\AfterParsing', function(AfterParsing $event) {
+				$this->handleTree($event->getTree());
+			}
+		);
+	}
+
+	private function handleTree(ElementTree $tree)
 	{
 		$callback = function(Component $component)
 		{
@@ -37,7 +47,7 @@ class EmailObfuscator implements ElementTreeProcessor
 			$component->append($text);
 		};
 
-		$elementTree->query($elementTree->createFilter($callback)->allElements());
+		$tree->query($tree->createFilter($callback)->allElements());
 	}
 
 	private function encode($text)

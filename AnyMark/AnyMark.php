@@ -24,10 +24,6 @@ class AnyMark implements Parser, Observable
 {
 	use Pluggable;
 
-	private $preTextProcessors = array();
-
-	private $postElementTreeProcessors = array();
-
 	private $parser;
 
 	private $eventDispatcher;
@@ -51,9 +47,6 @@ class AnyMark implements Parser, Observable
 		$fjor
 			->given('AnyMark\\Util\\InternalUrlBuilder')
 			->thenUse('AnyMark\\Util\\ExtensionlessUrlBuilder');
-		$fjor->given('AnyMark\\AnyMark')
-			->andMethod('addPostElementTreeProcessor')
-			->addParam(array('AnyMark\\Processor\\Processors\\EmailObfuscator'));
 		$fjor->given('AnyMark\\Parser\\Parser')
 			->thenUse('AnyMark\\Parser\\RecursiveReplacer');
 		$fjor->given('AnyMark\\Pattern\\PatternConfig')
@@ -79,6 +72,7 @@ class AnyMark implements Parser, Observable
 		$anyMark->registerPlugin(new \AnyMark\Plugins\NewLineStandardizer());
 		$anyMark->registerPlugin(new \AnyMark\Plugins\Detab());
 		$anyMark->registerPlugin($fjor->get('AnyMark\\Plugins\\LinkDefinitionCollector'));
+		$anyMark->registerPlugin(new \AnyMark\Plugins\EmailObfuscator());
 
 		return $anyMark;
 	}
@@ -97,22 +91,6 @@ class AnyMark implements Parser, Observable
 	}
 
 	/**
-	 * @param TextProcessor $processor
-	 */
-	public function addPreTextProcessor(TextProcessor $processor)
-	{
-		$this->preTextProcessors[] = $processor;
-	}
-
-	/**
-	 * @param DomProcessor $domProcessor
-	 */
-	public function addPostElementTreeProcessor(ElementTreeProcessor $componentTreeProcessor)
-	{
-		$this->postElementTreeProcessors[] = $componentTreeProcessor;
-	}
-
-	/**
 	 * Add Markdown text and get the parsed to HTML version back in the
 	 * form of a `\ElementTree\ElementTree`.
 	 *  
@@ -127,34 +105,14 @@ class AnyMark implements Parser, Observable
 			$this->patternConfigFileEventThrown = true;
 		}
 
-		$beforeParsingEvent = new \AnyMark\Events\BeforeParsing($text);
+		$beforeParsingEvent = new \AnyMark\Events\BeforeParsing($text . "\n\n");
 		$this->notify($beforeParsingEvent);
 
-		# adding the \n for texts containing only a paragraph
-		$text = $this->preProcess($beforeParsingEvent->getText() . "\n\n");
+		$tree = $this->parser->parse($beforeParsingEvent->getText());
 
-		$domDoc = $this->parser->parse($text);
+		$afterParsingEvent = new \AnyMark\Events\AfterParsing($tree);
+		$this->notify($afterParsingEvent);
 
-		$this->postProcess($domDoc);
-
-		return $domDoc;
-	}
-
-	private function preProcess($text)
-	{
-		foreach ($this->preTextProcessors as $processor)
-		{
-			$text = $processor->process($text);
-		}
-
-		return $text;
-	}
-
-	private function postProcess(ElementTree $componentTree)
-	{
-		foreach ($this->postElementTreeProcessors as $processor)
-		{
-			$processor->process($componentTree);
-		}
+		return $tree;
 	}
 }

@@ -15,29 +15,15 @@ class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
-	public function beforeProcessingPreTextProcessorsAreCalled()
+	public function eventsAreThrown()
 	{
-		$preProcessor = $this->getMock('\\AnyMark\\Processor\\TextProcessor');
-		$preProcessor
-			->expects($this->atLeastOnce())
-			->method('process')
-			->with("text\n\n");
+		$observer = $this->getMock('\\Epa\\Observer');
+		$this->anyMark->addObserver($observer);
 
-		$this->anyMark->addPreTextProcessor($preProcessor);
-		$this->anyMark->parse('text');
-	}
+		$observer
+			->expects($this->exactly(3))
+			->method('notify');
 
-	/**
-	 * @test
-	 */
-	public function afterProcessingPostDomProcessorsAreCalled()
-	{
-		$preProcessor = $this->getMock('\\AnyMark\\Processor\\ElementTreeProcessor');
-		$preProcessor
-			->expects($this->atLeastOnce())
-			->method('process');
-	
-		$this->anyMark->addPostElementTreeProcessor($preProcessor);
 		$this->anyMark->parse('text');
 	}
 
@@ -46,6 +32,8 @@ class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
 	 */
 	public function returnsParsingResultAsElementTree()
 	{
-		$this->assertTrue($this->anyMark->parse('text') instanceof \ElementTree\ElementTree);
+		$this->assertTrue(
+			$this->anyMark->parse('text') instanceof \ElementTree\ElementTree
+		);
 	}
 }

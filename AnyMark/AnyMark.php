@@ -53,7 +53,6 @@ class AnyMark implements Parser, Observable
 			->thenUse('AnyMark\\Util\\ExtensionlessUrlBuilder');
 		$fjor->given('AnyMark\\AnyMark')
 			->andMethod('addPreTextProcessor')
-			->addParam(array('AnyMark\\Processor\\Processors\\Detab'))
 			->addParam(array('AnyMark\\Processor\\Processors\\LinkDefinitionCollector'));
 		$fjor->given('AnyMark\\AnyMark')
 			->andMethod('addPostElementTreeProcessor')
@@ -81,6 +80,7 @@ class AnyMark implements Parser, Observable
 
 		$anyMark->registerPlugin(new \AnyMark\Plugins\EmptyLineFixer());
 		$anyMark->registerPlugin(new \AnyMark\Plugins\NewLineStandardizer());
+		$anyMark->registerPlugin(new \AnyMark\Plugins\Detab());
 
 		return $anyMark;
 	}

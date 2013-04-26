@@ -43,7 +43,7 @@ the Fjor manual).
 
 Instatiating AnyMark can be one in one pass:
 
-	\AnyMark\AnyMark::createWith(\AnyMark\AnyMark::defaultSetup());
+	\AnyMark\AnyMark::setup();
 
 This instantiates AnyMark with a default setup. If you are more
 intimate with its inner workings you can change the setup. The

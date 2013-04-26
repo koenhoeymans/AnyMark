@@ -1,6 +1,11 @@
 AnyMark Changelog
 =================
 
+*	0.6.0
+
+	*	Removed 'Extra' patterns.
+	*	Added plugin capabilities to replace processors.
+
 *	0.5.0
 
 	*	Instantiating `AnyMark` is simpler and more meaningful.

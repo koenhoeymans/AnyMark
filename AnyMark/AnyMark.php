@@ -53,7 +53,6 @@ class AnyMark implements Parser, Observable
 			->thenUse('AnyMark\\Util\\ExtensionlessUrlBuilder');
 		$fjor->given('AnyMark\\AnyMark')
 			->andMethod('addPreTextProcessor')
-			->addParam(array('AnyMark\\Processor\\Processors\\EmptyLineFixer'))
 			->addParam(array('AnyMark\\Processor\\Processors\\NewLineStandardizer'))
 			->addParam(array('AnyMark\\Processor\\Processors\\Detab'))
 			->addParam(array('AnyMark\\Processor\\Processors\\LinkDefinitionCollector'));
@@ -79,7 +78,11 @@ class AnyMark implements Parser, Observable
 			->andMethod('addObserver')
 			->addParam(array('Epa\\EventDispatcher'));
 
-		return $fjor->get('\\AnyMark\\AnyMark');
+		$anyMark = $fjor->get('\\AnyMark\\AnyMark');
+
+		$anyMark->registerPlugin(new \AnyMark\Plugins\EmptyLineFixer());
+
+		return $anyMark;
 	}
 
 	public function __construct(
@@ -126,8 +129,11 @@ class AnyMark implements Parser, Observable
 			$this->patternConfigFileEventThrown = true;
 		}
 
+		$beforeParsingEvent = new \AnyMark\Events\BeforeParsing($text);
+		$this->notify($beforeParsingEvent);
+
 		# adding the \n for texts containing only a paragraph
-		$text = $this->preProcess($text . "\n\n");
+		$text = $this->preProcess($beforeParsingEvent->getText() . "\n\n");
 
 		$domDoc = $this->parser->parse($text);
 

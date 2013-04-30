@@ -37,9 +37,13 @@ class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
 		$observer
 			->expects($this->at(1))
 			->method('notify')
-			->with(new \AnyMark\Events\BeforeParsing("text\n\n"));
+			->with(new \AnyMark\Events\PatternConfigLoaded($this->patternConfig));
 		$observer
 			->expects($this->at(2))
+			->method('notify')
+			->with(new \AnyMark\Events\BeforeParsing("text\n\n"));
+		$observer
+			->expects($this->at(3))
 			->method('notify')
 			->with(new \AnyMark\Events\AfterParsing(new \ElementTree\ElementTree()));
 

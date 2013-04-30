@@ -5,21 +5,15 @@
  */
 namespace AnyMark\Pattern;
 
-use Epa\Observer;
-
-use Epa\Pluggable;
-use Epa\Observable;
 use AnyMark\Pattern\PatternConfigDsl\Add;
 use AnyMark\Pattern\PatternConfigDsl\To;
 use AnyMark\Pattern\PatternConfigDsl\Where;
-use AnyMark\Events\PatternConfigEvent;
 
 /**
  * @package AnyMark
  */
-class FileArrayPatternConfig implements PatternConfig, Add, To, Where, Observable
+class FileArrayPatternConfig implements PatternConfig, Add, To, Where
 {
-	use Pluggable;
 
 	private $config = array();
 
@@ -31,8 +25,6 @@ class FileArrayPatternConfig implements PatternConfig, Add, To, Where, Observabl
 	public function fillFrom($file)
 	{
 		$this->config = require $file;
-
-		$this->notify(new \AnyMark\Events\PatternConfigLoaded($this));
 	}
 
 	/**

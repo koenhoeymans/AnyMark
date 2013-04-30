@@ -1,6 +1,11 @@
 AnyMark Changelog
 =================
 
+*	0.6.1
+
+	*	Moved `PatternConfigLoaded` event to class `AnyMark`. It would not be
+		thrown after a new patternfile was loaded.
+
 *	0.6.0
 
 	*	Removed 'Extra' patterns.

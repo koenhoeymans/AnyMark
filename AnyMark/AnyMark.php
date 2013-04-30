@@ -5,7 +5,7 @@
  */
 namespace AnyMark;
 
-use AnyMark\Pattern\FileArrayPatternConfig;
+use AnyMark\Pattern\PatternConfigDsl\Add;
 use AnyMark\Parser\Parser;
 use AnyMark\Processor\TextProcessor;
 use AnyMark\Processor\ElementTreeProcessor;
@@ -51,6 +51,8 @@ class AnyMark implements Parser, Observable
 			->thenUse('AnyMark\\Parser\\RecursiveReplacer');
 		$fjor->given('AnyMark\\Pattern\\PatternConfig')
 			->thenUse('AnyMark\\Pattern\\FileArrayPatternConfig');
+		$fjor->given('AnyMark\\Pattern\\PatternConfigDsl\\Add')
+			->thenUse('AnyMark\\Pattern\\FileArrayPatternConfig');
 		$fjor->given('AnyMark\\Pattern\\FileArrayPatternConfig')
 			->andMethod('fillFrom')
 			->addParam(array($patternsFile));
@@ -78,7 +80,7 @@ class AnyMark implements Parser, Observable
 	}
 
 	public function __construct(
-		Parser $parser, EventDispatcher $eventDispatcher, FileArrayPatternConfig $patternConfig
+		Parser $parser, EventDispatcher $eventDispatcher, Add $patternConfig
 	) {
 		$this->parser = $parser;
 		$this->eventDispatcher = $eventDispatcher;
@@ -103,6 +105,8 @@ class AnyMark implements Parser, Observable
 		{
 			$this->notify(new \AnyMark\Events\PatternConfigFile($this->patternConfig));
 			$this->patternConfigFileEventThrown = true;
+
+			$this->notify(new \AnyMark\Events\PatternConfigLoaded($this->patternConfig));
 		}
 
 		$beforeParsingEvent = new \AnyMark\Events\BeforeParsing($text . "\n\n");

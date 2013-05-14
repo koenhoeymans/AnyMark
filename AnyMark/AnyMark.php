@@ -5,7 +5,7 @@
  */
 namespace AnyMark;
 
-use AnyMark\Pattern\PatternConfigDsl\Add;
+use AnyMark\Pattern\FileArrayPatternConfig;
 use AnyMark\Parser\Parser;
 use AnyMark\Processor\TextProcessor;
 use AnyMark\Processor\ElementTreeProcessor;
@@ -80,7 +80,7 @@ class AnyMark implements Parser, Observable
 	}
 
 	public function __construct(
-		Parser $parser, EventDispatcher $eventDispatcher, Add $patternConfig
+		Parser $parser, EventDispatcher $eventDispatcher, FileArrayPatternConfig $patternConfig
 	) {
 		$this->parser = $parser;
 		$this->eventDispatcher = $eventDispatcher;

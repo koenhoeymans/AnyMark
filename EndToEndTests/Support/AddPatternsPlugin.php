@@ -5,7 +5,7 @@
  */
 namespace AnyMark\EndToEndTests\Support;
 
-use AnyMark\Pattern\PatternConfigDsl\Add;
+use AnyMark\PublicApi\EditPatternConfigurationEvent;
 use Epa\EventMapper;
 use Epa\Plugin;
 use AnyMark\Events\PatternConfigLoaded;
@@ -28,20 +28,16 @@ class AddPatternsPlugin implements Plugin
 		$mapper->registerForEvent(
 			'AnyMark\\Events\\PatternConfigLoaded',
 			function(PatternConfigLoaded $event) {
-				$this->addPatterns($event->getPatternConfig());
+				$this->addPatterns($event);
 			}
 		);
 	}
 
-	public function addPatterns(Add $patternConfig)
+	public function addPatterns(EditPatternConfigurationEvent $patternConfig)
 	{
-		$patternConfig
-			->add('italic', 'AnyMark\\Pattern\\Patterns\\Italic')
-			->to('root')
-			->first();
-		$patternConfig
-			->add('AnyMark\\EndToEndTests\\Support\\Patterns\\FooChange')
-			->to('italic')
-			->first(); 
+		$patternConfig->setImplementation('italic', 'AnyMark\\Pattern\\Patterns\\Italic');
+		$patternConfig->setImplementation('foo', 'AnyMark\\EndToEndTests\\Support\\Patterns\\FooChange');
+		$patternConfig->add('italic')->toParent('root')->first();
+		$patternConfig->add('foo')->toParent('italic')->first(); 
 	}
 }

@@ -1,6 +1,10 @@
 AnyMark Changelog
 =================
 
+*	0.7.0
+
+	*	Extracted public api.
+
 *	0.6.1
 
 	*	Moved `PatternConfigLoaded` event to class `AnyMark`. It would not be

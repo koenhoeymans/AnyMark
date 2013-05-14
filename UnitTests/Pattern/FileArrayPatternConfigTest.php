@@ -70,7 +70,7 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	{
 		$pattern = new \AnyMark\UnitTests\Support\DummyPattern();
 
-		$this->config->add('pattern', $pattern)->to('root');
+		$this->config->setImplementation('pattern', $pattern);
 
 		$this->assertEquals(
 			$pattern, $this->config->getSpecifiedImplementation('pattern')
@@ -82,7 +82,7 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	 */
 	public function returnsSpecifiedClassImplementationIfAddedByApi()
 	{
-		$this->config->add('pattern', 'class')->to('root');
+		$this->config->setImplementation('pattern', 'class');
 
 		$this->assertEquals(
 			'class', $this->config->getSpecifiedImplementation('pattern')
@@ -92,9 +92,29 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	/**
 	 * @test
 	 */
+	public function canAddPatternNameToAlias()
+	{
+		$this->config->add('mock')->toAlias('foo')->last();
+
+		$this->assertEquals(array('strong', 'mock'), $this->config->getAliased('foo'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function canAddPatternToAliasThatDoesNotYetExist()
+	{
+		$this->config->add('mock')->toAlias('bar')->last();
+
+		$this->assertEquals(array('mock'), $this->config->getAliased('bar'));
+	}
+
+	/**
+	 * @test
+	 */
 	public function canAddPatternAsLastSubpattern()
 	{
-		$this->config->add('mock')->to('root')->last();
+		$this->config->add('mock')->toParent('root')->last();
 
 		$names = $this->config->getSubnames('root');
 		$this->assertEquals('mock', end($names));
@@ -105,7 +125,7 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	 */
 	public function canAddPatternAsFirstSubpattern()
 	{
-		$this->config->add('mock')->to('root')->first();
+		$this->config->add('mock')->toParent('root')->first();
 
 		$names = $this->config->getSubnames('root');
 		$this->assertEquals('mock', array_shift($names));
@@ -116,7 +136,7 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	 */
 	public function patternCanBeAddedAfterOtherPattern()
 	{
-		$this->config->add('mock')->to('root')->after('italic');
+		$this->config->add('mock')->toParent('root')->after('italic');
 
 		$this->assertEquals(
 			array('italic', 'mock', 'foo'), $this->config->getSubnames('root')
@@ -128,7 +148,7 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	 */
 	public function patternCanBeAddedBeforeOtherPattern()
 	{
-		$this->config->add('mock')->to('root')->before('foo');
+		$this->config->add('mock')->toParent('root')->before('foo');
 
 		$this->assertEquals(
 			array('italic', 'mock', 'foo'), $this->config->getSubnames('root')

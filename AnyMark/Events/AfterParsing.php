@@ -7,11 +7,12 @@ namespace AnyMark\Events;
 
 use ElementTree\ElementTree;
 use Epa\Event;
+use AnyMark\PublicApi\AfterParsingEvent;
 
 /**
  * @package AnyMark
  */
-class AfterParsing implements Event
+class AfterParsing implements Event, AfterParsingEvent
 {
 	private $tree;
 

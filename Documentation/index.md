@@ -70,7 +70,7 @@ The AnyMark\ElementTree is a tree of components. These can be an `Element`, `Com
 A new pattern can be created by implementing `\AnyMark\Pattern\Pattern`. The best
 way to see how this works is to look at some examples of AnyMark patterns.
 
-Patterns can be added when the event `AnyMark\Events\PatternConfigLoaded` is thrown.
+Patterns can be added when the event `EditPatternConfigurationEvent` is thrown.
 You can access this event by creating a plugin and let your plugin register a
 callback for this event.
 

@@ -6,11 +6,12 @@
 namespace AnyMark\Events;
 
 use Epa\Event;
+use AnyMark\PublicApi\BeforeParsingEvent;
 
 /**
  * @package AnyMark
  */
-class BeforeParsing implements Event
+class BeforeParsing implements Event, BeforeParsingEvent
 {
 	private $text;
 

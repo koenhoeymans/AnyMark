@@ -5,17 +5,18 @@
  */
 namespace AnyMark\Events;
 
+use AnyMark\Pattern\FileArrayPatternConfig;
 use Epa\Event;
-use AnyMark\Pattern\PatternConfigDsl\Add;
+use AnyMark\PublicApi\EditPatternConfigurationEvent;
 
 /**
  * @package AnyMark
  */
-class PatternConfigLoaded implements Event
+class PatternConfigLoaded implements Event, EditPatternConfigurationEvent
 {
 	private $patternConfig;
 
-	public function __construct(Add $patternConfig)
+	public function __construct(FileArrayPatternConfig $patternConfig)
 	{
 		$this->patternConfig = $patternConfig;
 	}
@@ -23,5 +24,21 @@ class PatternConfigLoaded implements Event
 	public function getPatternConfig()
 	{
 		return $this->patternConfig;
+	}
+
+	/**
+	 * @see \AnyMark\PublicApi\EditPatternConfigurationEvent::setImplementation()
+	 */
+	public function setImplementation($name, $implementation)
+	{
+		$this->patternConfig->setImplementation($name, $implementation);
+	}
+
+	/**
+	 * @see \AnyMark\Pattern\PatternConfig::add()
+	 */
+	public function add($name, $implementation = null)
+	{
+		return $this->patternConfig->add($name, $implementation);
 	}
 }

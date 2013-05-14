@@ -5,21 +5,21 @@
  */
 namespace AnyMark\Pattern;
 
-use AnyMark\Pattern\PatternConfigDsl\Add;
-use AnyMark\Pattern\PatternConfigDsl\To;
-use AnyMark\Pattern\PatternConfigDsl\Where;
+use AnyMark\PublicApi\EditPatternConfigurationEvent;
+use AnyMark\PublicApi\ToAliasOrParent;
+use AnyMark\PublicApi\Where;
 
 /**
  * @package AnyMark
  */
-class FileArrayPatternConfig implements PatternConfig, Add, To, Where
+class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationEvent, ToAliasOrParent, Where
 {
-
 	private $config = array();
 
 	private $dsl = array(
 		'patternName' => null,
-		'parentPatternName' => null
+		'type' => null, // alias|tree
+		'parent' => null
 	);
 
 	public function fillFrom($file)
@@ -58,9 +58,9 @@ class FileArrayPatternConfig implements PatternConfig, Add, To, Where
 	}
 
 	/**
-	 * @see \AnyMark\Pattern\PatternListDsl\Add::add()
+	 * @see \AnyMark\PublicApi\EditPatternConfigurationEvent::setImplementation()
 	 */
-	public function add($name, $implementation = null)
+	public function setImplementation($name, $implementation)
 	{
 		if (is_object($implementation))
 		{
@@ -70,72 +70,90 @@ class FileArrayPatternConfig implements PatternConfig, Add, To, Where
 		{
 			$this->config['implementations'][$name] = $implementation;
 		}
-
- 		$this->dsl['patternName'] = $name;
-
- 		return $this;
 	}
 
 	/**
-	 * @see \AnyMark\Pattern\PatternListDsl\To::to()
+	 * @see \AnyMark\PublicApi\EditPatternConfigurationEvent::add()
 	 */
-	public function to($parentPatternName)
-	{
- 		$this->dsl['parentPatternName'] = $parentPatternName;
+	public function add($name)
+	{	
+		$this->dsl['patternName'] = $name;
 
- 		return $this;
+		return $this;
 	}
 
 	/**
-	 * @see \AnyMark\Pattern\PatternListDsl\Where::last()
+	 * @see \AnyMark\PublicApi\ToAliasOrParent::toAlias()
+	 */
+	public function toAlias($name)
+	{
+		$this->dsl['type'] = 'alias';
+		$this->dsl['parent'] = $name;
+
+		return $this;
+	}
+
+	/**
+	 * @see \AnyMark\PublicApi\ToAliasOrParent::toParent()
+	 */
+	public function toParent($name)
+	{
+		$this->dsl['type'] = 'tree';
+		$this->dsl['parent'] = $name;
+
+		return $this;
+	}
+
+	/**
+	 * @see \AnyMark\PublicApi\Where::last()
 	 */
 	public function last()
 	{
 		$name = $this->dsl['patternName'];
-		$parentName = $this->dsl['parentPatternName'];
-		$this->config['tree'][$parentName][] = $name;
+		$parentName = $this->dsl['parent'];
+		$this->config[$this->dsl['type']][$parentName][] = $name;
 	}
 
 	/**
-	 * @see \AnyMark\Pattern\PatternListDsl\Where::first()
+	 * @see \AnyMark\PublicApi\Where::first()
 	 */
 	public function first()
 	{
 		$name = $this->dsl['patternName'];
-		$parentName = $this->dsl['parentPatternName'];
-		if (isset($this->config['tree'][$parentName]))
+		$parentName = $this->dsl['parent'];
+		if (isset($this->config[$this->dsl['type']][$parentName]))
 		{
-			array_unshift($this->config['tree'][$parentName], $name);
+			array_unshift($this->config[$this->dsl['type']][$parentName], $name);
 		}
 		else
 		{
-			$this->config['tree'][$parentName][] = $name;
+			$this->config[$this->dsl['type']][$parentName][] = $name;
 		}
 	}
 
 	/**
-	 * @see \AnyMark\Pattern\PatternListDsl\Where::after()
+	 * @see \AnyMark\PublicApi\Where::after()
 	 */
 	public function after($patternName)
 	{
 		$name = $this->dsl['patternName'];
-		$parentName = $this->dsl['parentPatternName'];
-		$subpatterns = $this->config['tree'][$parentName];
+		$parentName = $this->dsl['parent'];
+		$subpatterns = $this->config[$this->dsl['type']][$parentName];
 		$position = array_search($patternName, $subpatterns);
 		array_splice($subpatterns, $position+1, 0, $name);
-		$this->config['tree'][$parentName] = $subpatterns;
+		$this->config[$this->dsl['type']][$parentName] = $subpatterns;
 	}
 
 	/**
-	 * @see \AnyMark\Pattern\PatternListDsl\Where::before()
+	 * @see \AnyMark\PublicApi\Where::before()
 	 */
 	public function before($patternName)
 	{
 		$name = $this->dsl['patternName'];
-		$parentName = $this->dsl['parentPatternName'];
-		$subpatterns = $this->config['tree'][$parentName];
+		$parentName = $this->dsl['parent'];
+		$subpatterns = $this->config[$this->dsl['type']][$parentName];
 		$position = array_search($patternName, $subpatterns);
 		array_splice($subpatterns, $position, 0, $name);
-		$this->config['tree'][$parentName] = $subpatterns;
+		$this->config[$this->dsl['type']][$parentName] = $subpatterns;
 	}
 }

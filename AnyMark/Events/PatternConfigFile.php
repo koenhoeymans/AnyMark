@@ -7,11 +7,12 @@ namespace AnyMark\Events;
 
 use Epa\Event;
 use AnyMark\Pattern\FileArrayPatternConfig;
+use AnyMark\PublicApi\SetPatternConfigFileEvent;
 
 /**
  * @package AnyMark
  */
-class PatternConfigFile implements Event
+class PatternConfigFile implements Event, SetPatternConfigFileEvent
 {
 	private $patternConfig;
 

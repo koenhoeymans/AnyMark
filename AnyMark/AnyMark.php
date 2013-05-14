@@ -75,6 +75,7 @@ class AnyMark implements Parser, Observable
 		$anyMark->registerPlugin(new \AnyMark\Plugins\Detab());
 		$anyMark->registerPlugin($fjor->get('AnyMark\\Plugins\\LinkDefinitionCollector'));
 		$anyMark->registerPlugin(new \AnyMark\Plugins\EmailObfuscator());
+		$anyMark->registerPlugin(new \Epa\MetaEventNamePlugin());
 
 		return $anyMark;
 	}

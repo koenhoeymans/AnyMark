@@ -1,6 +1,10 @@
 AnyMark Changelog
 =================
 
+*	0.7.1
+
+	*	Added `Epa\MetaEventNamePlugin` by default.
+
 *	0.7.0
 
 	*	Extracted public api.

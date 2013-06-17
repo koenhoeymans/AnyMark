@@ -45,7 +45,7 @@ class AnyMark_Pattern_Patterns_AutoLinkTest extends \AnyMark\UnitTests\Support\P
 	/**
 	 * @test
 	 */
-	public function anUrlBetweenLesserThanAndreaterThanSignIsAutolinked()
+	public function anUrlBetweenLesserThanAndGreaterThanSignIsAutolinked()
 	{
 		$a = $this->elementTree()->createElement('a');
 		$a->setAttribute('href', "http://example.com");
@@ -54,6 +54,51 @@ class AnyMark_Pattern_Patterns_AutoLinkTest extends \AnyMark\UnitTests\Support\P
 		$this->assertEquals(
 			$a,
 			$this->applyPattern("Visit <http://example.com>.")
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function specialEmail()
+	{
+		$a = $this->elementTree()->createElement('a');
+		$a->setAttribute('href', "mailto:abc+mailbox/department=shipping@example.com");
+		$a->append(new \ElementTree\ElementTreeText("abc+mailbox/department=shipping@example.com"));
+
+		$this->assertEquals(
+			$a,
+			$this->applyPattern("Visit <abc+mailbox/department=shipping@example.com>.")
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function specialEmail_2()
+	{
+		$a = $this->elementTree()->createElement('a');
+		$a->setAttribute('href', "mailto:!#$%&'*+-/=?^_`.{|}~@example.com");
+		$a->append(new \ElementTree\ElementTreeText("!#$%&'*+-/=?^_`.{|}~@example.com"));
+
+		$this->assertEquals(
+			$a,
+			$this->applyPattern("Visit <!#$%&'*+-/=?^_`.{|}~@example.com>.")
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function specialEmail_3()
+	{
+		$a = $this->elementTree()->createElement('a');
+		$a->setAttribute('href', "mailto:\"abc@def\"@example.com");
+		$a->append(new \ElementTree\ElementTreeText("\"abc@def\"@example.com"));
+
+		$this->assertEquals(
+			$a,
+			$this->applyPattern("Visit <\"abc@def\"@example.com>.")
 		);
 	}
 }

@@ -34,14 +34,17 @@ class EmailObfuscator implements Plugin
 				return;
 			}
 			$mailto = $component->getAttributeValue('href');
-			if (!$mailto || substr($mailto, 0, 7) !== 'mailto:')
+
+			if (empty($mailto) || substr($mailto, 0, 7) !== 'mailto:')
 			{
 				return;
 			}
-			$mailto = implode('', $this->encode('mailto:' . $mailto));
+
+			$mailto = implode('', $this->encode(substr($mailto, 7)));
 			$component->setAttribute('href', $mailto);
+
 			$child = $component->getChildren()[0];
-			$anchor = implode('', $this->encode($child->getValue()));
+			$anchor = implode('', array_slice($this->encode($child->getValue()), 7));
 			$text = $component->createText($anchor);
 			$component->remove($child);
 			$component->append($text);
@@ -50,11 +53,12 @@ class EmailObfuscator implements Plugin
 		$tree->query($tree->createFilter($callback)->allElements());
 	}
 
-	private function encode($text)
+	private function encode($addr)
 	{
-		// based on/mostly copied from PHPMarkdowns Implementation
-		$chars = preg_split('/(?<!^)(?!$)/', $text);
-		$seed = (int)abs(crc32($text) / strlen($text)); # Deterministic seed.
+		// based on/copied from PHPMarkdowns Implementation
+		$addr = 'mailto:' . $addr;
+		$chars = preg_split('/(?<!^)(?!$)/', $addr);
+		$seed = (int)abs(crc32($addr) / strlen($addr)); # Deterministic seed.
 
 		foreach ($chars as $key => $char) {
 			$ord = ord($char);

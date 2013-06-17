@@ -27,7 +27,7 @@ class AnyMark_Plugins_EmailObfuscatorTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
-	public function replacesTabBySpaces()
+	public function encodesEmail()
 	{
 		$element = new \ElementTree\ElementTreeElement('a');
 		$text = new \ElementTree\ElementTreeText('my email');
@@ -39,7 +39,7 @@ class AnyMark_Plugins_EmailObfuscatorTest extends PHPUnit_Framework_TestCase
 		$callback($event);
 
 		$this->assertEquals(
-			'<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#109;a&#x69;&#108;&#x74;&#111;&#x3a;&#109;&#x65;&#64;e&#x78;&#97;&#x6d;&#112;&#x6c;&#101;&#x2e;&#x63;&#111;&#x6d;">&#109;&#x79;&#32;&#x65;&#109;&#x61;i&#108;</a>',
+			'<a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;m&#101;&#64;&#101;&#x78;&#x61;&#x6d;&#x70;l&#101;&#46;&#99;&#x6f;&#x6d;">&#x6d;&#121;&#32;&#x65;&#109;&#x61;&#105;&#108;</a>',
 			$element->toString()
 		);
 	}

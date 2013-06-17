@@ -48,7 +48,7 @@ class AnyMark implements Parser, Observable
 			->given('AnyMark\\Util\\InternalUrlBuilder')
 			->thenUse('AnyMark\\Util\\ExtensionlessUrlBuilder');
 		$fjor->given('AnyMark\\Parser\\Parser')
-			->thenUse('AnyMark\\Parser\\RecursiveReplacer');
+			->thenUse('AnyMark\\Parser\\GlobalMatchRecursiveReplacer');
 		$fjor->given('AnyMark\\Pattern\\PatternConfig')
 			->thenUse('AnyMark\\Pattern\\FileArrayPatternConfig');
 		$fjor->given('AnyMark\\Pattern\\PatternConfigDsl\\Add')

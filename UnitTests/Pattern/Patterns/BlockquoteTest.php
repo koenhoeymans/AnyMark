@@ -77,4 +77,22 @@ paragraph";
 
 		$this->assertEquals($bq, $this->applyPattern($text));
 	}
+
+	/**
+	 * @test
+	 */
+	public function canBeDirectlyAfterParagraph()
+	{
+		$text =
+"paragraph
+> quote
+> continued
+
+paragraph";
+
+		$bq = $this->elementTree()->createElement('blockquote');
+		$bq->append(new \ElementTree\ElementTreeText("quote\ncontinued\n\n"));
+
+		$this->assertEquals($bq, $this->applyPattern($text));
+	}
 }

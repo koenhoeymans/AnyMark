@@ -15,6 +15,7 @@ abstract class Code extends Pattern
 {
 	protected function createCodeReplacement($code, $pre = true, ElementTree $parent)
 	{
+		$code = htmlentities($code, ENT_NOQUOTES);
 		$codeElement = $parent->createElement('code');
 		$codeElement->append($parent->createText($code));
 

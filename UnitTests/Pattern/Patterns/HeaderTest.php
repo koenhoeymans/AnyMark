@@ -368,10 +368,13 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	 * 
 	 * Note difference with Setext style
 	 */
-	public function headerMustBePrecededByBlankLine()
+	public function headerDoesNotNeedBlankLineBefore()
 	{
 		$text = "paragraph\n# header\n\n";
-		$this->assertEquals(null, $this->applyPattern($text));
+		$header = $this->createHeader('h1', 'header');
+		$header->setAttribute('id', 'header');
+
+		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
  	//	------------ id ------------

@@ -2,9 +2,6 @@
 
 require_once('TestHelper.php');
 
-/**
- * Changed expected outcome for headers, adding id's.
- */
 class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\Tidy
 {
 	public function createTestFor($name)
@@ -21,7 +18,7 @@ class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\
 			$this->tidy(file_get_contents(
 				__DIR__
 				. DIRECTORY_SEPARATOR . 'Markdown.mdtest'
-				. DIRECTORY_SEPARATOR . $name . '.html'
+				. DIRECTORY_SEPARATOR . $name . '.xhtml'
 			)),
 			$this->tidy($parsedText)
 		);
@@ -29,12 +26,10 @@ class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\
 
 	/**
 	 * @test
-	 * 
-	 * Changed <p>6 > 5.</p> to <p>6 &gt; 5.</p> as expected outcome
 	 */
 	public function ampsAndAngleEncoding()
 	{
-		$this->createTestFor('AmpsAndAngleEncoding');
+		$this->createTestFor('Amps and angle encoding');
 	}
 
 	/**
@@ -42,22 +37,15 @@ class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\
 	 */
 	public function autoLinks()
 	{
-		$this->createTestFor('AutoLinks');
+		$this->createTestFor('Auto links');
 	}
 
 	/**
 	 * @test
-	 * changed
-	 * <span attr='`ticks`'>
-	 * <span attr='\\backslashes\\'>
-	 * to
-	 * <span attr="`ticks`">
-	 * <span attr="\\backslashes\\">
-	 * as expected outcome
 	 */
 	public function backslashEscapes()
 	{
-		$this->createTestFor('BackslashEscapes');
+		$this->createTestFor('Backslash escapes');
 	}
 
 	/**
@@ -65,7 +53,7 @@ class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\
 	 */
 	public function blockquotesWithCodeBlocks()
 	{
-		$this->createTestFor('BlockquotesWithCodeBlocks');
+		$this->createTestFor('Blockquotes with code blocks');
 	}
 
 	/**
@@ -73,20 +61,15 @@ class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\
 	 */
 	public function codeBlocks()
 	{
-		$this->createTestFor('CodeBlocks');
+		$this->createTestFor('Code Blocks');
 	}
 
 	/**
 	 * @test
-	 * changed
-	 * <span attr='`ticks`'>
-	 * to
-	 * <span attr="`ticks`">
-	 * as expected outcome
 	 */
 	public function codeSpans()
 	{
-		$this->createTestFor('CodeSpans');
+		$this->createTestFor('Code Spans');
 	}
 
 	/**
@@ -94,7 +77,7 @@ class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\
 	 */
 	public function hardWrappedParagraphsWithListLikeLines()
 	{
-		$this->createTestFor('HardWrappedParagraphsWithListLikeLines');
+		$this->createTestFor('Hard-wrapped paragraphs with list-like lines');
 	}
 
 	/**
@@ -102,152 +85,128 @@ class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\
 	 */
 	public function horizontalRules()
 	{
-		$this->createTestFor('HorizontalRules');
+		$this->createTestFor('Horizontal rules');
 	}
 
 	/**
 	 * @test
-	 * 
-	 * Changed place of src attribute.
 	 */
 	public function images()
 	{
 		$this->createTestFor('Images');
 	}
 
-// 	/**
-// 	 * @test
-// 	 */
-// 	public function inlineHTMLAdvanced()
-// 	{
-// 		$this->createTestFor('InlineHTMLAdvanced');
-// 	}
+	/**
+	 * @test
+	 */
+	public function inlineHTMLAdvanced()
+	{
+		$this->createTestFor('Inline HTML (Advanced)');
+	}
 
-// 	/**
-// 	 * @test
-// 	 */
-// 	public function inlineHTMLSimple()
-// 	{
-// 		$this->createTestFor('InlineHTMLSimple');
-// 	}
+	/**
+	 * @test
+	 */
+	public function inlineHTMLSimple()
+	{
+		$this->createTestFor('Inline HTML (Advanced)');
+	}
 
-// 	/**
-// 	 * @test
-// 	 */
-// 	public function inlineHTMLComments()
-// 	{
-// 		$this->createTestFor('InlineHTMLComments');
-// 	}
+	/**
+	 * @test
+	 */
+	public function inlineHTMLComments()
+	{
+		$this->createTestFor('Inline HTML comments');
+	}
 
-// 	/**
-// 	 * @test
-// 	 */
-// 	public function linksInlineStyle()
-// 	{
-// 		$this->createTestFor('LinksInlineStyle');
-// 	}
+	/**
+	 * @test
+	 */
+	public function linksInlineStyle()
+	{
+		$this->createTestFor('Links, inline style');
+	}
 
-// 	/**
-// 	 * @test
-// 	 */
-// 	public function linksReferenceStyle()
-// 	{
-// 		$this->createTestFor('LinksReferenceStyle');
-// 	}
+	/**
+	 * @test
+	 */
+	public function linksReferenceStyle()
+	{
+		$this->createTestFor('Links, reference style');
+	}
 
-// 	/**
-// 	 * @test
-// 	 */
-// 	public function linksShortcutReferences()
-// 	{
-// 		$this->createTestFor('LinksShortcutReferences');
-// 	}
+	/**
+	 * @test
+	 */
+	public function linksShortcutReferences()
+	{
+		$this->createTestFor('Links, shortcut references');
+	}
 
-// 	/**
-// 	 * @test
-// 	 */
-// 	public function literalQuotesInTitles()
-// 	{
-// 		$this->createTestFor('LiteralQuotesInTitles');
-// 	}
+	/**
+	 * @test
+	 */
+	public function literalQuotesInTitles()
+	{
+		$this->createTestFor('Literal quotes in titles');
+	}
 
-// 	/**
-// 	 * @xxtest
-// 	 * 
-// 	 */
-// 	public function markdownDocumentationBasics()
-// 	{
-// 		$this->createTestFor('MarkdownDocumentationBasics');
-// 	}
+	/**
+	 * @test
+	 * 
+	 */
+	public function markdownDocumentationBasics()
+	{
+		$this->createTestFor('Markdown Documentation - Basics');
+	}
 
-// 	/**
-// 	 * @xxtest
-// 	 * 
-// 	 */
-// 	public function markdownDocumentationSyntax()
-// 	{
-// 		$this->createTestFor('MarkdownDocumentationSyntax');
-// 	}
+	/**
+	 * @test
+	 * 
+	 */
+	public function markdownDocumentationSyntax()
+	{
+		$this->createTestFor('Markdown Documentation - Syntax');
+	}
 
-// 	/**
-// 	 * @test
-// 	 * 
-// 	 * Removed indentation within the blockquote.
-// 	 */
-// 	public function nestedBlockquotes()
-// 	{
-// 		$this->createTestFor('NestedBlockquotes');
-// 	}
+	/**
+	 * @test
+	 */
+	public function nestedBlockquotes()
+	{
+		$this->createTestFor('Nested blockquotes');
+	}
 
-// 	/**
-// 	 * @test
-// 	 * 
-// 	 * Changed:
-// 	 * *	Tab
-// 	 *		*	Tab
-// 	 *	 		*	Tab
-// 	 * to:
-// 	 * *	Tab
-// 	 * 		 *	Tab and space
-// 	 * 			 * Tab and space
-// 	 * 
-// 	 * This follows the difference with Markdown that list can be placed after text
-// 	 * if it is indented, regardless of the list level. With Markdown indentation
-// 	 * is not necessary in nested lists, but the first level must have a blank line.
-// 	 * In my implementation there must not be a blank line in the first level, but
-// 	 * all levels must have indentation if there is no blank line (indentation not
-// 	 * necessary if there is a blank line).
-// 	 */
-// 	public function orderedAndUnorderedLists()
-// 	{
-// 		$this->createTestFor('OrderedAndUnorderedLists');
-// 	}
+	/**
+	 * @test
+	 */
+	public function orderedAndUnorderedLists()
+	{
+		$this->createTestFor('Ordered and unordered lists');
+	}
 
-// 	/**
-// 	 * @test
-// 	 * 
-// 	 * Removed the underscore tests since I use a different implementation.
-// 	 */
-// 	public function strongAndEmTogether()
-// 	{
-// 		$this->createTestFor('StrongAndEmTogether');
-// 	}
+	/**
+	 * @test
+	 */
+	public function strongAndEmTogether()
+	{
+		$this->createTestFor('Strong and em together');
+	}
 
-// 	/**
-// 	 * @test
-// 	 */
-// 	public function tabs()
-// 	{
-// 		$this->createTestFor('Tabs');
-// 	}
+	/**
+	 * @test
+	 */
+	public function tabs()
+	{
+		$this->createTestFor('Tabs');
+	}
 
-// 	/**
-// 	 * @test
-// 	 * 
-// 	 * Added space before <ul> as expected outcome.
-// 	 */
-// 	public function tidyness()
-// 	{
-// 		$this->createTestFor('Tidyness');
-// 	}
+	/**
+	 * @test
+	 */
+	public function tidyness()
+	{
+		$this->createTestFor('Tidyness');
+	}
 }

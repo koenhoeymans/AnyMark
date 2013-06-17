@@ -21,7 +21,7 @@ class Paragraph extends Pattern
 				(?<=^|^\n|\n\n)
 				(?<text>
 					(?<indent>[ ]{0,3})\S.*
-					(\n(?!\g{indent}\s).+)*
+					(\n.+)*
 				)
 				(?=(\n\g{indent}\s.*)*\n\n) # para possible with list on next line
 			|
@@ -29,7 +29,7 @@ class Paragraph extends Pattern
 				(?<=\n\n)
 				(?<text>
 					(?<indent>[ ]{0,3})\S.*
-					(\n(?!\g{indent}\s).+)*
+					(\n.+)*
 				)
 				(?=(\n\g{indent}\s.*)*\n\n|\n$|$)
 			)

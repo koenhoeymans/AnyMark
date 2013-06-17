@@ -44,7 +44,7 @@ class Header extends Pattern
 
 		|
 
-		(?<=^|\n\n)
+		(?<=^|\n)
 		(?<atx>(?J)
 			[ ]{0,3}(?<level>[#]{1,6})[ ]?(?<text>[^\n]+?)([ ]?[#]*)
 		)

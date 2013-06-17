@@ -1,6 +1,21 @@
 AnyMark Changelog
 =================
 
+*	0.8.0
+
+	*	Parser implementation changed.
+	*	Changes to default pattern order.
+	*	PatternList bug fixes.
+	*	Blockquote bug fixes.
+	*	Header bug fixes.
+	*	Hyperlink bug fixes. 
+	*	List items that are paragraphs get blank line within the item.
+	*	Fixed link pattern bugs with nested brackets.
+	*	Seperated manual html into block and inline pattern.
+	*	Undid some changes to the tests from PHPMarkdown.
+	*	Improved strong, emphasis and italic patterns.
+	*	EmailObfuscator refactored, renamed test.
+
 *	0.7.1
 
 	*	Added `Epa\MetaEventNamePlugin` by default.

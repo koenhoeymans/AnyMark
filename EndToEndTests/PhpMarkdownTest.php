@@ -4,17 +4,6 @@ require_once('TestHelper.php');
 
 /**
  * These are the PHPMarkdown tests as found in the test suite of PHPMarkdown.
- * 
- * Removed all newlines before ending code tag:
- * 
- * 	code
- * 	</code>
- * 
- * becomes
- * 
- * 	code</code>
- * 
- * Changed headers to headers with id's as expected outcome.
  */
 class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Support\Tidy
 {
@@ -32,7 +21,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 			$this->tidy(file_get_contents(
 				__DIR__
 				. DIRECTORY_SEPARATOR . 'PhpMarkdown.mdtest'
-				. DIRECTORY_SEPARATOR . $name . '.html'
+				. DIRECTORY_SEPARATOR . $name . '.xhtml'
 			)),
 			$this->tidy($parsedText)
 		);
@@ -40,12 +29,18 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 
 	/**
 	 * @test
-	 * 
-	 * Changed expected outcome for the email to an encoded one (cfr text emailautolinks)
+	 */
+	public function adjacentLists()
+	{
+		$this->createTestFor('Adjacent Lists');
+	}
+
+	/**
+	 * @test
 	 */
 	public function autoLinks()
 	{
-		$this->createTestFor('AutoLinks');
+		$this->createTestFor('Auto Links');
 	}
 
 	/**
@@ -53,7 +48,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function backslashEscapes()
 	{
-		$this->createTestFor('BackslashEscapes');
+		$this->createTestFor('Backslash escapes');
 	}
 
 	/**
@@ -61,7 +56,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function codeBlockInAListItem()
 	{
-		$this->createTestFor('CodeBlockInAListItem');
+		$this->createTestFor('Code block in a list item');
 	}
 
 	/**
@@ -69,7 +64,15 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function codeBlockOnSecondLine()
 	{
-		$this->createTestFor('CodeBlockOnSecondLine');
+		$this->createTestFor('Code block on second line');
+	}
+
+	/**
+	 * @test
+	 */
+	public function codeBlockRegressions()
+	{
+		$this->createTestFor('Code block regressions');
 	}
 
 	/**
@@ -77,7 +80,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function codeSpans()
 	{
-		$this->createTestFor('CodeSpans');
+		$this->createTestFor('Code Spans');
 	}
 
 	/**
@@ -85,56 +88,11 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function emailAutoLinks()
 	{
-		$this->createTestFor('EmailAutoLinks');
+		$this->createTestFor('Email auto links');
 	}
 
 	/**
 	 * @test
-	 * 
-	 * Changed expected outcome for emphasis within words:
-	 * Eg my_precious_text won't have emphasis. Neither will
-	 * _a_b.
-	 * 
-	 * * * *
-	 * 
-	 * Also changed expected outcome for underscores. We treat
-	 * them as converting to <i> instead of <em>.
-	 * 
-	 * * * *
-	 * 
-	 * *test  **test*  test**
-	 * becomes
-	 * <em>text **test</em> test**
-	 * instead of
-	 * *test  <strong>test*  test</strong>
-	 * 
-	 * _test  __test_  test__
-	 * becomes
-	 * <i>test  __test</i>  test__
-	 * instead of
-	 * _test  <strong>test_  test</strong>
-	 * 
-	 * * * *
-	 * 
-	 * Removed:
-	 * ## Overlong emphasis
-	 * Name: ____________  
-	 * Organization: ____
-	 * Region/Country: __
-	 * _____Cut here_____
-	 * ____Cut here____
-	 * 
-	 * * * *
-	 * 
-	 * Incorrect nesting; Changed expected outcome for:
-	 * _test   _test_  test_
-	 * __test __test__ test__
-	 * **test **test** test**
-	 * to
-	 * <i>test   <i>test</i>  test</i>
-	 * <strong>test <strong>test</strong> test</strong>
-	 * <strong>test <strong>test</strong> test</strong>
-	 * (because it is an example of correct, not incorrect, nesting)
 	 */
 	public function emphasis()
 	{
@@ -146,19 +104,11 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function emptyListItem()
 	{
-		$this->createTestFor('EmptyListItem');
+		$this->createTestFor('Empty List Item');
 	}
 
 	/**
 	 * @test
-	 * 
-	 * A header after a paragraph needs to be preceded by a blank line. Eg:
-	 * 
-	 * Let's talk about track
-	 * #8. It's the best on the cd.
-	 * 
-	 * This is a paragraph. There's no a header on the second starting
-	 * with #8. I've changed the expected outcome to reflect this.
 	 */
 	public function headers()
 	{
@@ -170,7 +120,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function horizontalRules()
 	{
-		$this->createTestFor('HorizontalRules');
+		$this->createTestFor('Horizontal Rules');
 	}
 
 	/**
@@ -178,7 +128,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function inlineHTMLSimple()
 	{
-		$this->createTestFor('InlineHTMLSimple');
+		$this->createTestFor('Inline HTML (Simple)');
 	}
 
 	/**
@@ -186,7 +136,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function inlineHTMLSpan()
 	{
-		$this->createTestFor('InlineHTMLSpan');
+		$this->createTestFor('Inline HTML (Span)');
 	}
 
 	/**
@@ -194,7 +144,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function inlineHTMLComments()
 	{
-		$this->createTestFor('InlineHTMLComments');
+		$this->createTestFor('Inline HTML comments');
 	}
 
 	/**
@@ -202,7 +152,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function insAndDel()
 	{
-		$this->createTestFor('InsAndDel');
+		$this->createTestFor('Ins & del');
 	}
 
 	/**
@@ -210,7 +160,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function linksInlineStyle()
 	{
-		$this->createTestFor('LinksInlineStyle');
+		$this->createTestFor('Links, inline style');
 	}
 
 	/**
@@ -218,7 +168,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function mD5Hashes()
 	{
-		$this->createTestFor('MD5Hashes');
+		$this->createTestFor('MD5 Hashes');
 	}
 
 	/**
@@ -226,7 +176,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function mixedOLsAndULs()
 	{
-		$this->createTestFor('MixedOLsAndULs');
+		$this->createTestFor('Mixed OLs and ULs');
 	}
 
 	/**
@@ -242,43 +192,38 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 	 */
 	public function parensInURL()
 	{
-		$this->createTestFor('ParensInURL');
+		$this->createTestFor('Parens in URL');
 	}
 
 	/**
 	 * @test
-	 * 
-	 * Changed expected outcome: we allow all characters to be escaped: '\\'
-	 * will become '\', '\"' will become '"' etc.
 	 */
 	public function PHPSpecificBugs()
 	{
-		$this->createTestFor('PHPSpecificBugs');
+		$this->createTestFor('PHP-Specific Bugs');
 	}
 
 	/**
 	 * @test
-	 * 
-	 * Changed attribute order.
 	 */
 	public function quotesInAttributes()
 	{
-		$this->createTestFor('QuotesInAttributes');
+		$this->createTestFor('Quotes in attributes');
 	}
 
 	/**
 	 * @test
-	 * 
-	 * Changed:
-	 * -expected outcome of blockquote following paragraph to one paragraph.
-	 * -removed header as expected outcome
-	 * since a paragraph ends with a blank line or an indented block. 
-	 * 
-	 * Same for the indented list: a list immediately following a paragraph
-	 * without a blank line must be indented.
 	 */
 	public function tightBlocks()
 	{
-		$this->createTestFor('TightBlocks');
+		$this->createTestFor('Tight blocks');
+	}
+
+	/**
+	 * @test
+	 */
+	public function XMLEmptyTag()
+	{
+		$this->createTestFor('XML empty tag');
 	}
 }

@@ -31,7 +31,8 @@ class Hyperlink extends Pattern
 	{
 		return
 			'@
-			(?<inline>(?J)
+			(?J)
+			(?<inline>
 				\[(?<anchor>					# anchor text
 					(\[(?2)*?\].*?|.+?)			
 				)\]
@@ -54,18 +55,30 @@ class Hyperlink extends Pattern
 
 			|
 
-			(?<reference>(?J)
+			(?<reference>
+				(?<repeatable>
 				(?<!\\\)\[(?<anchor>
 					(
 						[^[]
 						|
-						(?R)
+						(?&repeatable)
 					)+?
 				)\]
+				)
 				(
 					\s*
 					\[(?<id>.*?)\]
-				)?
+				)
+			)
+
+			|
+
+			(?<reference_short>
+				(?<!\\\)\[(?<anchor>
+					(
+						[^[]
+					)+?
+				)\]
 			)
 
 			@xs';
@@ -74,6 +87,11 @@ class Hyperlink extends Pattern
 	public function handleMatch(
 		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
+		if ($parentPattern == $this)
+		{
+			return;
+		}
+
 		if (isset($match['reference']))
 		{
 			return $this->createDomForLinkWithDef($match, $parent);

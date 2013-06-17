@@ -168,16 +168,16 @@ paragraph continued
 	/**
 	 * @test
 	 */
-	public function followingLinesMustNotBeMoreIndented()
+	public function followingLinesCanBeIndented()
 	{
 		$text =
 "
 
 paragraph
- paragraph not continued
+ paragraph continued
 
 ";
-		$p = $this->createP("paragraph");
+		$p = $this->createP("paragraph\nparagraph continued");
 
 		$this->assertEquals($p, $this->applyPattern($text));
 	}

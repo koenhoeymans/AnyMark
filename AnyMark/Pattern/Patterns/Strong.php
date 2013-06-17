@@ -16,39 +16,39 @@ class Strong extends Pattern
 	public function getRegex()
 	{
 		return
-			'@
-			(?<=\s|^)
-
+		'@
+			(?<=^|\s)
 			(?<marker>[_*])
-			\g{marker}(?=\S)
-			(?<content>
+			\g{marker}
+			(?=\S)
 				(
+					(?R)
+					|
 					(?!\g{marker}).
-				|
-					\g{marker}(?=\S)
-					.+
-					\g{marker}(?<=\S)(?![a-zA-Z0-9])
-				|
-					\s\g{marker}\s						# five * three or 5 * 3
-				|
-					[a-zA-Z0-9]\g{marker}[a-zA-Z0-9]	# five*three or 5*3
-				|
-					(?!\g{marker}).*\g{marker}(?!\g{marker}).*
-				)+
-			)
+					|
+					\g{marker}(?!\g{marker}).+?(?<=\S)\g{marker}
+					|
+					\g{marker}\g{marker}(?!\g{marker}).+?(?<=\S)\g{marker}\g{marker}
+				)+?
 			(?<=\S)
 			\g{marker}
 			\g{marker}
-
 			(?![a-zA-Z0-9])
-			@xU';
+			(?!\g{marker})
+		@x';
 	}
 
 	public function handleMatch(
 		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
+		$marker = $match['marker'] . $match['marker'];
+		if (substr($match[0], 0, 2) !== $marker || substr($match[0], -2) !== $marker)
+		{
+			return;
+		}
+
 		$strong = $parent->createElement('strong');
-		$strong->append($parent->createText($match['content']));
+		$strong->append($parent->createText(substr($match[0], 2, -2)));
 
 		return $strong;
 	}

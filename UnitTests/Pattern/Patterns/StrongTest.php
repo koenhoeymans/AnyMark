@@ -114,13 +114,67 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
+// 	/**
+// 	 * @test
+// 	 */
+// 	public function canContainMultiplication()
+// 	{
+// 		$text = "The **result of 5*6 is thirtyfive**.";
+// 		$strong = $this->createStrong('result of 5*6 is thirtyfive');
+
+// 		$this->assertEquals($strong, $this->applyPattern($text));
+// 	}
+
+// 	/**
+// 	 * @test
+// 	 */
+// 	public function incorrectNesting()
+// 	{
+// 		$text = "**test  *test** test*";
+// 		$strong = $this->createStrong('test  *test');
+
+// 		$this->assertEquals($strong, $this->applyPattern($text));
+// 	}
+
+// 	/**
+// 	 * @test
+// 	 */
+// 	public function incorrectNestingWithEmphasisSecond()
+// 	{
+// 		$text = "**foo  *bar** baz*";
+// 		$strong = $this->createStrong('foo  *bar');
+
+// 		$this->assertEquals($strong, $this->applyPattern($text));
+// 	}
+
 	/**
 	 * @test
 	 */
-	public function canContainMultiplication()
+	public function onlyUnderscoresIsNotStrong()
 	{
-		$text = "The **result of 5*6 is thirtyfive**.";
-		$strong = $this->createStrong('result of 5*6 is thirtyfive');
+		$text = "a ____ test.";
+		$this->assertEquals(null, $this->applyPattern($text));
+
+		$text = "a _______ test.";
+		$this->assertEquals(null, $this->applyPattern($text));
+
+		$text = "a ____foo test.";
+		$this->assertEquals(null, $this->applyPattern($text));
+
+		$text = "a _____foo test.";
+		$this->assertEquals(null, $this->applyPattern($text));
+
+		$text = "a foo_____ test.";
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function canContainStrong()
+	{
+		$text = "**foo  **bar** baz**";
+		$strong = $this->createStrong('foo  **bar** baz');
 
 		$this->assertEquals($strong, $this->applyPattern($text));
 	}
@@ -128,23 +182,54 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	/**
 	 * @test
 	 */
-	public function incorrectNesting()
+	public function canContainItalic()
 	{
-		$text = "**test  *test** test*";
-		$strong = $this->createStrong('test  *test');
+		$text = "__foo  _bar___";
+		$strong = $this->createStrong('foo  _bar_');
+
+		$this->assertEquals($strong, $this->applyPattern($text));		
+	}
+
+	/**
+	 * @test
+	 */
+	public function canContainItalic2()
+	{
+		$text = "___foo_ bar__";
+		$strong = $this->createStrong('_foo_ bar');
 
 		$this->assertEquals($strong, $this->applyPattern($text));
 	}
 
 	/**
 	 * @test
-	 * 
-	 * was failing PHPMarkdown test
 	 */
-	public function canBeSingleListItemContentContainingFullyItalicizedText()
+	public function canContainEmphasis()
 	{
-		$text = "___test test___";
-		$strong = $this->createStrong('_test test_');
+		$text = "**foo *bar***";
+		$strong = $this->createStrong('foo *bar*');
+
+		$this->assertEquals($strong, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function canContainEmphasis2()
+	{
+		$text = "***foo* bar**";
+		$strong = $this->createStrong('*foo* bar');
+	
+		$this->assertEquals($strong, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function nesting()
+	{
+		$text = "**[**Link**](url)**";
+		$strong = $this->createStrong('[**Link**](url)');
 
 		$this->assertEquals($strong, $this->applyPattern($text));
 	}

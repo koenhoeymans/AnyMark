@@ -17,7 +17,7 @@ class Blockquote extends Pattern
 	{
 		return
 			'@
-			(?<=^|\n\n)
+			(?<=^|\n)
 			(?<quote>
 				[ ]{0,3}			# indentation
 				>.+					# followed by > and the quoted text

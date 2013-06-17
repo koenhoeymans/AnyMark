@@ -46,7 +46,7 @@ paragraph";
 	/**
 	 * @test
 	 */
-	public function noBlankLineBeforeNecessaryWhenIndented()
+	public function alsoBlankLineBeforeNecessaryWhenIndentedLessThanFourSpacesAfterParagraph()
 	{
 		$text =
 "paragraph
@@ -54,11 +54,8 @@ paragraph";
  * other item
 
 paragraph";
-		$list = $this->create('ul');
-		$list->append($this->create('li', 'an item'));
-		$list->append($this->create('li', 'other item'));
 
-		$this->assertEquals($list, $this->applyPattern($text));
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
@@ -117,49 +114,7 @@ paragraph";
 	/**
 	 * @test
 	 */
-	public function listItemsDoNotNeedBlankLineWhenIndented()
-	{
-		$text =
-'para
-  * item
-    * subitem
-    * subitem
-  * item
-
-para';
-		$list = $this->create('ul');
-		$list->append($this->create('li', "item
-* subitem
-* subitem"));
-		$list->append($this->create('li', 'item'));
-
-		$this->assertEquals($list, $this->applyPattern($text));
-	}
-
-	/**
-	 * @test
-	 */
-	public function listWhenTabIndentedAfterParagraphWithoutBlankLine()
-	{
-		$text =
-"paragraph
-	* an item
-	* other item
-
-paragraph
-";
-		$list = $this->create('ul');
-		$list->append($this->create('li', 'an item'));
-		$list->append($this->create('li', 'other item'));
-
-		$this->assertEquals($list, $this->applyPattern($text));	
-	}
-
-	/**
-	 * @test
-	 * Note: See note above.
-	 */
-	public function noListWhenMoreThanThreeSpacesIndented()
+	public function noListWhenMoreThanThreeSpacesIndentedForFirstLevel()
 	{
 		$text =
 "paragraph
@@ -218,8 +173,8 @@ paragraph
 
 ";
 		$list = $this->create('ul');
-		$list->append($this->create('li', "an item\n\nitem continues\n\n"));
-		$list->append($this->create('li', "other item\n\n"));
+		$list->append($this->create('li', "\n\nan item\n\nitem continues\n\n"));
+		$list->append($this->create('li', "\n\nother item\n\n"));
 	
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
@@ -237,8 +192,8 @@ paragraph
 
 ";
 		$list = $this->create('ul');
-		$list->append($this->create('li', "an item\n\n"));
-		$list->append($this->create('li', "other item\n\n"));
+		$list->append($this->create('li', "\n\nan item\n\n"));
+		$list->append($this->create('li', "\n\nother item\n\n"));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
@@ -311,25 +266,6 @@ paragraph";
 		$list->append($this->create('li', 'an item'));
 		$list->append($this->create('li', 'other item'));
 	
-		$this->assertEquals($list, $this->applyPattern($text));
-	}
-
-	/**
-	 * @test
-	 */
-	public function orderedListsCanAlsoBeCreatedByHashSignFollowedByDot()
-	{
-		$text =
-"a paragraph
-
-#. an item
-#. other item
-
-paragraph";
-		$list = $this->create('ol');
-		$list->append($this->create('li', 'an item'));
-		$list->append($this->create('li', 'other item'));
-
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
 
@@ -419,19 +355,6 @@ paragraph";
 	/**
 	 * @test
 	 */
-	public function listItemsCanBePrecededWithHashFollowedByDot()
-	{
-		$text = "\n #. an item\n #. other item\n";
-		$list = $this->create('ol');
-		$list->append($this->create('li', 'an item'));
-		$list->append($this->create('li', 'other item'));
-
-		$this->assertEquals($list, $this->applyPattern($text));
-	}
-
-	/**
-	 * @test
-	 */
 	public function aListItemCanContainAsterisks()
 	{
 		$text = "\n * an *item*\n * other item\n";
@@ -449,13 +372,33 @@ paragraph";
 	{
 		$text =
 "
+ * item
  *
- * an item
 
 ";
 
 		$list = $this->create('ul');
+		$list->append($this->create('li', 'item'));
+		$list->append($list->createElement('li'));
+
+		$this->assertEquals($list, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function recognizesWhenUnorderedListsIsFollowedByOrdered()
+	{
+		$text = "
+* an item
+* other item
+
+1. item in second list
+2. other item in second list
+";
+		$list = $this->create('ul');
 		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}

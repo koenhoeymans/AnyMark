@@ -75,6 +75,7 @@ class PatternList implements PatternTree
 		}
 	}
 
+	// $parentName is dealiased
 	private function addPattern($patternName, $parentName = null)
 	{
 		if (in_array(array($patternName, $parentName), $this->hasBeenAddedFromConfig))
@@ -83,14 +84,22 @@ class PatternList implements PatternTree
 		}
 		$this->hasBeenAddedFromConfig[] = array($patternName, $parentName);
 
-		foreach ($this->getDealiasedNames($patternName) as $dealiasedPatternName)
+		# Loop twice because we want to keep the order of the pattern config
+		# so we add the (dealiased) subpatterns first, then check the subpatterns
+		# and their subsubpatterns to prevent that they would add something
+		# before the list is ended.
+		$dealiasedPatternNames = $this->getDealiasedNames($patternName);
+		foreach ($dealiasedPatternNames as $dealiasedPatternName)
 		{
 			$this->addDealiasedPatternName($dealiasedPatternName, $parentName);
+		}
+		foreach ($dealiasedPatternNames as $dealiasedPatternName)
+		{
 			$this->addPatterns(
-				$this->config->getSubnames($patternName), $dealiasedPatternName
+					$this->config->getSubnames($dealiasedPatternName), $dealiasedPatternName
 			);
 			$this->addPatterns(
-				$this->config->getSubnames($dealiasedPatternName), $dealiasedPatternName
+					$this->config->getSubnames($patternName), $dealiasedPatternName
 			);
 		}
 	}

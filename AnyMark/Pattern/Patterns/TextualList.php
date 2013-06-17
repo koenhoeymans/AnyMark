@@ -14,56 +14,79 @@ use ElementTree\Element;
  */
 class TextualList extends Pattern
 {
-	protected $markers = "(\#\.|[*+#-]|[0-9]+\.)";
+	protected $ol_marker = "\d+[\.]";
+
+	protected $ul_marker = "[*+-]";
 
 	public function getRegex()
 	{
 		return
-			'@
-			(
-			(?<=^|\n)(?=[ ]{1,3}\S)		# indented 1-3 spaces
-			|							# or
-			(?<=^|\n\n|^\n)(?=\S)		# indented 0 spaces after blank line
-			|							# or
-			(?<=\S\n)(?=\t\S|[ ]{4}\S)	# indented tab after paragraph and no blank line
-			)
+		'@
+	(?<=^|^\n|\n\n|(?<on_next_line>\n))
+				(?=(?<indentation>[ ]{0,4})\S)	# note different handling for indentation
+												# sublists on handling match
 
-		(?<list>
-			(?<indentation>[ \t]*)					# indentation
-
-			(										# marker
-				(?<ol>(?<ol_marker>([0-9]+|\#)\.))
-				|
-				(?<ul>(?<ul_marker>[*+-]))
-			)
-
-			(?<space_after_marker>[ \t]+)			# space after marker
-
+	(?<list>(?J)
+		(
+			(?<ol_indentation>[ \t]*)					# indentation
+			(?<ol>' . $this->ol_marker . ')			# marker
+			(?<ol_space_after_marker>[ \t]+)			# space after marker
 			\S.*									# text
-
 			(										# continuation of list
 				\n.+									# -> on next line
 				|
-				\n\n\g{indentation}						# -> white line
+				\n\n\g{ol_indentation}						# -> white line
 														#	+ indent
-					(' . $this->markers . ')?			#	+ marker (when new item, else paragraph in item)
-						\g{space_after_marker}			#	+ space
+					(' . $this->ol_marker . ')?	#	+ marker (when new item, else paragraph in item)
+						\g{ol_space_after_marker}			#	+ space
  				.+										#	+ text
 			)*
 		)
+		|
+		(
+			(?<ul_indentation>[ \t]*)
+			(?<ul>' . $this->ul_marker . ')
+			(?<ul_space_after_marker>[ \t]+)
+			\S.*
+			(
+				\n.+
+				|
+				\n\n\g{ul_indentation}
 
-			(?=\n\n|\n$|$)
-			@x';
+					(' . $this->ul_marker . ')?
+						\g{ul_space_after_marker}
+ 				.+
+			)*
+		)
+	)
+
+		(?=\n\n|\n$|$)
+		@x';
 	}
 
 	public function handleMatch(
 		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
+		# different handling of allowed indentation for sublist
+		if (($parentPattern != $this)
+			&& !empty($match['on_next_line'])
+		) {
+			return;
+		}
+		if (($parentPattern != $this)
+			&& ($match['indentation'] === '    ')
+		) {
+			return;
+		}
+
 		$listType = (isset($match['ol']) && ($match['ol'] !== '')) ? 'ol' : 'ul';
+		$indentation = ($listType === 'ol')
+			? $match['ol_indentation']
+			: $match['ul_indentation'];
 
 		# unindent
 		$items = preg_replace(
-			"@(\n|^)" . $match['indentation'] . "@", "\${1}", $match['list']
+			"@(\n|^)" . $indentation . "@", "\${1}", $match['list']
 		);
 
 		$list = $parent->createElement($listType);
@@ -91,7 +114,7 @@ class TextualList extends Pattern
 			# ------------------------------
 			(
 			(?<marker_indent>[ ]{0,3})	# indentation of the list marker
-			' . $this->markers . '		# markers
+			(' . $this->ol_marker . '|' . $this->ul_marker . ')		# markers
 			(?<text_indent>[ ]{0,3}|\t|(?=\n))	# spaces/tabs
 			)
 
@@ -103,12 +126,12 @@ class TextualList extends Pattern
 					\n							# continue on next line unindented
 					(?!
 						\g{marker_indent}
-						' . $this->markers . '
+						(' . $this->ol_marker . '|' . $this->ul_marker . ')
 					)
 					.+
 					|							# or indented
 					\n\n\g{marker_indent}
-						(?!' . $this->markers . ')
+						(?!(' . $this->ol_marker . '|' . $this->ul_marker . '))
 					.+
 				)*
 			)
@@ -130,7 +153,7 @@ class TextualList extends Pattern
 
 		if ($paragraph !== '' || $content !== '')
 		{
-			$li->append($parent->createText($content . $paragraph));
+			$li->append($parent->createText($paragraph . $content . $paragraph));
 		}
 
 		$parent->append($li);

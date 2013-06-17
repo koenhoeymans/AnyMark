@@ -13,7 +13,8 @@ return [
 		"image" => "\\AnyMark\\Pattern\\Patterns\\Image",
 		"italic" => "\\AnyMark\\Pattern\\Patterns\\Italic",
 		"list" => "\\AnyMark\\Pattern\\Patterns\\TextualList",
-		"manualHtml" => "\\AnyMark\\Pattern\\Patterns\\ManualHtml",
+		"manualHtmlBlock" => "\\AnyMark\\Pattern\\Patterns\\ManualHtmlBlock",
+		"manualHtmlInline" => "\\AnyMark\\Pattern\\Patterns\\ManualHtmlInline",
 		"newLine" => "\\AnyMark\\Pattern\\Patterns\\NewLine",
 		"paragraph" => "\\AnyMark\\Pattern\\Patterns\\Paragraph",
 		"strong" => "\\AnyMark\\Pattern\\Patterns\\Strong",
@@ -25,26 +26,26 @@ return [
 			"horizontalRule",
 			"textualList",
 			"blockquote",
-			"manualHtml",
+			"manualHtmlBlock",
 			"paragraph"
 		],
 		"inline" => [
-			"manualHtml",
 			"newLine",
 			"autoLink",
 			"image",
-			"strong",
-			"emphasis",
 			"italic",
+			"emphasis",
+			"strong",
 			"hyperlink"
 		]
 	],
 	"tree" => [
 		"root" => ["block", "codeIndented"],
-		"block" => ["inline", "codeIndented", "codeInline"],
-		"inline" => ["inline", "codeInline"],
-		"textualList" => ["block"],
+		"block" => ["codeIndented", "manualHtmlInline", "codeInline", "inline"],
+		"inline" => ["manualHtmlInline", "inline", "codeInline"],
+		"textualList" => ["codeIndented", "block", "manualHtmlInline", "codeInline", "inline"],
 		"blockquote" => ["block"],
-		"manualHtml" => ["block"]
+		"manualHtmlBlock" => ["block"],
+		"manualHtmlInline" => ["inline"]
 	]
 ];

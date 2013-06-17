@@ -16,32 +16,48 @@ class Italic extends Pattern
 	public function getRegex()
 	{
 		return
-			"@
-				(?<=\s|^)
+			'@
+			(?<=\s|^)
 			_
-				(?=\S)
-			(
-				(
-					(?!_).
+			(?=\S)
+			(?(?=(?<triple>__))				# cfr emphasis
+				(?=__)
 				|
-					_(?=\S)
-					.*[^_].*
-					_(?<=\S)(?!\w)
-				|
-					(?!_).*_(?!_).*
-				)+
-			)
-				(?<!\s)
+				(?(?=(?<strong>_))(?=_)))
+			(?!__[^_]+___)
+			(?(?=__)(?!__[^_]+_\s))
+			(?=_*[^_]+_)
+				(?<text>
+					(__[^_]+__)?
+					(
+					__(?=\S)
+					|
+					__(?=\S).+(?<=\S)__
+					|
+					(\s_.+_\s)
+					|
+					_[^_]
+					|
+					[^_]
+					)+?
+				)
+			(?<=\S)
+			(?(?=\g{strong})_+)
 			_
-				(?!\w)
-			@xU";
+			(?=\s|[^_\w]|$)
+			@x';
 	}
 
 	public function handleMatch(
 		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
+		if (substr($match[0], 0, 2) === '__' && substr($match[0], -2) === '__')
+		{
+			return;
+		}
+
 		$i = $parent->createElement('i');
-		$i->append($parent->createText($match[1]));
+		$i->append($parent->createText($match['text']));
 
 		return $i;
 	}

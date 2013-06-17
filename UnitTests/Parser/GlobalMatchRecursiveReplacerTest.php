@@ -6,17 +6,12 @@ require_once dirname(__FILE__)
 
 use \AnyMark\UnitTests\Support;
 
-class AnyMark_Parser_RecursiveReplacerTest extends PHPUnit_Framework_TestCase
+class AnyMark_Parser_GlobalMatchRecursiveReplacerTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * Two diffulties in testing this:
-	 * - created nodes must be associated with same document
-	 * - mock callbacks clones callback arguments
-	 */
 	public function setup()
 	{
 		$this->patternTree = $this->getMock('\\AnyMark\\Pattern\\PatternTree');
-		$this->replacer = new \AnyMark\Parser\RecursiveReplacer(
+		$this->replacer = new \AnyMark\Parser\GlobalMatchRecursiveReplacer(
 			$this->patternTree
 		);
 	}

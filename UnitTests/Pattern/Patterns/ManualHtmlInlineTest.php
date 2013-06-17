@@ -5,11 +5,11 @@ require_once dirname(__FILE__)
 	. DIRECTORY_SEPARATOR . '..'
 	. DIRECTORY_SEPARATOR . 'TestHelper.php';
 
-class AnyMark_Pattern_Patterns_ManualHtmlTest extends \AnyMark\UnitTests\Support\PatternReplacementAssertions
+class AnyMark_Pattern_Patterns_ManualHtmlInlineTest extends \AnyMark\UnitTests\Support\PatternReplacementAssertions
 {
 	public function setup()
 	{
-		$this->pattern = new \AnyMark\Pattern\Patterns\ManualHtml();
+		$this->pattern = new \AnyMark\Pattern\Patterns\ManualHtmlInline();
 	}
 
 	public function getPattern()
@@ -29,7 +29,7 @@ class AnyMark_Pattern_Patterns_ManualHtmlTest extends \AnyMark\UnitTests\Support
 	/**
 	 * @test
 	 */
-	public function grabsCodeTagsToPutIntoComponent()
+	public function grabsCodeTagsPlacedInlineToPutIntoComponent()
 	{
 		$text = "foo <a>b</a> bar";
 		$el = $this->create('a', 'b');
@@ -42,12 +42,7 @@ class AnyMark_Pattern_Patterns_ManualHtmlTest extends \AnyMark\UnitTests\Support
 	 */
 	public function grabsHtmlComments()
 	{
-		$text =
-"paragraph
-
-<!-- comment -->
-
-paragraph";
+		$text = "paragraph <!-- comment --> paragraph";
 		$el = $this->elementTree()->createComment(' comment ');
 
 		$this->assertEquals($el, $this->applyPattern($text));
@@ -70,9 +65,9 @@ paragraph";
 	public function canContainOtherHtmlTags_2()
 	{
 		$text =
-"<div><div><div>
+"foo <div><div><div>
 foo
-</div><div style=\">\"/></div><div>bar</div></div>";
+</div><div style=\">\"/></div><div>bar</div></div> bar";
 		$el = $this->create('div', "<div><div>
 foo
 </div><div style=\">\"/></div><div>bar</div>");
@@ -85,7 +80,7 @@ foo
 	 */
 	public function handlesRecursion()
 	{
-		$text = "<a><a><a>b</a></a></a>";
+		$text = "foo <a><a><a>b</a></a></a> bar";
 		$el = $this->create('a', '<a><a>b</a></a>');
 
 		$this->assertEquals($el, $this->applyPattern($text));
@@ -96,8 +91,8 @@ foo
 	 */
 	public function replacesSelfClosingElements()
 	{
-		$text = "<hr />";
-		$el = $this->elementTree()->createElement('hr');
+		$text = "foo <div /> bar";
+		$el = $this->elementTree()->createElement('div');
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -107,7 +102,7 @@ foo
 	 */
 	public function htmlCanContainSelfClosingTag()
 	{
-		$text = "<div><div a=\"b\"/></div></div>";
+		$text = "foo <div><div a=\"b\"/></div></div> bar";
 
 		$el = $this->create('div', '<div a="b"/>');
 
@@ -119,7 +114,7 @@ foo
 	 */
 	public function canContainMultipleAttributes()
 	{
-		$text = "<a id='b' class='c'>d</a>";
+		$text = "foo <a id='b' class='c'>d</a> bar";
 		$el = $this->create('a', 'd');
 		$el->setAttribute('id', 'b');
 		$el->setAttribute('class', 'c');
@@ -132,7 +127,7 @@ foo
 	 */
 	public function attributeValuesCanContainBackticks()
 	{
-		$text = "<a class='`ticks`'>b</a>";
+		$text = "foo <a class='`ticks`'>b</a> bar";
 		$el = $this->create('a', 'b');
 		$el->setAttribute('class', '`ticks`');
 
@@ -142,41 +137,60 @@ foo
 	/**
 	 * @test
 	 */
-	public function ifBlankLineBeforeAndAfterTagsAndTextOnSameLineAsTagItIsAParagraph()
+	public function ifNewlineBeforeAndAfterItIsNotInline()
 	{
-		$text = "\n\n<span>a paragraph</span>\n\n";
+		$text = "\n<span>a paragraph</span>\n";
 		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**
 	 * @test
 	 */
-	public function ifStartOfTextAndAfterTagsBlankLineItIsAParagraph()
+	public function ifNewlineBeforeAndTextAfterItIsInline()
 	{
-		$text = "<span>a paragraph</span>\n\n";
-		$this->assertEquals(null, $this->applyPattern($text));
-	}
-
-	/**
-	 * @test
-	 */
-	public function ifNoBlankLineBeforeAndAfterItIsNoParagraph()
-	{
-		$text = "text <span>not a paragraph</span> text";
-		$el = $this->create('span', 'not a paragraph');
+		$text = "\n<span>a paragraph</span> foo\n";
+		$el = $this->create('span', 'a paragraph');
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
 
 	/**
 	 * @test
-	 * the newlines before and after the tag made this not work
 	 */
-	public function indentedTextBetweenTags()
+	public function ifTextBeforeAndNewlineAfterItIsInline()
 	{
-		$text = "\n<div>\n\tinside\n</div>\n";
-		$el = $this->create('div', "\n\tinside\n");
-		
+		$text = "\nfoo <span>a paragraph</span>\n";
+		$el = $this->create('span', 'a paragraph');
+
+		$this->assertEquals($el, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function ifStartOfTextAndAfterTagsBlankLineItIsNotInline()
+	{
+		$text = "<span>a paragraph</span>\n";
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function ifNewLineBeforeAndEndItIsNotInline()
+	{
+		$text = "\n<span>a paragraph</span>";
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function ifStartAndEndItIsInline()
+	{
+		$text = "<span>foo</span>";
+		$el = $this->create('span', 'foo');
+
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
 }

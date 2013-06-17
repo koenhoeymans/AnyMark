@@ -40,8 +40,6 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 
 	/**
 	 * @test
-	 * 
-	 * Changed expected outcome for the email to an encoded one (cfr text emailautolinks)
 	 */
 	public function autoLinks()
 	{
@@ -90,51 +88,6 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 
 	/**
 	 * @test
-	 * 
-	 * Changed expected outcome for emphasis within words:
-	 * Eg my_precious_text won't have emphasis. Neither will
-	 * _a_b.
-	 * 
-	 * * * *
-	 * 
-	 * Also changed expected outcome for underscores. We treat
-	 * them as converting to <i> instead of <em>.
-	 * 
-	 * * * *
-	 * 
-	 * *test  **test*  test**
-	 * becomes
-	 * <em>text **test</em> test**
-	 * instead of
-	 * *test  <strong>test*  test</strong>
-	 * 
-	 * _test  __test_  test__
-	 * becomes
-	 * <i>test  __test</i>  test__
-	 * instead of
-	 * _test  <strong>test_  test</strong>
-	 * 
-	 * * * *
-	 * 
-	 * Removed:
-	 * ## Overlong emphasis
-	 * Name: ____________  
-	 * Organization: ____
-	 * Region/Country: __
-	 * _____Cut here_____
-	 * ____Cut here____
-	 * 
-	 * * * *
-	 * 
-	 * Incorrect nesting; Changed expected outcome for:
-	 * _test   _test_  test_
-	 * __test __test__ test__
-	 * **test **test** test**
-	 * to
-	 * <i>test   <i>test</i>  test</i>
-	 * <strong>test <strong>test</strong> test</strong>
-	 * <strong>test <strong>test</strong> test</strong>
-	 * (because it is an example of correct, not incorrect, nesting)
 	 */
 	public function emphasis()
 	{
@@ -151,14 +104,6 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 
 	/**
 	 * @test
-	 * 
-	 * A header after a paragraph needs to be preceded by a blank line. Eg:
-	 * 
-	 * Let's talk about track
-	 * #8. It's the best on the cd.
-	 * 
-	 * This is a paragraph. There's no a header on the second starting
-	 * with #8. I've changed the expected outcome to reflect this.
 	 */
 	public function headers()
 	{
@@ -268,14 +213,6 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 
 	/**
 	 * @test
-	 * 
-	 * Changed:
-	 * -expected outcome of blockquote following paragraph to one paragraph.
-	 * -removed header as expected outcome
-	 * since a paragraph ends with a blank line or an indented block. 
-	 * 
-	 * Same for the indented list: a list immediately following a paragraph
-	 * without a blank line must be indented.
 	 */
 	public function tightBlocks()
 	{

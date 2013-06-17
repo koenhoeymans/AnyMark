@@ -51,8 +51,8 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 	 */
 	public function textCanContainMultipleItalicSections()
 	{
-		$text = "This is _a sentence_ with _italicized text_.";
-		$i = $this->createItalic('a sentence');
+		$text = "This is _a sentence _with_ italicized text_.";
+		$i = $this->createItalic('a sentence _with_ italicized text');
 		$this->assertEquals($i, $this->applyPattern($text));
 	}
 
@@ -97,7 +97,13 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 	 */
 	public function onlyUnderscoresAreNotItalicized()
 	{
+		$text = "This is not a sentence with ____.";
+		$this->assertEquals(null, $this->applyPattern($text));
+
 		$text = "This is not a sentence with _____.";
+		$this->assertEquals(null, $this->applyPattern($text));
+
+		$text = "This is not ____ a sentence with.";
 		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
@@ -119,5 +125,32 @@ class AnyMark_Pattern_Patterns_ItalicTest extends \AnyMark\UnitTests\Support\Pat
 		$text = "___emphasized__ with strong_ text.";
 		$i = $this->createItalic('__emphasized__ with strong');
 		$this->assertEquals($i, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function insideStrongLeavesStrongFirst()
+	{
+		$text = "__strong _and_ italic__";
+		$this->assertEquals(null, $this->applyPattern($text));		
+	}
+
+	/**
+	 * @test
+	 */
+	public function insideStrongLeavesStrongFirst2()
+	{
+		$text = "__strong _and italic___";
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function insideStrongLeavesStrongFirst3()
+	{
+		$text = "___foo_ bar__";
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 }

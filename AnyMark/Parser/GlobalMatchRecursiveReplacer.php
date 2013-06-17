@@ -15,7 +15,7 @@ use ElementTree\Text;
 /**
  * @package vidola
  */
-class RecursiveReplacer implements Parser
+class GlobalMatchRecursiveReplacer implements Parser
 {
 	private $patternTree;
 
@@ -48,60 +48,52 @@ class RecursiveReplacer implements Parser
 		$textToReplace = $text->getValue();
 		$totalBytes = strlen($textToReplace);
 		$currentByteOffset = 0;
-		$endOfTextReached = false;
 		$patterns = $this->patternTree->getSubpatterns($parentPattern);
 
-		while (!$endOfTextReached)
+		foreach($patterns as $pattern)
 		{
-			foreach($patterns as $pattern)
+			$regex = $pattern->getRegex();
+			if (!preg_match($regex, $textToReplace, $match, PREG_OFFSET_CAPTURE))
 			{
-				$regex = $pattern->getRegex();
-				preg_match($regex . 'A', $textToReplace, $match, 0, $currentByteOffset);
-
-				if (!empty($match))
-				{
-					# create dom node from match
-					$patternCreatedElement = $pattern->handleMatch($match, $parentElement, $parentPattern);
-
-					# if pattern decides there's no match after examining regex match
-					# we can continue
-					if (!$patternCreatedElement)
-					{
-						continue;
-					}
-
-					# add text node from text before match
-					$textBeforeMatch = substr($textToReplace, 0, $currentByteOffset);
-					$parentElement->replace(
-						$parentElement->createText($textBeforeMatch), $text
-					);
-
-					# applying subpatterns to dom node from match
-					$parentElement->append($patternCreatedElement);
-					$this->applySubpatterns($patternCreatedElement, $pattern);
-
-					# create text node from text following match
-					$textFollowingMatch = substr(
-						$textToReplace, strlen($match[0]) + $currentByteOffset
-					);
-					$textFollowingMatch = $parentElement->createText(
-						$textFollowingMatch
-					);
-					$parentElement->append($textFollowingMatch);
-					$this->applyPatterns($textFollowingMatch, $parentPattern);
-
-					return;
-				}
+				continue;
 			}
 
-			if ($currentByteOffset == $totalBytes)
+			$matchOffset = $match[0][1];
+			$matchLength = strlen($match[0][0]);
+			foreach ($match as $key => $capture)
 			{
-				$endOfTextReached = true;
+				$match[$key] = $capture[0];
 			}
-			else
+
+			# create dom node from match
+			$patternCreatedElement = $pattern->handleMatch(
+				$match, $parentElement, $parentPattern
+			);
+
+			# if pattern decides there's no match after examining regex match
+			# we can continue
+			if (!$patternCreatedElement)
 			{
-				$currentByteOffset++;
+				continue;
 			}
+
+			# add text node from text before match
+			$textBeforeMatch = substr($textToReplace, 0, $matchOffset);
+			$textBeforeMatch = $parentElement->createText($textBeforeMatch);
+			$parentElement->replace($textBeforeMatch, $text);
+			$this->applyPatterns($textBeforeMatch, $parentPattern);
+
+			# applying subpatterns to node from match
+			$parentElement->append($patternCreatedElement);
+			$this->applySubpatterns($patternCreatedElement, $pattern);
+
+			# create text node from text following match
+			$textFollowingMatch = substr($textToReplace, $matchOffset + $matchLength);
+			$textFollowingMatch = $parentElement->createText($textFollowingMatch);
+			$parentElement->append($textFollowingMatch);
+			$this->applyPatterns($textFollowingMatch, $parentPattern);
+
+			return;
 		}
 	}
 

@@ -39,7 +39,7 @@ class ManualHtmlInline extends Pattern
 			|
 
 			(?J)
-			<(?<tag>hr|div)
+			<(?<tag>hr|div|br)
 				(?<attributes>
 					(
 					\s+

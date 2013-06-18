@@ -39,7 +39,7 @@ class ManualHtmlBlock extends Pattern
 			|
 
 			(?J)
-			<(?<self_closing_tag>hr|div)
+			<(?<self_closing_tag>hr|div|br)
 				(?<attributes_closed>
 					(
 					\s+

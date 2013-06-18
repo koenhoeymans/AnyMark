@@ -42,7 +42,7 @@ class AnyMark_Pattern_Patterns_CodeIndentedTest extends \AnyMark\UnitTests\Suppo
 
 paragraph";
 
-		$this->assertEquals($this->createFromText('code'), $this->applyPattern($text));
+		$this->assertEquals($this->createFromText("code\n"), $this->applyPattern($text));
 	}
 
 	/**
@@ -62,7 +62,8 @@ paragraph";
 		$codeText =
 "	a
 b
-	c";
+	c
+";
 
 		$this->assertEquals(
 			$this->createFromText($codeText), $this->applyPattern($text)
@@ -81,7 +82,7 @@ b
 
 ";
 
-		$this->assertEquals($this->createFromText('code'), $this->applyPattern($text));
+		$this->assertEquals($this->createFromText("code\n"), $this->applyPattern($text));
 	}
 
 	/**
@@ -99,7 +100,7 @@ b
 paragraph";
 
 		$this->assertEquals(
-			$this->createFromText("code\n\ncontinued"), $this->applyPattern($text)
+			$this->createFromText("code\n\ncontinued\n"), $this->applyPattern($text)
 		);
 	}
 }

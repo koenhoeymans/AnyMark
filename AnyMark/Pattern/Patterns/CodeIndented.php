@@ -38,6 +38,6 @@ class CodeIndented extends Code
 		}
 
 		$code = preg_replace("#(\n|^)(\t|[ ]{4})#", "\${1}", $match['code']);
-		return $this->createCodeReplacement($code, true, $parent);
+		return $this->createCodeReplacement($code . "\n", true, $parent);
 	}
 }

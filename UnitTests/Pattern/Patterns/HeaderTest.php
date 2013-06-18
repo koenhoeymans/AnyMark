@@ -41,7 +41,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\nheader\n---\n\n";
 		$header = $this->createHeader('h1', 'header');
-		$header->setAttribute('id', 'header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -62,7 +61,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\n---\na header\n---\n\n";
 		$header = $this->createHeader('h1', 'a header');
-		$header->setAttribute('id', 'a-header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -74,7 +72,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\n-----\na header\n-----\n\n";
 		$header = $this->createHeader('h1', 'a header');
-		$header->setAttribute('id', 'a-header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -86,7 +83,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\na header\n---###\n\n";
 		$header = $this->createHeader('h1', 'a header');
-		$header->setAttribute('id', 'a-header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -107,7 +103,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\n---\na header\n---\n\n";
 		$header = $this->createHeader('h1', 'a header');
-		$header->setAttribute('id', 'a-header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -119,7 +114,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\n===\na header\n===\n\n";
 		$header = $this->createHeader('h1', 'a header');
-		$header->setAttribute('id', 'a-header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -131,7 +125,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\n+++\na header\n+++\n\n";
 		$header = $this->createHeader('h1', 'a header');
-		$header->setAttribute('id', 'a-header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -143,7 +136,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\n***\na header\n***\n\n";
 		$header = $this->createHeader('h1', 'a header');
-		$header->setAttribute('id', 'a-header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -155,7 +147,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\n^^^\na header\n^^^\n\n";
 		$header = $this->createHeader('h1', 'a header');
-		$header->setAttribute('id', 'a-header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -167,7 +158,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\n###\na header\n###\n\n";
 		$header = $this->createHeader('h1', 'a header');
-		$header->setAttribute('id', 'a-header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -179,7 +169,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\n=-=\na header\n=-=\n\n";
 		$header = $this->createHeader('h1', 'a header');
-		$header->setAttribute('id', 'a-header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -191,37 +180,31 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\nfirst\n---\n\nsecond\n===\n\nthird\n+++\n\nfourth\n***\n\nfifth\n^^^\n\nsixth\n###\n\n";
 		$header = $this->createHeader('h1', 'first');
-		$header->setAttribute('id', 'first');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\nsecond\n===\n\nthird\n+++\n\nfourth\n***\n\nfifth\n^^^\n\nsixth\n###\n\n";
 		$header = $this->createHeader('h2', 'second');
-		$header->setAttribute('id', 'second');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\nthird\n+++\n\nfourth\n***\n\nfifth\n^^^\n\nsixth\n###\n\n";
 		$header = $this->createHeader('h3', 'third');
-		$header->setAttribute('id', 'third');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\nfourth\n***\n\nfifth\n^^^\n\nsixth\n###\n\n";
 		$header = $this->createHeader('h4', 'fourth');
-		$header->setAttribute('id', 'fourth');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\nfifth\n^^^\n\nsixth\n###\n\n";
 		$header = $this->createHeader('h5', 'fifth');
-		$header->setAttribute('id', 'fifth');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\nsixth\n###\n\n";
 		$header = $this->createHeader('h6', 'sixth');
-		$header->setAttribute('id', 'sixth');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -233,19 +216,16 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\nfirst\n---\n\nsecond\n===\n\nthird\n+++\n\nfourth\n***\n\nfifth\n^^^\n\nsixth\n###\n\n";
 		$header = $this->createHeader('h1', 'first');
-		$header->setAttribute('id', 'first');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "\n\nsecond\n===\n\nthird\n+++\n\nfourth\n***\n\nfifth\n^^^\n\nsixth\n###\n\n";
 		$header = $this->createHeader('h2', 'second');
-		$header->setAttribute('id', 'second');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "para\n\nother second\n===\n\npara";
 		$header = $this->createHeader('h2', 'other second');
-		$header->setAttribute('id', 'other-second');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -257,7 +237,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "header\n---\n\n";
 		$header = $this->createHeader('h1', 'header');
-		$header->setAttribute('id', 'header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -269,7 +248,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\nheader\n---\n\n";
 		$header = $this->createHeader('h1', 'header');
-		$header->setAttribute('id', 'header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -281,7 +259,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "para\nheader\n---\n\n";
 		$header = $this->createHeader('h1', 'header');
-		$header->setAttribute('id', 'header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -293,7 +270,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\nheader\n---\nparagraph\n\n";
 		$header = $this->createHeader('h1', 'header');
-		$header->setAttribute('id', 'header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -305,7 +281,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\n   header preceded by 3 spaces\n---\n\n";
 		$header = $this->createHeader('h1', 'header preceded by 3 spaces');
-		$header->setAttribute('id', 'header-preceded-by-3-spaces');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 
@@ -322,19 +297,16 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "paragraph\n\n# level 1\n\nparagraph";
 		$header = $this->createHeader('h1', 'level 1');
-		$header->setAttribute('id', 'level-1');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "paragraph\n\n## level 2\n\nparagraph";
 		$header = $this->createHeader('h2', 'level 2');
-		$header->setAttribute('id', 'level-2');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 
 		$text = "paragraph\n\n###### level 6\n\nparagraph";
 		$header = $this->createHeader('h6', 'level 6');
-		$header->setAttribute('id', 'level-6');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -346,7 +318,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "paragraph\n\n## level 2 #####\n\nparagraph";
 		$header = $this->createHeader('h2', 'level 2');
-		$header->setAttribute('id', 'level-2');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -358,7 +329,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "\n\n# header\nparagraph\n\n";
 		$header = $this->createHeader('h1', 'header');
-		$header->setAttribute('id', 'header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
@@ -372,54 +342,7 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	{
 		$text = "paragraph\n# header\n\n";
 		$header = $this->createHeader('h1', 'header');
-		$header->setAttribute('id', 'header');
 
 		$this->assertEquals($header, $this->applyPattern($text));
-	}
-
- 	//	------------ id ------------
-
-	public function assertCreatesId($expectedId, $fromHeaderText)
-	{
-		$text = "\n\n# $fromHeaderText\nparagraph\n\n";
-		$header = $this->createHeader('h1', $fromHeaderText);
-		$header->setAttribute('id', $expectedId);
-
-		$this->assertEquals($header, $this->applyPattern($text));
-	}
-
-	/**
-	 * @test
-	 */
-	public function removesCharactersOtherThanAlfaNumUnderscoreHyphenPeriods()
-	{
-		$this->assertCreatesId('a2_-.z', 'a*2_-[.z');
-	}
-
-	/**
-	 * @test
-	 */
-	public function removesEverythingUpToTheFirstLetter()
-	{
-		$this->assertCreatesId('words', '2. words');
-	}
-
-	/**
-	 * @test
-	 */
-	public function appendsNumbersToDistinguishIds()
-	{
-		$text1 = "\n\n# header\nparagraph\n\n";
-		$text2 = "\n\n# header\nparagraph\n\n";
-
-		$header = $this->createHeader('h1', 'header');
-		$header->setAttribute('id', 'header');
-		
-		$this->assertEquals($header, $this->applyPattern($text1));
-
-		$header = $this->createHeader('h1', 'header');
-		$header->setAttribute('id', 'header-2');
-
-		$this->assertEquals($header, $this->applyPattern($text2));
 	}
 }

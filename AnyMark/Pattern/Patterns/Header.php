@@ -84,7 +84,6 @@ class Header extends Pattern
 
 		$h = $parent->createElement('h' . $level);
 		$h->append($parent->createText($match['text']));
-		$this->addId($h, $match['text']);
 
 		return $h;
 	}
@@ -96,55 +95,7 @@ class Header extends Pattern
 
 		$h = $parent->createElement('h' . $level);
 		$h->append($parent->createText($match['text']));
-		$this->addId($h, $match['text']);
 
 		return $h;
-	}
-
-	private function addId(Element $element, $text)
-	{
-		$id = $this->appendUnique($this->createId($text));
-		$element->setAttribute('id', $id);
-	}
-
-	/**
-	 * Inspired by Pandoc
-	 */
-	private function createId($text)
-	{
-		$text = strtolower($text);
-		$text = str_replace(' ', '-', $text);
-		$text = preg_replace('@[^a-z0-9_\-.]@', '', $text);
-		$text = preg_replace('@^[^a-z]*@', '', $text);
-
-		return $text;
-	}
-
-	private function appendUnique($id)
-	{
-		$append = false;
-
-		if (isset($this->ids[$id]))
-		{
-			$append = $this->ids[$id];
-		}
-
-		if (!$append)
-		{
-			$append = 1;
-		}
-		else
-		{
-			$append++;
-		}
-
-		$this->ids[$id] = $append;
-
-		if ($append > 1)
-		{
-			$id .= '-' . $append;
-		}
-
-		return $id;
 	}
 }

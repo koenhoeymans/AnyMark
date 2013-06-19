@@ -72,12 +72,12 @@ class Image extends Pattern
 		}
 
 		$img = $parent->createElement('img');
+		$img->setAttribute('src', $path);
 		$img->setAttribute('alt', $match['alt']);
 		if (isset($match['title']))
 		{
 			$img->setAttribute('title', $match['title']);
 		}
-		$img->setAttribute('src', $path);
 
 		return $img;
 	}
@@ -97,12 +97,12 @@ class Image extends Pattern
 		$title = $linkDefinition->getTitle();
 			
 		$img = $parent->createElement('img');
+		$img->setAttribute('src', $linkDefinition->getUrl());
 		$img->setAttribute('alt', $match['alt']);
 		if ($title)
 		{
 			$img->setAttribute('title', $title);
 		}
-		$img->setAttribute('src', $linkDefinition->getUrl());
 
 		return $img;
 	}

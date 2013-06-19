@@ -31,7 +31,7 @@ class LinkDefinitionCollector implements Plugin
 				'@
 			(^|\n+)[ ]{0,3}							# new line, 0-3 spaces
 			(\[(?<id>.+)\]):[ ]+ 					# id:space
-			(<(?<url1>\S+)>|(?<url2>\S+))			# url or <url>
+			(<(?<url1>.+)>|(?<url2>\S+))			# url or <url>
 			(										# "title"|\'title\'|(title)
 			\n?[\t ]*								# options: on new line, indented
 			("|\'|\()

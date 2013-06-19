@@ -39,7 +39,7 @@ class Hyperlink extends Pattern
 				\n?								# optional line break
 				\(
 				(?<url>							# url or <url>
-					<\S*>
+					<.*?>
 					|
 					\S*?(?(?=\()\(\S*?\)\S*?)	# note: url can contain ( & )
 				)

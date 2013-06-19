@@ -123,7 +123,7 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 
 		$this->assertEquals(
 			new \AnyMark\Pattern\Patterns\LinkDefinition(
-					'linkDefinition', 'http://example.com'
+				'linkDefinition', 'http://example.com'
 			),
 			$this->plugin->get('linkDefinition')
 		);
@@ -178,6 +178,24 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 					'linkDefinition', 'http://example.com', 'title'
 			),
 			$this->plugin->get('linkDefinition')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function urlCanHaveSpaces()
+	{
+		$text = "\n[definition]: <url://with space>\n";
+		$callback = $this->eventMapper->getCallback();
+		$event = new \AnyMark\Events\BeforeParsing($text);
+		$callback($event);
+
+		$this->assertEquals(
+			new \AnyMark\Pattern\Patterns\LinkDefinition(
+				'definition', 'url://with space'
+			),
+			$this->plugin->get('definition')
 		);
 	}
 }

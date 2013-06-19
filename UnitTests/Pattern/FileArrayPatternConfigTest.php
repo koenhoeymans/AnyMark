@@ -24,8 +24,8 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	public function returnsSpecifiedImplementationAsClassNameFromConfig()
 	{
 		$this->assertEquals(
-			'\\AnyMark\\Pattern\\Patterns\\Italic',
-			$this->config->getSpecifiedImplementation('italic')
+			'\\AnyMark\\Pattern\\Patterns\\Emphasis',
+			$this->config->getSpecifiedImplementation('emphasis')
 		);
 	}
 
@@ -35,7 +35,7 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	public function returnsNullWhenNoImplementationSpecified()
 	{
 		$this->assertEquals(
-			null, $this->config->getSpecifiedImplementation('_ita_lic_')
+			null, $this->config->getSpecifiedImplementation('_emp_asis_')
 		);
 	}
 
@@ -52,7 +52,7 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	 */
 	public function returnsEmptyListIfNoSubnames()
 	{
-		$this->assertEquals(array(), $this->config->getSubnames('_ita_lic_'));
+		$this->assertEquals(array(), $this->config->getSubnames('_emph_asis_'));
 	}
 
 	/**
@@ -60,7 +60,7 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	 */
 	public function returnsListWithSubnames()
 	{
-		$this->assertEquals(array('strong'), $this->config->getSubnames('italic'));
+		$this->assertEquals(array('strong'), $this->config->getSubnames('emphasis'));
 	}
 
 	/**
@@ -136,10 +136,10 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	 */
 	public function patternCanBeAddedAfterOtherPattern()
 	{
-		$this->config->add('mock')->toParent('root')->after('italic');
+		$this->config->add('mock')->toParent('root')->after('emphasis');
 
 		$this->assertEquals(
-			array('italic', 'mock', 'foo'), $this->config->getSubnames('root')
+			array('emphasis', 'mock', 'foo'), $this->config->getSubnames('root')
 		);
 	}
 
@@ -151,7 +151,7 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 		$this->config->add('mock')->toParent('root')->before('foo');
 
 		$this->assertEquals(
-			array('italic', 'mock', 'foo'), $this->config->getSubnames('root')
+			array('emphasis', 'mock', 'foo'), $this->config->getSubnames('root')
 		);
 	}
 }

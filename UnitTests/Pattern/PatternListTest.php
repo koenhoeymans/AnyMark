@@ -78,15 +78,15 @@ class AnyMark_Pattern_PatternListTest extends PHPUnit_Framework_TestCase
 	 */
 	public function providesSubpatternsOfSpecificPattern()
 	{
-		$italic = new \AnyMark\Pattern\Patterns\Italic();
+		$emphasis = new \AnyMark\Pattern\Patterns\Emphasis();
 		$strong = new \AnyMark\Pattern\Patterns\Strong();
 
 		$this->config
 			->expects($this->atLeastOnce())
 			->method('getSubnames')
 			->will($this->returnValueMap(array(
-				array('root', array('italic')),
-				array('italic', array('strong')),
+				array('root', array('emphasis')),
+				array('emphasis', array('strong')),
 				array('strong', array())
 			)));
 		$this->config
@@ -98,10 +98,10 @@ class AnyMark_Pattern_PatternListTest extends PHPUnit_Framework_TestCase
 			->method('getSpecifiedImplementation')
 			->will($this->returnValueMap(array(
 				array('strong', $strong),
-				array('italic', $italic)
+				array('emphasis', $emphasis)
 			)));
 
-		$this->assertEquals(array($strong), $this->patternList->getSubpatterns($italic));
+		$this->assertEquals(array($strong), $this->patternList->getSubpatterns($emphasis));
 	}
 
 	/**
@@ -110,7 +110,7 @@ class AnyMark_Pattern_PatternListTest extends PHPUnit_Framework_TestCase
 	public function dealiasesAliases()
 	{
 		$dummy = new \AnyMark\UnitTests\Support\DummyPattern();
-		$italic = new \AnyMark\Pattern\Patterns\Italic();
+		$emphasis = new \AnyMark\Pattern\Patterns\Emphasis();
 		$strong = new \AnyMark\Pattern\Patterns\Strong();
 
 		$this->config
@@ -121,16 +121,16 @@ class AnyMark_Pattern_PatternListTest extends PHPUnit_Framework_TestCase
 				array('alias', array('dummy', 'alias')),
 				array('dummy', array()),
 				array('strong', array()),
-				array('italic', array())
+				array('emphasis', array())
 			)));
 		$this->config
 			->expects($this->atLeastOnce())
 			->method('getAliased')
 			->will($this->returnValueMap(array(
-				array('alias', array('italic', 'strong')),
+				array('alias', array('emphasis', 'strong')),
 				array('dummy', array()),
 				array('strong', array()),
-				array('italic', array()),
+				array('emphasis', array()),
 			)));
 		$this->config
 			->expects($this->atLeastOnce())
@@ -138,12 +138,12 @@ class AnyMark_Pattern_PatternListTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValueMap(array(
 				array('alias', null),
 				array('dummy', $dummy),
-				array('italic', $italic),
+				array('emphasis', $emphasis),
 				array('strong', $strong)
 			)));
 
 		$this->assertEquals(
-			array($italic, $strong, $dummy), $this->patternList->getSubpatterns()
+			array($emphasis, $strong, $dummy), $this->patternList->getSubpatterns()
 		);
 	}
 
@@ -152,16 +152,16 @@ class AnyMark_Pattern_PatternListTest extends PHPUnit_Framework_TestCase
 	 */
 	public function treeCanBeCircular()
 	{
-		$italic = new \AnyMark\Pattern\Patterns\Italic();
+		$emphasis = new \AnyMark\Pattern\Patterns\Emphasis();
 		$strong = new \AnyMark\Pattern\Patterns\Strong();
 
 		$this->config
 			->expects($this->atLeastOnce())
 			->method('getSubnames')
 			->will($this->returnValueMap(array(
-				array('root', array('italic')),
-				array('italic', array('strong')),
-				array('strong', array('italic'))
+				array('root', array('emphasis')),
+				array('emphasis', array('strong')),
+				array('strong', array('emphasis'))
 			)));
 		$this->config
 			->expects($this->any())
@@ -171,13 +171,13 @@ class AnyMark_Pattern_PatternListTest extends PHPUnit_Framework_TestCase
 			->expects($this->atLeastOnce())
 			->method('getSpecifiedImplementation')
 			->will($this->returnValueMap(array(
-				array('italic', $italic),
+				array('emphasis', $emphasis),
 				array('strong', $strong),
 				array('alias', null)
 			)));
 
-		$this->assertEquals(array($italic), $this->patternList->getSubpatterns());
-		$this->assertEquals(array($italic), $this->patternList->getSubpatterns($strong));
+		$this->assertEquals(array($emphasis), $this->patternList->getSubpatterns());
+		$this->assertEquals(array($emphasis), $this->patternList->getSubpatterns($strong));
 	}
 
 	/**

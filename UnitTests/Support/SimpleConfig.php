@@ -3,7 +3,7 @@
 return [
 	"implementations" =>
 	[
-		"italic" => "\\AnyMark\\Pattern\\Patterns\\Italic",
+		"emphasis" => "\\AnyMark\\Pattern\\Patterns\\Emphasis",
 		"strong" => "\\AnyMark\\Pattern\\Patterns\\Strong"
 	],
 	"alias" =>
@@ -12,8 +12,8 @@ return [
 	],
 	"tree" =>
 	[
-		"root" => ["italic", "foo"],
-		"italic" => ["strong"],
-		"foo" => ["foo", "italic"]
+		"root" => ["emphasis", "foo"],
+		"emphasis" => ["strong"],
+		"foo" => ["foo", "emphasis"]
 	]
 ];

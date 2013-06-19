@@ -18,6 +18,7 @@ class Emphasis extends Pattern
 		return
 		'@
 			(?<=^|\s)
+			(
 			[*]
 			(?=\S)
 				(
@@ -29,6 +30,19 @@ class Emphasis extends Pattern
 				)+?
 			(?<=\S)
 			[*]
+			|
+			[_]
+			(?=\S)
+				(
+					(?R)
+					|
+					[^_]
+					|
+					([_]([^_]|(?2))+?(?<=\S)[_])
+				)+?
+			(?<=\S)
+			[_]
+			)
 			(?![a-zA-Z0-9*])
 		@x';
 	}
@@ -37,6 +51,10 @@ class Emphasis extends Pattern
 		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
 		if (substr($match[0], 0, 2) === '**' && substr($match[0], -2) === '**')
+		{
+			return;
+		}
+		if (substr($match[0], 0, 2) === '__' && substr($match[0], -2) === '__')
 		{
 			return;
 		}

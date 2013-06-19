@@ -11,7 +11,6 @@ return [
 		"horizontalRule" => "\\AnyMark\\Pattern\\Patterns\\HorizontalRule",
 		"hyperlink" => "\\AnyMark\\Pattern\\Patterns\\Hyperlink",
 		"image" => "\\AnyMark\\Pattern\\Patterns\\Image",
-		"italic" => "\\AnyMark\\Pattern\\Patterns\\Italic",
 		"list" => "\\AnyMark\\Pattern\\Patterns\\TextualList",
 		"manualHtmlBlock" => "\\AnyMark\\Pattern\\Patterns\\ManualHtmlBlock",
 		"manualHtmlInline" => "\\AnyMark\\Pattern\\Patterns\\ManualHtmlInline",
@@ -33,7 +32,6 @@ return [
 			"newLine",
 			"autoLink",
 			"image",
-			"italic",
 			"emphasis",
 			"strong",
 			"hyperlink"

@@ -27,13 +27,14 @@ class TextualList extends Pattern
 												# sublists on handling match
 
 	(?<list>(?J)
+
 		(
 			(?<ol_indentation>[ \t]*)					# indentation
 			(?<ol>' . $this->ol_marker . ')			# marker
 			(?<ol_space_after_marker>[ \t]+)			# space after marker
 			\S.*									# text
 			(										# continuation of list
-				\n.+									# -> on next line
+				\n(?!' . $this->ul_marker . ').+	# -> on next line
 				|
 				\n\n\g{ol_indentation}						# -> white line
 														#	+ indent
@@ -42,14 +43,16 @@ class TextualList extends Pattern
  				.+										#	+ text
 			)*
 		)
+
 		|
+
 		(
 			(?<ul_indentation>[ \t]*)
 			(?<ul>' . $this->ul_marker . ')
 			(?<ul_space_after_marker>[ \t]+)
 			\S.*
 			(
-				\n.+
+				\n(?!' . $this->ol_marker . ').+
 				|
 				\n\n\g{ul_indentation}
 
@@ -60,7 +63,7 @@ class TextualList extends Pattern
 		)
 	)
 
-		(?=\n\n|\n$|$)
+		(?=\n\n|\n$|$|\n'. $this->ol_marker . '|\n'. $this->ul_marker . ')
 		@x';
 	}
 

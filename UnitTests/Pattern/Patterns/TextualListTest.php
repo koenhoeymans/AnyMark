@@ -402,4 +402,40 @@ paragraph";
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}
+
+	/**
+	 * @test
+	 */
+	public function recognizesWhenUnorderedListsIsFollowedByOrderedWhenAdjacent()
+	{
+		$text = "
+* an item
+* other item
+1. item in second list
+2. other item in second list
+";
+		$list = $this->create('ul');
+		$list->append($this->create('li', 'an item'));
+		$list->append($this->create('li', 'other item'));
+
+		$this->assertEquals($list, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function recognizesWhenOrderedListsIsFollowedByUnOrderedWhenAdjacent()
+	{
+		$text = "
+1. item
+2. other item
+* an item
+* another item
+";
+		$list = $this->create('ol');
+		$list->append($this->create('li', 'item'));
+		$list->append($this->create('li', 'other item'));
+
+		$this->assertEquals($list, $this->applyPattern($text));
+	}
 }

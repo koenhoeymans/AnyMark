@@ -21,11 +21,11 @@ return [
 	],
 	"alias" => [
 		"block" => [
+			"manualHtmlBlock",
 			"header",
 			"horizontalRule",
 			"textualList",
 			"blockquote",
-			"manualHtmlBlock",
 			"paragraph"
 		],
 		"inline" => [
@@ -43,7 +43,7 @@ return [
 		"inline" => ["manualHtmlInline", "inline", "codeInline"],
 		"textualList" => ["codeIndented", "block", "manualHtmlInline", "codeInline", "inline"],
 		"blockquote" => ["block"],
-		"manualHtmlBlock" => ["block"],
+		"manualHtmlBlock" => ["manualHtmlBlock"],
 		"manualHtmlInline" => ["inline"]
 	]
 ];

@@ -303,4 +303,22 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 		$expected = $this->createDomForLink('link.html', 'link');
 		$this->assertEquals($expected, $this->applyPattern($text));
 	}
+
+	/**
+	 * @test
+	 */
+	public function mayNotHaveNonSpaceBefore()
+	{
+		$text = "See page[link](http://url) for info.";
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function mayNotHaveNonSpaceAfter()
+	{
+		$text = "See page [link](http://url)for info.";
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
 }

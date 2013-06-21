@@ -32,6 +32,7 @@ class Hyperlink extends Pattern
 		return
 			'@
 			(?J)
+			(?<=^|\s)
 			(?<inline>
 				\[(?<anchor>					# anchor text
 					(\[(?2)*?\].*?|.+?)			
@@ -52,6 +53,7 @@ class Hyperlink extends Pattern
 				)?									# title is optional
 				\)
 			)
+			(?=\W|$)
 
 			|
 

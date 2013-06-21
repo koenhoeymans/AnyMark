@@ -32,9 +32,9 @@ return [
 			"newLine",
 			"autoLink",
 			"image",
+			"hyperlink",
 			"emphasis",
-			"strong",
-			"hyperlink"
+			"strong"
 		]
 	],
 	"tree" => [

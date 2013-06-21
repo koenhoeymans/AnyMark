@@ -61,10 +61,12 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	/**
 	 * @test
 	 */
-	public function aWordCannotContainStrongParts()
+	public function aWordCanContainStrongParts()
 	{
-		$text = "This is not a st**ro**ng word.";
-		$this->assertEquals(null, $this->applyPattern($text));
+		$text = "This is a st**ro**ng word.";
+		$strong = $this->createStrong('ro');
+
+		$this->assertEquals($strong, $this->applyPattern($text));
 	}
 
 	/**
@@ -82,15 +84,6 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	public function lastDoubleAsterisksCannotHaveSpaceBeforeIt()
 	{
 		$text = "This is not a sentence with **strong ** text.";
-		$this->assertEquals(null, $this->applyPattern($text));
-	}
-
-	/**
-	 * @test
-	 */
-	public function firstAsteriskMustBePrecededBySpace()
-	{
-		$text = "This is not a sentence with**strong** text.";
 		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
@@ -228,7 +221,7 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 	 */
 	public function nesting()
 	{
-		$text = "**[**Link**](url)**";
+		$text = " **[**Link**](url)** ";
 		$strong = $this->createStrong('[**Link**](url)');
 
 		$this->assertEquals($strong, $this->applyPattern($text));

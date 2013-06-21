@@ -17,7 +17,7 @@ class Strong extends Pattern
 	{
 		return
 		'@
-			(?<=^|\s)
+			(?<![_*])
 			(?<marker>[_*])
 			\g{marker}
 			(?=\S)
@@ -27,14 +27,11 @@ class Strong extends Pattern
 					(?!\g{marker}).
 					|
 					\g{marker}(?!\g{marker}).+?(?<=\S)\g{marker}
-					|
-					\g{marker}\g{marker}(?!\g{marker}).+?(?<=\S)\g{marker}\g{marker}
 				)+?
 			(?<=\S)
 			\g{marker}
 			\g{marker}
-			(?![a-zA-Z0-9])
-			(?!\g{marker})
+			(?!\w+\g{marker}\g{marker})
 		@x';
 	}
 
@@ -43,6 +40,10 @@ class Strong extends Pattern
 	) {
 		$marker = $match['marker'] . $match['marker'];
 		if (substr($match[0], 0, 2) !== $marker || substr($match[0], -2) !== $marker)
+		{
+			return;
+		}
+		if (substr($match[0], 0, 4) === '____' && substr($match[0], -4) === '____')
 		{
 			return;
 		}

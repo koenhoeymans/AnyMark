@@ -17,8 +17,8 @@ class Emphasis extends Pattern
 	{
 		return
 		'@
-			(?<=^|\s)
 			(
+
 			[*]
 			(?=\S)
 				(
@@ -30,7 +30,9 @@ class Emphasis extends Pattern
 				)+?
 			(?<=\S)
 			[*]
+
 			|
+
 			[_]
 			(?=\S)
 				(
@@ -38,12 +40,12 @@ class Emphasis extends Pattern
 					|
 					[^_]
 					|
-					([_]([^_]|(?2))+?(?<=\S)[_])
+					([_]([^_]|(?6))+?(?<=\S)[_])
 				)+?
 			(?<=\S)
 			[_]
+	
 			)
-			(?![a-zA-Z0-9*])
 		@x';
 	}
 

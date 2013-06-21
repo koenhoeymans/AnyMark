@@ -63,7 +63,7 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	{
 		$text = "This is not a b*ol*d word.";
 
-		$this->assertEquals(null, $this->applyPattern($text));
+		$this->assertEquals($this->createEm('ol'), $this->applyPattern($text));
 	}
 
 // 	/**
@@ -102,16 +102,6 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function lastAsteriskCannotHaveSpaceBeforeIt()
 	{
 		$text = "This is not a sentence with *emphasized * text.";
-
-		$this->assertEquals(null, $this->applyPattern($text));
-	}
-
-	/**
-	 * @test
-	 */
-	public function firstAsteriskMustBePrecededBySpace()
-	{
-		$text = "This is not a sentence with*emphasized* text.";
 
 		$this->assertEquals(null, $this->applyPattern($text));
 	}
@@ -160,6 +150,16 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	 * @test
 	 */
 	public function canContainStrongText3()
+	{
+		$text = "___emphasized__ with strong_ text.";
+	
+		$this->assertEquals($this->createEm('__emphasized__ with strong'), $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function canContainStrongText4()
 	{
 		$text = "*also **emphasized** with strong* text.";
 
@@ -245,6 +245,15 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 	public function insideStrongLeavesStrongFirst3()
 	{
 		$text = "***foo* bar**";
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function insideStrongLeavesStrongFirst4()
+	{
+		$text = "a ___test_ test__.";
 		$this->assertEquals(null, $this->applyPattern($text));
 	}
 

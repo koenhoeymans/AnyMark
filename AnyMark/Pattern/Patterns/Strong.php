@@ -18,6 +18,7 @@ class Strong extends Pattern
 		return
 		'@
 			(?<![_*])
+			(?<!\\\)
 			(?<marker>[_*])
 			\g{marker}
 			(?=\S)
@@ -29,6 +30,7 @@ class Strong extends Pattern
 					\g{marker}(?!\g{marker}).+?(?<=\S)\g{marker}
 				)+?
 			(?<=\S)
+			(?<!\\\)
 			\g{marker}
 			\g{marker}
 			(?!\w+\g{marker}\g{marker})

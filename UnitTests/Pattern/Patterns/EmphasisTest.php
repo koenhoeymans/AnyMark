@@ -274,4 +274,22 @@ class AnyMark_Pattern_Patterns_EmphasisTest extends \AnyMark\UnitTests\Support\P
 		$text = "**a**b";
 		$this->assertEquals(null, $this->applyPattern($text));
 	}
+
+	/**
+	 * @test
+	 */
+	public function noEmphasisWhenEscaped()
+	{
+		$text = "no \*a* emphasis";
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function noEmphasisWhenEscaped2()
+	{
+		$text = "no *a\* emphasis";
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
 }

@@ -226,4 +226,22 @@ class AnyMark_Pattern_Patterns_StrongTest extends \AnyMark\UnitTests\Support\Pat
 
 		$this->assertEquals($strong, $this->applyPattern($text));
 	}
+
+	/**
+	 * @test
+	 */
+	public function notStrongWhenEscaped()
+	{
+		$text = "not \**a** strong";	
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function notStrongWhenEscaped2()
+	{
+		$text = "not **a\** strong";
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
 }

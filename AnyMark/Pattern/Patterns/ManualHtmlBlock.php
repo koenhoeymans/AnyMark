@@ -110,9 +110,13 @@ class ManualHtmlBlock extends Pattern
 			$attributes = $this->getAttributes($attributes);
 			foreach ($attributes['name'] as $key=>$value)
 			{
-				$element->setAttribute(
+				$attr = $element->setAttribute(
 					$value, $attributes['value'][$key]
 				);
+				if ($attributes['quote'][$key] === "'")
+				{
+					$attr->singleQuotes();
+				}
 			}
 		}
 
@@ -127,7 +131,7 @@ class ManualHtmlBlock extends Pattern
 			(?<name>\w+)
 			(
 			=
-			([\"|'](?<value>.*?)[\"|'])
+			((?<quote>[\"|'])(?<value>.*?)[\"|'])
 			)?
 			@x",
 			$tagPart,

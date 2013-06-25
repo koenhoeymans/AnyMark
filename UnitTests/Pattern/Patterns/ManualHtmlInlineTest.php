@@ -114,7 +114,7 @@ foo
 	 */
 	public function canContainMultipleAttributes()
 	{
-		$text = "foo <a id='b' class='c'>d</a> bar";
+		$text = "foo <a id=\"b\" class=\"c\">d</a> bar";
 		$el = $this->create('a', 'd');
 		$el->setAttribute('id', 'b');
 		$el->setAttribute('class', 'c');
@@ -127,7 +127,7 @@ foo
 	 */
 	public function attributeValuesCanContainBackticks()
 	{
-		$text = "foo <a class='`ticks`'>b</a> bar";
+		$text = "foo <a class=\"`ticks`\">b</a> bar";
 		$el = $this->create('a', 'b');
 		$el->setAttribute('class', '`ticks`');
 
@@ -192,5 +192,17 @@ foo
 		$el = $this->create('span', 'foo');
 
 		$this->assertEquals($el, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function keepsQuoteStyle()
+	{
+		$text = 'foo <a class="a" id=\'b\'>b</a> bar';
+
+		$this->assertEquals(
+			'<a class="a" id=\'b\'>b</a>', $this->applyPattern($text)->toString()
+		);
 	}
 }

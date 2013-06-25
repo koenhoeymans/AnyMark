@@ -68,9 +68,13 @@ class ManualHtmlInline extends Pattern
 			$attributes = $this->getAttributes($match['attributes']);
 			foreach ($attributes['name'] as $key=>$value)
 			{
-				$element->setAttribute(
+				$attr = $element->setAttribute(
 					$value, $attributes['value'][$key]
 				);
+				if ($attributes['quote'][$key] === "'")
+				{
+					$attr->singleQuotes();
+				}
 			}
 		}
 		else # a comment
@@ -89,7 +93,7 @@ class ManualHtmlInline extends Pattern
 			(?<name>\w+)
 			(
 			=
-			([\"|'](?<value>.*?)[\"|'])
+			((?<quote>[\"|'])(?<value>.*?)[\"|'])
 			)?
 			@x",
 			$tagPart,

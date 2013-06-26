@@ -43,6 +43,6 @@ class AnyMark_EndToEndTests_CustomPatternsTest extends \AnyMark\EndToEndTests\Su
 		$parsedText = trim($anyMark->parse('_foo foo_')->toString());
 
 		// then
-		$this->assertEquals('<i>bar bar</i>', $parsedText);
+		$this->assertEquals('<em>bar bar</em>', $parsedText);
 	}
 }

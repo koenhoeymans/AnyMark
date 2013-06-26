@@ -35,9 +35,9 @@ class AddPatternsPlugin implements Plugin
 
 	public function addPatterns(EditPatternConfigurationEvent $patternConfig)
 	{
-		$patternConfig->setImplementation('italic', 'AnyMark\\Pattern\\Patterns\\Italic');
+		$patternConfig->setImplementation('emphasis', 'AnyMark\\Pattern\\Patterns\\Emphasis');
 		$patternConfig->setImplementation('foo', 'AnyMark\\EndToEndTests\\Support\\Patterns\\FooChange');
-		$patternConfig->add('italic')->toParent('root')->first();
-		$patternConfig->add('foo')->toParent('italic')->first(); 
+		$patternConfig->add('emphasis')->toParent('root')->first();
+		$patternConfig->add('foo')->toParent('emphasis')->first(); 
 	}
 }

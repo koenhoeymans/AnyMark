@@ -113,7 +113,7 @@ class GlobalMatchRecursiveReplacer implements Parser
 		{
 			# don't need the backslash for escaped characters anymore
 			$component->setValue(preg_replace(
-				'@\\\\([^ ])@', "\${1}", $component->getValue()
+				'@\\\\([\\\\`*_{}\[\]()>#+-.!])@', "\${1}", $component->getValue()
 			));
 		});
 

@@ -38,11 +38,12 @@ class AnyMark_Plugins_HtmlEntitiesTest extends PHPUnit_Framework_TestCase
 		$tree = new \ElementTree\ElementTree();
 		$div = $tree->createElement('div');
 		$div->setAttribute('id', 'at&t');
+		$tree->append($div);
 	
 		$callback = $this->eventMapper->getCallback();
 		$event = new \AnyMark\Events\AfterParsing($tree);
 		$callback($event);
 	
-		$this->assertEquals('<div id="at&amp;t"', $tree->toString());
+		$this->assertEquals('<div id="at&amp;t" />', $tree->toString());
 	}
 }

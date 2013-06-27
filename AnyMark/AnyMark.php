@@ -73,6 +73,9 @@ class AnyMark implements Parser, Observable
 		$anyMark->registerPlugin(new \AnyMark\Plugins\EmptyLineFixer());
 		$anyMark->registerPlugin(new \AnyMark\Plugins\NewLineStandardizer());
 		$anyMark->registerPlugin(new \AnyMark\Plugins\Detab());
+		# Should be before HtmlEntities because the `\` is not restored before
+		# the `&` of entities.
+		$anyMark->registerPlugin(new \AnyMark\Plugins\EscapeRestorer());
 		$anyMark->registerPlugin(new \AnyMark\Plugins\HtmlEntities());
 		$anyMark->registerPlugin($fjor->get('AnyMark\\Plugins\\LinkDefinitionCollector'));
 		$anyMark->registerPlugin(new \AnyMark\Plugins\EmailObfuscator());

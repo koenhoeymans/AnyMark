@@ -10,7 +10,7 @@
 	"require": {
 		"php": ">=5.4.6",
 		"fjor/fjor": "~0.1.3",
-		"elementtree/elementtree": "~0.2.1",
+		"elementtree/elementtree": "~0.2.2",
 		"epa/epa": "~0.2.3"
 	},
 	"require-dev": {

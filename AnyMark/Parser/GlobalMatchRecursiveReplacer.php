@@ -37,8 +37,6 @@ class GlobalMatchRecursiveReplacer implements Parser
 
 		$this->applyPatterns($text);
 
-		$this->restoreEscaped($document);
-
 		return $document;
 	}
 
@@ -105,24 +103,5 @@ class GlobalMatchRecursiveReplacer implements Parser
 			$this->applyPatterns($text, $parentPattern);
 		};
 		$elementTree->query($ownerTree->createFilter($callback)->allText());
-	}
-
-	private function restoreEscaped(ElementTree $document)
-	{
-		$filter = $document->createFilter(function (Text $component)
-		{
-			# don't need the backslash for escaped characters anymore
-			$component->setValue(preg_replace(
-				'@\\\\([\\\\`*_{}\[\]()>#+-.!])@', "\${1}", $component->getValue()
-			));
-		});
-
-		$document->query(
-			$filter->lAnd(
-				$filter->allText(),
-				$filter->hasParentElement(),
-				$filter->not($filter->hasParentElement('code'))
-			)
-		);
 	}
 }

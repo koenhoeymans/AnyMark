@@ -14,8 +14,17 @@ use ElementTree\ElementTree;
  */
 abstract class Pattern
 {
+	/**
+	 * @return string
+	 */
 	abstract public function getRegex();
 
+	/**
+	 * @param array $match
+	 * @param ElementTree $parent
+	 * @param Pattern $parentPattern
+	 * @return \ElementTree\ElementTreeComponent
+	 */
 	abstract public function handleMatch(
 		array $match, ElementTree $parent, Pattern $parentPattern = null
 	);

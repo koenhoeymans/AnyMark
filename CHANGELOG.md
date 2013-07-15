@@ -1,6 +1,25 @@
 AnyMark Changelog
 =================
 
+*	0.9.0
+
+	*	Added original Markdown and PHPMarkdown tests.
+	*	Indented code is followed by newline.
+	*	Allowed <br> for manual HTML.
+	*	Headers don't have a header id anymore. Conforms to standard Markdown.
+	*	Removed italic pattern. `_` is now emphasis as it is with Markdown.
+	*	Changed image attribute order.
+	*	Links can have spaces in their urls.
+	*	Manual block level HTML can contain only manual HTML.
+	*	Ordered and unoredered lists can follow eachother without blank line in between.
+	*	Hyperlink cannot be inside word boundaries.
+	*	Emphasis bug fixes.
+	*	Update to version 0.3.0 of package `ElementTree`.
+	*	Quote style for attribute values in manual HTML is respected.
+	*	Fixed `CustomPatterns` test.
+	*	Only a defined list of characters can be escaped.
+	*	Extracted escaping of characters to plugin.
+
 *	0.8.0
 
 	*	Parser implementation changed.

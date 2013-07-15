@@ -23,7 +23,7 @@ abstract class Pattern
 	 * @param array $match
 	 * @param ElementTree $parent
 	 * @param Pattern $parentPattern
-	 * @return \ElementTree\ElementTreeComponent
+	 * @return \ElementTree\Component
 	 */
 	abstract public function handleMatch(
 		array $match, ElementTree $parent, Pattern $parentPattern = null

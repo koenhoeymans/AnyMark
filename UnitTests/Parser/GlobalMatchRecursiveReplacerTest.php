@@ -142,4 +142,32 @@ class AnyMark_Parser_GlobalMatchRecursiveReplacerTest extends PHPUnit_Framework_
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function notifiesObserversOfMatchesHandledByPatterns()
+	{
+		$mockPattern = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+		$mockPattern
+			->expects($this->atLeastOnce())
+			->method('getRegex')
+			->will($this->returnValue('@text@'));
+		$mockPattern
+			->expects($this->atLeastOnce())
+			->method('handleMatch')
+			->will($this->returnValue(new \ElementTree\ElementTreeElement('a')));
+		$this->patternTree
+			->expects($this->atLeastOnce())
+			->method('getSubpatterns')
+			->will($this->returnValue(array($mockPattern)));
+
+		$event = new \AnyMark\Events\ParsingPatternMatch(
+			new \ElementTree\ElementTreeElement('a'), $mockPattern
+		);
+		$observer = $this->getMock('\\Epa\\Observer');
+		$observer->expects($this->once())->method('notify')->with($event);
+		$this->replacer->addObserver($observer);
+
+		$this->replacer->parse('text');
+	}
 }

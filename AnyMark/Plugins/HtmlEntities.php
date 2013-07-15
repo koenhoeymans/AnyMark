@@ -27,20 +27,20 @@ class HtmlEntities implements Plugin
 	
 	private function handleTree(ElementTree $tree)
 	{
-		$tree->query(function(Component $component) {
-			if ($component instanceof \ElementTree\Text)
-			{
-				$value = htmlentities($component->getValue(), ENT_NOQUOTES, 'UTF-8', false);
-				$component->setValue($value);
-			}
-			elseif ($component instanceof \ElementTree\Element)
-			{
-				foreach ($component->getAttributes() as $attr)
-				{
-					$value = htmlentities($attr->getValue(), ENT_COMPAT, 'UTF-8', false);
-					$attr->setValue($value);
-				}
-			}
-		});
+		$query = $tree->createQuery();
+
+		$allText = $query->find($query->allText());
+		foreach ($allText as $text)
+		{
+			$value = htmlentities($text->getValue(), ENT_NOQUOTES, 'UTF-8', false);
+			$text->setValue($value);
+		}
+
+		$allAttr = $query->find($query->allAttributes());
+		foreach ($allAttr as $attr)
+		{
+			$value = htmlentities($attr->getValue(), ENT_COMPAT, 'UTF-8', false);
+			$attr->setValue($value);
+		}
 	}
 }

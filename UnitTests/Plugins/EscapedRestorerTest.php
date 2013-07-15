@@ -1,5 +1,7 @@
 <?php
 
+use ElementTree\ElementTreeElement;
+
 require_once dirname(__FILE__)
 	. DIRECTORY_SEPARATOR . '..'
 	. DIRECTORY_SEPARATOR . 'TestHelper.php';
@@ -63,5 +65,52 @@ class AnyMark_Plugins_EscapeRestorerTest extends PHPUnit_Framework_TestCase
 		$callback($event);
 
 		$this->assertEquals('<code>foo \* bar</code>', $event->getTree()->toString());
+	}
+
+	/**
+	 * @test
+	 */
+	public function listensForInlineHtmlMatches()
+	{
+		$a = new \ElementTree\ElementTreeElement('a');
+		$pattern = new \AnyMark\Pattern\Patterns\ManualHtmlInline();
+		$event = new \AnyMark\Events\ParsingPatternMatch($a, $pattern);
+		$callback = $this->eventMapper->getCallback('PatternMatch');
+		$callback($event);
+
+		$this->assertEquals('<a manual="true" />', $a->toString());
+	}
+
+	/**
+	 * @test
+	 */
+	public function listensForBlockHtmlMatches()
+	{
+		$a = new \ElementTree\ElementTreeElement('a');
+		$pattern = new \AnyMark\Pattern\Patterns\ManualHtmlBlock();
+		$event = new \AnyMark\Events\ParsingPatternMatch($a, $pattern);
+		$callback = $this->eventMapper->getCallback('PatternMatch');
+		$callback($event);
+
+		$this->assertEquals('<a manual="true" />', $a->toString());
+	}
+
+	/**
+	 * @test
+	 */
+	public function doesntAdjustEscapingWhenElementsHaveAttributeAddedByPluginButRemovesAttribute()
+	{
+		$tree = new \ElementTree\ElementTree();
+		$div = $tree->createElement('div');
+		$div->setAttribute('manual', 'true');
+		$text = $tree->createText('foo \* bar');
+		$tree->append($div);
+		$div->append($text);
+
+		$callback = $this->eventMapper->getCallback();
+		$event = new \AnyMark\Events\AfterParsing($tree);
+		$callback($event);
+
+		$this->assertEquals('<div>foo \* bar</div>', $event->getTree()->toString());
 	}
 }

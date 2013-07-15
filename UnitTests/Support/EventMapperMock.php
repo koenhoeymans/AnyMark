@@ -12,23 +12,25 @@ use Epa\EventMapper;
  */
 class EventMapperMock implements EventMapper
 {
-	private $event;
-
-	private $callback;
+	private $events = array();
 
 	public function registerForEvent($event, $callback)
 	{
-		$this->event = $event;
-		$this->callback = $callback;
+		$this->events[$event] = $callback;
 	}
 
 	public function getEvent()
 	{
-		return $this->event;
+		reset($this->events);
+		return key($this->events);
 	}
 
-	public function getCallback()
+	public function getCallback($event = null)
 	{
-		return $this->callback;
+		if (is_string($event))
+		{
+			return $this->events[$event];
+		}
+		return reset($this->events);
 	}
 }

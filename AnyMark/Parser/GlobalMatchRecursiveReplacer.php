@@ -5,6 +5,9 @@
  */
 namespace AnyMark\Parser;
 
+use AnyMark\Events\ParsingPatternMatch;
+use Epa\Pluggable;
+use Epa\Observable;
 use AnyMark\Pattern\Pattern;
 use AnyMark\Pattern\PatternTree;
 use ElementTree\ElementTree;
@@ -15,8 +18,10 @@ use ElementTree\Text;
 /**
  * @package vidola
  */
-class GlobalMatchRecursiveReplacer implements Parser
+class GlobalMatchRecursiveReplacer implements Parser, Observable
 {
+	use Pluggable;
+
 	private $patternTree;
 
 	public function __construct(PatternTree $patternTree)
@@ -75,6 +80,8 @@ class GlobalMatchRecursiveReplacer implements Parser
 				continue;
 			}
 
+			$this->notify(new ParsingPatternMatch($patternCreatedElement, $pattern));
+
 			# add text node from text before match
 			$textBeforeMatch = substr($textToReplace, 0, $matchOffset);
 			$textBeforeMatch = $parentElement->createText($textBeforeMatch);
@@ -97,11 +104,12 @@ class GlobalMatchRecursiveReplacer implements Parser
 
 	private function applySubpatterns(Component $elementTree, Pattern $parentPattern)
 	{
-		$ownerTree = $elementTree->getOwnerTree();
-		$callback = function($text) use ($parentPattern)
+		$query = $elementTree->createQuery();
+		$matches = $query->find($query->allText());
+
+		foreach ($matches as $match)
 		{
-			$this->applyPatterns($text, $parentPattern);
-		};
-		$elementTree->query($ownerTree->createFilter($callback)->allText());
+			$this->applyPatterns($match, $parentPattern);
+		}
 	}
 }

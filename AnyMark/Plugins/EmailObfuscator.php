@@ -5,6 +5,8 @@
  */
 namespace AnyMark\Plugins;
 
+use ElementTree\Element;
+
 use ElementTree\ElementTree;
 use ElementTree\Component;
 use AnyMark\Events\AfterParsing;
@@ -27,30 +29,36 @@ class EmailObfuscator implements Plugin
 
 	private function handleTree(ElementTree $tree)
 	{
-		$callback = function(Component $component)
+		$query = $tree->createQuery();
+		$elements = $query->find($query->allElements());
+
+		foreach ($elements as $element)
 		{
-			if ($component->getName() !== 'a')
-			{
-				return;
-			}
-			$mailto = $component->getAttributeValue('href');
+			$this->obfuscateEmail($element);
+		}
+	}
 
-			if (empty($mailto) || substr($mailto, 0, 7) !== 'mailto:')
-			{
-				return;
-			}
+	private function obfuscateEmail(Element $element)
+	{
+		if ($element->getName() !== 'a')
+		{
+			return;
+		}
+		$mailto = $element->getAttributeValue('href');
 
-			$mailto = implode('', $this->encode(substr($mailto, 7)));
-			$component->setAttribute('href', $mailto);
+		if (empty($mailto) || substr($mailto, 0, 7) !== 'mailto:')
+		{
+			return;
+		}
 
-			$child = $component->getChildren()[0];
-			$anchor = implode('', array_slice($this->encode($child->getValue()), 7));
-			$text = $component->createText($anchor);
-			$component->remove($child);
-			$component->append($text);
-		};
+		$mailto = implode('', $this->encode(substr($mailto, 7)));
+		$element->setAttribute('href', $mailto);
 
-		$tree->query($tree->createFilter($callback)->allElements());
+		$child = $element->getChildren()[0];
+		$anchor = implode('', array_slice($this->encode($child->getValue()), 7));
+		$text = $element->createText($anchor);
+		$element->remove($child);
+		$element->append($text);
 	}
 
 	private function encode($addr)

@@ -1,6 +1,10 @@
 AnyMark Changelog
 =================
 
+*	0.9.1
+
+	*	Using `htmlspecialchars` instead of `htmlentities` before output.
+
 *	0.9.0
 
 	*	Added original Markdown and PHPMarkdown tests.

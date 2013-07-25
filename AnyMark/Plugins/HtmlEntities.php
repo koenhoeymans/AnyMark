@@ -32,14 +32,14 @@ class HtmlEntities implements Plugin
 		$allText = $query->find($query->allText());
 		foreach ($allText as $text)
 		{
-			$value = htmlentities($text->getValue(), ENT_NOQUOTES, 'UTF-8', false);
+			$value = htmlspecialchars($text->getValue(), ENT_NOQUOTES, 'UTF-8', false);
 			$text->setValue($value);
 		}
 
 		$allAttr = $query->find($query->allAttributes());
 		foreach ($allAttr as $attr)
 		{
-			$value = htmlentities($attr->getValue(), ENT_COMPAT, 'UTF-8', false);
+			$value = htmlspecialchars($attr->getValue(), ENT_COMPAT, 'UTF-8', false);
 			$attr->setValue($value);
 		}
 	}

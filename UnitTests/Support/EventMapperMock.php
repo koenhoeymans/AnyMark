@@ -14,7 +14,7 @@ class EventMapperMock implements EventMapper
 {
 	private $events = array();
 
-	public function registerForEvent($event, $callback)
+	public function registerForEvent($event, Callable $callback)
 	{
 		$this->events[$event] = $callback;
 	}

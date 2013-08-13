@@ -1,6 +1,11 @@
 AnyMark Changelog
 =================
 
+*	0.9.2
+
+	*	Update to latest version of package Epa to resolve conflict with EventMapperMock.
+	*	Documentation update.
+
 *	0.9.1
 
 	*	Using `htmlspecialchars` instead of `htmlentities` before output.

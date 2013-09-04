@@ -44,7 +44,10 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	 */
 	public function returnsAlias()
 	{
-		$this->assertEquals(array('strong'), $this->config->getAliased('foo'));
+		$this->assertEquals(
+			array('strong', 'emphasis'),
+			$this->config->getAliased('foo')
+		);
 	}
 
 	/**
@@ -96,7 +99,36 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
 	{
 		$this->config->add('mock')->toAlias('foo')->last();
 
-		$this->assertEquals(array('strong', 'mock'), $this->config->getAliased('foo'));
+		$this->assertEquals(
+			array('strong', 'emphasis', 'mock'),
+			$this->config->getAliased('foo')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function canAddPatternNameToAliasAfterOtherPattern()
+	{
+		$this->config->add('mock')->toAlias('foo')->after('strong');
+
+		$this->assertEquals(
+			array('strong', 'mock', 'emphasis'),
+			$this->config->getAliased('foo')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function canAddPatternNameToAliasAfterBeforePattern()
+	{
+		$this->config->add('mock')->toAlias('foo')->before('emphasis');
+	
+		$this->assertEquals(
+				array('strong', 'mock', 'emphasis'),
+				$this->config->getAliased('foo')
+		);
 	}
 
 	/**

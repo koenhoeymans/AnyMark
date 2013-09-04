@@ -8,7 +8,7 @@ return [
 	],
 	"alias" =>
 	[
-		"foo" => ["strong"]
+		"foo" => ["strong", "emphasis"]
 	],
 	"tree" =>
 	[

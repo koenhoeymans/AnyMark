@@ -6,10 +6,9 @@
 namespace AnyMark\Plugins;
 
 use ElementTree\Element;
-
 use ElementTree\ElementTree;
 use ElementTree\Component;
-use AnyMark\Events\AfterParsing;
+use AnyMark\PublicApi\AfterParsingEvent;
 use Epa\EventMapper;
 use Epa\Plugin;
 
@@ -21,7 +20,7 @@ class EmailObfuscator implements Plugin
 	public function register(EventMapper $mapper)
 	{
 		$mapper->registerForEvent(
-			'AnyMark\\Events\\AfterParsing', function(AfterParsing $event) {
+			'AfterParsingEvent', function(AfterParsingEvent $event) {
 				$this->handleTree($event->getTree());
 			}
 		);

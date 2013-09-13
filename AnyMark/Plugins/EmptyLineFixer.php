@@ -5,7 +5,7 @@
  */
 namespace AnyMark\Plugins;
 
-use AnyMark\Events\BeforeParsing;
+use AnyMark\PublicApi\BeforeParsingEvent;
 use Epa\EventMapper;
 use Epa\Plugin;
 
@@ -17,7 +17,7 @@ class EmptyLineFixer implements Plugin
 	public function register(EventMapper $mapper)
 	{
 		$mapper->registerForEvent(
-			'AnyMark\\Events\\BeforeParsing', function(BeforeParsing $event) {
+			'BeforeParsingEvent', function(BeforeParsingEvent $event) {
 				$event->setText(preg_replace("#\n[\t ]+\n#", "\n\n", $event->getText()));
 			}
 		);

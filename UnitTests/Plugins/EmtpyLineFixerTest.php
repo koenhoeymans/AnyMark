@@ -19,9 +19,7 @@ class AnyMark_Plugins_EmptyLineFixerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function registersForBeforeParsingEvent()
 	{
-		$this->assertEquals(
-			'AnyMark\\Events\\BeforeParsing', $this->eventMapper->getEvent()
-		);
+		$this->assertEquals('BeforeParsingEvent', $this->eventMapper->getEvent());
 	}
 
 	/**

@@ -1,6 +1,11 @@
 AnyMark Changelog
 =================
 
+*	0.9.3
+
+	*	Fixed problems for external libraries by not correctly registering internally
+		used plugins with public api events. 
+
 *	0.9.2
 
 	*	Update to latest version of package Epa to resolve conflict with EventMapperMock.

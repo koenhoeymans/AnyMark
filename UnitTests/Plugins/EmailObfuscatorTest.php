@@ -19,9 +19,7 @@ class AnyMark_Plugins_EmailObfuscatorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function registersForAfterParsingEvent()
 	{
-		$this->assertEquals(
-			'AnyMark\\Events\\AfterParsing', $this->eventMapper->getEvent()
-		);
+		$this->assertEquals('AfterParsingEvent', $this->eventMapper->getEvent());
 	}
 
 	/**

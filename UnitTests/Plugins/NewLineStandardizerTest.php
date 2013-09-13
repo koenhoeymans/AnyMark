@@ -19,9 +19,7 @@ class AnyMark_Processor_Processors_NewLineStandardizerTest extends PHPUnit_Frame
 	 */
 	public function registersForBeforeParsingEvent()
 	{
-		$this->assertEquals(
-			'AnyMark\\Events\\BeforeParsing', $this->eventMapper->getEvent()
-		);
+		$this->assertEquals('BeforeParsingEvent', $this->eventMapper->getEvent());
 	}
 
 	/**

@@ -6,11 +6,8 @@
 namespace AnyMark\Plugins;
 
 use ElementTree\Filter\HasParentElement;
-
 use AnyMark\Pattern\Patterns\ManualHtmlBlock;
-
 use AnyMark\Pattern\Patterns\ManualHtmlInline;
-
 use AnyMark\Pattern\Pattern;
 use AnyMark\PublicApi\PatternMatch;
 use ElementTree\Component;

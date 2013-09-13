@@ -19,9 +19,7 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 	 */
 	public function registersForBeforeParsingEvent()
 	{
-		$this->assertEquals(
-			'AnyMark\\Events\\BeforeParsing', $this->eventMapper->getEvent()
-		);
+		$this->assertEquals('BeforeParsingEvent', $this->eventMapper->getEvent());
 	}
 
 	/**

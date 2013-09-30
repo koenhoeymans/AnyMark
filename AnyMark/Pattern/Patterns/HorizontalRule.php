@@ -20,6 +20,7 @@ class HorizontalRule extends Pattern
 		(?<=\n)
 		([ ]{0,3}(?<marker>-|\*|_))
 		([ ]{0,3}\g{marker}){2,}
+		(\t|[ ])*
 		(?=\n)
 		@x';
 	}

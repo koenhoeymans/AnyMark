@@ -1,10 +1,14 @@
 AnyMark Changelog
 =================
 
+*	0.9.4
+
+	*	Horizontal rule was not recognized when it had whitespace at the end.
+
 *	0.9.3
 
 	*	Fixed problems for external libraries by not correctly registering internally
-		used plugins with public api events. 
+		used plugins with public api events.
 
 *	0.9.2
 

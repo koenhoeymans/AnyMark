@@ -81,4 +81,14 @@ class AnyMark_Pattern_Patterns_HorizontalRuleTest extends \AnyMark\UnitTests\Sup
 		
 		$this->assertEquals(null, $this->applyPattern($text));
 	}
+
+	/**
+	 * @test
+	 */
+	public function canHaveWhiteSpaceAfterLastCharacter()
+	{
+		$text = "\n*** \n";
+
+		$this->assertEquals($this->createHr(), $this->applyPattern($text));		
+	}
 }

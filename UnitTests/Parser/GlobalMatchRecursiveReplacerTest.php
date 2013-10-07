@@ -147,6 +147,7 @@ class AnyMark_Parser_GlobalMatchRecursiveReplacerTest extends PHPUnit_Framework_
 	 */
 	public function notifiesObserversOfMatchesHandledByPatterns()
 	{
+		$element = new \ElementTree\ElementTreeElement('a');
 		$mockPattern = $this->getMock('\\AnyMark\\Pattern\\Pattern');
 		$mockPattern
 			->expects($this->atLeastOnce())
@@ -155,14 +156,14 @@ class AnyMark_Parser_GlobalMatchRecursiveReplacerTest extends PHPUnit_Framework_
 		$mockPattern
 			->expects($this->atLeastOnce())
 			->method('handleMatch')
-			->will($this->returnValue(new \ElementTree\ElementTreeElement('a')));
+			->will($this->returnValue($element));
 		$this->patternTree
 			->expects($this->atLeastOnce())
 			->method('getSubpatterns')
 			->will($this->returnValue(array($mockPattern)));
 
 		$event = new \AnyMark\Events\ParsingPatternMatch(
-			new \ElementTree\ElementTreeElement('a'), $mockPattern
+			$element, $mockPattern
 		);
 		$observer = $this->getMock('\\Epa\\Observer');
 		$observer->expects($this->once())->method('notify')->with($event);

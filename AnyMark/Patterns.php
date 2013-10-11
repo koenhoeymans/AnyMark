@@ -9,6 +9,7 @@ return [
 		"emphasis" => "\\AnyMark\\Pattern\\Patterns\\Emphasis",
 		"header" => "\\AnyMark\\Pattern\\Patterns\\Header",
 		"horizontalRule" => "\\AnyMark\\Pattern\\Patterns\\HorizontalRule",
+		"hyperlinkDefinition" => "\\AnyMark\\Pattern\\Patterns\\HyperlinkDefinition",
 		"hyperlink" => "\\AnyMark\\Pattern\\Patterns\\Hyperlink",
 		"image" => "\\AnyMark\\Pattern\\Patterns\\Image",
 		"list" => "\\AnyMark\\Pattern\\Patterns\\TextualList",
@@ -26,6 +27,7 @@ return [
 			"horizontalRule",
 			"textualList",
 			"blockquote",
+			"hyperlinkDefinition",
 			"paragraph"
 		],
 		"inline" => [

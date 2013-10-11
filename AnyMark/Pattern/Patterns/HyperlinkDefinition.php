@@ -3,31 +3,21 @@
 /**
  * @package AnyMark
  */
-namespace AnyMark\Plugins;
+namespace AnyMark\Pattern\Patterns;
 
-use AnyMark\PublicApi\BeforeParsingEvent;
-use Epa\EventMapper;
-use Epa\Plugin;
+use AnyMark\Pattern\Pattern;
+use ElementTree\ElementTree;
 
 /**
  * @package AnyMark
  */
-class LinkDefinitionCollector implements Plugin
+class HyperlinkDefinition extends Pattern
 {
 	private $linkDefinitions = array();
 
-	public function register(EventMapper $mapper)
+	public function getRegex()
 	{
-		$mapper->registerForEvent(
-			'BeforeParsingEvent', function(BeforeParsingEvent $event) {
-				$event->setText($this->process($event->getText()));
-			}
-		);
-	}
-
-	private function process($text)
-	{
-		return preg_replace_callback(
+		return
 			'@
 			(?<=^|\n)
 			[ ]{0,3}							# new line, 0-3 spaces
@@ -40,10 +30,14 @@ class LinkDefinitionCollector implements Plugin
 			("|\'|\))
 			)?
 			(?=\n|$)
-			@x',
-			array($this, 'save'),
-			$text
-		);
+			@x';
+	}
+
+	public function handleMatch(
+		array $match, ElementTree $parent, Pattern $parentPattern = null
+	) {
+		$this->save($match);
+		return $parent->createText('');
 	}
 
 	private function save($definition)
@@ -52,9 +46,7 @@ class LinkDefinitionCollector implements Plugin
 		$url = ($definition['url1']) ?: $definition['url2'];
 		$title = isset($definition['title']) ? $definition['title'] : null;
 		$this->linkDefinitions[$id] =
-			new \AnyMark\Pattern\Patterns\LinkDefinition($id, $url, $title);
-
-		return $definition[0];
+		new \AnyMark\Pattern\Patterns\LinkDefinition($id, $url, $title);
 	}
 
 	/**

@@ -109,7 +109,7 @@ class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\
 	 */
 	public function inlineHTMLSimple()
 	{
-		$this->createTestFor('Inline HTML (Advanced)');
+		$this->createTestFor('Inline HTML (Simple)');
 	}
 
 	/**

@@ -47,69 +47,85 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 
 	private function applyPatterns(Text $text, Pattern $parentPattern = null)
 	{
-		$parentElement = $text->getParent($text) ?: $text->getOwnerTree();
-		$textToReplace = $text->getValue();
-		$totalBytes = strlen($textToReplace);
-		$currentByteOffset = 0;
-		$patterns = $this->patternTree->getSubpatterns($parentPattern);
+		$parentElement = $text->getParent() ?: $text->getOwnerTree();
+		$subpatterns = $this->patternTree->getSubpatterns($parentPattern);
 
-		foreach($patterns as $pattern)
+		$patternMatches = new \SplObjectStorage();
+		$textLeft = array($text);
+
+		foreach($subpatterns as $subpattern)
 		{
-			$regex = $pattern->getRegex();
-			if (!preg_match($regex, $textToReplace, $match, PREG_OFFSET_CAPTURE))
+			$moreTextLeft = array();
+			foreach ($textLeft as $key => $text)
 			{
-				continue;
+				$moreTextLeft[] = $text;
+				while (($match = $this->applyPattern($text, $subpattern, $parentPattern)) !== array())
+				{
+					$parentElement->replace($match[0], $text);
+					$parentElement->append($match[1], $match[0]);
+					$parentElement->append($match[2], $match[1]);
+					$text = $match[2];
+					$patternMatches->attach($match[1], $subpattern);
+					array_pop($moreTextLeft);
+					$moreTextLeft[] = $match[0];
+					$moreTextLeft[] = $match[2];
+				}
 			}
 
-			$matchOffset = $match[0][1];
-			$matchLength = strlen($match[0][0]);
-			foreach ($match as $key => $capture)
+			$textLeft = $moreTextLeft;
+		}
+
+		foreach ($patternMatches as $patternMatch)
+		{
+			$pattern = $patternMatches->offsetGet($patternMatch);
+			$query = $patternMatch->createQuery();
+			$createdText = $query->find($query->allText());
+			foreach ($createdText as $text)
 			{
-				$match[$key] = $capture[0];
+				$this->applyPatterns($text, $pattern);
 			}
-
-			# create dom node from match
-			$patternCreatedElement = $pattern->handleMatch(
-				$match, $parentElement, $parentPattern
-			);
-
-			# if pattern decides there's no match after examining regex match
-			# we can continue
-			if (!$patternCreatedElement)
-			{
-				continue;
-			}
-
-			$this->notify(new ParsingPatternMatch($patternCreatedElement, $pattern));
-
-			# add text node from text before match
-			$textBeforeMatch = substr($textToReplace, 0, $matchOffset);
-			$textBeforeMatch = $parentElement->createText($textBeforeMatch);
-			$parentElement->replace($textBeforeMatch, $text);
-			$this->applyPatterns($textBeforeMatch, $parentPattern);
-
-			# applying subpatterns to node from match
-			$parentElement->append($patternCreatedElement);
-			$this->applySubpatterns($patternCreatedElement, $pattern);
-
-			# create text node from text following match
-			$textFollowingMatch = substr($textToReplace, $matchOffset + $matchLength);
-			$textFollowingMatch = $parentElement->createText($textFollowingMatch);
-			$parentElement->append($textFollowingMatch);
-			$this->applyPatterns($textFollowingMatch, $parentPattern);
-
-			return;
 		}
 	}
 
-	private function applySubpatterns(Component $elementTree, Pattern $parentPattern)
-	{
-		$query = $elementTree->createQuery();
-		$matches = $query->find($query->allText());
+	private function applyPattern(
+		Text $text, Pattern $pattern, Pattern $parentPattern = null, $offset = 0
+	) {
+		$parentElement = $text->getParent($text) ?: $text->getOwnerTree();
+		$textToReplace = $text->getValue();
 
-		foreach ($matches as $match)
+		if (!preg_match($pattern->getRegex(), $textToReplace, $match, PREG_OFFSET_CAPTURE, $offset))
 		{
-			$this->applyPatterns($match, $parentPattern);
+			return array();
 		}
+
+		$matchOffset = $match[0][1];
+		$matchLength = strlen($match[0][0]);
+		foreach ($match as $key => $capture)
+		{
+			$match[$key] = $capture[0];
+		}
+
+		$textBeforeMatch = substr($textToReplace, 0, $matchOffset);
+		$textBeforeMatch = $parentElement->createText($textBeforeMatch);
+
+		$match = $pattern->handleMatch($match, $parentElement, $parentPattern);
+
+		# if pattern decides there's no match after examining regex match
+		# we can continue
+		if (!$match)
+		{
+			return $this->applyPattern(
+				$text, $pattern, $parentPattern, $matchOffset + $matchLength
+			);
+		}
+		$this->notify(new ParsingPatternMatch($match, $pattern));
+
+		$textFollowingMatch = substr($textToReplace, $matchOffset + $matchLength);
+		$textFollowingMatch = $parentElement->createText($textFollowingMatch);
+
+		return array_merge(
+			array($textBeforeMatch, $match, $textFollowingMatch),
+			$this->applyPattern($textFollowingMatch, $pattern, $parentPattern)
+		);
 	}
 }

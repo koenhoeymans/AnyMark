@@ -1,6 +1,12 @@
 AnyMark Changelog
 =================
 
+*	0.9.5
+
+	*	Change to parsing algorithm: patterns are applied to text before subpatterns
+		are applied (instead of directly applying subpatterns after a match).
+	*	Hyperlink definitions are removed only at the end.
+
 *	0.9.4
 
 	*	Horizontal rule was not recognized when it had whitespace at the end.

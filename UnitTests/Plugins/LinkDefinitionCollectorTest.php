@@ -25,19 +25,6 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 	/**
 	 * @test
 	 */
-	public function linkDefintionCollectorRemovesLinkDefinitionsFromText()
-	{
-		$text = "\n[linkDefinition]: http://example.com\n";
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\BeforeParsing($text);
-		$callback($event);
-
-		$this->assertEquals("\n", $event->getText());
-	}
-
-	/**
-	 * @test
-	 */
 	public function aLinkDefinitionIsSquareBracketsWithDefinitionFollowedBySemicolonAndUrl()
 	{
 		$text = "\n[linkDefinition]: http://example.com\n";

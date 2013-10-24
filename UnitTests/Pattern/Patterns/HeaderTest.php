@@ -57,6 +57,15 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 	/**
 	 * @test
 	 */
+	public function noIndentationAllowedForSetext()
+	{
+		$text = "\n\n header\n---\n\n";
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function headerIsOptionallyPrecededByLineOfCharacters()
 	{
 		$text = "\n\n---\na header\n---\n\n";
@@ -274,20 +283,6 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 		$this->assertEquals($header, $this->applyPattern($text));
 	}
 
-	/**
-	 * @test
-	 */
-	public function canBeIndentedByUptoThreeSpaces()
-	{
-		$text = "\n\n   header preceded by 3 spaces\n---\n\n";
-		$header = $this->createHeader('h1', 'header preceded by 3 spaces');
-
-		$this->assertEquals($header, $this->applyPattern($text));
-
-		$text = "\n\n    header preceded by 4 spaces\n---\n\n";
-		$this->assertEquals(null, $this->applyPattern($text));
-	}
-
  	//	------------ atx style ------------
 
 	/**
@@ -320,6 +315,16 @@ class AnyMark_Pattern_Patterns_HeaderTest extends \AnyMark\UnitTests\Support\Pat
 		$header = $this->createHeader('h2', 'level 2');
 
 		$this->assertEquals($header, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function noIndentationAllowedForAtx()
+	{
+		$text = "paragraph\n\n ## level 2 #####\n\nparagraph";
+
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 
 	/**

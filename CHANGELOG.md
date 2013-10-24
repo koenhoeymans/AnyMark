@@ -1,6 +1,10 @@
 AnyMark Changelog
 =================
 
+*	0.9.6
+
+	*	Headers are not allowed to be indented.
+
 *	0.9.5
 
 	*	Change to parsing algorithm: patterns are applied to text before subpatterns

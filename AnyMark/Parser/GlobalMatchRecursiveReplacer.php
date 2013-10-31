@@ -47,16 +47,6 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 
 	private function applyPatterns(Text $text, Pattern $parentPattern = null)
 	{
-$tree = new \ElementTree\ElementTree();
-$div = $tree->createElement('div');
-$a = $tree->createElement('a');
-$txt = $tree->createText('foo');
-$b = $tree->createElement('a');
-$tree->replace($a, $div);
-$tree->append($b, $a);
-$tree->append($txt, $b);
-var_dump($tree->toString());
-die();
 		$parentElement = $text->getParent() ?: $text->getOwnerTree();
 		$subpatterns = $this->patternTree->getSubpatterns($parentPattern);
 
@@ -72,13 +62,8 @@ die();
 				while (($match = $this->applyPattern($text, $subpattern, $parentPattern)) !== array())
 				{
 					$parentElement->replace($match[0], $text);
-//var_dump('replacing: ' . $text->toString() . ' with: ' . $match[0]->toString());
 					$parentElement->append($match[2], $match[0]);
 					$parentElement->append($match[1], $match[0]);
-// var_dump('adding: ' . $match[1]->toString());
-// var_dump('so parent is now: ' . $parentElement->toString());
-					//$parentElement->append($match[2], $match[1]);
-//var_dump('finally: ' . $parentElement->toString());
 					$text = $match[2];
 					$patternMatches->attach($match[1], $subpattern);
 					array_pop($moreTextLeft); // previous $match[2] text

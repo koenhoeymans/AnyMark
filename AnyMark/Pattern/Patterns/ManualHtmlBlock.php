@@ -69,14 +69,6 @@ class ManualHtmlBlock extends Pattern
 		else
 		{
 			if (!empty($match['empty_line_before'])
-				&& !empty($match['empty_line_after'])
-				&& empty($match['content_newline'])
-				&& empty($match['self_closing_tag'])
-			) {
-				return;
-			}
-
-			if (!empty($match['empty_line_before'])
 				&& empty($match['empty_line_after'])
 			) {
 				return;

@@ -119,7 +119,7 @@ class ManualHtmlBlock extends Pattern
 	{
 		preg_match_all(
 			"@
-			[ ]
+			[ \n]*
 			(?<name>\w+)
 			(
 			=

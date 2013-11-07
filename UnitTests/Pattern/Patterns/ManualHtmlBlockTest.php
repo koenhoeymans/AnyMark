@@ -203,6 +203,22 @@ foo
 	/**
 	 * @test
 	 */
+	public function attributeCanStartOnNextLine()
+	{
+		$text = "<p class=\"test\"
+id=\"12\">
+content
+</p>";
+		$el = $this->create('p', "\ncontent\n");
+		$el->setAttribute('class', 'test');
+		$el->setAttribute('id', '12');
+
+		$this->assertEquals($el, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function whitespaceAfterIsAllowedForElements()
 	{
 		$text = "foo\n<a>b</a>\t \nbar";

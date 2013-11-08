@@ -33,7 +33,22 @@ class ManualHtmlBlock extends Pattern
 					)*
 				)
 			>
-			(?<content>(?<content_newline>\n)?\n*(?<indent>\s*)(((?<no_indent>\n[^<\s])|[^<]|<(?=[ ])|(?&html)|`.+?`)*))
+			(?<content>
+				(?<content_newline>\n)?\n*
+				(?<indent>\s*)
+					(
+						(?<no_indent>\n[^<\s])
+						|
+						`.+?`
+						|
+						[^<]
+						|
+						<(?=[ ])
+						|
+						(?&html)
+					)*
+			)
+				
 			<\/\g{tag}>
 
 			|

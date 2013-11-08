@@ -133,6 +133,24 @@ foo
 	/**
 	 * @test
 	 */
+	public function canContainContentWithTagInCodeBlock()
+	{
+		$text = "
+
+<div>
+	with `<foo>`
+</div>
+
+";
+		$div = $this->elementTree()->createElement('div');
+		$div->append($div->createText("\nwith `<foo>`\n"));		
+
+		$this->assertEquals($div, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function handlesRecursion()
 	{
 		$text = "<a><a><a>b</a></a></a>";

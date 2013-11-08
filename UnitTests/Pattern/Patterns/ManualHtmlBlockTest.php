@@ -143,7 +143,29 @@ foo
 
 ";
 		$div = $this->elementTree()->createElement('div');
-		$div->append($div->createText("\nwith `<foo>`\n"));		
+		$div->append($div->createText("\nwith `<foo>`\n"));
+
+		$this->assertEquals($div, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function noUnindentWhenSomeTextNotIndented()
+	{
+		$text = "
+
+<div>
+    foo
+
+bar
+
+    foo
+</div>
+
+";
+		$div = $this->elementTree()->createElement('div');
+		$div->append($div->createText("\n    foo\n\nbar\n\n    foo\n"));
 
 		$this->assertEquals($div, $this->applyPattern($text));
 	}

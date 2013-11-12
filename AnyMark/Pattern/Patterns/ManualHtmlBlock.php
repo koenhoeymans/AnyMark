@@ -35,18 +35,23 @@ class ManualHtmlBlock extends Pattern
 			>
 			(?<content>
 				(?<content_newline>\n)?\n*
-				(?<indent>\s*)
-					(
-						(?<no_indent>\n[^<\s])
-						|
-						`.+?`
-						|
-						[^<]
-						|
-						<(?=[ ])
-						|
-						(?&html)
-					)*
+				(
+					(?<no_indent>(?<=\n)([^<\s]+))
+					|
+					\n+
+					|
+					`[^\n]+?`
+					|
+					[^<\n\s]
+					|
+					\t[^\n]+
+					|
+					\s+
+					|
+					<(?=[ ])
+					|
+					(?&html)
+				)*
 			)
 				
 			<\/\g{tag}>
@@ -70,10 +75,10 @@ class ManualHtmlBlock extends Pattern
 	public function handleMatch(
 		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
-		if (isset($match['indent']) && empty($match['no_indent']))
+		if (empty($match['no_indent']) && !empty($match['content']))
 		{
 			$match['content'] = preg_replace(
-				"@\n" . $match['indent'] . "@", "\n", $match['content']
+				"@\n\t@", "\n", $match['content']
 			);
 		}
 

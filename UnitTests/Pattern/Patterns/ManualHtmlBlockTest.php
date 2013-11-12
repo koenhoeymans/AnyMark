@@ -122,9 +122,57 @@ foo
 	/**
 	 * @test
 	 */
+	public function canContainOtherHtmlTagsInCodeBlockWithPrecedingText()
+	{
+		$text = "
+<div>
+	code block
+
+		a code </div>
+
+	paragraph
+</div>
+
+";
+		$el = $this->create('div', "\ncode block\n\n\ta code </div>\n\nparagraph\n");
+
+		$this->assertEquals($el, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function canContainOtherHtmlTagsInCodeBlockWithoutPrecedingText()
+	{
+		$text = "
+<div>
+	code block
+
+		</div>
+
+	paragraph
+</div>
+
+";
+		$el = $this->create('div', "\ncode block\n\n\t</div>\n\nparagraph\n");
+
+		$this->assertEquals($el, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function canContainOtherHtmlTagsOnDifferentLinesWhichWillBeUnindented_3()
 	{
-		$text = "\n<div>\n\t<div>\n\t\tfoo\n\t</div>\n</div>\n";
+		$text = "
+
+<div>
+	<div>
+		foo
+	</div>
+</div>
+
+";
 		$el = $this->create('div', "\n<div>\n\tfoo\n</div>\n");
 
 		$this->assertEquals($el, $this->applyPattern($text));

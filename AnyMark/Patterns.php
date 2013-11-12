@@ -22,7 +22,6 @@ return [
 	],
 	"alias" => [
 		"block" => [
-			"manualHtmlBlock",
 			"header",
 			"horizontalRule",
 			"textualList",
@@ -40,12 +39,12 @@ return [
 		]
 	],
 	"tree" => [
-		"root" => ["block", "codeIndented"],
-		"block" => ["codeIndented", "manualHtmlInline", "codeInline", "inline"],
+		"root" => ["manualHtmlBlock", "block", "codeIndented"],
+		"block" => ["manualHtmlBlock", "codeIndented", "manualHtmlInline", "codeInline", "inline"],
 		"inline" => ["manualHtmlInline", "inline", "codeInline"],
-		"textualList" => ["codeIndented", "block", "manualHtmlInline", "codeInline", "inline"],
+		"textualList" => ["manualHtmlBlock", "codeIndented", "block", "manualHtmlInline", "codeInline", "inline"],
 		"blockquote" => ["block"],
-		"manualHtmlBlock" => ["manualHtmlBlock"],
-		"manualHtmlInline" => ["inline"]
+		"manualHtmlBlock" => ["manualHtmlBlock", "manualHtmlInline"],
+		"manualHtmlInline" => ["manualHtmlInline", "inline"]
 	]
 ];

@@ -103,6 +103,23 @@ foo
 	/**
 	 * @test
 	 */
+	public function unindentsSpaces()
+	{
+		$text = "
+
+<a>
+    foo
+</a>
+
+";
+		$el = $this->create('a', "\nfoo\n");
+
+		$this->assertEquals($el, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function canContainOtherHtmlTagsOnDifferentLinesWhichWillBeUnindented_2()
 	{
 		$text = "

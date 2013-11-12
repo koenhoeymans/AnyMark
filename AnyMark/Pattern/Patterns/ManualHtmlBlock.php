@@ -78,7 +78,7 @@ class ManualHtmlBlock extends Pattern
 		if (empty($match['no_indent']) && !empty($match['content']))
 		{
 			$match['content'] = preg_replace(
-				"@\n\t@", "\n", $match['content']
+				"@\n(\t|[ ]{4})@", "\n", $match['content']
 			);
 		}
 

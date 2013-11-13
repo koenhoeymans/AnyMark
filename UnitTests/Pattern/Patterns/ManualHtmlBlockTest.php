@@ -103,6 +103,41 @@ foo
 	/**
 	 * @test
 	 */
+	public function canContainOtherHtmlTagsWithMixedManualHtmlAndTagsInCodeBlocks()
+	{
+		$text = "
+
+<div>
+	<div>
+
+	Code block:
+
+		</div>
+
+	Code span: `</div>`.
+
+	</div>
+</div>
+
+";
+		$el = $this->create('div', "
+<div>
+
+Code block:
+
+	</div>
+
+Code span: `</div>`.
+
+</div>
+");
+
+		$this->assertEquals($el, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function unindentsSpaces()
 	{
 		$text = "

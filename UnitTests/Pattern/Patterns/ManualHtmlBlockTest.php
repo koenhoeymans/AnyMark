@@ -29,10 +29,29 @@ class AnyMark_Pattern_Patterns_ManualHtmlBlockTest extends \AnyMark\UnitTests\Su
 	/**
 	 * @test
 	 */
-	public function grabsCodeTagsToPutIntoComponent()
+	public function ifInlineItIsParagrapParagraph()
 	{
-		$text = "foo\n<a>b</a>\nbar";
-		$el = $this->create('a', 'b');
+		$text = "foo
+
+<b>bar</b>
+
+bar";
+
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function ifOnOneLineItDoesntAddNewlines()
+	{
+		$text = "foo
+
+<div>bar</div>
+
+bar";
+
+		$el = $this->create('div', 'bar');
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -67,8 +86,11 @@ paragraph";
 	 */
 	public function canContainOtherHtmlTags()
 	{
-		$text = "foo\n<a><b>c</b></a>\nbar";
-		$el = $this->create('a', '<b>c</b>');
+		$text = "foo
+<div><b>c</b></div>
+bar";
+
+		$el = $this->create('div', '<b>c</b>');
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -94,8 +116,12 @@ foo
 	 */
 	public function canContainOtherHtmlTagsOnDifferentLinesWhichWillBeUnindented()
 	{
-		$text = "foo\n<a>\n\t<b>c</b>\n</a>\nbar";
-		$el = $this->create('a', "\n<b>c</b>\n");
+		$text = "foo
+<div>
+	<b>c</b>
+</div>
+bar";
+		$el = $this->create('div', "\n<b>c</b>\n");
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -142,12 +168,12 @@ Code span: `</div>`.
 	{
 		$text = "
 
-<a>
+<div>
     foo
-</a>
+</div>
 
 ";
-		$el = $this->create('a', "\nfoo\n");
+		$el = $this->create('div', "\nfoo\n");
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -275,8 +301,8 @@ bar
 	 */
 	public function handlesRecursion()
 	{
-		$text = "<a><a><a>b</a></a></a>";
-		$el = $this->create('a', '<a><a>b</a></a>');
+		$text = "<div><div><div>b</div></div></div>";
+		$el = $this->create('div', '<div><div>b</div></div>');
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -320,8 +346,8 @@ bar
 	 */
 	public function canContainMultipleAttributes()
 	{
-		$text = "<a id=\"b\" class=\"c\">d</a>";
-		$el = $this->create('a', 'd');
+		$text = "<div id=\"b\" class=\"c\">d</div>";
+		$el = $this->create('div', 'd');
 		$el->setAttribute('id', 'b');
 		$el->setAttribute('class', 'c');
 
@@ -333,8 +359,8 @@ bar
 	 */
 	public function attributeValuesCanContainBackticks()
 	{
-		$text = "<a class=\"`ticks`\">b</a>";
-		$el = $this->create('a', 'b');
+		$text = "<div class=\"`ticks`\">b</div>";
+		$el = $this->create('div', 'b');
 		$el->setAttribute('class', '`ticks`');
 
 		$this->assertEquals($el, $this->applyPattern($text));
@@ -361,8 +387,10 @@ content
 	 */
 	public function whitespaceAfterIsAllowedForElements()
 	{
-		$text = "foo\n<a>b</a>\t \nbar";
-		$el = $this->create('a', 'b');
+		$text = "foo
+<div>b</div> \t
+bar";
+		$el = $this->create('div', 'b');
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -375,7 +403,7 @@ content
 		$text =
 "paragraph
 
-<!-- comment --> \t
+<!-- comment -->   
 
 paragraph";
 		$el = $this->elementTree()->createComment(' comment ');
@@ -386,57 +414,18 @@ paragraph";
 	/**
 	 * @test
 	 */
-	public function ifFullParagraphItLeavesUntouchedForParagraph()
-	{
-		$text = "foo\n\n<div>bar</div>\n\nbar";
-
-		$this->assertEquals(null, $this->applyPattern($text));
-	}
-
-	/**
-	 * @test
-	 */
 	public function notParagraphWhenStartTagOnOwnLine()
 	{
 		$text = "
 
-<del>
+<div>
 <p>Some text</p>
-</del>
+</div>
 
 ";
-		$el = $this->create('del', "\n<p>Some text</p>\n");
+		$el = $this->create('div', "\n<p>Some text</p>\n");
 
 		$this->assertEquals($el, $this->applyPattern($text));
-	}
-
-	/**
-	 * @test
-	 */
-	public function twoElementsOnFollowingLineIsParagraphFirst()
-	{
-		$text = "
-
-<abbr>SB</abbr>
-<abbr>SB</abbr>
-
-";
-
-		$this->assertEquals(null, $this->applyPattern($text));
-	}
-
-	/**
-	 * @test
-	 */
-	public function startOfTextOneLineIsParagraphFirst()
-	{
-		$text = "<abbr>SB</abbr>
-
-paragraph
-
-";
-
-		$this->assertEquals(null, $this->applyPattern($text));		
 	}
 
 	/**
@@ -463,10 +452,28 @@ paragraph
 	 */
 	public function keepsQuoteStyle()
 	{
-		$text = "<a id='b' class=\"c\">d</a>";
+		$text = "<div id='b' class=\"c\">d</div>";
 
 		$this->assertEquals(
-			"<a id='b' class=\"c\">d</a>", $this->applyPattern($text)->toString()
+			"<div id='b' class=\"c\">d</div>", $this->applyPattern($text)->toString()
 		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function tagsOnOwnLineCannotHaveLastTagIndentedAsCodeBlock()
+	{
+		$text = "
+
+<foo>
+
+Code block:
+
+    </foo>
+
+para";
+
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 }

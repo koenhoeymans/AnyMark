@@ -17,7 +17,7 @@ class Paragraph extends Pattern
 	{
 		return
 			'@
-			(?|
+			(
 				(?<=^|^\n|\n\n)
 				(?<text>
 					(?<indent>[ ]{0,3})\S.*
@@ -39,10 +39,8 @@ class Paragraph extends Pattern
 	public function handleMatch(
 		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
-		$text = preg_replace("@(^|\n)[ ]*@", "\${1}", $match['text']);
-
 		$p = $parent->createElement('p');
-		$p->append($parent->createText($text));
+		$p->append($parent->createText($match['text']));
 
 		return $p;
 	}

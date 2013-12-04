@@ -107,8 +107,8 @@ yet another";
 	 */
 	public function indentationOfThreeSpacesMaximum()
 	{
-		$text = "\n\n paragraph\n\n";
-		$p = $this->createP('paragraph');
+		$text = "\n\n   paragraph\n\n";
+		$p = $this->createP('   paragraph');
 
 		$this->assertEquals($p, $this->applyPattern($text));
 	}
@@ -134,7 +134,7 @@ yet another";
 	/**
 	 * @test
 	 */
-	public function followingLinesCanBeIndentedTheSame()
+	public function linesAreNotUnindented()
 	{
 		$text =
 "
@@ -143,7 +143,7 @@ yet another";
  paragraph continued
 
 ";
-		$p = $this->createP("paragraph\nparagraph continued");
+		$p = $this->createP(" paragraph\n paragraph continued");
 
 		$this->assertEquals($p, $this->applyPattern($text));
 	}
@@ -151,7 +151,7 @@ yet another";
 	/**
 	 * @test
 	 */
-	public function followingLinesCanBeLeftUnindented()
+	public function firstLineIsNotUnindented()
 	{
 		$text =
 "
@@ -160,7 +160,7 @@ yet another";
 paragraph continued
 
 ";
-		$p = $this->createP("paragraph\nparagraph continued");
+		$p = $this->createP(" paragraph\nparagraph continued");
 
 		$this->assertEquals($p, $this->applyPattern($text));
 	}
@@ -168,7 +168,7 @@ paragraph continued
 	/**
 	 * @test
 	 */
-	public function followingLinesCanBeIndented()
+	public function followingLinesAreNotUnindented()
 	{
 		$text =
 "
@@ -177,7 +177,7 @@ paragraph
  paragraph continued
 
 ";
-		$p = $this->createP("paragraph\nparagraph continued");
+		$p = $this->createP("paragraph\n paragraph continued");
 
 		$this->assertEquals($p, $this->applyPattern($text));
 	}

@@ -13,9 +13,11 @@ use ElementTree\ElementTree;
  */
 class ManualHtmlBlock extends Pattern
 {
-	protected $blockTags = 'address|article|aside|audio|blockquote|canvas|dd|div|dl
+	protected $blockTags = 'address|article|aside|audio|blockquote|canvas|dd|del|div|dl
 			|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup
-			|hr|noscript|ol|output|p|pre|section|table|tfoot|ul|video';
+			|hr|ins|noscript|ol|output|p|pre|section|table|tfoot|ul|video';
+
+	protected $insDelTags = 'ins|del';
 
 	protected $attributes = '(\s+\w+(=(?:\"[^\"]*?\"|\'[^\']*?\'|[^\'\">\s]+))?)*';
 
@@ -66,6 +68,12 @@ class ManualHtmlBlock extends Pattern
 	public function handleMatch(
 		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
+		if (empty($match['content_newline']) && !empty($match['tag'])
+			&& ($match['tag'] === 'ins' || $match['tag'] === 'del'))
+		{
+			return;
+		}
+
 		if (empty($match['no_indent']) && !empty($match['content']))
 		{
 			$match['content'] = preg_replace(
@@ -89,10 +97,7 @@ class ManualHtmlBlock extends Pattern
 				);
 			}
 
-			$attributes = $match['attributes'];
-// 				? $match['attributes_closed']
-// 				: $match['attributes_open'];
-			$attributes = $this->getAttributes($attributes);
+			$attributes = $this->getAttributes($match['attributes']);
 			foreach ($attributes['name'] as $key=>$value)
 			{
 				$attr = $element->setAttribute(

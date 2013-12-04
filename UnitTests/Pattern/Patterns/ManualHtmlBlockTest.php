@@ -476,4 +476,36 @@ para";
 
 		$this->assertEquals(null, $this->applyPattern($text));
 	}
+
+	/**
+	 * @test
+	 */
+	public function insAndDelCanBeInline()
+	{
+		$text = "para
+		
+<ins>inline</ins>
+
+para";
+
+		$this->assertEquals(null, $this->applyPattern($text));		
+	}
+
+	/**
+	 * @test
+	 */
+	public function insAndDelCanBeBlock()
+	{
+		$text = "para
+
+<ins>
+block
+</ins>
+
+para";
+
+		$el = $this->create('ins', "\nblock\n");
+
+		$this->assertEquals($el, $this->applyPattern($text));
+	}
 }

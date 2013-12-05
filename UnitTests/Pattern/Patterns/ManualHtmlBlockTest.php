@@ -114,7 +114,7 @@ foo
 	/**
 	 * @test
 	 */
-	public function canContainOtherHtmlTagsOnDifferentLinesWhichWillBeUnindented()
+	public function canContainOtherHtmlTagsOnDifferentLinesWhichWillNotBeUnindented()
 	{
 		$text = "foo
 <div>

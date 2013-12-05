@@ -74,13 +74,6 @@ class ManualHtmlBlock extends Pattern
 			return;
 		}
 
-		if (empty($match['no_indent']) && !empty($match['content']))
-		{
-			$match['content'] = preg_replace(
-				"@\n(\t|[ ]{4})@", "\n", $match['content']
-			);
-		}
-
 		if (!empty($match['comment']))
 		{
 			$element = $parent->createComment($match['comment']);

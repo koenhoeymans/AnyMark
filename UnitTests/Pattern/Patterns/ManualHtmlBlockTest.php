@@ -121,7 +121,7 @@ foo
 	<b>c</b>
 </div>
 bar";
-		$el = $this->create('div', "\n<b>c</b>\n");
+		$el = $this->create('div', "\n\t<b>c</b>\n");
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -147,15 +147,15 @@ bar";
 
 ";
 		$el = $this->create('div', "
-<div>
+	<div>
 
-Code block:
+	Code block:
+
+		</div>
+
+	Code span: `</div>`.
 
 	</div>
-
-Code span: `</div>`.
-
-</div>
 ");
 
 		$this->assertEquals($el, $this->applyPattern($text));
@@ -164,7 +164,7 @@ Code span: `</div>`.
 	/**
 	 * @test
 	 */
-	public function unindentsSpaces()
+	public function doenstUnindentsSpaces()
 	{
 		$text = "
 
@@ -173,7 +173,7 @@ Code span: `</div>`.
 </div>
 
 ";
-		$el = $this->create('div', "\nfoo\n");
+		$el = $this->create('div', "\n    foo\n");
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -192,7 +192,7 @@ Code span: `</div>`.
 	</div>
 </div>
 ";
-		$el = $this->create('div', "\n<div>\n\t<div>\n\t\tfoo\n\t</div>\n</div>\n");
+		$el = $this->create('div', "\n\t<div>\n\t\t<div>\n\t\t\tfoo\n\t\t</div>\n\t</div>\n");
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -212,7 +212,7 @@ Code span: `</div>`.
 </div>
 
 ";
-		$el = $this->create('div', "\ncode block\n\n\ta code </div>\n\nparagraph\n");
+		$el = $this->create('div', "\n\tcode block\n\n\t\ta code </div>\n\n\tparagraph\n");
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -232,7 +232,7 @@ Code span: `</div>`.
 </div>
 
 ";
-		$el = $this->create('div', "\ncode block\n\n\t</div>\n\nparagraph\n");
+		$el = $this->create('div', "\n\tcode block\n\n\t\t</div>\n\n\tparagraph\n");
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -251,7 +251,7 @@ Code span: `</div>`.
 </div>
 
 ";
-		$el = $this->create('div', "\n<div>\n\tfoo\n</div>\n");
+		$el = $this->create('div', "\n\t<div>\n\t\tfoo\n\t</div>\n");
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}
@@ -269,7 +269,7 @@ Code span: `</div>`.
 
 ";
 		$div = $this->elementTree()->createElement('div');
-		$div->append($div->createText("\nwith `<foo>`\n"));
+		$div->append($div->createText("\n\twith `<foo>`\n"));
 
 		$this->assertEquals($div, $this->applyPattern($text));
 	}

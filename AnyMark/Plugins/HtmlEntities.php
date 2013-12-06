@@ -32,7 +32,17 @@ class HtmlEntities implements Plugin
 		$allText = $query->find($query->allText());
 		foreach ($allText as $text)
 		{
-			$value = htmlspecialchars($text->getValue(), ENT_NOQUOTES, 'UTF-8', false);
+			$value = preg_replace_callback(
+				'@([^\\\\]+)([\\\\]+.)?@',
+				function($match)
+				{ 
+					$match[2] = isset($match[2]) ? $match[2] : '';
+					return htmlspecialchars(
+						$match[1], ENT_NOQUOTES, 'UTF-8', false
+					) . $match[2];
+				},
+				$text->getValue()
+			);
 			$text->setValue($value);
 		}
 

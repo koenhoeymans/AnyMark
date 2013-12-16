@@ -1,6 +1,22 @@
 AnyMark Changelog
 =================
 
+*	0.10.0
+
+	*	Fixed parser bug.
+	*	Fixed manual HTML bug with attributes on new line.
+	*	Fixed manual HTML bug containing code with tags.
+	*	Fixed manual HTML bug handling white space before content.
+	*	Fixed manual HTML bug not unindenting spaces.
+	*	Manual HTML also uses list of block level tags now, not only rules to determine
+		whether it is a match or not.
+	*	Content in manual HTML is not unindented.
+	*	Testing now compares output through [Comparify](https://github.com/koenhoeymans/Comparify)
+	*	Removed unindentation for paragraphs.
+	*	Ins and del elements can be both inline and block.
+	*	Fixed soms bugs with entities and escaping.
+	*	Fixed bugs with selfclosing elements.
+
 *	0.9.6
 
 	*	Headers are not allowed to be indented.

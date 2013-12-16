@@ -100,6 +100,26 @@ paragraph";
 	/**
 	 * @test
 	 */
+	public function commentCanBeMultiline()
+	{
+		$text =
+		"paragraph
+
+<!--
+a
+comment
+-->
+
+paragraph";
+
+		$el = $this->elementTree()->createComment("\na\ncomment\n");
+
+		$this->assertEquals($el, $this->applyPattern($text));		
+	}
+
+	/**
+	 * @test
+	 */
 	public function canContainOtherHtmlTags()
 	{
 		$text = "foo

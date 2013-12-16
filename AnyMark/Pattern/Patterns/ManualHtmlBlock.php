@@ -26,7 +26,7 @@ class ManualHtmlBlock extends Pattern
 		return '
 		@(?J)
 
-		<!--(?<comment>.*?)-->
+		<!--(?<comment>(\n|.)*?)-->
 
 		|
 

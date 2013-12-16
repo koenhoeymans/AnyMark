@@ -84,6 +84,22 @@ paragraph";
 	/**
 	 * @test
 	 */
+	public function whitespaceAfterIsAllowedForComments()
+	{
+		$text =
+		"paragraph
+
+<!-- comment -->
+
+paragraph";
+		$el = $this->elementTree()->createComment(' comment ');
+
+		$this->assertEquals($el, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function canContainOtherHtmlTags()
 	{
 		$text = "foo
@@ -391,22 +407,6 @@ content
 <div>b</div> \t
 bar";
 		$el = $this->create('div', 'b');
-
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
-
-	/**
-	 * @test
-	 */
-	public function whitespaceAfterIsAllowedForComments()
-	{
-		$text =
-"paragraph
-
-<!-- comment -->   
-
-paragraph";
-		$el = $this->elementTree()->createComment(' comment ');
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}

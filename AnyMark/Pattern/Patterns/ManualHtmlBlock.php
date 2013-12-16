@@ -49,6 +49,7 @@ class ManualHtmlBlock extends Pattern
 
 		|
 
+		(?<=^|\n)
 		<(?<name>br|div|hr)(?<attributes>' . $this->attributes . ')[ ]?/?>
 
 		@x';

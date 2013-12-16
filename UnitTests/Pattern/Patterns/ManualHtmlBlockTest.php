@@ -458,9 +458,7 @@ foo <hr> bar
 		
 	";
 
-		$el = $this->elementTree()->createElement('hr');
-
-		$this->assertEquals($el, $this->applyPattern($text));		
+		$this->assertEquals(null, $this->applyPattern($text));		
 	}
 
 	/**
@@ -576,5 +574,23 @@ foo
 ");
 
 		$this->assertEquals($el, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function codeBlockWithTagsIsNoTSeenAsHTML()
+	{
+		$text = "
+foo
+
+    <div>
+	    x
+	</div>
+
+bar
+";
+
+		$this->assertEquals(null, $this->applyPattern($text));
 	}
 }

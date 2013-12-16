@@ -120,6 +120,21 @@ paragraph";
 	/**
 	 * @test
 	 */
+	public function codeBlockWithCommentIsNotHTML()
+	{
+		$text = "
+foo
+
+    <!-- no comment -->
+
+bar";
+
+		$this->assertEquals(null, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function canContainOtherHtmlTags()
 	{
 		$text = "foo

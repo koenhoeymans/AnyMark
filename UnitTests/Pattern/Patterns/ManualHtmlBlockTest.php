@@ -443,8 +443,24 @@ paragraph";
 		$el = $this->elementTree()->createElement('hr');
 		$el->setAttribute('class', 'foo');
 		$el->setAttribute('id', 'bar');
-		
+
 		$this->assertEquals($el, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function selfclosingMustBeOnOwnLine()
+	{
+		$text = "
+		
+foo <hr> bar
+		
+	";
+
+		$el = $this->elementTree()->createElement('hr');
+
+		$this->assertEquals($el, $this->applyPattern($text));		
 	}
 
 	/**
@@ -454,9 +470,13 @@ paragraph";
 	{
 		$text = "<div id='b' class=\"c\">d</div>";
 
-		$this->assertEquals(
-			"<div id='b' class=\"c\">d</div>", $this->applyPattern($text)->toString()
-		);
+		$el = $this->create('div', 'd');
+		$attr = $el->setAttribute('id', 'b');
+		$attr->singleQuotes();
+		$attr = $el->setAttribute('class', 'c');
+		$attr->doubleQuotes();
+
+		$this->assertEquals($el, $this->applyPattern($text));
 	}
 
 	/**
@@ -505,6 +525,55 @@ block
 para";
 
 		$el = $this->create('ins', "\nblock\n");
+
+		$this->assertEquals($el, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function canContainSelfClosingDiv()
+	{
+		$text = "<div>
+<div style=\"foo\" />
+</div>";
+
+		$el = $this->create('div', "\n<div style=\"foo\" />\n");
+
+		$this->assertEquals($el, $this->applyPattern($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function moreComplexNesting()
+	{
+		$text = "Simple block on one line:
+
+And nested without indentation:
+
+<div>
+<div>
+<div>
+foo
+</div>
+<div style=\">\"/>
+</div>
+<div>bar</div>
+</div>
+
+And with attributes:
+	";
+
+		$el = $this->create('div', "
+<div>
+<div>
+foo
+</div>
+<div style=\">\"/>
+</div>
+<div>bar</div>
+");
 
 		$this->assertEquals($el, $this->applyPattern($text));
 	}

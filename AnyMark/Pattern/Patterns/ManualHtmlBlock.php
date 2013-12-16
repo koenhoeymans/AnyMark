@@ -23,83 +23,67 @@ class ManualHtmlBlock extends Pattern
 
 	public function getRegex()
 	{
-		return
-		'@
-		(?<=\n|^)
-		(?<html>(?J)
+		return '
+		@(?J)
 
-			<!--(?<comment>.*?)-->
+		<!--(?<comment>.*?)-->
 
+		|
+
+		(?<=^|\n)
+		<(?<name>' . $this->blockTags . ')(?<attributes>' . $this->attributes . ')>
+		(?<content>
+			(
+			([ ]{4}|\t)+.+\n
 			|
-
-			(<(?<tag>' . $this->blockTags . ')(?<attributes>' . $this->attributes . ')>
-			(?<content>
-				(?<content_newline>\n)?\n*
-				(
-					(?<no_indent>(?<=\n)([^<\s]+))
-					|
-					\n+
-					|
-					`[^\n]+?`
-					|
-					[^<\n\s]
-					|
-					\t[^\n]+
-					|
-					\s+
-					|
-					<(?=[ ])
-					|
-					<(?<subtag>\w+)' . $this->attributes. '>.*?</\g{subtag}>
-					
-				)*
+			<(\w+)' . $this->attributes . '[ ]?/>
+			|
+			(?<subpattern>
+				<(?<subname>\w+)' . $this->attributes . '>(?&content)?</\g{subname}>
 			)
-			(?<!\n[ ]{4})</\g{tag}>)
-
 			|
+			[^<]
+			)+
+		)?
+		(?<!\t|[ ]{4})</\g{name}>(?=\s|$)
 
-			(?<empty><(?<self_closing_tag>hr|div|br)
-				(?<attributes>' . $this->attributes . ')[ ]?/?>)
-		)
-		(?=\s*\n|\s*$)
-		@xs';
+		|
+
+		<(?<name>br|div|hr)(?<attributes>' . $this->attributes . ')[ ]?/?>
+
+		@x';
 	}
 
 	public function handleMatch(
 		array $match, ElementTree $parent, Pattern $parentPattern = null
 	) {
-		if (empty($match['content_newline']) && !empty($match['tag'])
-			&& ($match['tag'] === 'ins' || $match['tag'] === 'del'))
+		if (!empty($match['comment']))
+		{
+			return $parent->createComment($match['comment']);
+		}
+		if (($match['name'] === 'ins' || $match['name'] === 'del')
+			&& substr($match['content'], 0, 1) !== "\n")
 		{
 			return;
 		}
 
-		if (!empty($match['comment']))
+		$element = $parent->createElement($match['name']);
+		if (!empty($match['content']))
 		{
-			$element = $parent->createComment($match['comment']);
+			$element->append(
+				$parent->createText($match['content'])
+			);
 		}
-		else
+
+		$attributes = $this->getAttributes($match['attributes']);
+		foreach ($attributes['name'] as $key=>$value)
 		{
-			$tag = empty($match['tag']) ? $match['self_closing_tag'] : $match['tag'];
-			$element = $parent->createElement($tag);
-
-			if (!empty($match['content']))
-			{
-				$element->append(
-					$parent->createText($match['content'])
-				);
-			}
-
-			$attributes = $this->getAttributes($match['attributes']);
-			foreach ($attributes['name'] as $key=>$value)
-			{
-				$attr = $element->setAttribute(
+			$attr = $element->setAttribute(
 					$value, $attributes['value'][$key]
-				);
-				if ($attributes['quote'][$key] === "'")
-				{
-					$attr->singleQuotes();
-				}
+			);
+			if ($attributes['quote'][$key] === "'")
+			{
+				$attr->singleQuotes();
 			}
 		}
 

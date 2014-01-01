@@ -128,7 +128,7 @@ Now we can use the event and change the text:
 
 	class OurCustomPlugin implements \Epa\Plugin
 	{
-		public function register(EventMapper $mapper)
+		public function register(\Epa\EventMapper $mapper)
 		{
 			$mapper->registerForEvent(
 				'BeforeParsingEvent',

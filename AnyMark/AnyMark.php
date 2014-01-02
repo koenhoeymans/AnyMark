@@ -37,11 +37,14 @@ class AnyMark implements Parser, Observable
 	 * 
 	 * @return \AnyMark\AnyMark
 	 */
-	static public function setup()
+	static public function setup(\Fjor\Fjor $fjor = null)
 	{
 		$patternsFile = __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.php';
 
-		$fjor = \Fjor\Fjor::defaultSetup();
+		if (!$fjor)
+		{
+			$fjor = \Fjor\Fjor::defaultSetup();
+		}
 
 		$fjor->given('Fjor\\Fjor')->thenUse($fjor);
 		$fjor

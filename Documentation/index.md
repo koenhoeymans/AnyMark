@@ -53,7 +53,7 @@ Quick Use
 
 You can setup an AnyMark instance as follows:
 
-	\AnyMark\AnyMark::setup();
+	$anyMark = \AnyMark\AnyMark::setup();
 
 This instantiates AnyMark with a default setup and all dependencies wired.
 
@@ -145,6 +145,11 @@ Now we can use the event and change the text:
 			$event->setText($text);
 		}
 	}
+
+After we created the plugin there's one final step and that is telling AnyMark
+we want to use it:
+
+	$anyMark->registerPlugin(new OurCustomPlugin());
 
 
 Custom Patterns

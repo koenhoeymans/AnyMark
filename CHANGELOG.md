@@ -1,6 +1,11 @@
 AnyMark Changelog
 =================
 
+*	0.10.1
+
+	*	Now possible to add own `Fjor` instance when constructing AnyMark.
+	*	Several documentation improvements.
+
 *	0.10.0
 
 	*	Fixed parser bug.

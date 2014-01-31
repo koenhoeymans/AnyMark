@@ -55,9 +55,7 @@ class EmailObfuscator implements Plugin
 
 		$child = $element->getChildren()[0];
 		$anchor = implode('', array_slice($this->encode($child->getValue()), 7));
-		$text = $element->createText($anchor);
-		$element->remove($child);
-		$element->append($text);
+		$child->setValue($anchor);
 	}
 
 	private function encode($addr)

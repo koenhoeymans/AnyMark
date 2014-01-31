@@ -6,22 +6,22 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\ElementTree;
+use ElementTree\Composable;
 
 /**
  * @package AnyMark
  */
 abstract class Code extends Pattern
 {
-	protected function createCodeReplacement($code, $pre = true, ElementTree $parent)
+	protected function createCodeReplacement($code, $pre = true, Composable $parent)
 	{
 		$code = htmlentities($code, ENT_NOQUOTES);
-		$codeElement = $parent->createElement('code');
-		$codeElement->append($parent->createText($code));
+		$codeElement = $this->createElement('code');
+		$codeElement->append($this->createText($code));
 
 		if ($pre)
 		{
-			$preElement = $parent->createElement('pre');
+			$preElement = $this->createElement('pre');
 			$preElement->append($codeElement);
 
 			return $preElement;

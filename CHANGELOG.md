@@ -1,6 +1,14 @@
 AnyMark Changelog
 =================
 
+*	0.11.0
+
+	*	Update to ElementTree 0.6.0.
+	*	Patterns get utility methods for creating ElementTree components Element,
+		Text and Comment.
+	*	Adjusted patterns so they don't rely on the parentpattern to have
+		an onwertree (which is not part of the contract).
+
 *	0.10.1
 
 	*	Now possible to add own `Fjor` instance when constructing AnyMark.

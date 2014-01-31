@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\ElementTree;
+use ElementTree\Composable;
 
 /**
  * @package AnyMark
@@ -24,7 +24,7 @@ class CodeInline extends Code
 	}
 
 	public function handleMatch(
-		array $match, ElementTree $parent, Pattern $parentPattern = null
+		array $match, Composable $parent, Pattern $parentPattern = null
 	) {
 		# if code between backticks starts or ends with code between
 		# backticks: remove the spacing

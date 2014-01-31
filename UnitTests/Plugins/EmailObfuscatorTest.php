@@ -27,13 +27,15 @@ class AnyMark_Plugins_EmailObfuscatorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function encodesEmail()
 	{
+		$tree = new \ElementTree\ElementTree();
 		$element = new \ElementTree\ElementTreeElement('a');
+		$tree->append($element);
 		$text = new \ElementTree\ElementTreeText('my email');
 		$element->append($text);
 		$element->setAttribute('href', 'mailto:me@example.com');
 
 		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\AfterParsing($element);
+		$event = new \AnyMark\Events\AfterParsing($tree);
 		$callback($event);
 
 		$this->assertEquals(

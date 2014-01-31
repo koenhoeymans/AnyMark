@@ -6,7 +6,7 @@
 namespace AnyMark\EndToEndTests\Support\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\ElementTree;
+use ElementTree\Composable;
 
 /**
  * @package AnyMark
@@ -19,8 +19,8 @@ class FooChange extends \AnyMark\Pattern\Pattern
 	}
 	
 	public function handleMatch(
-		array $match, ElementTree $parent, Pattern $parentPattern = null
+		array $match, Composable $parent, Pattern $parentPattern = null
 	) {
-		return $parent->createText('bar');
+		return $this->createText('bar');
 	}
 }

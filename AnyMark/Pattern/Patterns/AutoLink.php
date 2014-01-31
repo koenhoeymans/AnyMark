@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\ElementTree;
+use ElementTree\Composable;
 
 /**
  * @package AnyMark
@@ -44,17 +44,17 @@ class AutoLink extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, ElementTree $parent, Pattern $parentPattern = null
+		array $match, Composable $parent, Pattern $parentPattern = null
 	) {
-		$a = $parent->createElement('a');
+		$a = $this->createElement('a');
 		if (isset($match['url']))
 		{
-			$a->append($parent->createText($match['url']));
+			$a->append($this->createText($match['url']));
 			$a->setAttribute('href', $match['url']);
 		}
 		else
 		{
-			$a->append($parent->createText($match['mail']));
+			$a->append($this->createText($match['mail']));
 			$a->setAttribute('href', 'mailto:' . $match['mail']);
 		}
 

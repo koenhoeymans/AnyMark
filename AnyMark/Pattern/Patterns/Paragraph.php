@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\ElementTree;
+use ElementTree\Composable;
 
 /**
  * @package AnyMark
@@ -37,10 +37,10 @@ class Paragraph extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, ElementTree $parent, Pattern $parentPattern = null
+		array $match, Composable $parent, Pattern $parentPattern = null
 	) {
-		$p = $parent->createElement('p');
-		$p->append($parent->createText($match['text']));
+		$p = $this->createElement('p');
+		$p->append($this->createText($match['text']));
 
 		return $p;
 	}

@@ -3,7 +3,7 @@
 namespace AnyMark\UnitTests\Support;
 
 use \AnyMark\Pattern\Pattern;
-use ElementTree\ElementTree;
+use ElementTree\Composable;
 
 class MockPatternCreatingMultiNodes extends \AnyMark\Pattern\Pattern
 {
@@ -27,13 +27,13 @@ class MockPatternCreatingMultiNodes extends \AnyMark\Pattern\Pattern
 	}
 
 	public function handleMatch(
-		array $match, ElementTree $parent, Pattern $parentPattern = null
+		array $match, Composable $parent, Pattern $parentPattern = null
 	) {
-		$el = $parent->createElement($this->elementName);
+		$el = $this->createElement($this->elementName);
 		foreach ($this->subElements as $subElement)
 		{
-			$subEl = $parent->createElement($subElement['tag']);
-			$subEl->append($subEl->createText($subElement['text']));
+			$subEl = $this->createElement($subElement['tag']);
+			$subEl->append($this->createText($subElement['text']));
 			$el->append($subEl);
 		}
 		return $el;

@@ -7,7 +7,7 @@ namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use AnyMark\Plugins\LinkDefinitionCollector;
-use ElementTree\ElementTree;
+use ElementTree\Composable;
 
 /**
  * @package AnyMark
@@ -51,19 +51,19 @@ class Image extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, ElementTree $parent, Pattern $parentPattern = null
+		array $match, Composable $parent, Pattern $parentPattern = null
 	) {
 		if (isset($match['reference']))
 		{
-			return $this->replaceReference($match, $parent);
+			return $this->replaceReference($match);
 		}
 		else
 		{
-			return $this->replaceInline($match, $parent);
+			return $this->replaceInline($match);
 		}
 	}
 
-	private function replaceInline(array $match, ElementTree $parent)
+	private function replaceInline(array $match)
 	{
 		$path = str_replace('"', '&quot;', $match['path']);
 		if (isset($path[0]) && $path[0] === '<')
@@ -71,7 +71,7 @@ class Image extends Pattern
 			$path = substr($path, 1, -1);
 		}
 
-		$img = $parent->createElement('img');
+		$img = $this->createElement('img');
 		$img->setAttribute('src', $path);
 		$img->setAttribute('alt', $match['alt']);
 		if (isset($match['title']))
@@ -85,7 +85,7 @@ class Image extends Pattern
 	/**
 	 * @todo replace circular handling
 	 */
-	private function replaceReference(array $match, ElementTree $parent)
+	private function replaceReference(array $match)
 	{
 		$linkDefinition = $this->linkDefinitions->get($match['id']);
 		if (!$linkDefinition)
@@ -96,7 +96,7 @@ class Image extends Pattern
 		}
 		$title = $linkDefinition->getTitle();
 			
-		$img = $parent->createElement('img');
+		$img = $this->createElement('img');
 		$img->setAttribute('src', $linkDefinition->getUrl());
 		$img->setAttribute('alt', $match['alt']);
 		if ($title)

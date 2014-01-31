@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\ElementTree;
+use ElementTree\Composable;
 use ElementTree\Element;
 
 /**
@@ -68,7 +68,7 @@ class TextualList extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, ElementTree $parent, Pattern $parentPattern = null
+		array $match, Composable $parent, Pattern $parentPattern = null
 	) {
 		# different handling of allowed indentation for sublist
 		if (($parentPattern != $this)
@@ -92,7 +92,7 @@ class TextualList extends Pattern
 			"@(\n|^)" . $indentation . "@", "\${1}", $match['list']
 		);
 
-		$list = $parent->createElement($listType);
+		$list = $this->createElement($listType);
 		$this->createListItems($items, $list);
 
 		return $list;
@@ -142,7 +142,7 @@ class TextualList extends Pattern
 			@x';
 	}
 
-	public function handleItemMatch(array $match, ElementTree $parent)
+	public function handleItemMatch(array $match, Composable $parent)
 	{
 		$paragraph = (($match['para_before'] == "\n\n") || isset($match['para_after']))
 			? "\n\n" : "";
@@ -152,11 +152,11 @@ class TextualList extends Pattern
 			$match['content']
 		);
 
-		$li = $parent->createElement('li');
+		$li = $this->createElement('li');
 
 		if ($paragraph !== '' || $content !== '')
 		{
-			$li->append($parent->createText($paragraph . $content . $paragraph));
+			$li->append($this->createText($paragraph . $content . $paragraph));
 		}
 
 		$parent->append($li);

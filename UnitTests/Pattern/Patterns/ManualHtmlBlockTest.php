@@ -320,7 +320,7 @@ bar";
 
 ";
 		$div = $this->elementTree()->createElement('div');
-		$div->append($div->createText("\n\twith `<foo>`\n"));
+		$div->append($this->elementTree()->createText("\n\twith `<foo>`\n"));
 
 		$this->assertEquals($div, $this->applyPattern($text));
 	}
@@ -342,7 +342,7 @@ bar
 
 ";
 		$div = $this->elementTree()->createElement('div');
-		$div->append($div->createText("\n    foo\n\nbar\n\n    foo\n"));
+		$div->append($this->elementTree()->createText("\n    foo\n\nbar\n\n    foo\n"));
 
 		$this->assertEquals($div, $this->applyPattern($text));
 	}

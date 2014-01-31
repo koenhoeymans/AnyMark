@@ -69,8 +69,9 @@ class AnyMark_Parser_GlobalMatchRecursiveReplacerTest extends PHPUnit_Framework_
 	 */
 	public function presentsTextAfterMatchToSamePattern()
 	{
-		$element = new \ElementTree\ElementTreeElement('a');
-		$element->append($element->createText('o'));
+		$elementTree = new \ElementTree\ElementTree();
+		$element = $elementTree->createElement('a');
+		$element->append($elementTree->createText('o'));
 		$mockPatternA = $this->getMock('\\AnyMark\\Pattern\\Pattern');
 		$mockPatternA
 			->expects($this->atLeastOnce())
@@ -104,7 +105,7 @@ class AnyMark_Parser_GlobalMatchRecursiveReplacerTest extends PHPUnit_Framework_
 	public function presentsTextLeftToNextPattern()
 	{
 		$elementA = new \ElementTree\ElementTreeElement('a');
-		$elementA->append($elementA->createText('o'));
+		$elementA->append(new \ElementTree\ElementTreeText('o'));
 		$mockPatternA = $this->getMock('\\AnyMark\\Pattern\\Pattern');
 			$mockPatternA
 			->expects($this->exactly(2))
@@ -115,7 +116,7 @@ class AnyMark_Parser_GlobalMatchRecursiveReplacerTest extends PHPUnit_Framework_
 			->method('handleMatch')
 			->will($this->returnValue($elementA));
 		$elementB = new \ElementTree\ElementTreeElement('b');
-		$elementB->append($elementB->createText('b'));
+		$elementB->append(new \ElementTree\ElementTreeText('b'));
 		$mockPatternB = $this->getMock('\\AnyMark\\Pattern\\Pattern');
 		$mockPatternB
 			->expects($this->atLeastOnce())

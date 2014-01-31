@@ -379,7 +379,7 @@ paragraph";
 
 		$list = $this->create('ul');
 		$list->append($this->create('li', 'item'));
-		$list->append($list->createElement('li'));
+		$list->append($this->create('li'));
 
 		$this->assertEquals($list, $this->applyPattern($text));
 	}

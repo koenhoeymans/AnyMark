@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\ElementTree;
+use ElementTree\Composable;
 
 /**
  * @package AnyMark
@@ -38,7 +38,7 @@ class Strong extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, ElementTree $parent, Pattern $parentPattern = null
+		array $match, Composable $parent, Pattern $parentPattern = null
 	) {
 		$marker = $match['marker'] . $match['marker'];
 		if (substr($match[0], 0, 2) !== $marker || substr($match[0], -2) !== $marker)
@@ -50,8 +50,8 @@ class Strong extends Pattern
 			return;
 		}
 
-		$strong = $parent->createElement('strong');
-		$strong->append($parent->createText(substr($match[0], 2, -2)));
+		$strong = $this->createElement('strong');
+		$strong->append($this->createText(substr($match[0], 2, -2)));
 
 		return $strong;
 	}

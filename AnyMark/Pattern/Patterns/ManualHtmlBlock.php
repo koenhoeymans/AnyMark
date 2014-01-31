@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\ElementTree;
+use ElementTree\Composable;
 
 /**
  * @package AnyMark
@@ -57,11 +57,11 @@ class ManualHtmlBlock extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, ElementTree $parent, Pattern $parentPattern = null
+		array $match, Composable $parent, Pattern $parentPattern = null
 	) {
 		if (!empty($match['comment']))
 		{
-			return $parent->createComment($match['comment']);
+			return $this->createComment($match['comment']);
 		}
 		if (($match['name'] === 'ins' || $match['name'] === 'del')
 			&& substr($match['content'], 0, 1) !== "\n")
@@ -69,11 +69,11 @@ class ManualHtmlBlock extends Pattern
 			return;
 		}
 
-		$element = $parent->createElement($match['name']);
+		$element = $this->createElement($match['name']);
 		if (!empty($match['content']))
 		{
 			$element->append(
-				$parent->createText($match['content'])
+				$this->createText($match['content'])
 			);
 		}
 

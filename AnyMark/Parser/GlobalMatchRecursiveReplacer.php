@@ -81,7 +81,7 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 		{
 			$pattern = $patternMatches->offsetGet($patternMatch);
 			$query = $patternMatch->createQuery();
-			$createdText = $query->find($query->allText());
+			$createdText = $query->find($query->allText($query->withParentElement()));
 			foreach ($createdText as $text)
 			{
 				$this->applyPatterns($text, $pattern);
@@ -92,7 +92,9 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 	private function applyPattern(
 		Text $text, Pattern $pattern, Pattern $parentPattern = null, $offset = 0
 	) {
-		$parentElement = $text->getParent($text) ?: $this->ownerTree;
+		$parentElement = ($text->getParent($text) === $this->ownerTree)
+			? null
+			: $text->getParent($text);
 		$textToReplace = $text->getValue();
 
 		if (!preg_match($pattern->getRegex(), $textToReplace, $match, PREG_OFFSET_CAPTURE, $offset))

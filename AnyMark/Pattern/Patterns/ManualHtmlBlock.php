@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\Composable;
+use ElementTree\Element;
 
 /**
  * @package AnyMark
@@ -57,7 +57,7 @@ class ManualHtmlBlock extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, Composable $parent, Pattern $parentPattern = null
+		array $match, Element $parent = null, Pattern $parentPattern = null
 	) {
 		if (!empty($match['comment']))
 		{

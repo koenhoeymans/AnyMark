@@ -6,7 +6,6 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\Composable;
 use ElementTree\Element;
 
 /**
@@ -53,7 +52,7 @@ class Header extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, Composable $parent, Pattern $parentPattern = null
+		array $match, Element $parent = null, Pattern $parentPattern = null
 	) {
 		if (isset($match['atx']))
 		{
@@ -65,7 +64,7 @@ class Header extends Pattern
 		}
 	}
 
-	private function createSetextHeaders(array $match, Composable $parent)
+	private function createSetextHeaders(array $match)
 	{
 		foreach ($this->headerList as $level => $header)
 		{
@@ -88,7 +87,7 @@ class Header extends Pattern
 		return $h;
 	}
 
-	private function createAtxHeaders(array $match, Composable $parent)
+	private function createAtxHeaders(array $match)
 	{	
 		$level = strlen($match['level']);
 		$level = ($level > 5) ? 6 : $level;

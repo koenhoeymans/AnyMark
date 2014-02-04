@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\Composable;
+use ElementTree\Element;
 
 /**
  * @package AnyMark
@@ -53,7 +53,7 @@ class Emphasis extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, Composable $parent, Pattern $parentPattern = null
+		array $match, Element $parent = null, Pattern $parentPattern = null
 	) {
 		if (substr($match[0], 0, 2) === '**' && substr($match[0], -2) === '**')
 		{

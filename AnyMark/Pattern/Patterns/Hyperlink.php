@@ -8,7 +8,7 @@ namespace AnyMark\Pattern\Patterns;
 use AnyMark\Util\InternalUrlBuilder;
 use AnyMark\Plugins\LinkDefinitionCollector;
 use AnyMark\Pattern\Pattern;
-use ElementTree\Composable;
+use ElementTree\Element;
 
 /**
  * @package AnyMark
@@ -87,7 +87,7 @@ class Hyperlink extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, Composable $parent, Pattern $parentPattern = null
+		array $match, Element $parent = null, Pattern $parentPattern = null
 	) {
 		if ($parentPattern == $this)
 		{
@@ -104,7 +104,7 @@ class Hyperlink extends Pattern
 		}
 	}
 
-	private function createDomForLinkWithDef(array $match, Composable $parent)
+	private function createDomForLinkWithDef(array $match, Element $parent)
 	{
 		if (!isset($match['id']) || ($match['id'] === ''))
 		{
@@ -126,7 +126,7 @@ class Hyperlink extends Pattern
 		
 	}
 
-	private function createDomForInlineLink(array $match, Composable $parent)
+	private function createDomForInlineLink(array $match, Element $parent)
 	{
 		$url = (isset($match['url'][0]) && ($match['url'][0] == '<'))
 			? substr($match['url'], 1, -1) : $match['url'];
@@ -135,7 +135,7 @@ class Hyperlink extends Pattern
 		return $this->createDomForLink($url, $match['anchor'], $title, $parent);
 	}
 
-	private function createDomForLink($url, $anchor, $title = null, Composable $parent)
+	private function createDomForLink($url, $anchor, $title = null, Element $parent)
 	{
 		$url = $this->internalUrlBuilder->urlTo($url);
 

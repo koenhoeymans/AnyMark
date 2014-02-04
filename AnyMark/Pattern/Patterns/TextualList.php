@@ -6,7 +6,6 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\Composable;
 use ElementTree\Element;
 
 /**
@@ -68,7 +67,7 @@ class TextualList extends Pattern
 	}
 
 	public function handleMatch(
-		array $match, Composable $parent, Pattern $parentPattern = null
+		array $match, Element $parent = null, Pattern $parentPattern = null
 	) {
 		# different handling of allowed indentation for sublist
 		if (($parentPattern != $this)
@@ -142,7 +141,7 @@ class TextualList extends Pattern
 			@x';
 	}
 
-	public function handleItemMatch(array $match, Composable $parent)
+	public function handleItemMatch(array $match, Element $parent)
 	{
 		$paragraph = (($match['para_before'] == "\n\n") || isset($match['para_after']))
 			? "\n\n" : "";

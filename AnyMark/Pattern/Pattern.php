@@ -5,7 +5,7 @@
  */
 namespace AnyMark\Pattern;
 
-use ElementTree\Composable;
+use ElementTree\Element;
 use ElementTree\ElementTreeElement;
 use ElementTree\ElementTreeText;
 use ElementTree\ElementTreeComment;
@@ -29,7 +29,7 @@ abstract class Pattern
 	 * @return \ElementTree\Component
 	 */
 	abstract public function handleMatch(
-		array $match, Composable $parent, Pattern $parentPattern = null
+		array $match, Element $parent = null, Pattern $parentPattern = null
 	);
 
 	/**

@@ -1,6 +1,12 @@
 AnyMark Changelog
 =================
 
+*	0.12.0
+
+	*	Parent restricted to `ElementTree\Element`.
+	*	Possible that there is no parent (the `ElementTree` is not an `Element`
+		so is not passed as top parent).
+
 *	0.11.0
 
 	*	Update to ElementTree 0.6.0.

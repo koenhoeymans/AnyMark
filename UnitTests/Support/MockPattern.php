@@ -3,7 +3,7 @@
 namespace AnyMark\UnitTests\Support;
 
 use \AnyMark\Pattern\Pattern;
-use ElementTree\Composable;
+use ElementTree\Element;
 
 class MockPattern extends \AnyMark\Pattern\Pattern
 {
@@ -26,7 +26,7 @@ class MockPattern extends \AnyMark\Pattern\Pattern
 	}
 
 	public function handleMatch(
-		array $match, Composable $parent, Pattern $parentPattern = null
+		array $match, Element $parent = null, Pattern $parentPattern = null
 	) {
 		$element = $this->createElement($this->elementName);
 		$text = $this->createText($this->textInElement);

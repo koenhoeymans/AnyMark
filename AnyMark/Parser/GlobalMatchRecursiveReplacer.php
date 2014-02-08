@@ -62,10 +62,10 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 				while (($match = $this->applyPattern($textComponentToParse, $subpattern, $parentPattern)) !== array())
 				{
 					$parentNode->replace(
-						$match['textComponentBeforeMatch'], $textComponentToParse
+						$match['match'], $textComponentToParse
 					);
-					$parentNode->insertAfter(
-						$match['match'], $match['textComponentBeforeMatch']
+					$parentNode->insertBefore(
+						$match['textComponentBeforeMatch'], $match['match']
 					);
 					$parentNode->insertAfter(
 						$match['textComponentAfterMatch'], $match['match']

@@ -28,7 +28,7 @@ class EmailObfuscator implements Plugin
 
 	private function handleTree(ElementTree $tree)
 	{
-		$query = $tree->createQuery();
+		$query = $tree->createQuery($tree);
 		$elements = $query->find($query->allElements());
 
 		foreach ($elements as $element)

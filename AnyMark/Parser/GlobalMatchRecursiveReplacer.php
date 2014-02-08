@@ -24,7 +24,7 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 
 	private $patternTree;
 
-	private $ownerTree = null;
+	private $elementTree = null;
 
 	public function __construct(PatternTree $patternTree)
 	{
@@ -37,50 +37,59 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 	 */
 	public function parse($text)
 	{
-		$document = new \ElementTree\ElementTree();
-		$this->ownerTree = $document;
-		$text = $document->createText($text);
-
-		$document->append($text);
-
+		$this->elementTree = new \ElementTree\ElementTree();
+		$text = $this->elementTree->createText($text);
+		$this->elementTree->append($text);
 		$this->applyPatterns($text);
 
-		return $document;
+		return $this->elementTree;
 	}
 
 	private function applyPatterns(Text $text, Pattern $parentPattern = null)
 	{
-		$parentNode = $text->getParent() ?: $this->ownerTree;
+		$parentNode = $text->getParent();
 		$subpatterns = $this->patternTree->getSubpatterns($parentPattern);
 
 		$patternMatches = new \SplObjectStorage();
-		$textLeft = array($text);
+		$textComponentsToParse = array($text);
 
 		foreach($subpatterns as $subpattern)
 		{
-			$moreTextLeft = array();
-			foreach ($textLeft as $text)
+			$newTextComponentsToParse = array();
+			foreach ($textComponentsToParse as $textComponentToParse)
 			{
-				$moreTextLeft[] = $text;
-				while (($match = $this->applyPattern($text, $subpattern, $parentPattern)) !== array())
+				$newTextComponentsToParse[] = $textComponentToParse;
+				while (($match = $this->applyPattern($textComponentToParse, $subpattern, $parentPattern)) !== array())
 				{
-					$parentNode->replace($match[0], $text);
-					$parentNode->append($match[2], $match[0]);
-					$parentNode->append($match[1], $match[0]);
-					$text = $match[2];
-					$patternMatches->attach($match[1], $subpattern);
-					array_pop($moreTextLeft); // previous $match[2] text
-					$moreTextLeft[] = $match[0];
-					$moreTextLeft[] = $match[2];
+					$parentNode->replace(
+						$match['textComponentBeforeMatch'], $textComponentToParse
+					);
+					$parentNode->insertAfter(
+						$match['match'], $match['textComponentBeforeMatch']
+					);
+					$parentNode->insertAfter(
+						$match['textComponentAfterMatch'], $match['match']
+					);
+
+					$patternMatches->attach($match['match'], $subpattern);
+					array_pop($newTextComponentsToParse); // was previous textComponentAfterMatch
+					$newTextComponentsToParse[] = $match['textComponentBeforeMatch'];
+					$newTextComponentsToParse[] = $match['textComponentAfterMatch'];
+					$textComponentToParse = $match['textComponentAfterMatch'];
 				}
 			}
-			$textLeft = $moreTextLeft;
+			$textComponentsToParse = $newTextComponentsToParse;
 		}
 
+		$this->handleMatches($patternMatches);
+	}
+
+	private function handleMatches(\SplObjectStorage $patternMatches)
+	{
 		foreach ($patternMatches as $patternMatch)
 		{
 			$pattern = $patternMatches->offsetGet($patternMatch);
-			$query = $patternMatch->createQuery();
+			$query = $this->elementTree->createQuery($patternMatch);
 			$createdText = $query->find($query->allText($query->withParentElement()));
 			foreach ($createdText as $text)
 			{
@@ -92,7 +101,7 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 	private function applyPattern(
 		Text $text, Pattern $pattern, Pattern $parentPattern = null, $offset = 0
 	) {
-		$parentElement = ($text->getParent($text) === $this->ownerTree)
+		$parentElement = ($text->getParent() === $this->elementTree)
 			? null
 			: $text->getParent($text);
 		$textToReplace = $text->getValue();
@@ -110,7 +119,7 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 		}
 
 		$textBeforeMatch = substr($textToReplace, 0, $matchOffset);
-		$textBeforeMatch = $this->ownerTree->createText($textBeforeMatch);
+		$textBeforeMatch = $this->elementTree->createText($textBeforeMatch);
 
 		$match = $pattern->handleMatch($match, $parentElement, $parentPattern);
 
@@ -125,8 +134,12 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 		$this->notify(new ParsingPatternMatch($match, $pattern));
 
 		$textFollowingMatch = substr($textToReplace, $matchOffset + $matchLength);
-		$textFollowingMatch = $this->ownerTree->createText($textFollowingMatch);
+		$textFollowingMatch = $this->elementTree->createText($textFollowingMatch);
 
-		return array($textBeforeMatch, $match, $textFollowingMatch);
+		return array(
+			'textComponentBeforeMatch' => $textBeforeMatch,
+			'match' => $match,
+			'textComponentAfterMatch' => $textFollowingMatch
+		);
 	}
 }

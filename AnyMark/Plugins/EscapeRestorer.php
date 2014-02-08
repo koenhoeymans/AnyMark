@@ -38,7 +38,7 @@ class EscapeRestorer implements Plugin
 	private function restoreTree(ElementTree $tree)
 	{
 		# restore escaped
-		$q = $tree->createQuery();
+		$q = $tree->createQuery($tree);
 		$parentElHasAttrManual = $q->not($q->withParentElement(
 			$q->lOr(
 				$q->withAttribute($q->withName('manual')),

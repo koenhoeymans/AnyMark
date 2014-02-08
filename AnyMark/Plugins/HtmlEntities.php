@@ -27,7 +27,7 @@ class HtmlEntities implements Plugin
 	
 	private function handleTree(ElementTree $tree)
 	{
-		$query = $tree->createQuery();
+		$query = $tree->createQuery($tree);
 
 		$allText = $query->find($query->allText());
 		foreach ($allText as $text)

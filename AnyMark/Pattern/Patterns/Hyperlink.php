@@ -104,7 +104,7 @@ class Hyperlink extends Pattern
 		}
 	}
 
-	private function createDomForLinkWithDef(array $match, Element $parent)
+	private function createDomForLinkWithDef(array $match)
 	{
 		if (!isset($match['id']) || ($match['id'] === ''))
 		{
@@ -122,20 +122,20 @@ class Hyperlink extends Pattern
 		$url = $linkDef->getUrl();
 		$anchorText = $match['anchor'];
 
-		return $this->createDomForLink($url, $anchorText, $title, $parent);
+		return $this->createDomForLink($url, $anchorText, $title);
 		
 	}
 
-	private function createDomForInlineLink(array $match, Element $parent)
+	private function createDomForInlineLink(array $match)
 	{
 		$url = (isset($match['url'][0]) && ($match['url'][0] == '<'))
 			? substr($match['url'], 1, -1) : $match['url'];
 		$title = isset($match['title']) ? $match['title'] : null;
 
-		return $this->createDomForLink($url, $match['anchor'], $title, $parent);
+		return $this->createDomForLink($url, $match['anchor'], $title);
 	}
 
-	private function createDomForLink($url, $anchor, $title = null, Element $parent)
+	private function createDomForLink($url, $anchor, $title = null)
 	{
 		$url = $this->internalUrlBuilder->urlTo($url);
 

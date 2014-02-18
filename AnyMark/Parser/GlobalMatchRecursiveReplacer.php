@@ -47,63 +47,77 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 
 	private function applyPatterns(Text $text, Pattern $parentPattern = null)
 	{
-		$parentNode = $text->getParent();
-		$subpatterns = $this->patternTree->getSubpatterns($parentPattern);
-
 		$patternMatches = new \SplObjectStorage();
-		$textComponentsToParse = array($text);
+		$toParse = array($text);
 
-		foreach($subpatterns as $subpattern)
+		foreach($this->patternTree->getSubpatterns($parentPattern) as $subpattern)
 		{
-			$newTextComponentsToParse = array();
-			foreach ($textComponentsToParse as $textComponentToParse)
+			foreach ($toParse as $textComponentToParse)
 			{
-				# if there is no match it must be parsed by the next pattern
-				# if there is a match we will remove it
-				$newTextComponentsToParse[] = $textComponentToParse;
 				while (($match = $this->applyPattern($textComponentToParse, $subpattern, $parentPattern)) !== array())
 				{
-					array_pop($newTextComponentsToParse);
-					$parentNode->replace(
-						$match['match'], $textComponentToParse
+					$toParse = $this->updateToParse(
+						$toParse, $textComponentToParse, $match
 					);
-					if ($match['match']->toString() !== '')
-					{
-						$patternMatches->attach($match['match'], $subpattern);
-					}
-					if ($match['textComponentBeforeMatch']->toString() !== '')
-					{
-						$parentNode->insertBefore(
-							$match['textComponentBeforeMatch'], $match['match']
-						);
-						$newTextComponentsToParse[] = $match['textComponentBeforeMatch'];
-					}
-					if ($match['textComponentAfterMatch']->toString() !== '')
-					{
-						$parentNode->insertAfter(
-							$match['textComponentAfterMatch'], $match['match']
-						);
-						$newTextComponentsToParse[] = $match['textComponentAfterMatch'];
-					}
+					$this->updateElementTree($match, $textComponentToParse);
+					$patternMatches->attach($match['match'], $subpattern);
 					$textComponentToParse = $match['textComponentAfterMatch'];
 				}
 			}
-			$textComponentsToParse = $newTextComponentsToParse;
 		}
 
 		$this->handleMatches($patternMatches);
+	}
+
+	private function updateToParse(array $toParse, Text $parsed, array $match)
+	{
+		$replacements = array();
+		if ($match['textComponentBeforeMatch']->toString() !== '')
+		{
+			$replacements[] = $match['textComponentBeforeMatch'];
+		}
+		if ($match['textComponentAfterMatch']->toString() !== '')
+		{
+			$replacements[] = $match['textComponentAfterMatch'];
+		}
+		$key = array_search($parsed, $toParse, true);
+		array_splice($toParse, $key, 1, $replacements);
+
+		return $toParse;
+	}
+
+	private function updateElementTree(array $match, Text $matched)
+	{
+		$parentNode = $matched->getParent();
+		$parentNode->replace($match['match'], $matched);
+		if ($match['textComponentBeforeMatch']->toString() !== '')
+		{
+			$parentNode->insertBefore(
+				$match['textComponentBeforeMatch'], $match['match']
+			);
+		}
+		if ($match['textComponentAfterMatch']->toString() !== '')
+		{
+			$parentNode->insertAfter(
+				$match['textComponentAfterMatch'], $match['match']
+			);
+		}
 	}
 
 	private function handleMatches(\SplObjectStorage $patternMatches)
 	{
 		foreach ($patternMatches as $patternMatch)
 		{
-			$pattern = $patternMatches->offsetGet($patternMatch);
+			if ($patternMatch->toString() === '')
+			{
+				$continue;
+			}
+
 			$query = $this->elementTree->createQuery($patternMatch);
 			$createdText = $query->find($query->allText($query->withParentElement()));
 			foreach ($createdText as $text)
 			{
-				$this->applyPatterns($text, $pattern);
+				$this->applyPatterns($text, $patternMatches[$patternMatch]);
 			}
 		}
 	}
@@ -116,8 +130,9 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 			: $text->getParent($text);
 		$textToReplace = $text->getValue();
 
-		if (!preg_match($pattern->getRegex(), $textToReplace, $match, PREG_OFFSET_CAPTURE, $offset))
-		{
+		if (!preg_match(
+			$pattern->getRegex(), $textToReplace, $match, PREG_OFFSET_CAPTURE, $offset
+		)) {
 			return array();
 		}
 

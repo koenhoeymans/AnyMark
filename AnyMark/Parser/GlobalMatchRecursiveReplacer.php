@@ -56,10 +56,8 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 			{
 				while (($match = $this->applyPattern($textComponentToParse, $subpattern, $parentPattern)) !== array())
 				{
-					$toParse = $this->updateToParse(
-						$toParse, $textComponentToParse, $match
-					);
-					$this->updateElementTree($match, $textComponentToParse);
+					$toParse = $this->updateToParse($toParse, $match);
+					$this->updateElementTree($match);
 					$patternMatches->attach($match['match'], $subpattern);
 					$textComponentToParse = $match['textComponentAfterMatch'];
 				}
@@ -69,7 +67,7 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 		$this->handleMatches($patternMatches);
 	}
 
-	private function updateToParse(array $toParse, Text $parsed, array $match)
+	private function updateToParse(array $toParse, array $match)
 	{
 		$replacements = array();
 		if ($match['textComponentBeforeMatch']->toString() !== '')
@@ -80,16 +78,16 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 		{
 			$replacements[] = $match['textComponentAfterMatch'];
 		}
-		$key = array_search($parsed, $toParse, true);
+		$key = array_search($match['matched'], $toParse, true);
 		array_splice($toParse, $key, 1, $replacements);
 
 		return $toParse;
 	}
 
-	private function updateElementTree(array $match, Text $matched)
+	private function updateElementTree(array $match)
 	{
-		$parentNode = $matched->getParent();
-		$parentNode->replace($match['match'], $matched);
+		$parentNode = $match['matched']->getParent();
+		$parentNode->replace($match['match'], $match['matched']);
 		if ($match['textComponentBeforeMatch']->toString() !== '')
 		{
 			$parentNode->insertBefore(
@@ -163,6 +161,7 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 		$textFollowingMatch = $this->elementTree->createText($textFollowingMatch);
 
 		return array(
+			'matched' => $text,
 			'textComponentBeforeMatch' => $textBeforeMatch,
 			'match' => $match,
 			'textComponentAfterMatch' => $textFollowingMatch

@@ -58,23 +58,33 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 			$newTextComponentsToParse = array();
 			foreach ($textComponentsToParse as $textComponentToParse)
 			{
+				# if there is no match it must be parsed by the next pattern
+				# if there is a match we will remove it
 				$newTextComponentsToParse[] = $textComponentToParse;
 				while (($match = $this->applyPattern($textComponentToParse, $subpattern, $parentPattern)) !== array())
 				{
+					array_pop($newTextComponentsToParse);
 					$parentNode->replace(
 						$match['match'], $textComponentToParse
 					);
-					$parentNode->insertBefore(
-						$match['textComponentBeforeMatch'], $match['match']
-					);
-					$parentNode->insertAfter(
-						$match['textComponentAfterMatch'], $match['match']
-					);
-
-					$patternMatches->attach($match['match'], $subpattern);
-					array_pop($newTextComponentsToParse); // was previous textComponentAfterMatch
-					$newTextComponentsToParse[] = $match['textComponentBeforeMatch'];
-					$newTextComponentsToParse[] = $match['textComponentAfterMatch'];
+					if ($match['match']->toString() !== '')
+					{
+						$patternMatches->attach($match['match'], $subpattern);
+					}
+					if ($match['textComponentBeforeMatch']->toString() !== '')
+					{
+						$parentNode->insertBefore(
+							$match['textComponentBeforeMatch'], $match['match']
+						);
+						$newTextComponentsToParse[] = $match['textComponentBeforeMatch'];
+					}
+					if ($match['textComponentAfterMatch']->toString() !== '')
+					{
+						$parentNode->insertAfter(
+							$match['textComponentAfterMatch'], $match['match']
+						);
+						$newTextComponentsToParse[] = $match['textComponentAfterMatch'];
+					}
 					$textComponentToParse = $match['textComponentAfterMatch'];
 				}
 			}
@@ -131,6 +141,7 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 				$text, $pattern, $parentPattern, $matchOffset + $matchLength
 			);
 		}
+
 		$this->notify(new ParsingPatternMatch($match, $pattern));
 
 		$textFollowingMatch = substr($textToReplace, $matchOffset + $matchLength);

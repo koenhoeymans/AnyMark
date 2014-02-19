@@ -47,7 +47,6 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 
 	private function applyPatterns(Text $text, Pattern $parentPattern = null)
 	{
-		$patternMatches = new \SplObjectStorage();
 		$toParse = array($text);
 
 		foreach($this->patternTree->getSubpatterns($parentPattern) as $subpattern)
@@ -56,18 +55,16 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 			{
 				while (($match = $this->applyPattern($textComponentToParse, $subpattern, $parentPattern)) !== array())
 				{
-					$toParse = $this->updateToParse($toParse, $match);
+					$toParse = $this->updateTextComponentsToParse($toParse, $match);
 					$this->updateElementTree($match);
-					$patternMatches->attach($match['match'], $subpattern);
+					$this->handleMatch($match['match'], $subpattern);
 					$textComponentToParse = $match['textComponentAfterMatch'];
 				}
 			}
 		}
-
-		$this->handleMatches($patternMatches);
 	}
 
-	private function updateToParse(array $toParse, array $match)
+	private function updateTextComponentsToParse(array $toParse, array $match)
 	{
 		$replacements = array();
 		if ($match['textComponentBeforeMatch']->toString() !== '')
@@ -102,21 +99,18 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 		}
 	}
 
-	private function handleMatches(\SplObjectStorage $patternMatches)
+	private function handleMatch(Component $patternMatch, Pattern $pattern)
 	{
-		foreach ($patternMatches as $patternMatch)
+		if ($patternMatch->toString() === '')
 		{
-			if ($patternMatch->toString() === '')
-			{
-				$continue;
-			}
+			return;
+		}
 
-			$query = $this->elementTree->createQuery($patternMatch);
-			$createdText = $query->find($query->allText($query->withParentElement()));
-			foreach ($createdText as $text)
-			{
-				$this->applyPatterns($text, $patternMatches[$patternMatch]);
-			}
+		$query = $this->elementTree->createQuery($patternMatch);
+		$createdText = $query->find($query->allText($query->withParentElement()));
+		foreach ($createdText as $text)
+		{
+			$this->applyPatterns($text, $pattern);
 		}
 	}
 

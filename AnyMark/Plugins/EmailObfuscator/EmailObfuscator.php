@@ -3,34 +3,22 @@
 /**
  * @package AnyMark
  */
-namespace AnyMark\Plugins;
+namespace AnyMark\Plugins\EmailObfuscator;
 
 use ElementTree\Element;
 use ElementTree\ElementTree;
 use ElementTree\Component;
-use AnyMark\PublicApi\AfterParsingEvent;
-use Epa\EventMapper;
-use Epa\Plugin;
 
 /**
  * @package AnyMark
  */
-class EmailObfuscator implements Plugin
+class EmailObfuscator
 {
-	public function register(EventMapper $mapper)
-	{
-		$mapper->registerForEvent(
-			'AfterParsingEvent', function(AfterParsingEvent $event) {
-				$this->handleTree($event->getTree());
-			}
-		);
-	}
-
-	private function handleTree(ElementTree $tree)
+	public function handleTree(ElementTree $tree)
 	{
 		$query = $tree->createQuery($tree);
 		$elements = $query->find($query->allElements());
-
+		
 		foreach ($elements as $element)
 		{
 			$this->obfuscateEmail($element);

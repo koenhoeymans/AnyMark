@@ -3,27 +3,14 @@
 /**
  * @package AnyMark
  */
-namespace AnyMark\Plugins;
-
-use AnyMark\PublicApi\BeforeParsingEvent;
-use Epa\EventMapper;
-use Epa\Plugin;
+namespace AnyMark\Plugins\Detab;
 
 /**
  * @package AnyMark
  */
-class Detab implements Plugin
+class Detab
 {
-	public function register(EventMapper $mapper)
-	{
-		$mapper->registerForEvent(
-			'BeforeParsingEvent', function(BeforeParsingEvent $event) {
-				$event->setText($this->replace($event->getText()));
-			}
-		);
-	}
-
-	private function replace($text)
+	public function detab($text)
 	{
 		# adapted from PHP Markdown
 		return preg_replace_callback(

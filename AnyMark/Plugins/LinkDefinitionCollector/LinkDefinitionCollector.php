@@ -3,29 +3,16 @@
 /**
  * @package AnyMark
  */
-namespace AnyMark\Plugins;
-
-use AnyMark\PublicApi\BeforeParsingEvent;
-use Epa\EventMapper;
-use Epa\Plugin;
+namespace AnyMark\Plugins\LinkDefinitionCollector;
 
 /**
  * @package AnyMark
  */
-class LinkDefinitionCollector implements Plugin
+class LinkDefinitionCollector
 {
 	private $linkDefinitions = array();
 
-	public function register(EventMapper $mapper)
-	{
-		$mapper->registerForEvent(
-			'BeforeParsingEvent', function(BeforeParsingEvent $event) {
-				$event->setText($this->process($event->getText()));
-			}
-		);
-	}
-
-	private function process($text)
+	public function process($text)
 	{
 		return preg_replace_callback(
 			'@

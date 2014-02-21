@@ -10,7 +10,7 @@ class AnyMark_Pattern_Patterns_ImageTest extends \AnyMark\UnitTests\Support\Patt
 	public function setup()
 	{
 		$this->linkDefinitions = $this->getMock(
-			'\\AnyMark\\Plugins\\LinkDefinitionCollector'
+			'\\AnyMark\\Plugins\\LinkDefinitionCollector\\LinkDefinitionCollector'
 		);
 		$this->image = new \AnyMark\Pattern\Patterns\Image($this->linkDefinitions);
 	}

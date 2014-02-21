@@ -3,29 +3,16 @@
 /**
  * @package AnyMark
  */
-namespace AnyMark\Plugins;
+namespace AnyMark\Plugins\HtmlEntities;
 
-use Epa\Plugin;
-use Epa\EventMapper;
 use ElementTree\ElementTree;
-use ElementTree\Component;
-use AnyMark\PublicApi\AfterParsingEvent;
 
 /**
  * @package AnyMark
  */
-class HtmlEntities implements Plugin
+class HtmlEntities
 {
-	public function register(EventMapper $mapper)
-	{
-		$mapper->registerForEvent(
-			'AfterParsingEvent', function(AfterParsingEvent $event) {
-				$this->handleTree($event->getTree());
-			}
-		);
-	}
-	
-	private function handleTree(ElementTree $tree)
+	public function handleTree(ElementTree $tree)
 	{
 		$query = $tree->createQuery($tree);
 

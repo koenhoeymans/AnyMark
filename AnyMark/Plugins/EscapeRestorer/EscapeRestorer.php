@@ -3,39 +3,20 @@
 /**
  * @package AnyMark
  */
-namespace AnyMark\Plugins;
+namespace AnyMark\Plugins\EscapeRestorer;
 
+use AnyMark\PublicApi\PatternMatch;
 use ElementTree\Filter\HasParentElement;
 use AnyMark\Pattern\Patterns\ManualHtmlBlock;
 use AnyMark\Pattern\Patterns\ManualHtmlInline;
-use AnyMark\Pattern\Pattern;
-use AnyMark\PublicApi\PatternMatch;
-use ElementTree\Component;
 use ElementTree\ElementTree;
-use AnyMark\PublicApi\AfterParsingEvent;
-use Epa\EventMapper;
-use Epa\Plugin;
 
 /**
  * @package AnyMark
  */
-class EscapeRestorer implements Plugin
+class EscapeRestorer
 {
-	public function register(EventMapper $mapper)
-	{
-		$mapper->registerForEvent(
-			'AfterParsingEvent', function(AfterParsingEvent $event) {
-				$this->restoreTree($event->getTree());
-			}
-		);
-		$mapper->registerForEvent(
-			'PatternMatch', function(PatternMatch $match) {
-				$this->handlePatternMatch($match);
-			}
-		);
-	}
-
-	private function restoreTree(ElementTree $tree)
+	public function restoreTree(ElementTree $tree)
 	{
 		# restore escaped
 		$q = $tree->createQuery($tree);
@@ -70,7 +51,7 @@ class EscapeRestorer implements Plugin
 		);
 	}
 
-	private function handlePatternMatch(PatternMatch $match)
+	public function handlePatternMatch(PatternMatch $match)
 	{
 		if (!($match->getComponent() instanceof \ElementTree\Element))
 		{

@@ -6,7 +6,7 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Util\InternalUrlBuilder;
-use AnyMark\Plugins\LinkDefinitionCollector;
+use AnyMark\Plugins\LinkDefinitionCollector\LinkDefinitionCollector;
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 

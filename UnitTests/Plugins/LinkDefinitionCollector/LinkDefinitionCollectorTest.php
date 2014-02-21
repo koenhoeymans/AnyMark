@@ -2,24 +2,14 @@
 
 require_once dirname(__FILE__)
 	. DIRECTORY_SEPARATOR . '..'
+	. DIRECTORY_SEPARATOR . '..'
 	. DIRECTORY_SEPARATOR . 'TestHelper.php';
 
-class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_TestCase
+class AnyMark_Plugins_LinkDefinitionCollector_LinkDefinitionCollectorTest extends PHPUnit_Framework_TestCase
 {
 	public function setup()
 	{
-		$this->eventMapper = new \AnyMark\UnitTests\Support\EventMapperMock();
-		$this->plugin = new \AnyMark\Plugins\LinkDefinitionCollector();
-
-		$this->plugin->register($this->eventMapper);
-	}
-
-	/**
-	 * @test
-	 */
-	public function registersForBeforeParsingEvent()
-	{
-		$this->assertEquals('BeforeParsingEvent', $this->eventMapper->getEvent());
+		$this->plugin = new \AnyMark\Plugins\LinkDefinitionCollector\LinkDefinitionCollector();
 	}
 
 	/**
@@ -28,9 +18,7 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 	public function aLinkDefinitionIsSquareBracketsWithDefinitionFollowedBySemicolonAndUrl()
 	{
 		$text = "\n[linkDefinition]: http://example.com\n";
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\BeforeParsing($text);
-		$callback($event);
+		$this->plugin->process($text);
 		
 		$this->assertEquals(
 			new \AnyMark\Pattern\Patterns\LinkDefinition(
@@ -48,9 +36,7 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 	public function aTitleAttributeCanBeSpecifiedBetweenDoubleQuotes()
 	{
 		$text = "\n[linkDefinition]: http://example.com \"title\"\n";
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\BeforeParsing($text);
-		$callback($event);
+		$this->plugin->process($text);
 
 		$this->assertEquals(
 			new \AnyMark\Pattern\Patterns\LinkDefinition(
@@ -66,9 +52,7 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 	public function aTitleAttributeCanBeSpecifiedBetweenSingleQuotes()
 	{
 		$text = "\n[linkDefinition]: http://example.com 'title'\n";
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\BeforeParsing($text);
-		$callback($event);
+		$this->plugin->process($text);
 
 		$this->assertEquals(
 			new \AnyMark\Pattern\Patterns\LinkDefinition(
@@ -84,9 +68,7 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 	public function aTitleAttributeCanBeSpecifiedBetweenDoubleParentheses()
 	{
 		$text = "\n[linkDefinition]: http://example.com (title)\n";
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\BeforeParsing($text);
-		$callback($event);
+		$this->plugin->process($text);
 
 		$this->assertEquals(
 			new \AnyMark\Pattern\Patterns\LinkDefinition(
@@ -102,9 +84,7 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 	public function urlCanBePlacedBetweenAngleBrackets()
 	{
 		$text = "\n[linkDefinition]: <http://example.com>\n";
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\BeforeParsing($text);
-		$callback($event);
+		$this->plugin->process($text);
 
 		$this->assertEquals(
 			new \AnyMark\Pattern\Patterns\LinkDefinition(
@@ -120,13 +100,11 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 	public function aLinkDefinitionMustBePlacedOnItsOwnLine()
 	{
 		$text = "\ntext [linkDefinition]: http://example.com\n";
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\BeforeParsing($text);
-		$callback($event);
+		$processedText = $this->plugin->process($text);
 
 		$this->assertEquals(
 			"\ntext [linkDefinition]: http://example.com\n",
-			$event->getText()
+			$processedText
 		);
 	}
 
@@ -136,9 +114,7 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 	public function titleAttributeCanBePlacedOnNextLine()
 	{
 		$text = "\n[linkDefinition]: http://example.com\n'title'\n";
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\BeforeParsing($text);
-		$callback($event);
+		$this->plugin->process($text);
 
 		$this->assertEquals(
 			new \AnyMark\Pattern\Patterns\LinkDefinition(
@@ -154,9 +130,7 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 	public function titleAttributeCanBePlacedIndentedOnNextLine()
 	{
 		$text = "\n[linkDefinition]: http://example.com\n\t'title'\n";
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\BeforeParsing($text);
-		$callback($event);
+		$this->plugin->process($text);
 
 		$this->assertEquals(
 			new \AnyMark\Pattern\Patterns\LinkDefinition(
@@ -172,9 +146,7 @@ class AnyMark_Plugins_LinkDefinitionCollectorTest extends PHPUnit_Framework_Test
 	public function urlCanHaveSpaces()
 	{
 		$text = "\n[definition]: <url://with space>\n";
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\BeforeParsing($text);
-		$callback($event);
+		$this->plugin->process($text);
 
 		$this->assertEquals(
 			new \AnyMark\Pattern\Patterns\LinkDefinition(

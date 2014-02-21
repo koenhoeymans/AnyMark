@@ -10,7 +10,7 @@ class AnyMark_Pattern_Patterns_HyperlinkTest extends \AnyMark\UnitTests\Support\
 	public function setup()
 	{
 		$this->linkDefinitions = $this->getMock(
-			'\\AnyMark\\Plugins\\LinkDefinitionCollector'
+			'\\AnyMark\\Plugins\\LinkDefinitionCollector\\LinkDefinitionCollector'
 		);
 		$this->internalUrlBuilder = $this->getMock(
 			'\\AnyMark\\Util\\InternalUrlBuilder'

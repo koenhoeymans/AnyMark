@@ -4,16 +4,14 @@ use ElementTree\ElementTreeElement;
 
 require_once dirname(__FILE__)
 	. DIRECTORY_SEPARATOR . '..'
+	. DIRECTORY_SEPARATOR . '..'
 	. DIRECTORY_SEPARATOR . 'TestHelper.php';
 
-class AnyMark_Plugins_EscapeRestorerTest extends PHPUnit_Framework_TestCase
+class AnyMark_Plugins_EscapeRestorer_EscapeRestorerTest extends PHPUnit_Framework_TestCase
 {
 	public function setup()
 	{
-		$this->eventMapper = new \AnyMark\UnitTests\Support\EventMapperMock();
-		$this->plugin = new \AnyMark\Plugins\EscapeRestorer();
-
-		$this->plugin->register($this->eventMapper);
+		$this->plugin = new \AnyMark\Plugins\EscapeRestorer\EscapeRestorer();
 	}
 
 	/**
@@ -25,11 +23,9 @@ class AnyMark_Plugins_EscapeRestorerTest extends PHPUnit_Framework_TestCase
 		$text = $tree->createText('foo \* bar');
 		$tree->append($text);
 
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\AfterParsing($tree);
-		$callback($event);
+		$this->plugin->restoreTree($tree);
 
-		$this->assertEquals('foo * bar', $event->getTree()->toString());
+		$this->assertEquals('foo * bar', $tree->toString());
 	}
 
 	/**
@@ -42,11 +38,9 @@ class AnyMark_Plugins_EscapeRestorerTest extends PHPUnit_Framework_TestCase
 		$div->setAttribute('id', 'foo \* bar');
 		$tree->append($div);
 
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\AfterParsing($tree);
-		$callback($event);
+		$this->plugin->restoreTree($tree);
 
-		$this->assertEquals('<div id="foo * bar" />', $event->getTree()->toString());
+		$this->assertEquals('<div id="foo * bar" />', $tree->toString());
 	}
 
 	/**
@@ -60,23 +54,21 @@ class AnyMark_Plugins_EscapeRestorerTest extends PHPUnit_Framework_TestCase
 		$tree->append($div);
 		$div->append($text);
 
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\AfterParsing($tree);
-		$callback($event);
+		$this->plugin->restoreTree($tree);
 
-		$this->assertEquals('<code>foo \* bar</code>', $event->getTree()->toString());
+		$this->assertEquals('<code>foo \* bar</code>', $tree->toString());
 	}
 
 	/**
 	 * @test
 	 */
-	public function listensForInlineHtmlMatches()
+	public function adjustsInlineHtmlMatches()
 	{
 		$a = new \ElementTree\ElementTreeElement('a');
 		$pattern = new \AnyMark\Pattern\Patterns\ManualHtmlInline();
 		$event = new \AnyMark\Events\ParsingPatternMatch($a, $pattern);
-		$callback = $this->eventMapper->getCallback('PatternMatch');
-		$callback($event);
+
+		$this->plugin->handlePatternMatch($event);
 
 		$this->assertEquals('<a manual="true" />', $a->toString());
 	}
@@ -89,8 +81,8 @@ class AnyMark_Plugins_EscapeRestorerTest extends PHPUnit_Framework_TestCase
 		$a = new \ElementTree\ElementTreeElement('a');
 		$pattern = new \AnyMark\Pattern\Patterns\ManualHtmlBlock();
 		$event = new \AnyMark\Events\ParsingPatternMatch($a, $pattern);
-		$callback = $this->eventMapper->getCallback('PatternMatch');
-		$callback($event);
+
+		$this->plugin->handlePatternMatch($event);
 
 		$this->assertEquals('<a manual="true" />', $a->toString());
 	}
@@ -107,10 +99,8 @@ class AnyMark_Plugins_EscapeRestorerTest extends PHPUnit_Framework_TestCase
 		$tree->append($div);
 		$div->append($text);
 
-		$callback = $this->eventMapper->getCallback();
-		$event = new \AnyMark\Events\AfterParsing($tree);
-		$callback($event);
+		$this->plugin->restoreTree($tree);
 
-		$this->assertEquals('<div>foo \* bar</div>', $event->getTree()->toString());
+		$this->assertEquals('<div>foo \* bar</div>', $tree->toString());
 	}
 }

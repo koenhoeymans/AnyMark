@@ -63,7 +63,7 @@ class AnyMark implements Parser, Observable
 			->thenUse('AnyMark\\Pattern\\FjorPatternFactory');
 		$fjor->given('AnyMark\\Pattern\\PatternTree')
 			->thenUse('AnyMark\\Pattern\\PatternList');
-		$fjor->setSingleton('AnyMark\\Plugins\\LinkDefinitionCollector');
+		$fjor->setSingleton('AnyMark\\Plugins\\LinkDefinitionCollector\\LinkDefinitionCollector');
 		$fjor->setSingleton('AnyMark\\Pattern\\PatternList');
 		$fjor->setSingleton('Epa\\EventDispatcher');
 		$fjor->setSingleton('AnyMark\\Pattern\\FileArrayPatternConfig');
@@ -73,13 +73,13 @@ class AnyMark implements Parser, Observable
 
 		$anyMark = $fjor->get('\\AnyMark\\AnyMark');
 
-		$anyMark->registerPlugin(new \AnyMark\Plugins\EmptyLineFixer());
-		$anyMark->registerPlugin(new \AnyMark\Plugins\NewLineStandardizer());
-		$anyMark->registerPlugin(new \AnyMark\Plugins\Detab());
-		$anyMark->registerPlugin(new \AnyMark\Plugins\HtmlEntities());
-		$anyMark->registerPlugin(new \AnyMark\Plugins\EscapeRestorer());
-		$anyMark->registerPlugin($fjor->get('AnyMark\\Plugins\\LinkDefinitionCollector'));
-		$anyMark->registerPlugin(new \AnyMark\Plugins\EmailObfuscator());
+		$anyMark->registerPlugin(new \AnyMark\Plugins\EmptyLineFixer\EmptyLineFixerRegistrar());
+		$anyMark->registerPlugin(new \AnyMark\Plugins\NewLineStandardizer\NewLineStandardizerRegistrar());
+		$anyMark->registerPlugin(new \AnyMark\Plugins\Detab\DetabRegistrar());
+		$anyMark->registerPlugin(new \AnyMark\Plugins\HtmlEntities\HtmlEntitiesRegistrar());
+		$anyMark->registerPlugin(new \AnyMark\Plugins\EscapeRestorer\EscapeRestorerRegistrar());
+		$anyMark->registerPlugin($fjor->get('AnyMark\\Plugins\\LinkDefinitionCollector\\LinkDefinitionCollectorRegistrar'));
+		$anyMark->registerPlugin(new \AnyMark\Plugins\EmailObfuscator\EmailObfuscatorRegistrar());
 		$anyMark->registerPlugin(new \Epa\MetaEventNamePlugin());
 
 		return $anyMark;

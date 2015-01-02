@@ -10,7 +10,7 @@ class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
 	public function setup()
 	{
 		$this->parser = $this->getMock('\\AnyMark\\Parser\\Parser');
-		$this->eventDispatcher = $this->getMock('\\Epa\\EventDispatcher');
+		$this->eventDispatcher = $this->getMock('\\Epa\\Api\\EventDispatcher');
 		$this->patternConfig = $this->getMock('\\AnyMark\\Pattern\\FileArrayPatternConfig');
 		$this->anyMark = new \AnyMark\AnyMark(
 			$this->parser, $this->eventDispatcher, $this->patternConfig
@@ -22,7 +22,7 @@ class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
 	 */
 	public function eventsAreThrown()
 	{
-		$observer = $this->getMock('\\Epa\\Observer');
+		$observer = $this->getMock('\\Epa\\Api\\Observer');
 		$this->anyMark->addObserver($observer);
 
 		$this->parser

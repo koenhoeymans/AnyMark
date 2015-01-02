@@ -6,7 +6,7 @@
 namespace AnyMark\Events;
 
 use ElementTree\ElementTree;
-use Epa\Event;
+use Epa\Api\Event;
 use AnyMark\PublicApi\AfterParsingEvent;
 
 /**

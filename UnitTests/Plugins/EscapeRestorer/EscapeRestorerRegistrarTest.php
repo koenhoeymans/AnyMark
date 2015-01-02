@@ -14,14 +14,14 @@ class AnyMark_Plugins_EscapeRestorer_EscapeRestorerRegistrarTest extends PHPUnit
 	 */
 	public function registersForAfterParsingEvent()
 	{
-		$eventMapper = $this->getMock('Epa\\EventMapper');
-		$eventMapper
+		$eventDispatcher = $this->getMock('Epa\\Api\\EventDispatcher');
+		$eventDispatcher
 			->expects($this->at(0))
 			->method('registerForEvent')
-			->with('AfterParsingEvent', function() {});
+			->with('AnyMark\\PublicApi\\AfterParsingEvent', function() {});
 		
 		$registrar = new \AnyMark\Plugins\EscapeRestorer\EscapeRestorerRegistrar();
-		$registrar->register($eventMapper);
+		$registrar->registerHandlers($eventDispatcher);
 	}
 
 	/**
@@ -29,13 +29,13 @@ class AnyMark_Plugins_EscapeRestorer_EscapeRestorerRegistrarTest extends PHPUnit
 	 */
 	public function registersForPatternMatch()
 	{
-		$eventMapper = $this->getMock('Epa\\EventMapper');
-		$eventMapper
+		$eventDispatcher = $this->getMock('Epa\\Api\\EventDispatcher');
+		$eventDispatcher
 			->expects($this->at(1))
 			->method('registerForEvent')
-			->with('PatternMatch', function() {});
+			->with('AnyMark\\PublicApi\\PatternMatch', function() {});
 		
 		$registrar = new \AnyMark\Plugins\EscapeRestorer\EscapeRestorerRegistrar();
-		$registrar->register($eventMapper);
+		$registrar->registerHandlers($eventDispatcher);
 	}
 }

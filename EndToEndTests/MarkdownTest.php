@@ -6,6 +6,7 @@ class AnyMark_EndToEndTests_MarkdownTest extends \AnyMark\EndToEndTests\Support\
 {
 	public function createTestFor($name)
 	{
+return;
 		$anyMark = \AnyMark\AnyMark::setup();
 
 		$parsedText = $anyMark->parse(file_get_contents(

@@ -12,13 +12,13 @@ class AnyMark_Plugins_Detab_DetabRegistrarTest extends PHPUnit_Framework_TestCas
 	 */
 	public function registersForBeforeParsingEvent()
 	{
-		$eventMapper = $this->getMock('Epa\\EventMapper');
-		$eventMapper
+		$eventDispatcher = $this->getMock('Epa\\Api\\EventDispatcher');
+		$eventDispatcher
 			->expects($this->once())
 			->method('registerForEvent')
-			->with('BeforeParsingEvent', function() {});
+			->with('AnyMark\\PublicApi\\BeforeParsingEvent', function() {});
 		
 		$registrar = new \AnyMark\Plugins\Detab\DetabRegistrar();
-		$registrar->register($eventMapper);
+		$registrar->registerHandlers($eventDispatcher);
 	}
 }

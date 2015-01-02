@@ -233,7 +233,7 @@ class AnyMark_Parser_GlobalMatchRecursiveReplacerTest extends PHPUnit_Framework_
 		$event = new \AnyMark\Events\ParsingPatternMatch(
 			$element, $mockPattern
 		);
-		$observer = $this->getMock('\\Epa\\Observer');
+		$observer = $this->getMock('\\Epa\\Api\\Observer');
 		$observer->expects($this->once())->method('notify')->with($event);
 		$this->replacer->addObserver($observer);
 

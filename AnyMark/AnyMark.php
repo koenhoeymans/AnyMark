@@ -10,11 +10,10 @@ use AnyMark\Parser\Parser;
 use AnyMark\Processor\TextProcessor;
 use AnyMark\Processor\ElementTreeProcessor;
 use ElementTree\ElementTree;
-use Epa\EventDispatcher;
-use Epa\Plugin;
-use Epa\Pluggable;
-use Epa\Observable;
-use Fjor\Fjor;
+use Epa\Api\EventDispatcher;
+use Epa\Api\Plugin;
+use Epa\Api\Observable;
+use Epa\Api\ObserverStore;
 
 
 /**
@@ -22,7 +21,7 @@ use Fjor\Fjor;
  */
 class AnyMark implements Parser, Observable
 {
-	use Pluggable;
+	use ObserverStore;
 
 	private $parser;
 
@@ -33,20 +32,20 @@ class AnyMark implements Parser, Observable
 	private $patternConfigFileEventThrown = false;
 
 	/**
-	 * Sets up the wiring of objects and return an instance.
+	 * Sets up the wiring of objects and returns an instance.
 	 * 
 	 * @return \AnyMark\AnyMark
 	 */
-	static public function setup(\Fjor\Fjor $fjor = null)
+	static public function setup(\Fjor\Api\ObjectGraphConstructor $fjor = null)
 	{
 		$patternsFile = __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.php';
 
 		if (!$fjor)
 		{
-			$fjor = \Fjor\Fjor::defaultSetup();
+			$fjor = \Fjor\FjorFactory::create();
 		}
 
-		$fjor->given('Fjor\\Fjor')->thenUse($fjor);
+		$fjor->given('Fjor\\Api\\ObjectGraphConstructor')->thenUse($fjor);
 		$fjor
 			->given('AnyMark\\Util\\InternalUrlBuilder')
 			->thenUse('AnyMark\\Util\\ExtensionlessUrlBuilder');
@@ -65,14 +64,16 @@ class AnyMark implements Parser, Observable
 			->thenUse('AnyMark\\Pattern\\PatternList');
 		$fjor->setSingleton('AnyMark\\Plugins\\LinkDefinitionCollector\\LinkDefinitionCollector');
 		$fjor->setSingleton('AnyMark\\Pattern\\PatternList');
-		$fjor->setSingleton('Epa\\EventDispatcher');
+		$fjor->setSingleton('Epa\\Api\\EventDispatcher');
 		$fjor->setSingleton('AnyMark\\Pattern\\FileArrayPatternConfig');
-		$fjor->given('Epa\\Observable')
+		$eventDispatcher = \Epa\EventDispatcherFactory::create();
+		$fjor->given('Epa\\Api\\Observable')
 			->andMethod('addObserver')
-			->addParam(array('Epa\\EventDispatcher'));
+			->addParam(array('Epa\\Api\\EventDispatcher'));
+		$fjor->given('Epa\\Api\\EventDispatcher')
+			->thenUse($eventDispatcher);
 
 		$anyMark = $fjor->get('\\AnyMark\\AnyMark');
-
 		$anyMark->registerPlugin(new \AnyMark\Plugins\EmptyLineFixer\EmptyLineFixerRegistrar());
 		$anyMark->registerPlugin(new \AnyMark\Plugins\NewLineStandardizer\NewLineStandardizerRegistrar());
 		$anyMark->registerPlugin(new \AnyMark\Plugins\Detab\DetabRegistrar());
@@ -80,7 +81,6 @@ class AnyMark implements Parser, Observable
 		$anyMark->registerPlugin(new \AnyMark\Plugins\EscapeRestorer\EscapeRestorerRegistrar());
 		$anyMark->registerPlugin($fjor->get('AnyMark\\Plugins\\LinkDefinitionCollector\\LinkDefinitionCollectorRegistrar'));
 		$anyMark->registerPlugin(new \AnyMark\Plugins\EmailObfuscator\EmailObfuscatorRegistrar());
-		$anyMark->registerPlugin(new \Epa\MetaEventNamePlugin());
 
 		return $anyMark;
 	}
@@ -95,7 +95,7 @@ class AnyMark implements Parser, Observable
 
 	public function registerPlugin(Plugin $plugin)
 	{
-		$this->eventDispatcher->registerPlugin($plugin);
+		$this->eventDispatcher->addPlugin($plugin);
 	}
 
 	/**

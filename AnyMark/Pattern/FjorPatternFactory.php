@@ -5,8 +5,6 @@
  */
 namespace AnyMark\Pattern;
 
-use Fjor\Fjor;
-
 /**
  * @package AnyMark
  */
@@ -14,7 +12,7 @@ class FjorPatternFactory implements PatternFactory
 {
 	private $fjor;
 
-	public function __construct(Fjor $fjor)
+	public function __construct(\Fjor\Api\ObjectGraphConstructor $fjor)
 	{
 		$this->fjor = $fjor;
 	}

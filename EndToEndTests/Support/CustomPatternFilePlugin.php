@@ -6,18 +6,18 @@
 namespace AnyMark\EndToEndTests\Support;
 
 use AnyMark\Events\PatternConfigFile;
-use Epa\EventMapper;
-use Epa\Plugin;
+use Epa\Api\EventDispatcher;
+use Epa\Api\Plugin;
 
 /**
  * @package AnyMark
  */
 class CustomPatternFilePlugin implements Plugin
 {
-	public function register(EventMapper $mapper)
+	public function registerHandlers(EventDispatcher $eventDispatcher)
 	{
 		$configFile = __DIR__ . DIRECTORY_SEPARATOR . 'CustomPatterns.php';
-		$mapper->registerForEvent(
+		$eventDispatcher->registerForEvent(
 			'AnyMark\\Events\\PatternConfigFile',
 			function(PatternConfigFile $event) use ($configFile) {
 				$event->setPatternConfigFile($configFile);

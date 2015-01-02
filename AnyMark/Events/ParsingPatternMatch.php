@@ -8,7 +8,7 @@ namespace AnyMark\Events;
 use AnyMark\Pattern\Pattern;
 use ElementTree\Component;
 use ElementTree\ElementTree;
-use Epa\Event;
+use Epa\Api\Event;
 use AnyMark\PublicApi\PatternMatch;
 
 /**

@@ -12,13 +12,13 @@ class AnyMark_Plugins_EmailObfuscator_EmailObfuscatorRegistrarTest extends PHPUn
 	 */
 	public function registersForAfterParsingEvent()
 	{
-		$eventMapper = $this->getMock('Epa\\EventMapper');
-		$eventMapper
+		$eventDispatcher = $this->getMock('Epa\\Api\\EventDispatcher');
+		$eventDispatcher
 			->expects($this->once())
 			->method('registerForEvent')
-			->with('AfterParsingEvent', function() {});
+			->with('AnyMark\\PublicApi\\AfterParsingEvent', function() {});
 
 		$registrar = new \AnyMark\Plugins\EmailObfuscator\EmailObfuscatorRegistrar();
-		$registrar->register($eventMapper);
+		$registrar->registerHandlers($eventDispatcher);
 	}
 }

@@ -5,7 +5,7 @@
  */
 namespace AnyMark\Events;
 
-use Epa\Event;
+use Epa\Api\Event;
 use AnyMark\Pattern\FileArrayPatternConfig;
 use AnyMark\PublicApi\SetPatternConfigFileEvent;
 

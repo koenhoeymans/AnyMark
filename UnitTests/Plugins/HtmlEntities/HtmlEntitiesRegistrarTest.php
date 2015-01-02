@@ -12,13 +12,13 @@ class AnyMark_Plugins_HtmlEntities_HtmlEntitiesRegistrarTest extends PHPUnit_Fra
 	 */
 	public function registersCallbackForAfterParsingEvent()
 	{
-		$eventMapper = $this->getMock('Epa\\EventMapper');
-		$eventMapper
+		$eventDispatcher = $this->getMock('Epa\\Api\\EventDispatcher');
+		$eventDispatcher
 			->expects($this->once())
 			->method('registerForEvent')
-			->with('AfterParsingEvent', function() {});
+			->with('AnyMark\\PublicApi\\AfterParsingEvent', function() {});
 
 		$registrar = new \AnyMark\Plugins\HtmlEntities\HtmlEntitiesRegistrar();
-		$registrar->register($eventMapper);
+		$registrar->registerHandlers($eventDispatcher);
 	}
 }

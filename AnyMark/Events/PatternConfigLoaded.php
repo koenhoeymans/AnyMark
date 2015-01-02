@@ -6,7 +6,7 @@
 namespace AnyMark\Events;
 
 use AnyMark\Pattern\FileArrayPatternConfig;
-use Epa\Event;
+use Epa\Api\Event;
 use AnyMark\PublicApi\EditPatternConfigurationEvent;
 
 /**

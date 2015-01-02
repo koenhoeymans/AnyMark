@@ -6,8 +6,8 @@
 namespace AnyMark\Parser;
 
 use AnyMark\Events\ParsingPatternMatch;
-use Epa\Pluggable;
-use Epa\Observable;
+use Epa\Api\ObserverStore;
+use Epa\Api\Observable;
 use AnyMark\Pattern\Pattern;
 use AnyMark\Pattern\PatternTree;
 use ElementTree\ElementTree;
@@ -20,7 +20,7 @@ use ElementTree\Text;
  */
 class GlobalMatchRecursiveReplacer implements Parser, Observable
 {
-	use Pluggable;
+	use ObserverStore;
 
 	private $patternTree;
 

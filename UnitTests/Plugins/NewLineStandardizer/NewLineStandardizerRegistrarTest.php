@@ -12,13 +12,13 @@ class AnyMark_Processor_Processors_NewLineStandardizer_NewLineStandardizerRegist
 	 */
 	public function registersForBeforeParsingEvent()
 	{
-		$eventMapper = $this->getMock('Epa\\EventMapper');
-		$eventMapper
+		$eventDispatcher = $this->getMock('Epa\\Api\\EventDispatcher');
+		$eventDispatcher
 			->expects($this->once())
 			->method('registerForEvent')
-			->with('BeforeParsingEvent', function() {});
+			->with('AnyMark\\PublicApi\\BeforeParsingEvent', function() {});
 
 		$registrar = new \AnyMark\Plugins\NewLineStandardizer\NewLineStandardizerRegistrar();
-		$registrar->register($eventMapper);
+		$registrar->registerHandlers($eventDispatcher);
 	}
 }

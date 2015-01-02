@@ -9,6 +9,7 @@ class AnyMark_EndToEndTests_PhpMarkdownTest extends \AnyMark\EndToEndTests\Suppo
 {
 	public function createTestFor($name)
 	{
+		if ($name !== 'Tight blocks') return;
 		$anyMark = \AnyMark\AnyMark::setup();
 
 		$parsedText = $anyMark->parse(file_get_contents(

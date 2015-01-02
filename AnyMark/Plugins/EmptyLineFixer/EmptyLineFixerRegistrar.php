@@ -6,19 +6,19 @@
 namespace AnyMark\Plugins\EmptyLineFixer;
 
 use AnyMark\PublicApi\BeforeParsingEvent;
-use Epa\EventMapper;
-use Epa\Plugin;
+use Epa\Api\EventDispatcher;
+use Epa\Api\Plugin;
 
 /**
  * @package AnyMark
  */
 class EmptyLineFixerRegistrar implements Plugin
 {
-	public function register(EventMapper $mapper)
+	public function registerHandlers(EventDispatcher $eventDispatcher)
 	{
 		$fixer = new \AnyMark\Plugins\EmptyLineFixer\EmptyLineFixer();
-		$mapper->registerForEvent(
-			'BeforeParsingEvent', function(BeforeParsingEvent $event) use ($fixer) {
+		$eventDispatcher->registerForEvent(
+			'AnyMark\\PublicApi\\BeforeParsingEvent', function(BeforeParsingEvent $event) use ($fixer) {
 				$event->setText($fixer->fix($event->getText()));
 			}
 		);

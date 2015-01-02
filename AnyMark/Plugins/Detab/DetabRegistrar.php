@@ -6,19 +6,19 @@
 namespace AnyMark\Plugins\Detab;
 
 use AnyMark\PublicApi\BeforeParsingEvent;
-use Epa\EventMapper;
-use Epa\Plugin;
+use Epa\Api\EventDispatcher;
+use Epa\Api\Plugin;
 
 /**
  * @package AnyMark
  */
 class DetabRegistrar implements Plugin
 {
-	public function register(EventMapper $mapper)
+	public function registerHandlers(\Epa\Api\EventDispatcher $eventDispatcher)
 	{
 		$detab = new \AnyMark\Plugins\Detab\Detab();
-		$mapper->registerForEvent(
-			'BeforeParsingEvent', function(BeforeParsingEvent $event) use($detab) {
+		$eventDispatcher->registerForEvent(
+			'AnyMark\\PublicApi\\BeforeParsingEvent', function(BeforeParsingEvent $event) use($detab) {
 				$event->setText($detab->detab($event->getText()));
 			}
 		);

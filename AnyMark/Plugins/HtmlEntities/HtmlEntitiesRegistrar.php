@@ -5,8 +5,8 @@
  */
 namespace AnyMark\Plugins\HtmlEntities;
 
-use Epa\Plugin;
-use Epa\EventMapper;
+use Epa\Api\Plugin;
+use Epa\Api\EventDispatcher;
 use AnyMark\PublicApi\AfterParsingEvent;
 
 /**
@@ -14,11 +14,11 @@ use AnyMark\PublicApi\AfterParsingEvent;
  */
 class HtmlEntitiesRegistrar implements Plugin
 {
-	public function register(EventMapper $mapper)
+	public function registerHandlers(EventDispatcher $eventDispatcher)
 	{
 		$htmlEntities = new \AnyMark\Plugins\HtmlEntities\HtmlEntities();
-		$mapper->registerForEvent(
-			'AfterParsingEvent', function(AfterParsingEvent $event) use ($htmlEntities) {
+		$eventDispatcher->registerForEvent(
+			'AnyMark\\PublicApi\\AfterParsingEvent', function(AfterParsingEvent $event) use ($htmlEntities) {
 				$htmlEntities->handleTree($event->getTree());
 			}
 		);

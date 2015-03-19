@@ -4,235 +4,235 @@ namespace AnyMark\Parser;
 
 class GlobalMatchRecursiveReplacerTest extends \PHPUnit_Framework_TestCase
 {
-	public function setup()
-	{
-		$this->patternTree = $this->getMock('\\AnyMark\\Pattern\\PatternTree');
-		$this->replacer = new \AnyMark\Parser\GlobalMatchRecursiveReplacer(
-			$this->patternTree
-		);
-	}
+    public function setup()
+    {
+        $this->patternTree = $this->getMock('\\AnyMark\\Pattern\\PatternTree');
+        $this->replacer = new \AnyMark\Parser\GlobalMatchRecursiveReplacer(
+            $this->patternTree
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function appliesPatternsToText()
-	{
-		$mockPattern = $this->getMock('\\AnyMark\\Pattern\\Pattern');
-		$mockPattern
-			->expects($this->atLeastOnce())
-			->method('getRegex')
-			->will($this->returnValue('@text@'));
-		$mockPattern
-			->expects($this->atLeastOnce())
-			->method('handleMatch')
-			->will($this->returnValue(new \ElementTree\ElementTreeElement('a')));
-		$this->patternTree
-			->expects($this->atLeastOnce())
-			->method('getSubpatterns')
-			->will($this->returnValue(array($mockPattern)));
+    /**
+     * @test
+     */
+    public function appliesPatternsToText()
+    {
+        $mockPattern = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+        $mockPattern
+            ->expects($this->atLeastOnce())
+            ->method('getRegex')
+            ->will($this->returnValue('@text@'));
+        $mockPattern
+            ->expects($this->atLeastOnce())
+            ->method('handleMatch')
+            ->will($this->returnValue(new \ElementTree\ElementTreeElement('a')));
+        $this->patternTree
+            ->expects($this->atLeastOnce())
+            ->method('getSubpatterns')
+            ->will($this->returnValue(array($mockPattern)));
 
-		$this->replacer->parse('<doc>text
+        $this->replacer->parse('<doc>text
 </doc>');
-	}
+    }
 
-	/**
-	 * @test
-	 */
-	public function afterARegexMatchAPatternCanDecideItIsAFalsePositive()
-	{
-		$mockPattern = $this->getMock('\\AnyMark\\Pattern\\Pattern');
-		$mockPattern
-			->expects($this->atLeastOnce())
-			->method('getRegex')
-			->will($this->returnValue('@e@'));
-		$mockPattern
-			->expects($this->atLeastOnce())
-			->method('handleMatch')
-			->will($this->returnValue(null));
+    /**
+     * @test
+     */
+    public function afterARegexMatchAPatternCanDecideItIsAFalsePositive()
+    {
+        $mockPattern = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+        $mockPattern
+            ->expects($this->atLeastOnce())
+            ->method('getRegex')
+            ->will($this->returnValue('@e@'));
+        $mockPattern
+            ->expects($this->atLeastOnce())
+            ->method('handleMatch')
+            ->will($this->returnValue(null));
 
-		$this->patternTree
-			->expects($this->atLeastOnce())
-			->method('getSubpatterns')
-			->will($this->returnValue(array($mockPattern)));
-		
-		$this->assertEquals(
-			'text', $this->replacer->parse('text')->toString()
-		);
-	}
+        $this->patternTree
+            ->expects($this->atLeastOnce())
+            ->method('getSubpatterns')
+            ->will($this->returnValue(array($mockPattern)));
 
-	/**
-	 * @test
-	 */
-	public function presentsTextAfterMatchToSamePattern()
-	{
-		$elementTree = new \ElementTree\ElementTree();
-		$mockPatternA = $this->getMock('\\AnyMark\\Pattern\\Pattern');
-		$mockPatternA
-			->expects($this->atLeastOnce())
-			->method('getRegex')
-			->will($this->returnValue('@e@'));
-		$element = $elementTree->createElement('a');
-		$element->append($elementTree->createText('o'));
-		$mockPatternA
-			->expects($this->at(1))
-			->method('handleMatch')
-			->will($this->returnValue($element));
-		$element = $elementTree->createElement('a');
-		$element->append($elementTree->createText('o'));
-		$mockPatternA
-			->expects($this->at(3))
-			->method('handleMatch')
-			->will($this->returnValue($element));
-		$mockPatternB = new \AnyMark\MockPattern('@e@', 'b', 'b');
+        $this->assertEquals(
+            'text', $this->replacer->parse('text')->toString()
+        );
+    }
 
-		$patternMap = array(
-			array(null, array($mockPatternA, $mockPatternB)),
-			array($mockPatternA, array()),
-			array($mockPatternB, array())
-		);
-		$this->patternTree
-			->expects($this->atLeastOnce())
-			->method('getSubpatterns')
-			->will($this->returnValueMap($patternMap));
+    /**
+     * @test
+     */
+    public function presentsTextAfterMatchToSamePattern()
+    {
+        $elementTree = new \ElementTree\ElementTree();
+        $mockPatternA = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+        $mockPatternA
+            ->expects($this->atLeastOnce())
+            ->method('getRegex')
+            ->will($this->returnValue('@e@'));
+        $element = $elementTree->createElement('a');
+        $element->append($elementTree->createText('o'));
+        $mockPatternA
+            ->expects($this->at(1))
+            ->method('handleMatch')
+            ->will($this->returnValue($element));
+        $element = $elementTree->createElement('a');
+        $element->append($elementTree->createText('o'));
+        $mockPatternA
+            ->expects($this->at(3))
+            ->method('handleMatch')
+            ->will($this->returnValue($element));
+        $mockPatternB = new \AnyMark\MockPattern('@e@', 'b', 'b');
 
-		$this->assertEquals(
-			't<a>o</a><a>o</a>th',
-			$this->replacer->parse('teeth')->toString()
-		);
-	}
+        $patternMap = array(
+            array(null, array($mockPatternA, $mockPatternB)),
+            array($mockPatternA, array()),
+            array($mockPatternB, array()),
+        );
+        $this->patternTree
+            ->expects($this->atLeastOnce())
+            ->method('getSubpatterns')
+            ->will($this->returnValueMap($patternMap));
 
-	/**
-	 * @test
-	 */
-	public function presentsTextLeftToNextPattern()
-	{
-		$elementA = new \ElementTree\ElementTreeElement('a');
-		$elementA->append(new \ElementTree\ElementTreeText('o'));
-		$mockPatternA = $this->getMock('\\AnyMark\\Pattern\\Pattern');
-			$mockPatternA
-			->expects($this->exactly(2))
-			->method('getRegex')
-			->will($this->returnValue('@i@'));
-			$mockPatternA
-			->expects($this->exactly(1))
-			->method('handleMatch')
-			->will($this->returnValue($elementA));
-		$mockPatternB = $this->getMock('\\AnyMark\\Pattern\\Pattern');
-		$mockPatternB
-			->expects($this->atLeastOnce())
-			->method('getRegex')
-			->will($this->returnValue('@t@'));
-		$elementB = new \ElementTree\ElementTreeElement('b');
-		$elementB->append(new \ElementTree\ElementTreeText('b'));
-		$mockPatternB
-			->expects($this->at(1))
-			->method('handleMatch')
-			->will($this->returnValue($elementB));
-		$elementB = new \ElementTree\ElementTreeElement('b');
-		$elementB->append(new \ElementTree\ElementTreeText('b'));
-		$mockPatternB
-			->expects($this->at(4))
-			->method('handleMatch')
-			->will($this->returnValue($elementB));
+        $this->assertEquals(
+            't<a>o</a><a>o</a>th',
+            $this->replacer->parse('teeth')->toString()
+        );
+    }
 
-		$patternMap = array(
-			array(null, array($mockPatternA, $mockPatternB)),
-			array($mockPatternA, array()),
-			array($mockPatternB, array())
-		);
-		$this->patternTree
-			->expects($this->atLeastOnce())
-			->method('getSubpatterns')
-			->will($this->returnValueMap($patternMap));
+    /**
+     * @test
+     */
+    public function presentsTextLeftToNextPattern()
+    {
+        $elementA = new \ElementTree\ElementTreeElement('a');
+        $elementA->append(new \ElementTree\ElementTreeText('o'));
+        $mockPatternA = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+        $mockPatternA
+            ->expects($this->exactly(2))
+            ->method('getRegex')
+            ->will($this->returnValue('@i@'));
+        $mockPatternA
+            ->expects($this->exactly(1))
+            ->method('handleMatch')
+            ->will($this->returnValue($elementA));
+        $mockPatternB = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+        $mockPatternB
+            ->expects($this->atLeastOnce())
+            ->method('getRegex')
+            ->will($this->returnValue('@t@'));
+        $elementB = new \ElementTree\ElementTreeElement('b');
+        $elementB->append(new \ElementTree\ElementTreeText('b'));
+        $mockPatternB
+            ->expects($this->at(1))
+            ->method('handleMatch')
+            ->will($this->returnValue($elementB));
+        $elementB = new \ElementTree\ElementTreeElement('b');
+        $elementB->append(new \ElementTree\ElementTreeText('b'));
+        $mockPatternB
+            ->expects($this->at(4))
+            ->method('handleMatch')
+            ->will($this->returnValue($elementB));
 
-		$this->assertEquals(
-			'<b>b</b><a>o</a><b>b</b>',
-			$this->replacer->parse('tit')->toString()
-		);
-	}
+        $patternMap = array(
+            array(null, array($mockPatternA, $mockPatternB)),
+            array($mockPatternA, array()),
+            array($mockPatternB, array()),
+        );
+        $this->patternTree
+            ->expects($this->atLeastOnce())
+            ->method('getSubpatterns')
+            ->will($this->returnValueMap($patternMap));
 
-	/**
-	 * @test
-	 */
-	public function presentsMatchesToSubpatterns()
-	{
-		$mockPattern = new \AnyMark\MockPattern('@e@', 'a', 'a');
-		$mockSubpattern = new \AnyMark\MockPattern('@a@', 'b', 'c');
+        $this->assertEquals(
+            '<b>b</b><a>o</a><b>b</b>',
+            $this->replacer->parse('tit')->toString()
+        );
+    }
 
-		$map = array(
-			array(null, array($mockPattern)),
-			array($mockPattern, array($mockSubpattern)),
-			array($mockSubpattern, array())
-		);
-		$this->patternTree
-			->expects($this->atLeastOnce())
-			->method('getSubpatterns')
-			->will($this->returnValueMap($map));
+    /**
+     * @test
+     */
+    public function presentsMatchesToSubpatterns()
+    {
+        $mockPattern = new \AnyMark\MockPattern('@e@', 'a', 'a');
+        $mockSubpattern = new \AnyMark\MockPattern('@a@', 'b', 'c');
 
-		$this->assertEquals(
-			't<a><b>c</b></a>xt',
-			$this->replacer->parse('text')->toString()
-		);
-	}
+        $map = array(
+            array(null, array($mockPattern)),
+            array($mockPattern, array($mockSubpattern)),
+            array($mockSubpattern, array()),
+        );
+        $this->patternTree
+            ->expects($this->atLeastOnce())
+            ->method('getSubpatterns')
+            ->will($this->returnValueMap($map));
 
-	/**
-	 * @test
-	 */
-	public function aPatternCanReturnMultipleTextNodes()
-	{
-		$mockPattern = new \AnyMark\MockPatternCreatingMultiNodes(
-			'@e@',
-			'a',
-			array('tag' => 'b', 'text' => 'foo'),
-			array('tag' => 'd', 'text' => 'bar')
-		);
-		$mockSubpattern1 = new \AnyMark\MockPattern('@foo@', 'c', 'x');
-		$mockSubpattern2 = new \AnyMark\MockPattern('@bar@', 'e', 'y');
+        $this->assertEquals(
+            't<a><b>c</b></a>xt',
+            $this->replacer->parse('text')->toString()
+        );
+    }
 
-		$map = array(
-			array(null, array($mockPattern)),
-			array($mockPattern, array($mockSubpattern1, $mockSubpattern2)),
-			array($mockSubpattern1, array()),
-			array($mockSubpattern2, array())
-		);
-		$this->patternTree
-			->expects($this->atLeastOnce())
-			->method('getSubpatterns')
-			->will($this->returnValueMap($map));
+    /**
+     * @test
+     */
+    public function aPatternCanReturnMultipleTextNodes()
+    {
+        $mockPattern = new \AnyMark\MockPatternCreatingMultiNodes(
+            '@e@',
+            'a',
+            array('tag' => 'b', 'text' => 'foo'),
+            array('tag' => 'd', 'text' => 'bar')
+        );
+        $mockSubpattern1 = new \AnyMark\MockPattern('@foo@', 'c', 'x');
+        $mockSubpattern2 = new \AnyMark\MockPattern('@bar@', 'e', 'y');
 
-		$this->assertEquals(
-			't<a><b><c>x</c></b><d><e>y</e></d></a>xt',
-			$this->replacer->parse('text')->toString()
-		);
-	}
+        $map = array(
+            array(null, array($mockPattern)),
+            array($mockPattern, array($mockSubpattern1, $mockSubpattern2)),
+            array($mockSubpattern1, array()),
+            array($mockSubpattern2, array()),
+        );
+        $this->patternTree
+            ->expects($this->atLeastOnce())
+            ->method('getSubpatterns')
+            ->will($this->returnValueMap($map));
 
-	/**
-	 * @test
-	 */
-	public function notifiesObserversOfMatchesHandledByPatterns()
-	{
-		$element = new \ElementTree\ElementTreeElement('a');
-		$mockPattern = $this->getMock('\\AnyMark\\Pattern\\Pattern');
-		$mockPattern
-			->expects($this->atLeastOnce())
-			->method('getRegex')
-			->will($this->returnValue('@text@'));
-		$mockPattern
-			->expects($this->atLeastOnce())
-			->method('handleMatch')
-			->will($this->returnValue($element));
-		$this->patternTree
-			->expects($this->atLeastOnce())
-			->method('getSubpatterns')
-			->will($this->returnValue(array($mockPattern)));
+        $this->assertEquals(
+            't<a><b><c>x</c></b><d><e>y</e></d></a>xt',
+            $this->replacer->parse('text')->toString()
+        );
+    }
 
-		$event = new \AnyMark\Events\ParsingPatternMatch(
-			$element, $mockPattern
-		);
-		$observer = $this->getMock('\\Epa\\Api\\Observer');
-		$observer->expects($this->once())->method('notify')->with($event);
-		$this->replacer->addObserver($observer);
+    /**
+     * @test
+     */
+    public function notifiesObserversOfMatchesHandledByPatterns()
+    {
+        $element = new \ElementTree\ElementTreeElement('a');
+        $mockPattern = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+        $mockPattern
+            ->expects($this->atLeastOnce())
+            ->method('getRegex')
+            ->will($this->returnValue('@text@'));
+        $mockPattern
+            ->expects($this->atLeastOnce())
+            ->method('handleMatch')
+            ->will($this->returnValue($element));
+        $this->patternTree
+            ->expects($this->atLeastOnce())
+            ->method('getSubpatterns')
+            ->will($this->returnValue(array($mockPattern)));
 
-		$this->replacer->parse('text');
-	}
+        $event = new \AnyMark\Events\ParsingPatternMatch(
+            $element, $mockPattern
+        );
+        $observer = $this->getMock('\\Epa\\Api\\Observer');
+        $observer->expects($this->once())->method('notify')->with($event);
+        $this->replacer->addObserver($observer);
+
+        $this->replacer->parse('text');
+    }
 }

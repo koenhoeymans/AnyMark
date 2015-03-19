@@ -13,17 +13,17 @@ use ElementTree\Element;
  */
 class ManualHtmlBlock extends Pattern
 {
-	protected $blockTags = 'address|article|aside|audio|blockquote|canvas|dd|del|div|dl
+    protected $blockTags = 'address|article|aside|audio|blockquote|canvas|dd|del|div|dl
 			|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup
 			|hr|ins|noscript|ol|output|p|pre|section|table|tfoot|ul|video';
 
-	protected $insDelTags = 'ins|del';
+    protected $insDelTags = 'ins|del';
 
-	protected $attributes = '(\s+\w+(=(?:\"[^\"]*?\"|\'[^\']*?\'|[^\'\">\s]+))?)*';
+    protected $attributes = '(\s+\w+(=(?:\"[^\"]*?\"|\'[^\']*?\'|[^\'\">\s]+))?)*';
 
-	public function getRegex()
-	{
-		return '
+    public function getRegex()
+    {
+        return '
 		@(?J)
 		(?<=^|\n)
 		(
@@ -32,15 +32,15 @@ class ManualHtmlBlock extends Pattern
 
 		|
 
-		<(?<name>' . $this->blockTags . ')(?<attributes>' . $this->attributes . ')>
+		<(?<name>'.$this->blockTags.')(?<attributes>'.$this->attributes.')>
 		(?<content>
 			(
 			([ ]{4}|\t)+.+\n
 			|
-			<(\w+)' . $this->attributes . '[ ]?/>
+			<(\w+)'.$this->attributes.'[ ]?/>
 			|
 			(?<subpattern>
-				<(?<subname>\w+)' . $this->attributes . '>(?&content)?</\g{subname}>
+				<(?<subname>\w+)'.$this->attributes.'>(?&content)?</\g{subname}>
 			)
 			|
 			[^<]
@@ -50,52 +50,47 @@ class ManualHtmlBlock extends Pattern
 
 		|
 
-		<(?<name>br|div|hr)(?<attributes>' . $this->attributes . ')[ ]?/?>
+		<(?<name>br|div|hr)(?<attributes>'.$this->attributes.')[ ]?/?>
 
 		)
 		@x';
-	}
+    }
 
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {
-		if (!empty($match['comment']))
-		{
-			return $this->createComment($match['comment']);
-		}
-		if (($match['name'] === 'ins' || $match['name'] === 'del')
-			&& substr($match['content'], 0, 1) !== "\n")
-		{
-			return;
-		}
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+        if (!empty($match['comment'])) {
+            return $this->createComment($match['comment']);
+        }
+        if (($match['name'] === 'ins' || $match['name'] === 'del')
+            && substr($match['content'], 0, 1) !== "\n") {
+            return;
+        }
 
-		$element = $this->createElement($match['name']);
-		if (!empty($match['content']))
-		{
-			$element->append(
-				$this->createText($match['content'])
-			);
-		}
+        $element = $this->createElement($match['name']);
+        if (!empty($match['content'])) {
+            $element->append(
+                $this->createText($match['content'])
+            );
+        }
 
-		$attributes = $this->getAttributes($match['attributes']);
-		foreach ($attributes['name'] as $key=>$value)
-		{
-			$attr = $element->setAttribute(
-					$value, $attributes['value'][$key]
-			);
-			if ($attributes['quote'][$key] === "'")
-			{
-				$attr->singleQuotes();
-			}
-		}
+        $attributes = $this->getAttributes($match['attributes']);
+        foreach ($attributes['name'] as $key => $value) {
+            $attr = $element->setAttribute(
+                    $value, $attributes['value'][$key]
+            );
+            if ($attributes['quote'][$key] === "'") {
+                $attr->singleQuotes();
+            }
+        }
 
-		return $element;
-	}
+        return $element;
+    }
 
-	private function getAttributes($tagPart)
-	{
-		preg_match_all(
-			"@
+    private function getAttributes($tagPart)
+    {
+        preg_match_all(
+            "@
 			[ \n]*
 			(?<name>\w+)
 			(
@@ -103,10 +98,10 @@ class ManualHtmlBlock extends Pattern
 			((?<quote>[\"|'])(?<value>.*?)[\"|'])
 			)?
 			@x",
-			$tagPart,
-			$matches
-		);
+            $tagPart,
+            $matches
+        );
 
-		return $matches;
-	}
+        return $matches;
+    }
 }

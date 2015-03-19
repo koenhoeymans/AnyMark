@@ -13,22 +13,19 @@ use ElementTree\Element;
  */
 abstract class Code extends Pattern
 {
-	protected function createCodeReplacement($code, $pre = true, Element $parent = null)
-	{
-		$code = htmlentities($code, ENT_NOQUOTES);
-		$codeElement = $this->createElement('code');
-		$codeElement->append($this->createText($code));
+    protected function createCodeReplacement($code, $pre = true, Element $parent = null)
+    {
+        $code = htmlentities($code, ENT_NOQUOTES);
+        $codeElement = $this->createElement('code');
+        $codeElement->append($this->createText($code));
 
-		if ($pre)
-		{
-			$preElement = $this->createElement('pre');
-			$preElement->append($codeElement);
+        if ($pre) {
+            $preElement = $this->createElement('pre');
+            $preElement->append($codeElement);
 
-			return $preElement;
-		}
-		else
-		{
-			return $codeElement;
-		}
-	}
+            return $preElement;
+        } else {
+            return $codeElement;
+        }
+    }
 }

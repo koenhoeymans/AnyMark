@@ -2,24 +2,24 @@
 
 namespace Anymark;
 
-class AnyMark_Pattern_Patterns_BlockquoteTest extends PatternReplacementAssertions
+class BlockquoteTest extends PatternReplacementAssertions
 {
-	public function setup()
-	{
-		$this->pattern = new \AnyMark\Pattern\Patterns\Blockquote();
-	}
+    public function setup()
+    {
+        $this->pattern = new \AnyMark\Pattern\Patterns\Blockquote();
+    }
 
-	protected function getPattern()
-	{
-		return $this->pattern;
-	}
+    protected function getPattern()
+    {
+        return $this->pattern;
+    }
 
-	/**
-	 * @test
-	 */
-	public function blockquotesArePrecededByGreaterThanSignsOnEveryLine()
-	{
-		$text =
+    /**
+     * @test
+     */
+    public function blockquotesArePrecededByGreaterThanSignsOnEveryLine()
+    {
+        $text =
 "paragraph
 
 > quote
@@ -27,18 +27,18 @@ class AnyMark_Pattern_Patterns_BlockquoteTest extends PatternReplacementAssertio
 
 paragraph";
 
-		$bq = $this->elementTree()->createElement('blockquote');
-		$bq->append(new \ElementTree\ElementTreeText("quote\ncontinued\n\n"));
+        $bq = $this->elementTree()->createElement('blockquote');
+        $bq->append(new \ElementTree\ElementTreeText("quote\ncontinued\n\n"));
 
-		$this->assertEquals($bq, $this->applyPattern($text));
-	}
+        $this->assertEquals($bq, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function greaterThanSignIsOnlyNecessaryOnFirstLine()
-	{
-		$text =
+    /**
+     * @test
+     */
+    public function greaterThanSignIsOnlyNecessaryOnFirstLine()
+    {
+        $text =
 "paragraph
 
 > quote
@@ -46,19 +46,18 @@ continued
 
 paragraph";
 
-		$bq = $this->elementTree()->createElement('blockquote');
-		$bq->append(new \ElementTree\ElementTreeText("quote\ncontinued\n\n"));
+        $bq = $this->elementTree()->createElement('blockquote');
+        $bq->append(new \ElementTree\ElementTreeText("quote\ncontinued\n\n"));
 
-		$this->assertEquals($bq, $this->applyPattern($text));
-		
-	}
+        $this->assertEquals($bq, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canContainABlockquote()
-	{
-		$text =
+    /**
+     * @test
+     */
+    public function canContainABlockquote()
+    {
+        $text =
 "paragraph
 
 > quote
@@ -69,27 +68,27 @@ paragraph";
 
 paragraph";
 
-		$bq = $this->elementTree()->createElement('blockquote');
-		$bq->append(new \ElementTree\ElementTreeText("quote\n\n> subquote\n\nquote continued\n\n"));
+        $bq = $this->elementTree()->createElement('blockquote');
+        $bq->append(new \ElementTree\ElementTreeText("quote\n\n> subquote\n\nquote continued\n\n"));
 
-		$this->assertEquals($bq, $this->applyPattern($text));
-	}
+        $this->assertEquals($bq, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canBeDirectlyAfterParagraph()
-	{
-		$text =
+    /**
+     * @test
+     */
+    public function canBeDirectlyAfterParagraph()
+    {
+        $text =
 "paragraph
 > quote
 > continued
 
 paragraph";
 
-		$bq = $this->elementTree()->createElement('blockquote');
-		$bq->append(new \ElementTree\ElementTreeText("quote\ncontinued\n\n"));
+        $bq = $this->elementTree()->createElement('blockquote');
+        $bq->append(new \ElementTree\ElementTreeText("quote\ncontinued\n\n"));
 
-		$this->assertEquals($bq, $this->applyPattern($text));
-	}
+        $this->assertEquals($bq, $this->applyPattern($text));
+    }
 }

@@ -13,10 +13,12 @@ use ElementTree\Element;
  */
 class DummyPattern extends Pattern
 {
-	public function getRegex()
-	{}
-	
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {}
+    public function getRegex()
+    {
+    }
+
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+    }
 }

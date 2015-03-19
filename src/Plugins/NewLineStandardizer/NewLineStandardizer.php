@@ -10,8 +10,8 @@ namespace AnyMark\Plugins\NewLineStandardizer;
  */
 class NewLineStandardizer
 {
-	public function replace($text)
-	{
-		return preg_replace("#\r\n?#", "\n", $text);
-	}
+    public function replace($text)
+    {
+        return preg_replace("#\r\n?#", "\n", $text);
+    }
 }

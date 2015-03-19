@@ -14,15 +14,15 @@ use AnyMark\PublicApi\AfterParsingEvent;
  */
 class AfterParsing implements Event, AfterParsingEvent
 {
-	private $tree;
+    private $tree;
 
-	public function __construct(ElementTree $tree)
-	{
-		$this->tree = $tree;
-	}
+    public function __construct(ElementTree $tree)
+    {
+        $this->tree = $tree;
+    }
 
-	public function getTree()
-	{
-		return $this->tree;
-	}
+    public function getTree()
+    {
+        return $this->tree;
+    }
 }

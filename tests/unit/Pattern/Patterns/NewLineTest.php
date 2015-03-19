@@ -2,25 +2,25 @@
 
 namespace Anymark;
 
-class AnyMark_Pattern_Patterns_NewLineTest extends PatternReplacementAssertions
+class NewLineTest extends PatternReplacementAssertions
 {
-	public function setup()
-	{
-		$this->pattern = new \AnyMark\Pattern\Patterns\NewLine();
-	}
+    public function setup()
+    {
+        $this->pattern = new \AnyMark\Pattern\Patterns\NewLine();
+    }
 
-	protected function getPattern()
-	{
-		return $this->pattern;
-	}
+    protected function getPattern()
+    {
+        return $this->pattern;
+    }
 
-	/**
-	 * @test
-	 */
-	public function doubleSpaceAtEndOfLineBecomesNewLine()
-	{
-		$text = "Some text before  \nand after double space";
-		$br = $this->elementTree()->createElement('br');
-		$this->assertEquals($br, $this->applyPattern($text));
-	}
+    /**
+     * @test
+     */
+    public function doubleSpaceAtEndOfLineBecomesNewLine()
+    {
+        $text = "Some text before  \nand after double space";
+        $br = $this->elementTree()->createElement('br');
+        $this->assertEquals($br, $this->applyPattern($text));
+    }
 }

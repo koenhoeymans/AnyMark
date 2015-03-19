@@ -13,10 +13,10 @@ use ElementTree\Element;
  */
 class ManualHtmlInline extends Pattern
 {
-	public function getRegex()
-	{
-		return
-			'@
+    public function getRegex()
+    {
+        return
+            '@
 		(?<=(\s\n)|(\n)|(^)|(\s))
 		(?<html>
 
@@ -51,44 +51,40 @@ class ManualHtmlInline extends Pattern
 		(?(2)(?!(\n|$)))
 		(?(3)(?!\n))
 			@x';
-	}
+    }
 
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {
-		if (isset($match['tag']) || isset($match['selfclosing']))
-		{
-			$element = $this->createElement($match['tag']);
-			if ($match['content'] !== '')
-			{
-				$element->append(
-					$this->createText($match['content'])
-				);
-			}
-			$attributes = $this->getAttributes($match['attributes']);
-			foreach ($attributes['name'] as $key=>$value)
-			{
-				$attr = $element->setAttribute(
-					$value, $attributes['value'][$key]
-				);
-				if ($attributes['quote'][$key] === "'")
-				{
-					$attr->singleQuotes();
-				}
-			}
-		}
-		else # a comment
-		{
-			$element = $this->createComment($match['comment']);
-		}
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+        if (isset($match['tag']) || isset($match['selfclosing'])) {
+            $element = $this->createElement($match['tag']);
+            if ($match['content'] !== '') {
+                $element->append(
+                    $this->createText($match['content'])
+                );
+            }
+            $attributes = $this->getAttributes($match['attributes']);
+            foreach ($attributes['name'] as $key => $value) {
+                $attr = $element->setAttribute(
+                    $value, $attributes['value'][$key]
+                );
+                if ($attributes['quote'][$key] === "'") {
+                    $attr->singleQuotes();
+                }
+            }
+        } else {
+            # a comment
 
-		return $element;
-	}
+            $element = $this->createComment($match['comment']);
+        }
 
-	private function getAttributes($tagPart)
-	{
-		preg_match_all(
-			"@
+        return $element;
+    }
+
+    private function getAttributes($tagPart)
+    {
+        preg_match_all(
+            "@
 			[ ]
 			(?<name>\w+)
 			(
@@ -96,10 +92,10 @@ class ManualHtmlInline extends Pattern
 			((?<quote>[\"|'])(?<value>.*?)[\"|'])
 			)?
 			@x",
-			$tagPart,
-			$matches
-		);
+            $tagPart,
+            $matches
+        );
 
-		return $matches;
-	}
+        return $matches;
+    }
 }

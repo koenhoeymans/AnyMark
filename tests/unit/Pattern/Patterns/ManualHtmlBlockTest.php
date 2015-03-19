@@ -2,105 +2,105 @@
 
 namespace Anymark;
 
-class AnyMark_Pattern_Patterns_ManualHtmlBlockTest extends PatternReplacementAssertions
+class ManualHtmlBlockTest extends PatternReplacementAssertions
 {
-	public function setup()
-	{
-		$this->pattern = new \AnyMark\Pattern\Patterns\ManualHtmlBlock();
-	}
+    public function setup()
+    {
+        $this->pattern = new \AnyMark\Pattern\Patterns\ManualHtmlBlock();
+    }
 
-	public function getPattern()
-	{
-		return $this->pattern;
-	}
+    public function getPattern()
+    {
+        return $this->pattern;
+    }
 
-	public function create($tag, $content)
-	{
-		$element = $this->elementTree()->createElement($tag);
-		$text = new \ElementTree\ElementTreeText($content);
-		$element->append($text);
+    public function create($tag, $content)
+    {
+        $element = $this->elementTree()->createElement($tag);
+        $text = new \ElementTree\ElementTreeText($content);
+        $element->append($text);
 
-		return $element;
-	}
+        return $element;
+    }
 
-	/**
-	 * @test
-	 */
-	public function ifInlineItIsParagrapParagraph()
-	{
-		$text = "foo
+    /**
+     * @test
+     */
+    public function ifInlineItIsParagrapParagraph()
+    {
+        $text = "foo
 
 <b>bar</b>
 
 bar";
 
-		$this->assertEquals(null, $this->applyPattern($text));
-	}
+        $this->assertEquals(null, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function ifOnOneLineItDoesntAddNewlines()
-	{
-		$text = "foo
+    /**
+     * @test
+     */
+    public function ifOnOneLineItDoesntAddNewlines()
+    {
+        $text = "foo
 
 <div>bar</div>
 
 bar";
 
-		$el = $this->create('div', 'bar');
+        $el = $this->create('div', 'bar');
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function doesntGrabHtmlWithTagsBetweenText()
-	{
-		$text = "foo <a>b</a> bar";
-		$this->assertNull($this->applyPattern($text));
-	}
+    /**
+     * @test
+     */
+    public function doesntGrabHtmlWithTagsBetweenText()
+    {
+        $text = "foo <a>b</a> bar";
+        $this->assertNull($this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function grabsHtmlComments()
-	{
-		$text =
+    /**
+     * @test
+     */
+    public function grabsHtmlComments()
+    {
+        $text =
 "paragraph
 
 <!-- comment -->
 
 paragraph";
-		$el = $this->elementTree()->createComment(' comment ');
+        $el = $this->elementTree()->createComment(' comment ');
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function whitespaceAfterIsAllowedForComments()
-	{
-		$text =
-		"paragraph
+    /**
+     * @test
+     */
+    public function whitespaceAfterIsAllowedForComments()
+    {
+        $text =
+        "paragraph
 
 <!-- comment -->
 
 paragraph";
-		$el = $this->elementTree()->createComment(' comment ');
+        $el = $this->elementTree()->createComment(' comment ');
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function commentCanBeMultiline()
-	{
-		$text =
-		"paragraph
+    /**
+     * @test
+     */
+    public function commentCanBeMultiline()
+    {
+        $text =
+        "paragraph
 
 <!--
 a
@@ -109,77 +109,77 @@ comment
 
 paragraph";
 
-		$el = $this->elementTree()->createComment("\na\ncomment\n");
+        $el = $this->elementTree()->createComment("\na\ncomment\n");
 
-		$this->assertEquals($el, $this->applyPattern($text));		
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function codeBlockWithCommentIsNotHTML()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function codeBlockWithCommentIsNotHTML()
+    {
+        $text = "
 foo
 
     <!-- no comment -->
 
 bar";
 
-		$this->assertEquals(null, $this->applyPattern($text));
-	}
+        $this->assertEquals(null, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canContainOtherHtmlTags()
-	{
-		$text = "foo
+    /**
+     * @test
+     */
+    public function canContainOtherHtmlTags()
+    {
+        $text = "foo
 <div><b>c</b></div>
 bar";
 
-		$el = $this->create('div', '<b>c</b>');
+        $el = $this->create('div', '<b>c</b>');
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canContainOtherHtmlTagsWithContentOnDifferentLine()
-	{
-		$text =
+    /**
+     * @test
+     */
+    public function canContainOtherHtmlTagsWithContentOnDifferentLine()
+    {
+        $text =
 "<div><div><div>
 foo
 </div><div style=\">\"/></div><div>bar</div></div>";
-		$el = $this->create('div', "<div><div>
+        $el = $this->create('div', "<div><div>
 foo
 </div><div style=\">\"/></div><div>bar</div>");
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canContainOtherHtmlTagsOnDifferentLinesWhichWillNotBeUnindented()
-	{
-		$text = "foo
+    /**
+     * @test
+     */
+    public function canContainOtherHtmlTagsOnDifferentLinesWhichWillNotBeUnindented()
+    {
+        $text = "foo
 <div>
 	<b>c</b>
 </div>
 bar";
-		$el = $this->create('div', "\n\t<b>c</b>\n");
+        $el = $this->create('div', "\n\t<b>c</b>\n");
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canContainOtherHtmlTagsWithMixedManualHtmlAndTagsInCodeBlocks()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function canContainOtherHtmlTagsWithMixedManualHtmlAndTagsInCodeBlocks()
+    {
+        $text = "
 
 <div>
 	<div>
@@ -194,7 +194,7 @@ bar";
 </div>
 
 ";
-		$el = $this->create('div', "
+        $el = $this->create('div', "
 	<div>
 
 	Code block:
@@ -206,32 +206,32 @@ bar";
 	</div>
 ");
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function doenstUnindentsSpaces()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function doenstUnindentsSpaces()
+    {
+        $text = "
 
 <div>
     foo
 </div>
 
 ";
-		$el = $this->create('div', "\n    foo\n");
+        $el = $this->create('div', "\n    foo\n");
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canContainOtherHtmlTagsOnDifferentLinesWhichWillBeUnindented_2()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function canContainOtherHtmlTagsOnDifferentLinesWhichWillBeUnindented_2()
+    {
+        $text = "
 <div>
 	<div>
 		<div>
@@ -240,17 +240,17 @@ bar";
 	</div>
 </div>
 ";
-		$el = $this->create('div', "\n\t<div>\n\t\t<div>\n\t\t\tfoo\n\t\t</div>\n\t</div>\n");
+        $el = $this->create('div', "\n\t<div>\n\t\t<div>\n\t\t\tfoo\n\t\t</div>\n\t</div>\n");
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canContainOtherHtmlTagsInCodeBlockWithPrecedingText()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function canContainOtherHtmlTagsInCodeBlockWithPrecedingText()
+    {
+        $text = "
 <div>
 	code block
 
@@ -260,17 +260,17 @@ bar";
 </div>
 
 ";
-		$el = $this->create('div', "\n\tcode block\n\n\t\ta code </div>\n\n\tparagraph\n");
+        $el = $this->create('div', "\n\tcode block\n\n\t\ta code </div>\n\n\tparagraph\n");
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canContainOtherHtmlTagsInCodeBlockWithoutPrecedingText()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function canContainOtherHtmlTagsInCodeBlockWithoutPrecedingText()
+    {
+        $text = "
 <div>
 	code block
 
@@ -280,17 +280,17 @@ bar";
 </div>
 
 ";
-		$el = $this->create('div', "\n\tcode block\n\n\t\t</div>\n\n\tparagraph\n");
+        $el = $this->create('div', "\n\tcode block\n\n\t\t</div>\n\n\tparagraph\n");
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canContainOtherHtmlTagsOnDifferentLinesWhichWillBeUnindented_3()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function canContainOtherHtmlTagsOnDifferentLinesWhichWillBeUnindented_3()
+    {
+        $text = "
 
 <div>
 	<div>
@@ -299,35 +299,35 @@ bar";
 </div>
 
 ";
-		$el = $this->create('div', "\n\t<div>\n\t\tfoo\n\t</div>\n");
+        $el = $this->create('div', "\n\t<div>\n\t\tfoo\n\t</div>\n");
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canContainContentWithTagInCodeBlock()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function canContainContentWithTagInCodeBlock()
+    {
+        $text = "
 
 <div>
 	with `<foo>`
 </div>
 
 ";
-		$div = $this->elementTree()->createElement('div');
-		$div->append($this->elementTree()->createText("\n\twith `<foo>`\n"));
+        $div = $this->elementTree()->createElement('div');
+        $div->append($this->elementTree()->createText("\n\twith `<foo>`\n"));
 
-		$this->assertEquals($div, $this->applyPattern($text));
-	}
+        $this->assertEquals($div, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function noUnindentWhenSomeTextNotIndented()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function noUnindentWhenSomeTextNotIndented()
+    {
+        $text = "
 
 <div>
     foo
@@ -338,183 +338,183 @@ bar
 </div>
 
 ";
-		$div = $this->elementTree()->createElement('div');
-		$div->append($this->elementTree()->createText("\n    foo\n\nbar\n\n    foo\n"));
+        $div = $this->elementTree()->createElement('div');
+        $div->append($this->elementTree()->createText("\n    foo\n\nbar\n\n    foo\n"));
 
-		$this->assertEquals($div, $this->applyPattern($text));
-	}
+        $this->assertEquals($div, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function handlesRecursion()
-	{
-		$text = "<div><div><div>b</div></div></div>";
-		$el = $this->create('div', '<div><div>b</div></div>');
+    /**
+     * @test
+     */
+    public function handlesRecursion()
+    {
+        $text = "<div><div><div>b</div></div></div>";
+        $el = $this->create('div', '<div><div>b</div></div>');
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-  	 * @test
-	 */
-	public function replacesSelfClosingElements()
-	{
-		$text = "<hr />";
-		$el = $this->elementTree()->createElement('hr');
+    /**
+     * @test
+     */
+    public function replacesSelfClosingElements()
+    {
+        $text = "<hr />";
+        $el = $this->elementTree()->createElement('hr');
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function htmlCanBeEmptyElement()
-	{
-		$text = "<div></div>";
-		$el = $this->elementTree()->createElement('div');
+    /**
+     * @test
+     */
+    public function htmlCanBeEmptyElement()
+    {
+        $text = "<div></div>";
+        $el = $this->elementTree()->createElement('div');
 
-		$this->assertEquals($el, $this->applyPattern($text));		
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function htmlCanContainEmptyElement()
-	{
-		$text = "<div><div a=\"b\"></div></div>";
+    /**
+     * @test
+     */
+    public function htmlCanContainEmptyElement()
+    {
+        $text = "<div><div a=\"b\"></div></div>";
 
-		$el = $this->create('div', '<div a="b"></div>');
+        $el = $this->create('div', '<div a="b"></div>');
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canContainMultipleAttributes()
-	{
-		$text = "<div id=\"b\" class=\"c\">d</div>";
-		$el = $this->create('div', 'd');
-		$el->setAttribute('id', 'b');
-		$el->setAttribute('class', 'c');
+    /**
+     * @test
+     */
+    public function canContainMultipleAttributes()
+    {
+        $text = "<div id=\"b\" class=\"c\">d</div>";
+        $el = $this->create('div', 'd');
+        $el->setAttribute('id', 'b');
+        $el->setAttribute('class', 'c');
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function attributeValuesCanContainBackticks()
-	{
-		$text = "<div class=\"`ticks`\">b</div>";
-		$el = $this->create('div', 'b');
-		$el->setAttribute('class', '`ticks`');
+    /**
+     * @test
+     */
+    public function attributeValuesCanContainBackticks()
+    {
+        $text = "<div class=\"`ticks`\">b</div>";
+        $el = $this->create('div', 'b');
+        $el->setAttribute('class', '`ticks`');
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function attributeCanStartOnNextLine()
-	{
-		$text = "<p class=\"test\"
+    /**
+     * @test
+     */
+    public function attributeCanStartOnNextLine()
+    {
+        $text = "<p class=\"test\"
 id=\"12\">
 content
 </p>";
-		$el = $this->create('p', "\ncontent\n");
-		$el->setAttribute('class', 'test');
-		$el->setAttribute('id', '12');
+        $el = $this->create('p', "\ncontent\n");
+        $el->setAttribute('class', 'test');
+        $el->setAttribute('id', '12');
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function whitespaceAfterIsAllowedForElements()
-	{
-		$text = "foo
+    /**
+     * @test
+     */
+    public function whitespaceAfterIsAllowedForElements()
+    {
+        $text = "foo
 <div>b</div> \t
 bar";
-		$el = $this->create('div', 'b');
+        $el = $this->create('div', 'b');
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function notParagraphWhenStartTagOnOwnLine()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function notParagraphWhenStartTagOnOwnLine()
+    {
+        $text = "
 
 <div>
 <p>Some text</p>
 </div>
 
 ";
-		$el = $this->create('div', "\n<p>Some text</p>\n");
+        $el = $this->create('div', "\n<p>Some text</p>\n");
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function selfclosingCanContainNewline()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function selfclosingCanContainNewline()
+    {
+        $text = "
 
 <hr class=\"foo\"
     id=\"bar\" >
 
 	";
 
-		$el = $this->elementTree()->createElement('hr');
-		$el->setAttribute('class', 'foo');
-		$el->setAttribute('id', 'bar');
+        $el = $this->elementTree()->createElement('hr');
+        $el->setAttribute('class', 'foo');
+        $el->setAttribute('id', 'bar');
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function selfclosingMustBeOnOwnLine()
-	{
-		$text = "
-		
+    /**
+     * @test
+     */
+    public function selfclosingMustBeOnOwnLine()
+    {
+        $text = "
+
 foo <hr> bar
-		
+
 	";
 
-		$this->assertEquals(null, $this->applyPattern($text));		
-	}
+        $this->assertEquals(null, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function keepsQuoteStyle()
-	{
-		$text = "<div id='b' class=\"c\">d</div>";
+    /**
+     * @test
+     */
+    public function keepsQuoteStyle()
+    {
+        $text = "<div id='b' class=\"c\">d</div>";
 
-		$el = $this->create('div', 'd');
-		$attr = $el->setAttribute('id', 'b');
-		$attr->singleQuotes();
-		$attr = $el->setAttribute('class', 'c');
-		$attr->doubleQuotes();
+        $el = $this->create('div', 'd');
+        $attr = $el->setAttribute('id', 'b');
+        $attr->singleQuotes();
+        $attr = $el->setAttribute('class', 'c');
+        $attr->doubleQuotes();
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function tagsOnOwnLineCannotHaveLastTagIndentedAsCodeBlock()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function tagsOnOwnLineCannotHaveLastTagIndentedAsCodeBlock()
+    {
+        $text = "
 
 <foo>
 
@@ -524,29 +524,29 @@ Code block:
 
 para";
 
-		$this->assertEquals(null, $this->applyPattern($text));
-	}
+        $this->assertEquals(null, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function insAndDelCanBeInline()
-	{
-		$text = "para
-		
+    /**
+     * @test
+     */
+    public function insAndDelCanBeInline()
+    {
+        $text = "para
+
 <ins>inline</ins>
 
 para";
 
-		$this->assertEquals(null, $this->applyPattern($text));		
-	}
+        $this->assertEquals(null, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function insAndDelCanBeBlock()
-	{
-		$text = "para
+    /**
+     * @test
+     */
+    public function insAndDelCanBeBlock()
+    {
+        $text = "para
 
 <ins>
 block
@@ -554,31 +554,31 @@ block
 
 para";
 
-		$el = $this->create('ins', "\nblock\n");
+        $el = $this->create('ins', "\nblock\n");
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function canContainSelfClosingDiv()
-	{
-		$text = "<div>
+    /**
+     * @test
+     */
+    public function canContainSelfClosingDiv()
+    {
+        $text = "<div>
 <div style=\"foo\" />
 </div>";
 
-		$el = $this->create('div', "\n<div style=\"foo\" />\n");
+        $el = $this->create('div', "\n<div style=\"foo\" />\n");
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function moreComplexNesting()
-	{
-		$text = "Simple block on one line:
+    /**
+     * @test
+     */
+    public function moreComplexNesting()
+    {
+        $text = "Simple block on one line:
 
 And nested without indentation:
 
@@ -595,7 +595,7 @@ foo
 And with attributes:
 	";
 
-		$el = $this->create('div', "
+        $el = $this->create('div', "
 <div>
 <div>
 foo
@@ -605,15 +605,15 @@ foo
 <div>bar</div>
 ");
 
-		$this->assertEquals($el, $this->applyPattern($text));
-	}
+        $this->assertEquals($el, $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function codeBlockWithTagsIsNoTSeenAsHTML()
-	{
-		$text = "
+    /**
+     * @test
+     */
+    public function codeBlockWithTagsIsNoTSeenAsHTML()
+    {
+        $text = "
 foo
 
     <div>
@@ -623,6 +623,6 @@ foo
 bar
 ";
 
-		$this->assertEquals(null, $this->applyPattern($text));
-	}
+        $this->assertEquals(null, $this->applyPattern($text));
+    }
 }

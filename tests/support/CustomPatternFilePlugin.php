@@ -14,14 +14,14 @@ use Epa\Api\Plugin;
  */
 class CustomPatternFilePlugin implements Plugin
 {
-	public function registerHandlers(EventDispatcher $eventDispatcher)
-	{
-		$configFile = __DIR__ . DIRECTORY_SEPARATOR . 'CustomPatterns.php';
-		$eventDispatcher->registerForEvent(
-			'AnyMark\\Events\\PatternConfigFile',
-			function(PatternConfigFile $event) use ($configFile) {
-				$event->setPatternConfigFile($configFile);
-			}
-		);
-	}
+    public function registerHandlers(EventDispatcher $eventDispatcher)
+    {
+        $configFile = __DIR__.DIRECTORY_SEPARATOR.'CustomPatterns.php';
+        $eventDispatcher->registerForEvent(
+            'AnyMark\\Events\\PatternConfigFile',
+            function (PatternConfigFile $event) use ($configFile) {
+                $event->setPatternConfigFile($configFile);
+            }
+        );
+    }
 }

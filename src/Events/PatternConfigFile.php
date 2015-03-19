@@ -14,15 +14,15 @@ use AnyMark\PublicApi\SetPatternConfigFileEvent;
  */
 class PatternConfigFile implements Event, SetPatternConfigFileEvent
 {
-	private $patternConfig;
+    private $patternConfig;
 
-	public function __construct(FileArrayPatternConfig $patternConfig)
-	{
-		$this->patternConfig = $patternConfig;
-	}
+    public function __construct(FileArrayPatternConfig $patternConfig)
+    {
+        $this->patternConfig = $patternConfig;
+    }
 
-	public function setPatternConfigFile($file)
-	{
-		$this->patternConfig->fillFrom($file);
-	}
+    public function setPatternConfigFile($file)
+    {
+        $this->patternConfig->fillFrom($file);
+    }
 }

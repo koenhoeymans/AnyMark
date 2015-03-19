@@ -13,10 +13,10 @@ use ElementTree\Element;
  */
 class Emphasis extends Pattern
 {
-	public function getRegex()
-	{
-		return
-		'@
+    public function getRegex()
+    {
+        return
+        '@
 			(?<!\\\)
 			(
 
@@ -47,26 +47,24 @@ class Emphasis extends Pattern
 			(?<=\S)
 			(?<!\\\)
 			[_]
-	
+
 			)
 		@x';
-	}
+    }
 
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {
-		if (substr($match[0], 0, 2) === '**' && substr($match[0], -2) === '**')
-		{
-			return;
-		}
-		if (substr($match[0], 0, 2) === '__' && substr($match[0], -2) === '__')
-		{
-			return;
-		}
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+        if (substr($match[0], 0, 2) === '**' && substr($match[0], -2) === '**') {
+            return;
+        }
+        if (substr($match[0], 0, 2) === '__' && substr($match[0], -2) === '__') {
+            return;
+        }
 
-		$em = $this->createElement('em');
-		$em->append($this->createText(substr($match[0], 1, -1)));
+        $em = $this->createElement('em');
+        $em->append($this->createText(substr($match[0], 1, -1)));
 
-		return $em;
-	}
+        return $em;
+    }
 }

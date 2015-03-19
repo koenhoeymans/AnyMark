@@ -13,10 +13,10 @@ use ElementTree\Element;
  */
 class AutoLink extends Pattern
 {
-	public function getRegex()
-	{
-		return
-			'@
+    public function getRegex()
+    {
+        return
+            '@
 
 			<(?<mail>	# copied from PHPMarkdown
 				(?:
@@ -41,23 +41,20 @@ class AutoLink extends Pattern
 			)>
 
 			@xi';
-	}
+    }
 
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {
-		$a = $this->createElement('a');
-		if (isset($match['url']))
-		{
-			$a->append($this->createText($match['url']));
-			$a->setAttribute('href', $match['url']);
-		}
-		else
-		{
-			$a->append($this->createText($match['mail']));
-			$a->setAttribute('href', 'mailto:' . $match['mail']);
-		}
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+        $a = $this->createElement('a');
+        if (isset($match['url'])) {
+            $a->append($this->createText($match['url']));
+            $a->setAttribute('href', $match['url']);
+        } else {
+            $a->append($this->createText($match['mail']));
+            $a->setAttribute('href', 'mailto:'.$match['mail']);
+        }
 
-		return $a;
-	}
+        return $a;
+    }
 }

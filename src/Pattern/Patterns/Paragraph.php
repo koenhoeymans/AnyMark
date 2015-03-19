@@ -13,10 +13,10 @@ use ElementTree\Element;
  */
 class Paragraph extends Pattern
 {
-	public function getRegex()
-	{
-		return
-			'@
+    public function getRegex()
+    {
+        return
+            '@
 			(
 				(?<=^|^\n|\n\n)
 				(?<text>
@@ -34,14 +34,14 @@ class Paragraph extends Pattern
 				(?=(\n\g{indent}\s.*)*\n\n|\n$|$)
 			)
 			@x';
-	}
+    }
 
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {
-		$p = $this->createElement('p');
-		$p->append($this->createText($match['text']));
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+        $p = $this->createElement('p');
+        $p->append($this->createText($match['text']));
 
-		return $p;
-	}
+        return $p;
+    }
 }

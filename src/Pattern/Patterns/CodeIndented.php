@@ -13,10 +13,10 @@ use ElementTree\Element;
  */
 class CodeIndented extends Code
 {
-	public function getRegex()
-	{
-		return
-			'@
+    public function getRegex()
+    {
+        return
+            '@
 			(?<=^|\n\n|(?<newline>^\n))
 			(?<code>
 			(\t|[ ]{4}).*
@@ -24,20 +24,19 @@ class CodeIndented extends Code
 			)
 			(?=\n\n|\n$|$)
 			@x';
-	}
+    }
 
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {
-		if ($parentPattern && $match['newline'] === "\n")
-		{
-			if ($parentPattern instanceof \AnyMark\Pattern\Patterns\ManualHtml)
-			{
-				return false;
-			}
-		}
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+        if ($parentPattern && $match['newline'] === "\n") {
+            if ($parentPattern instanceof \AnyMark\Pattern\Patterns\ManualHtml) {
+                return false;
+            }
+        }
 
-		$code = preg_replace("#(\n|^)(\t|[ ]{4})#", "\${1}", $match['code']);
-		return $this->createCodeReplacement($code . "\n", true, $parent);
-	}
+        $code = preg_replace("#(\n|^)(\t|[ ]{4})#", "\${1}", $match['code']);
+
+        return $this->createCodeReplacement($code."\n", true, $parent);
+    }
 }

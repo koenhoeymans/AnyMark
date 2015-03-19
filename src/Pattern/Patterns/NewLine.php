@@ -13,14 +13,14 @@ use ElementTree\Element;
  */
 class NewLine extends Pattern
 {
-	public function getRegex()
-	{
-		return "@[ ][ ](?=\n)@";
-	}
+    public function getRegex()
+    {
+        return "@[ ][ ](?=\n)@";
+    }
 
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {
-		return $this->createElement('br');
-	}
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+        return $this->createElement('br');
+    }
 }

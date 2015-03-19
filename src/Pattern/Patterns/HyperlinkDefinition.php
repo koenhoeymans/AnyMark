@@ -13,12 +13,12 @@ use ElementTree\Element;
  */
 class HyperlinkDefinition extends Pattern
 {
-	private $linkDefinitions = array();
+    private $linkDefinitions = array();
 
-	public function getRegex()
-	{
-		return
-			'@
+    public function getRegex()
+    {
+        return
+            '@
 			(?<=^|\n)
 			[ ]{0,3}							# new line, 0-3 spaces
 			(\[(?<id>.+)\]):[ ]+ 					# id:space
@@ -31,37 +31,37 @@ class HyperlinkDefinition extends Pattern
 			)?
 			(?=\n|$)
 			@x';
-	}
+    }
 
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {
-		$this->save($match);
-		return $this->createText('');
-	}
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+        $this->save($match);
 
-	private function save($definition)
-	{
-		$id = $definition['id'];
-		$url = ($definition['url1']) ?: $definition['url2'];
-		$title = isset($definition['title']) ? $definition['title'] : null;
-		$this->linkDefinitions[$id] =
-		new \AnyMark\Pattern\Patterns\LinkDefinition($id, $url, $title);
-	}
+        return $this->createText('');
+    }
 
-	/**
-	 * Returns a link definition based on reference.
-	 *
-	 * @param string $linkDefinition
-	 * @return AnyMark\Pattern\Patterns\LinkDefinition
-	 */
-	public function get($linkDefinition)
-	{
-		if (!isset($this->linkDefinitions[$linkDefinition]))
-		{
-			return null;
-		}
+    private function save($definition)
+    {
+        $id = $definition['id'];
+        $url = ($definition['url1']) ?: $definition['url2'];
+        $title = isset($definition['title']) ? $definition['title'] : null;
+        $this->linkDefinitions[$id] =
+        new \AnyMark\Pattern\Patterns\LinkDefinition($id, $url, $title);
+    }
 
-		return $this->linkDefinitions[$linkDefinition];
-	}
+    /**
+     * Returns a link definition based on reference.
+     *
+     * @param  string                                  $linkDefinition
+     * @return AnyMark\Pattern\Patterns\LinkDefinition
+     */
+    public function get($linkDefinition)
+    {
+        if (!isset($this->linkDefinitions[$linkDefinition])) {
+            return;
+        }
+
+        return $this->linkDefinitions[$linkDefinition];
+    }
 }

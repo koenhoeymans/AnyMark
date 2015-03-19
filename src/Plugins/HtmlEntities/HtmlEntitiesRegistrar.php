@@ -14,13 +14,13 @@ use AnyMark\PublicApi\AfterParsingEvent;
  */
 class HtmlEntitiesRegistrar implements Plugin
 {
-	public function registerHandlers(EventDispatcher $eventDispatcher)
-	{
-		$htmlEntities = new \AnyMark\Plugins\HtmlEntities\HtmlEntities();
-		$eventDispatcher->registerForEvent(
-			'AnyMark\\PublicApi\\AfterParsingEvent', function(AfterParsingEvent $event) use ($htmlEntities) {
-				$htmlEntities->handleTree($event->getTree());
-			}
-		);
-	}
+    public function registerHandlers(EventDispatcher $eventDispatcher)
+    {
+        $htmlEntities = new \AnyMark\Plugins\HtmlEntities\HtmlEntities();
+        $eventDispatcher->registerForEvent(
+            'AnyMark\\PublicApi\\AfterParsingEvent', function (AfterParsingEvent $event) use ($htmlEntities) {
+                $htmlEntities->handleTree($event->getTree());
+            }
+        );
+    }
 }

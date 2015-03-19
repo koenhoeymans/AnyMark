@@ -15,27 +15,27 @@ use ElementTree\Element;
  */
 class Hyperlink extends Pattern
 {
-	private $linkDefinitions;
+    private $linkDefinitions;
 
-	private $internalUrlBuilder;
+    private $internalUrlBuilder;
 
-	public function __construct(
-		LinkDefinitionCollector $linkDefinitionCollector,
-		InternalUrlBuilder $internalUrlBuilder
-	) {
-		$this->linkDefinitions = $linkDefinitionCollector;
-		$this->internalUrlBuilder = $internalUrlBuilder;
-	}
+    public function __construct(
+        LinkDefinitionCollector $linkDefinitionCollector,
+        InternalUrlBuilder $internalUrlBuilder
+    ) {
+        $this->linkDefinitions = $linkDefinitionCollector;
+        $this->internalUrlBuilder = $internalUrlBuilder;
+    }
 
-	public function getRegex()
-	{
-		return
-			'@
+    public function getRegex()
+    {
+        return
+            '@
 			(?J)
 			(?<=^|\s)
 			(?<inline>
 				\[(?<anchor>					# anchor text
-					(\[(?2)*?\].*?|.+?)			
+					(\[(?2)*?\].*?|.+?)
 				)\]
 				\n?								# optional line break
 				\(
@@ -84,87 +84,77 @@ class Hyperlink extends Pattern
 			)
 
 			@xs';
-	}
+    }
 
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {
-		if ($parentPattern == $this)
-		{
-			return;
-		}
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+        if ($parentPattern == $this) {
+            return;
+        }
 
-		if (isset($match['reference']))
-		{
-			return $this->createDomForLinkWithDef($match, $parent);
-		}
-		else
-		{
-			return $this->createDomForInlineLink($match, $parent);
-		}
-	}
+        if (isset($match['reference'])) {
+            return $this->createDomForLinkWithDef($match, $parent);
+        } else {
+            return $this->createDomForInlineLink($match, $parent);
+        }
+    }
 
-	private function createDomForLinkWithDef(array $match)
-	{
-		if (!isset($match['id']) || ($match['id'] === ''))
-		{
-			$match['id'] = $match['anchor'];
-		}
+    private function createDomForLinkWithDef(array $match)
+    {
+        if (!isset($match['id']) || ($match['id'] === '')) {
+            $match['id'] = $match['anchor'];
+        }
 
-		$match['id'] = preg_replace("@ *\n *@", " ", $match['id']);
-		$linkDef = $this->linkDefinitions->get($match['id']);
-		if (!$linkDef)
-		{
-			return;
-		}
+        $match['id'] = preg_replace("@ *\n *@", " ", $match['id']);
+        $linkDef = $this->linkDefinitions->get($match['id']);
+        if (!$linkDef) {
+            return;
+        }
 
-		$title = $linkDef->getTitle();
-		$url = $linkDef->getUrl();
-		$anchorText = $match['anchor'];
+        $title = $linkDef->getTitle();
+        $url = $linkDef->getUrl();
+        $anchorText = $match['anchor'];
 
-		return $this->createDomForLink($url, $anchorText, $title);
-		
-	}
+        return $this->createDomForLink($url, $anchorText, $title);
+    }
 
-	private function createDomForInlineLink(array $match)
-	{
-		$url = (isset($match['url'][0]) && ($match['url'][0] == '<'))
-			? substr($match['url'], 1, -1) : $match['url'];
-		$title = isset($match['title']) ? $match['title'] : null;
+    private function createDomForInlineLink(array $match)
+    {
+        $url = (isset($match['url'][0]) && ($match['url'][0] == '<'))
+            ? substr($match['url'], 1, -1) : $match['url'];
+        $title = isset($match['title']) ? $match['title'] : null;
 
-		return $this->createDomForLink($url, $match['anchor'], $title);
-	}
+        return $this->createDomForLink($url, $match['anchor'], $title);
+    }
 
-	private function createDomForLink($url, $anchor, $title = null)
-	{
-		$url = $this->internalUrlBuilder->urlTo($url);
+    private function createDomForLink($url, $anchor, $title = null)
+    {
+        $url = $this->internalUrlBuilder->urlTo($url);
 
-		$urlNode = $this->createElement('a');
-		$urlNode->append($this->createText($anchor));
-		$urlNode->setAttribute('href', $url);
+        $urlNode = $this->createElement('a');
+        $urlNode->append($this->createText($anchor));
+        $urlNode->setAttribute('href', $url);
 
-		if ($title)
-		{
-			$urlNode->setAttribute('title', $title);
-		}
-		
-		return $urlNode;
-	}
+        if ($title) {
+            $urlNode->setAttribute('title', $title);
+        }
 
-	private function isRelative($url)
-	{
-		$filePart = strstr($url, "#", true);
+        return $urlNode;
+    }
 
-		if (!$filePart)
-		{
-			$filePart = $url;
-		}
+    private function isRelative($url)
+    {
+        $filePart = strstr($url, "#", true);
 
-		if (preg_match("#[^a-zA-Z0-9/]#", $filePart))
-		{
-			return false;
-		}
+        if (!$filePart) {
+            $filePart = $url;
+        }
 
-		return true;
-	}
+        if (preg_match("#[^a-zA-Z0-9/]#", $filePart)) {
+            return false;
+        }
+
+        return true;
+    }
 }

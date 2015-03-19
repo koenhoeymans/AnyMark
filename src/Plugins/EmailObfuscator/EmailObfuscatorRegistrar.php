@@ -14,15 +14,14 @@ use Epa\Api\EventDispatcher;
  */
 class EmailObfuscatorRegistrar implements Plugin
 {
-	public function registerHandlers(EventDispatcher $eventDispatcher)
-	{
-		$obfuscator = new \AnyMark\Plugins\EmailObfuscator\EmailObfuscator();
-		$eventDispatcher->registerForEvent(
-			'AnyMark\\PublicApi\\AfterParsingEvent',
-			function(AfterParsingEvent $event) use ($obfuscator)
-			{
-				$obfuscator->handleTree($event->getTree());
-			}
-		);
-	}
+    public function registerHandlers(EventDispatcher $eventDispatcher)
+    {
+        $obfuscator = new \AnyMark\Plugins\EmailObfuscator\EmailObfuscator();
+        $eventDispatcher->registerForEvent(
+            'AnyMark\\PublicApi\\AfterParsingEvent',
+            function (AfterParsingEvent $event) use ($obfuscator) {
+                $obfuscator->handleTree($event->getTree());
+            }
+        );
+    }
 }

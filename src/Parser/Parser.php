@@ -10,5 +10,5 @@ namespace AnyMark\Parser;
  */
 interface Parser
 {
-	public function parse($text);
+    public function parse($text);
 }

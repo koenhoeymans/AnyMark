@@ -13,10 +13,10 @@ use ElementTree\Element;
  */
 class Strong extends Pattern
 {
-	public function getRegex()
-	{
-		return
-		'@
+    public function getRegex()
+    {
+        return
+        '@
 			(?<![_*])
 			(?<!\\\)
 			(?<marker>[_*])
@@ -35,24 +35,22 @@ class Strong extends Pattern
 			\g{marker}
 			(?!\w+\g{marker}\g{marker})
 		@x';
-	}
+    }
 
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {
-		$marker = $match['marker'] . $match['marker'];
-		if (substr($match[0], 0, 2) !== $marker || substr($match[0], -2) !== $marker)
-		{
-			return;
-		}
-		if (substr($match[0], 0, 4) === '____' && substr($match[0], -4) === '____')
-		{
-			return;
-		}
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+        $marker = $match['marker'].$match['marker'];
+        if (substr($match[0], 0, 2) !== $marker || substr($match[0], -2) !== $marker) {
+            return;
+        }
+        if (substr($match[0], 0, 4) === '____' && substr($match[0], -4) === '____') {
+            return;
+        }
 
-		$strong = $this->createElement('strong');
-		$strong->append($this->createText(substr($match[0], 2, -2)));
+        $strong = $this->createElement('strong');
+        $strong->append($this->createText(substr($match[0], 2, -2)));
 
-		return $strong;
-	}
+        return $strong;
+    }
 }

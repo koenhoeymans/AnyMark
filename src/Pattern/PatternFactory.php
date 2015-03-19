@@ -10,9 +10,9 @@ namespace AnyMark\Pattern;
  */
 interface PatternFactory
 {
-	/**
-	 * @param string $patternClass
-	 * @return \AnyMark\Pattern\Pattern
-	 */
-	public function create($patternClass);
+    /**
+     * @param  string                   $patternClass
+     * @return \AnyMark\Pattern\Pattern
+     */
+    public function create($patternClass);
 }

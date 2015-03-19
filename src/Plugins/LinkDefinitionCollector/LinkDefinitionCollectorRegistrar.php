@@ -14,20 +14,20 @@ use Epa\Api\Plugin;
  */
 class LinkDefinitionCollectorRegistrar implements Plugin
 {
-	private $collector;
+    private $collector;
 
-	public function __construct(LinkDefinitionCollector $collector)
-	{
-		$this->collector = $collector;
-	}
+    public function __construct(LinkDefinitionCollector $collector)
+    {
+        $this->collector = $collector;
+    }
 
-	public function registerHandlers(EventDispatcher $eventDispatcher)
-	{
-		$collector = $this->collector;
-		$eventDispatcher->registerForEvent(
-			'AnyMark\\PublicApi\\BeforeParsingEvent', function(BeforeParsingEvent $event) use ($collector) {
-				$event->setText($collector->process($event->getText()));
-			}
-		);
-	}
+    public function registerHandlers(EventDispatcher $eventDispatcher)
+    {
+        $collector = $this->collector;
+        $eventDispatcher->registerForEvent(
+            'AnyMark\\PublicApi\\BeforeParsingEvent', function (BeforeParsingEvent $event) use ($collector) {
+                $event->setText($collector->process($event->getText()));
+            }
+        );
+    }
 }

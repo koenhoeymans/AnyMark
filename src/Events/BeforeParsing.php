@@ -13,20 +13,20 @@ use AnyMark\PublicApi\BeforeParsingEvent;
  */
 class BeforeParsing implements Event, BeforeParsingEvent
 {
-	private $text;
+    private $text;
 
-	public function __construct($text)
-	{
-		$this->text = $text;
-	}
+    public function __construct($text)
+    {
+        $this->text = $text;
+    }
 
-	public function getText()
-	{
-		return $this->text;
-	}
+    public function getText()
+    {
+        return $this->text;
+    }
 
-	public function setText($text)
-	{
-		$this->text = $text;
-	}
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
 }

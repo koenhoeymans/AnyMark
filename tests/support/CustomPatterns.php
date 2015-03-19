@@ -1,7 +1,7 @@
 <?php
 
 return [
-	"tree" => [
-		"root" => ["AnyMark\\Patterns\\FooChange"]
-	]
+    "tree" => [
+        "root" => ["AnyMark\\Patterns\\FooChange"],
+    ]
 ];

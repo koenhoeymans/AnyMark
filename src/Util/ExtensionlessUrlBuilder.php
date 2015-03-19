@@ -10,11 +10,11 @@ namespace AnyMark\Util;
  */
 class ExtensionlessUrlBuilder implements InternalUrlBuilder
 {
-	/**
-	 * @see AnyMark\Util.InternalUrlBuilder::createLink()
-	 */
-	public function urlTo($resource)
-	{
-		return $resource;
-	}
+    /**
+     * @see AnyMark\Util.InternalUrlBuilder::createLink()
+     */
+    public function urlTo($resource)
+    {
+        return $resource;
+    }
 }

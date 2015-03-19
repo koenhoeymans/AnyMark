@@ -2,90 +2,90 @@
 
 namespace Anymark;
 
-class AnyMark_Pattern_Patterns_HorizontalRuleTest extends PatternReplacementAssertions
+class HorizontalRuleTest extends PatternReplacementAssertions
 {
-	public function setup()
-	{
-		$this->pattern = new \AnyMark\Pattern\Patterns\HorizontalRule();
-	}
+    public function setup()
+    {
+        $this->pattern = new \AnyMark\Pattern\Patterns\HorizontalRule();
+    }
 
-	protected function getPattern()
-	{
-		return $this->pattern;
-	}
+    protected function getPattern()
+    {
+        return $this->pattern;
+    }
 
-	public function createHr()
-	{
-		return $this->elementTree()->createElement('hr');
-	}
+    public function createHr()
+    {
+        return $this->elementTree()->createElement('hr');
+    }
 
-	/**
-	 * @test
-	 */
-	public function atLeastThreeHyphensOnARuleByThemselvesProduceAHorizontalRule()
-	{
-		$text = "\n---\n";
+    /**
+     * @test
+     */
+    public function atLeastThreeHyphensOnARuleByThemselvesProduceAHorizontalRule()
+    {
+        $text = "\n---\n";
 
-		$this->assertEquals($this->createHr(), $this->applyPattern($text));
-	}
+        $this->assertEquals($this->createHr(), $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function atLeastThreeAsteriskOnARuleByThemselvesProduceAHorizontalRule()
-	{
-		$text = "\n***\n";
+    /**
+     * @test
+     */
+    public function atLeastThreeAsteriskOnARuleByThemselvesProduceAHorizontalRule()
+    {
+        $text = "\n***\n";
 
-		$this->assertEquals($this->createHr(), $this->applyPattern($text));
-	}
+        $this->assertEquals($this->createHr(), $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function atLeastThreeUnderscoresOnARuleByThemselvesProduceAHorizontalRule()
-	{
-		$text = "\n___\n";
+    /**
+     * @test
+     */
+    public function atLeastThreeUnderscoresOnARuleByThemselvesProduceAHorizontalRule()
+    {
+        $text = "\n___\n";
 
-		$this->assertEquals($this->createHr(), $this->applyPattern($text));
-	}
+        $this->assertEquals($this->createHr(), $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function spacingIsAllowed()
-	{
-		$text = "\n * * *\n";
+    /**
+     * @test
+     */
+    public function spacingIsAllowed()
+    {
+        $text = "\n * * *\n";
 
-		$this->assertEquals($this->createHr(), $this->applyPattern($text));
-	}
+        $this->assertEquals($this->createHr(), $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function moreCharactersAreAllowed()
-	{
-		$text = "\n------------\n";
+    /**
+     * @test
+     */
+    public function moreCharactersAreAllowed()
+    {
+        $text = "\n------------\n";
 
-		$this->assertEquals($this->createHr(), $this->applyPattern($text));
-	}
+        $this->assertEquals($this->createHr(), $this->applyPattern($text));
+    }
 
-	/**
-	 * @test
-	 */
-	public function sameCharacterMustBeUsed()
-	{
-		$text = "\n-*-\n";
-		
-		$this->assertEquals(null, $this->applyPattern($text));
-	}
+    /**
+     * @test
+     */
+    public function sameCharacterMustBeUsed()
+    {
+        $text = "\n-*-\n";
 
-	/**
-	 * @test
-	 */
-	public function canHaveWhiteSpaceAfterLastCharacter()
-	{
-		$text = "\n*** \n";
+        $this->assertEquals(null, $this->applyPattern($text));
+    }
 
-		$this->assertEquals($this->createHr(), $this->applyPattern($text));		
-	}
+    /**
+     * @test
+     */
+    public function canHaveWhiteSpaceAfterLastCharacter()
+    {
+        $text = "\n*** \n";
+
+        $this->assertEquals($this->createHr(), $this->applyPattern($text));
+    }
 }

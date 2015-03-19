@@ -13,10 +13,10 @@ use ElementTree\Element;
  */
 class Blockquote extends Pattern
 {
-	public function getRegex()
-	{
-		return
-			'@
+    public function getRegex()
+    {
+        return
+            '@
 			(?<=^|\n)
 			(?<quote>
 				[ ]{0,3}			# indentation
@@ -26,15 +26,15 @@ class Blockquote extends Pattern
 			)
 			(?=\n\n|$)
 			@x';
-	}
+    }
 
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {
-		$text = preg_replace("#(^|\n)> ?#", "\${1}", $match['quote']);
-		$blockquote = $this->createElement('blockquote');
-		$blockquote->append($this->createText($text . "\n\n"));
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+        $text = preg_replace("#(^|\n)> ?#", "\${1}", $match['quote']);
+        $blockquote = $this->createElement('blockquote');
+        $blockquote->append($this->createText($text."\n\n"));
 
-		return $blockquote;
-	}
+        return $blockquote;
+    }
 }

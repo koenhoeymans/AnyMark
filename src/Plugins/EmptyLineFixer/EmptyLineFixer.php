@@ -10,8 +10,8 @@ namespace AnyMark\Plugins\EmptyLineFixer;
  */
 class EmptyLineFixer
 {
-	public function fix($text)
-	{
-		return preg_replace("#\n[\t ]+\n#", "\n\n", $text);
-	}
+    public function fix($text)
+    {
+        return preg_replace("#\n[\t ]+\n#", "\n\n", $text);
+    }
 }

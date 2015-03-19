@@ -14,17 +14,17 @@ use ElementTree\Element;
  */
 class Image extends Pattern
 {
-	private $linkDefinitions;
+    private $linkDefinitions;
 
-	public function __construct(LinkDefinitionCollector $linkDefinitionCollector)
-	{
-		$this->linkDefinitions = $linkDefinitionCollector;
-	}
+    public function __construct(LinkDefinitionCollector $linkDefinitionCollector)
+    {
+        $this->linkDefinitions = $linkDefinitionCollector;
+    }
 
-	public function getRegex()
-	{
-		return
-			'@
+    public function getRegex()
+    {
+        return
+            '@
 
 			(?<inline>(?J)
 				!\[(?<alt>.*)\]							# ![alternate text]
@@ -46,64 +46,57 @@ class Image extends Pattern
 				\[(?<id>.+)\]					# [id]
 				(?<end>[ ]+|$)
 			)
-	
+
 			@xU';
-	}
+    }
 
-	public function handleMatch(
-		array $match, Element $parent = null, Pattern $parentPattern = null
-	) {
-		if (isset($match['reference']))
-		{
-			return $this->replaceReference($match);
-		}
-		else
-		{
-			return $this->replaceInline($match);
-		}
-	}
+    public function handleMatch(
+        array $match, Element $parent = null, Pattern $parentPattern = null
+    ) {
+        if (isset($match['reference'])) {
+            return $this->replaceReference($match);
+        } else {
+            return $this->replaceInline($match);
+        }
+    }
 
-	private function replaceInline(array $match)
-	{
-		$path = str_replace('"', '&quot;', $match['path']);
-		if (isset($path[0]) && $path[0] === '<')
-		{
-			$path = substr($path, 1, -1);
-		}
+    private function replaceInline(array $match)
+    {
+        $path = str_replace('"', '&quot;', $match['path']);
+        if (isset($path[0]) && $path[0] === '<') {
+            $path = substr($path, 1, -1);
+        }
 
-		$img = $this->createElement('img');
-		$img->setAttribute('src', $path);
-		$img->setAttribute('alt', $match['alt']);
-		if (isset($match['title']))
-		{
-			$img->setAttribute('title', $match['title']);
-		}
+        $img = $this->createElement('img');
+        $img->setAttribute('src', $path);
+        $img->setAttribute('alt', $match['alt']);
+        if (isset($match['title'])) {
+            $img->setAttribute('title', $match['title']);
+        }
 
-		return $img;
-	}
+        return $img;
+    }
 
-	/**
-	 * @todo replace circular handling
-	 */
-	private function replaceReference(array $match)
-	{
-		$linkDefinition = $this->linkDefinitions->get($match['id']);
-		if (!$linkDefinition)
-		{
-			throw new \Exception('Following link definition not found: "['
-			. $match['id'] . ']"'
-			);
-		}
-		$title = $linkDefinition->getTitle();
-			
-		$img = $this->createElement('img');
-		$img->setAttribute('src', $linkDefinition->getUrl());
-		$img->setAttribute('alt', $match['alt']);
-		if ($title)
-		{
-			$img->setAttribute('title', $title);
-		}
+    /**
+     * @todo replace circular handling
+     */
+    private function replaceReference(array $match)
+    {
+        $linkDefinition = $this->linkDefinitions->get($match['id']);
+        if (!$linkDefinition) {
+            throw new \Exception('Following link definition not found: "['
+            .$match['id'].']"'
+            );
+        }
+        $title = $linkDefinition->getTitle();
 
-		return $img;
-	}
+        $img = $this->createElement('img');
+        $img->setAttribute('src', $linkDefinition->getUrl());
+        $img->setAttribute('alt', $match['alt']);
+        if ($title) {
+            $img->setAttribute('title', $title);
+        }
+
+        return $img;
+    }
 }

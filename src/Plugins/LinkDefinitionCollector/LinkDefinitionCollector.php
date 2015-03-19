@@ -10,12 +10,12 @@ namespace AnyMark\Plugins\LinkDefinitionCollector;
  */
 class LinkDefinitionCollector
 {
-	private $linkDefinitions = array();
+    private $linkDefinitions = array();
 
-	public function process($text)
-	{
-		return preg_replace_callback(
-			'@
+    public function process($text)
+    {
+        return preg_replace_callback(
+            '@
 			(?<=^|\n)
 			[ ]{0,3}							# new line, 0-3 spaces
 			(\[(?<id>.+)\]):[ ]+ 					# id:space
@@ -28,35 +28,34 @@ class LinkDefinitionCollector
 			)?
 			(?=\n|$)
 			@x',
-			array($this, 'save'),
-			$text
-		);
-	}
+            array($this, 'save'),
+            $text
+        );
+    }
 
-	private function save($definition)
-	{
-		$id = $definition['id'];
-		$url = ($definition['url1']) ?: $definition['url2'];
-		$title = isset($definition['title']) ? $definition['title'] : null;
-		$this->linkDefinitions[$id] =
-			new \AnyMark\Pattern\Patterns\LinkDefinition($id, $url, $title);
+    private function save($definition)
+    {
+        $id = $definition['id'];
+        $url = ($definition['url1']) ?: $definition['url2'];
+        $title = isset($definition['title']) ? $definition['title'] : null;
+        $this->linkDefinitions[$id] =
+            new \AnyMark\Pattern\Patterns\LinkDefinition($id, $url, $title);
 
-		return $definition[0];
-	}
+        return $definition[0];
+    }
 
-	/**
-	 * Returns a link definition based on reference.
-	 *
-	 * @param string $linkDefinition
-	 * @return AnyMark\Pattern\Patterns\LinkDefinition
-	 */
-	public function get($linkDefinition)
-	{
-		if (!isset($this->linkDefinitions[$linkDefinition]))
-		{
-			return null;
-		}
+    /**
+     * Returns a link definition based on reference.
+     *
+     * @param  string                                  $linkDefinition
+     * @return AnyMark\Pattern\Patterns\LinkDefinition
+     */
+    public function get($linkDefinition)
+    {
+        if (!isset($this->linkDefinitions[$linkDefinition])) {
+            return;
+        }
 
-		return $this->linkDefinitions[$linkDefinition];
-	}
+        return $this->linkDefinitions[$linkDefinition];
+    }
 }

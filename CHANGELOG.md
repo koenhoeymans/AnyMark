@@ -1,6 +1,12 @@
 AnyMark Changelog
 =================
 
+*   0.13.0
+
+    *   Updated directory structure.
+    *   Updated to latest library versions.
+    *   Added QualityCheck library for simple quality checking.
+
 *	0.12.0
 
 	*	Parent restricted to `ElementTree\Element`.

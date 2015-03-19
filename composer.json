@@ -10,14 +10,15 @@
 	"require": {
 		"php": ">=5.4.6",
 		"fjor/fjor": "~0.2.0",
-		"elementtree/elementtree": "~0.8.0",
+		"elementtree/elementtree": "~0.8.1",
 		"epa/epa": "~0.4.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "*",
-		"comparify/comparify": "~0.1.0"
+        "qualitycheck/qualitycheck": "*",
+		"comparify/comparify": "*"
 	},
 	"autoload": {
-		"psr-0": { "AnyMark": "/" }
+		"psr-4": { "AnyMark\\": ["src/", "tests/unit", "tests/e2e", "tests/support"] }
 	}
 }

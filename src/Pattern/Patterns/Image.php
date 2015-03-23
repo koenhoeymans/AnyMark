@@ -51,7 +51,9 @@ class Image extends Pattern
     }
 
     public function handleMatch(
-        array $match, Element $parent = null, Pattern $parentPattern = null
+        array $match,
+        Element $parent = null,
+        Pattern $parentPattern = null
     ) {
         if (isset($match['reference'])) {
             return $this->replaceReference($match);
@@ -84,9 +86,7 @@ class Image extends Pattern
     {
         $linkDefinition = $this->linkDefinitions->get($match['id']);
         if (!$linkDefinition) {
-            throw new \Exception('Following link definition not found: "['
-            .$match['id'].']"'
-            );
+            throw new \Exception('Following link definition not found: "[' .$match['id'].']"');
         }
         $title = $linkDefinition->getTitle();
 

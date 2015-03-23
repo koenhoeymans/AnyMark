@@ -59,12 +59,12 @@ class ManualHtmlInlineTest extends PatternReplacementAssertions
     /**
      * @test
      */
-    public function canContainOtherHtmlTags_2()
+    public function canContainOtherHtmlTags2()
     {
-        $text =
-"foo <div><div><div>
+        $text = "foo <div><div><div>
 foo
 </div><div style=\">\"/></div><div>bar</div></div> bar";
+
         $el = $this->create('div', "<div><div>
 foo
 </div><div style=\">\"/></div><div>bar</div>");
@@ -199,7 +199,8 @@ foo
         $text = 'foo <a class="a" id=\'b\'>b</a> bar';
 
         $this->assertEquals(
-            '<a class="a" id=\'b\'>b</a>', $this->applyPattern($text)->toString()
+            '<a class="a" id=\'b\'>b</a>',
+            $this->applyPattern($text)->toString()
         );
     }
 }

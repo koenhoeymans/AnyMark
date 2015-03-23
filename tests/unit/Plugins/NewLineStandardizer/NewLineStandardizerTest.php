@@ -15,7 +15,8 @@ class NewLineStandardizerTest extends \PHPUnit_Framework_TestCase
     public function allLineEndingsShouldBeUnixStandard()
     {
         $this->assertEquals(
-            "para\nline\nother", $this->plugin->replace("para\rline\r\nother")
+            "para\nline\nother",
+            $this->plugin->replace("para\rline\r\nother")
         );
     }
 }

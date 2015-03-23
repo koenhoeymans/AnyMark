@@ -35,6 +35,9 @@ class AnyMark implements Parser, Observable
      */
     public static function setup(\Fjor\Api\ObjectGraphConstructor $fjor = null)
     {
+        # lots of recursion while adding patterns to tree
+        ini_set('xdebug.max_nesting_level', 200);
+
         $patternsFile = __DIR__.DIRECTORY_SEPARATOR.'Patterns.php';
 
         if (!$fjor) {
@@ -75,14 +78,18 @@ class AnyMark implements Parser, Observable
         $anyMark->registerPlugin(new \AnyMark\Plugins\Detab\DetabRegistrar());
         $anyMark->registerPlugin(new \AnyMark\Plugins\HtmlEntities\HtmlEntitiesRegistrar());
         $anyMark->registerPlugin(new \AnyMark\Plugins\EscapeRestorer\EscapeRestorerRegistrar());
-        $anyMark->registerPlugin($fjor->get('AnyMark\\Plugins\\LinkDefinitionCollector\\LinkDefinitionCollectorRegistrar'));
+        $anyMark->registerPlugin(
+            $fjor->get('AnyMark\\Plugins\\LinkDefinitionCollector\\LinkDefinitionCollectorRegistrar')
+        );
         $anyMark->registerPlugin(new \AnyMark\Plugins\EmailObfuscator\EmailObfuscatorRegistrar());
 
         return $anyMark;
     }
 
     public function __construct(
-        Parser $parser, EventDispatcher $eventDispatcher, FileArrayPatternConfig $patternConfig
+        Parser $parser,
+        EventDispatcher $eventDispatcher,
+        FileArrayPatternConfig $patternConfig
     ) {
         $this->parser = $parser;
         $this->eventDispatcher = $eventDispatcher;

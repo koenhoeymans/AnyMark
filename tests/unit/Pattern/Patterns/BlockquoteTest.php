@@ -19,8 +19,7 @@ class BlockquoteTest extends PatternReplacementAssertions
      */
     public function blockquotesArePrecededByGreaterThanSignsOnEveryLine()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 
 > quote
 > continued
@@ -38,8 +37,7 @@ paragraph";
      */
     public function greaterThanSignIsOnlyNecessaryOnFirstLine()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 
 > quote
 continued
@@ -57,8 +55,7 @@ paragraph";
      */
     public function canContainABlockquote()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 
 > quote
 >
@@ -79,8 +76,7 @@ paragraph";
      */
     public function canBeDirectlyAfterParagraph()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 > quote
 > continued
 

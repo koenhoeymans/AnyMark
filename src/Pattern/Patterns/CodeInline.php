@@ -24,7 +24,9 @@ class CodeInline extends Code
     }
 
     public function handleMatch(
-        array $match, Element $parent = null, Pattern $parentPattern = null
+        array $match,
+        Element $parent = null,
+        Pattern $parentPattern = null
     ) {
         # if code between backticks starts or ends with code between
         # backticks: remove the spacing

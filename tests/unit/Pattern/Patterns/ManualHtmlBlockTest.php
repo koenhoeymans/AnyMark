@@ -67,8 +67,7 @@ bar";
      */
     public function grabsHtmlComments()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 
 <!-- comment -->
 
@@ -148,8 +147,7 @@ bar";
      */
     public function canContainOtherHtmlTagsWithContentOnDifferentLine()
     {
-        $text =
-"<div><div><div>
+        $text = "<div><div><div>
 foo
 </div><div style=\">\"/></div><div>bar</div></div>";
         $el = $this->create('div', "<div><div>
@@ -229,7 +227,7 @@ bar";
     /**
      * @test
      */
-    public function canContainOtherHtmlTagsOnDifferentLinesWhichWillBeUnindented_2()
+    public function canContainOtherHtmlTagsOnDifferentLinesWhichWillBeUnindented2()
     {
         $text = "
 <div>
@@ -288,7 +286,7 @@ bar";
     /**
      * @test
      */
-    public function canContainOtherHtmlTagsOnDifferentLinesWhichWillBeUnindented_3()
+    public function canContainOtherHtmlTagsOnDifferentLinesWhichWillBeUnindented3()
     {
         $text = "
 

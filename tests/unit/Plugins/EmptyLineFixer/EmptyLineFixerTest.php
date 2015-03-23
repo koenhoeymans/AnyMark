@@ -15,7 +15,8 @@ class EmptyLineFixerTest extends \PHPUnit_Framework_TestCase
     public function lineWithOnlySpacesAndOrTabsIsCleaned()
     {
         $this->assertEquals(
-            "para\n\npara", $this->plugin->fix("para\n \t\npara")
+            "para\n\npara",
+            $this->plugin->fix("para\n \t\npara")
         );
     }
 }

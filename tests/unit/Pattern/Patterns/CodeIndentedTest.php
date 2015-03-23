@@ -2,7 +2,6 @@
 
 namespace AnyMark\Pattern\Patterns;
 
-
 class CodeIndentedTest extends \AnyMark\PatternReplacementAssertions
 {
     public function setup()
@@ -31,8 +30,7 @@ class CodeIndentedTest extends \AnyMark\PatternReplacementAssertions
      */
     public function indentedTextIsAlsoCode()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 
 	code
 
@@ -46,8 +44,7 @@ paragraph";
      */
     public function variableIndentationIsPossibleWithinCode()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 
 		a
 	b
@@ -55,14 +52,14 @@ paragraph";
 
 paragraph";
 
-        $codeText =
-"	a
+        $codeText = "	a
 b
 	c
 ";
 
         $this->assertEquals(
-            $this->createFromText($codeText), $this->applyPattern($text)
+            $this->createFromText($codeText),
+            $this->applyPattern($text)
         );
     }
 
@@ -71,8 +68,7 @@ b
      */
     public function onlyBlankLinesBeforeAndAfterInStringAreSufficient()
     {
-        $text =
-"
+        $text = "
 
 	code
 
@@ -86,8 +82,7 @@ b
      */
     public function codeCanContainBlankLines()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 
 	code
 
@@ -96,7 +91,8 @@ b
 paragraph";
 
         $this->assertEquals(
-            $this->createFromText("code\n\ncontinued\n"), $this->applyPattern($text)
+            $this->createFromText("code\n\ncontinued\n"),
+            $this->applyPattern($text)
         );
     }
 }

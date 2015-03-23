@@ -9,7 +9,8 @@ class PatternListTest extends \PHPUnit_Framework_TestCase
         $this->config = $this->getMock('AnyMark\\Pattern\\PatternConfig');
         $this->factory = $this->getMock('AnyMark\\Pattern\\PatternFactory');
         $this->patternList = new \AnyMark\Pattern\PatternList(
-            $this->config, $this->factory
+            $this->config,
+            $this->factory
         );
     }
 
@@ -141,7 +142,8 @@ class PatternListTest extends \PHPUnit_Framework_TestCase
             )));
 
         $this->assertEquals(
-            array($emphasis, $strong, $dummy), $this->patternList->getSubpatterns()
+            array($emphasis, $strong, $dummy),
+            $this->patternList->getSubpatterns()
         );
     }
 
@@ -205,7 +207,8 @@ class PatternListTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($pattern));
 
         $this->assertSame(
-            $this->patternList->getSubpatterns(), $this->patternList->getSubpatterns()
+            $this->patternList->getSubpatterns(),
+            $this->patternList->getSubpatterns()
         );
     }
 }

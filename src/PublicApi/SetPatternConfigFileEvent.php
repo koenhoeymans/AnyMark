@@ -12,17 +12,17 @@ namespace AnyMark\PublicApi;
  * could contain the following:
  *
  *     return [
- *     		"implementations" => [
- *     			"emphasis" => "\\AnyMark\\Pattern\\Patterns\\Emphasis",
+ *         "implementations" => [
+ *             "emphasis" => "\\AnyMark\\Pattern\\Patterns\\Emphasis",
  "header" => "\\AnyMark\\Pattern\\Patterns\\Header",
- *     		],
- *     		"alias" => [
- *     			"foo" => ["emphasis", "header"]
- *      	],
- *     		"tree" => [
- *     			"foo" => ["emphasis"],
- *     			"header" => ["header"]
- *      	]
+ *         ],
+ *         "alias" => [
+ *             "foo" => ["emphasis", "header"]
+ *         ],
+ *         "tree" => [
+ *             "foo" => ["emphasis"],
+ *             "header" => ["header"]
+ *         ]
  *     ];
  *
  * The default configuration file can be found in the `AnyMark` directory as

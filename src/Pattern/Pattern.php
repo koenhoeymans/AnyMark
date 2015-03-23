@@ -29,7 +29,9 @@ abstract class Pattern
      * @return \ElementTree\Component
      */
     abstract public function handleMatch(
-        array $match, Element $parent = null, Pattern $parentPattern = null
+        array $match,
+        Element $parent = null,
+        Pattern $parentPattern = null
     );
 
     /**

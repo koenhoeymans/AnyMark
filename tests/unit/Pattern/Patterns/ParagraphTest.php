@@ -80,8 +80,7 @@ class ParagraphTest extends PatternReplacementAssertions
      */
     public function multipleParagraphsCanBePlacedAfterEachOther()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 
 another
 
@@ -133,8 +132,7 @@ yet another";
      */
     public function linesAreNotUnindented()
     {
-        $text =
-"
+        $text = "
 
  paragraph
  paragraph continued
@@ -150,8 +148,7 @@ yet another";
      */
     public function firstLineIsNotUnindented()
     {
-        $text =
-"
+        $text = "
 
  paragraph
 paragraph continued
@@ -167,8 +164,7 @@ paragraph continued
      */
     public function followingLinesAreNotUnindented()
     {
-        $text =
-"
+        $text = "
 
 paragraph
  paragraph continued

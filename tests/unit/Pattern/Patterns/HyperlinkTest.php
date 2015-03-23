@@ -13,7 +13,8 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             '\\AnyMark\\Util\\InternalUrlBuilder'
         );
         $this->hyperlink = new \AnyMark\Pattern\Patterns\Hyperlink(
-            $this->linkDefinitions, $this->internalUrlBuilder
+            $this->linkDefinitions,
+            $this->internalUrlBuilder
         );
     }
 
@@ -85,8 +86,8 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             ->expects($this->once())
             ->method('get')->with('1')
             ->will($this->returnValue(
-                new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com'))
-        );
+                new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com')
+            ));
         $this->internalUrlBuilder
             ->expects($this->once())
             ->method('urlTo')->with('http://example.com')
@@ -106,8 +107,8 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             ->expects($this->once())
             ->method('get')->with('1')
             ->will($this->returnValue(
-                new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com', 'title'))
-        );
+                new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com', 'title')
+            ));
         $this->internalUrlBuilder
             ->expects($this->once())
             ->method('urlTo')->with('http://example.com')
@@ -127,7 +128,8 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             ->expects($this->once())
             ->method('get')->with('1')
             ->will($this->returnValue(
-                new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com')));
+                new \AnyMark\Pattern\Patterns\LinkDefinition('1', 'http://example.com')
+            ));
         $this->internalUrlBuilder
             ->expects($this->once())
             ->method('urlTo')->with('http://example.com')
@@ -147,8 +149,8 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             ->expects($this->once())
             ->method('get')->with('my site')
             ->will($this->returnValue(
-                new \AnyMark\Pattern\Patterns\LinkDefinition('my site', 'http://example.com'))
-        );
+                new \AnyMark\Pattern\Patterns\LinkDefinition('my site', 'http://example.com')
+            ));
         $this->internalUrlBuilder
             ->expects($this->once())
             ->method('urlTo')->with('http://example.com')
@@ -168,8 +170,8 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             ->expects($this->once())
             ->method('get')->with('my site')
             ->will($this->returnValue(
-                new \AnyMark\Pattern\Patterns\LinkDefinition('my site', 'http://example.com'))
-        );
+                new \AnyMark\Pattern\Patterns\LinkDefinition('my site', 'http://example.com')
+            ));
         $this->internalUrlBuilder
             ->expects($this->once())
             ->method('urlTo')->with('http://example.com')
@@ -189,8 +191,8 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             ->expects($this->once())
             ->method('get')->with('my site')
             ->will($this->returnValue(
-                new \AnyMark\Pattern\Patterns\LinkDefinition('my site', 'http://example.com'))
-        );
+                new \AnyMark\Pattern\Patterns\LinkDefinition('my site', 'http://example.com')
+            ));
         $this->internalUrlBuilder
             ->expects($this->once())
             ->method('urlTo')->with('http://example.com')

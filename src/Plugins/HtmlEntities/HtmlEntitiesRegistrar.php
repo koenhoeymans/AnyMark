@@ -18,7 +18,8 @@ class HtmlEntitiesRegistrar implements Plugin
     {
         $htmlEntities = new \AnyMark\Plugins\HtmlEntities\HtmlEntities();
         $eventDispatcher->registerForEvent(
-            'AnyMark\\PublicApi\\AfterParsingEvent', function (AfterParsingEvent $event) use ($htmlEntities) {
+            'AnyMark\\PublicApi\\AfterParsingEvent',
+            function (AfterParsingEvent $event) use ($htmlEntities) {
                 $htmlEntities->handleTree($event->getTree());
             }
         );

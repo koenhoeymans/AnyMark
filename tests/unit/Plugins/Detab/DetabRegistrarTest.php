@@ -13,7 +13,11 @@ class DetabRegistrarTest extends \PHPUnit_Framework_TestCase
         $eventDispatcher
             ->expects($this->once())
             ->method('registerForEvent')
-            ->with('AnyMark\\PublicApi\\BeforeParsingEvent', function () {});
+            ->with(
+                'AnyMark\\PublicApi\\BeforeParsingEvent',
+                function () {
+                }
+            );
 
         $registrar = new \AnyMark\Plugins\Detab\DetabRegistrar();
         $registrar->registerHandlers($eventDispatcher);

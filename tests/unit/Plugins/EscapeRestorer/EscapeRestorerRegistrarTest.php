@@ -1,7 +1,8 @@
 <?php
 
+namespace AnyMark\Plugins\EscapeRestorer;
 
-class AnyMark_Plugins_EscapeRestorer_EscapeRestorerRegistrarTest extends PHPUnit_Framework_TestCase
+class EscapeRestorerRegistrarTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -12,7 +13,11 @@ class AnyMark_Plugins_EscapeRestorer_EscapeRestorerRegistrarTest extends PHPUnit
         $eventDispatcher
             ->expects($this->at(0))
             ->method('registerForEvent')
-            ->with('AnyMark\\PublicApi\\AfterParsingEvent', function () {});
+            ->with(
+                'AnyMark\\PublicApi\\AfterParsingEvent',
+                function () {
+                }
+            );
 
         $registrar = new \AnyMark\Plugins\EscapeRestorer\EscapeRestorerRegistrar();
         $registrar->registerHandlers($eventDispatcher);
@@ -27,7 +32,11 @@ class AnyMark_Plugins_EscapeRestorer_EscapeRestorerRegistrarTest extends PHPUnit
         $eventDispatcher
             ->expects($this->at(1))
             ->method('registerForEvent')
-            ->with('AnyMark\\PublicApi\\PatternMatch', function () {});
+            ->with(
+                'AnyMark\\PublicApi\\PatternMatch',
+                function () {
+                }
+            );
 
         $registrar = new \AnyMark\Plugins\EscapeRestorer\EscapeRestorerRegistrar();
         $registrar->registerHandlers($eventDispatcher);

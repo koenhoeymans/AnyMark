@@ -5,9 +5,6 @@
  */
 namespace AnyMark\Pattern;
 
-# lots of recursion while adding patterns to tree
-ini_set('xdebug.max_nesting_level', 200);
-
 /**
  * @package AnyMark
  *
@@ -91,10 +88,12 @@ class PatternList implements PatternTree
         }
         foreach ($dealiasedPatternNames as $dealiasedPatternName) {
             $this->addPatterns(
-                    $this->config->getSubnames($dealiasedPatternName), $dealiasedPatternName
+                $this->config->getSubnames($dealiasedPatternName),
+                $dealiasedPatternName
             );
             $this->addPatterns(
-                    $this->config->getSubnames($patternName), $dealiasedPatternName
+                $this->config->getSubnames($patternName),
+                $dealiasedPatternName
             );
         }
     }
@@ -122,7 +121,8 @@ class PatternList implements PatternTree
         foreach ($aliasedNames as $aliasedName) {
             if ($this->isAlias($aliasedName)) {
                 $dealiasedNames = array_merge(
-                    $dealiasedNames, $this->getDealiasedNames($aliasedName)
+                    $dealiasedNames,
+                    $this->getDealiasedNames($aliasedName)
                 );
             } else {
                 $dealiasedNames[] = $aliasedName;
@@ -143,9 +143,7 @@ class PatternList implements PatternTree
             if (!is_object($impl)) {
                 $impl = $this->patternFactory->create($impl);
             }
-        }
-        # or name is implementation
-        else {
+        } else { # or name is implementation
             $impl = $this->patternFactory->create($name);
         }
 

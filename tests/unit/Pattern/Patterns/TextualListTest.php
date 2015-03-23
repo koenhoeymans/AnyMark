@@ -29,8 +29,7 @@ class TextualListTest extends PatternReplacementAssertions
      */
     public function blankLineNecessaryBefore()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 * an item
 * other item
 
@@ -44,8 +43,7 @@ paragraph";
      */
     public function alsoBlankLineBeforeNecessaryWhenIndentedLessThanFourSpacesAfterParagraph()
     {
-        $text =
-"paragraph
+        $text = "paragraph
  * an item
  * other item
 
@@ -59,8 +57,7 @@ paragraph";
      */
     public function canBeUnindentedAfterBlankLine()
     {
-        $text =
-"
+        $text = "
 
 * an item
 * other item
@@ -78,8 +75,7 @@ paragraph";
      */
     public function canBeIndented()
     {
-        $text =
-"
+        $text = "
 
  * an item
  * other item
@@ -99,8 +95,7 @@ paragraph";
      */
     public function noListWhenBlankLineAndTabIndented()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 
 	* an item";
 
@@ -112,8 +107,7 @@ paragraph";
      */
     public function noListWhenMoreThanThreeSpacesIndentedForFirstLevel()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 
     * an item";
 
@@ -125,8 +119,7 @@ paragraph";
      */
     public function canBeStartOfFile()
     {
-        $text =
-" * an item
+        $text = " * an item
  * other item
 
 ";
@@ -158,8 +151,7 @@ paragraph";
      */
     public function listsCanContainBlankLines()
     {
-        $text =
-"
+        $text = "
 
  * an item
 
@@ -180,8 +172,7 @@ paragraph";
      */
     public function listItemsCanBeSeperatedByABlankLine()
     {
-        $text =
-"
+        $text = "
  * an item
 
  * other item
@@ -233,8 +224,7 @@ item continues
      */
     public function listItemsCanContinueIndentedOnFollowingLine()
     {
-        $text =
-"
+        $text = "
  * an item
    item continues
  * other item
@@ -251,8 +241,7 @@ item continues
      */
     public function orderedListsAreCreatedByNumberFollowedByDotAsListMarker()
     {
-        $text =
-"not a paragraph
+        $text = "not a paragraph
 
 1. an item
 2. other item
@@ -270,8 +259,7 @@ paragraph";
      */
     public function actualNumberDoesNotNeedToBeOneTwoThreeEtc()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 
 15. an item
 52. other item
@@ -289,8 +277,7 @@ paragraph";
      */
     public function codeBlockInList()
     {
-        $text =
-"paragraph
+        $text = "paragraph
 
 *	an item
 
@@ -366,8 +353,7 @@ paragraph";
      */
     public function listItemsCanBeEmpty()
     {
-        $text =
-"
+        $text = "
  * item
  *
 

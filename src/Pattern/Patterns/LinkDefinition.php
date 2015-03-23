@@ -5,7 +5,6 @@
  */
 namespace AnyMark\Pattern\Patterns;
 
-
 /**
  * @package AnyMark
  */

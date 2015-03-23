@@ -22,7 +22,8 @@ class HyperlinkDefinitionTest extends PatternReplacementAssertions
         $text = "\n[linkDefinition]: http://example.com\n";
 
         $this->assertEquals(
-            $this->elementTree()->createText(''), $this->applyPattern($text)
+            $this->elementTree()->createText(''),
+            $this->applyPattern($text)
         );
     }
 
@@ -37,7 +38,8 @@ class HyperlinkDefinitionTest extends PatternReplacementAssertions
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'linkDefinition', 'http://example.com'
+                'linkDefinition',
+                'http://example.com'
             ),
             $this->hyperlinkDef->get('linkDefinition')
         );
@@ -54,7 +56,9 @@ class HyperlinkDefinitionTest extends PatternReplacementAssertions
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'linkDefinition', 'http://example.com', 'title'
+                'linkDefinition',
+                'http://example.com',
+                'title'
             ),
             $this->hyperlinkDef->get('linkDefinition')
         );
@@ -71,7 +75,9 @@ class HyperlinkDefinitionTest extends PatternReplacementAssertions
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'linkDefinition', 'http://example.com', 'title'
+                'linkDefinition',
+                'http://example.com',
+                'title'
             ),
             $this->hyperlinkDef->get('linkDefinition')
         );
@@ -88,7 +94,9 @@ class HyperlinkDefinitionTest extends PatternReplacementAssertions
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'linkDefinition', 'http://example.com', 'title'
+                'linkDefinition',
+                'http://example.com',
+                'title'
             ),
             $this->hyperlinkDef->get('linkDefinition')
         );
@@ -105,7 +113,8 @@ class HyperlinkDefinitionTest extends PatternReplacementAssertions
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'linkDefinition', 'http://example.com'
+                'linkDefinition',
+                'http://example.com'
             ),
             $this->hyperlinkDef->get('linkDefinition')
         );
@@ -132,7 +141,9 @@ class HyperlinkDefinitionTest extends PatternReplacementAssertions
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'linkDefinition', 'http://example.com', 'title'
+                'linkDefinition',
+                'http://example.com',
+                'title'
             ),
             $this->hyperlinkDef->get('linkDefinition')
         );
@@ -149,7 +160,9 @@ class HyperlinkDefinitionTest extends PatternReplacementAssertions
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'linkDefinition', 'http://example.com', 'title'
+                'linkDefinition',
+                'http://example.com',
+                'title'
             ),
             $this->hyperlinkDef->get('linkDefinition')
         );
@@ -166,7 +179,8 @@ class HyperlinkDefinitionTest extends PatternReplacementAssertions
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'definition', 'url://with space'
+                'definition',
+                'url://with space'
             ),
             $this->hyperlinkDef->get('definition')
         );

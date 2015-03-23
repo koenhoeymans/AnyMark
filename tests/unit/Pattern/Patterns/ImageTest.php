@@ -17,7 +17,7 @@ class ImageTest extends PatternReplacementAssertions
         return $this->image;
     }
 
-    public function createImgDom($alt, $title = null, $url)
+    public function createImgDom($alt, $url, $title = null)
     {
         $img = $this->elementTree()->createElement('img');
         $img->setAttribute('alt', $alt);
@@ -31,11 +31,14 @@ class ImageTest extends PatternReplacementAssertions
 
     /**
      * @test
+     *
+     * an inline image starts with an exclamation mark and has alt text
+     * between square brackets followed by the path to the image between
      */
-    public function anInlineImageStartsWithAnExclamationMarkAndHasAltTextBetweenSquareBracketsFollowedByPathToImgBetweenRoundBrackets()
+    public function hasTheCorrectForm()
     {
         $text = "Image is ![alt text](http://example.com/image.jpg) in between.";
-        $img = $this->createImgDom('alt text', null, 'http://example.com/image.jpg');
+        $img = $this->createImgDom('alt text', 'http://example.com/image.jpg', null);
         $this->assertEquals($img, $this->applyPattern($text));
     }
 
@@ -45,7 +48,7 @@ class ImageTest extends PatternReplacementAssertions
     public function titleTextIsOptionalInSingleQuotes()
     {
         $text = "Image is ![alt text](http://example.com/image.jpg 'title text') in between.";
-        $img = $this->createImgDom('alt text', 'title text', 'http://example.com/image.jpg');
+        $img = $this->createImgDom('alt text', 'http://example.com/image.jpg', 'title text');
         $this->assertEquals($img, $this->applyPattern($text));
     }
 
@@ -55,7 +58,7 @@ class ImageTest extends PatternReplacementAssertions
     public function titleTextIsOptionalInDoubleQuotes()
     {
         $text = "Image is ![alt text](http://example.com/image.jpg \"title text\") in between.";
-        $img = $this->createImgDom('alt text', 'title text', 'http://example.com/image.jpg');
+        $img = $this->createImgDom('alt text', 'http://example.com/image.jpg', 'title text');
         $this->assertEquals($img, $this->applyPattern($text));
     }
 
@@ -68,10 +71,11 @@ class ImageTest extends PatternReplacementAssertions
             ->expects($this->once())
             ->method('get')->with('id')
             ->will($this->returnValue(
-                new \AnyMark\Pattern\Patterns\LinkDefinition('id', 'http://example.com/image.jpg')));
+                new \AnyMark\Pattern\Patterns\LinkDefinition('id', 'http://example.com/image.jpg')
+            ));
 
         $text = "Image is ![alt text][id] in between.";
-        $img = $this->createImgDom('alt text', null, 'http://example.com/image.jpg');
+        $img = $this->createImgDom('alt text', 'http://example.com/image.jpg', null);
         $this->assertEquals($img, $this->applyPattern($text));
     }
 
@@ -84,10 +88,11 @@ class ImageTest extends PatternReplacementAssertions
             ->expects($this->once())
             ->method('get')->with('id')
             ->will($this->returnValue(
-                new \AnyMark\Pattern\Patterns\LinkDefinition('id', 'http://example.com/image.jpg', 'title')));
+                new \AnyMark\Pattern\Patterns\LinkDefinition('id', 'http://example.com/image.jpg', 'title')
+            ));
 
         $text = "Image is ![alt text][id] in between.";
-        $img = $this->createImgDom('alt text', 'title', 'http://example.com/image.jpg');
+        $img = $this->createImgDom('alt text', 'http://example.com/image.jpg', 'title');
         $this->assertEquals($img, $this->applyPattern($text));
     }
 }

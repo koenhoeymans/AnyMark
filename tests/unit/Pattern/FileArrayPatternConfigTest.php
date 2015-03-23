@@ -1,7 +1,8 @@
 <?php
 
+namespace AnyMark\Pattern;
 
-class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestCase
+class FileArrayPatternConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function setup()
     {
@@ -31,7 +32,8 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
     public function returnsNullWhenNoImplementationSpecified()
     {
         $this->assertEquals(
-            null, $this->config->getSpecifiedImplementation('_emp_asis_')
+            null,
+            $this->config->getSpecifiedImplementation('_emp_asis_')
         );
     }
 
@@ -72,7 +74,8 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
         $this->config->setImplementation('pattern', $pattern);
 
         $this->assertEquals(
-            $pattern, $this->config->getSpecifiedImplementation('pattern')
+            $pattern,
+            $this->config->getSpecifiedImplementation('pattern')
         );
     }
 
@@ -84,7 +87,8 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
         $this->config->setImplementation('pattern', 'class');
 
         $this->assertEquals(
-            'class', $this->config->getSpecifiedImplementation('pattern')
+            'class',
+            $this->config->getSpecifiedImplementation('pattern')
         );
     }
 
@@ -122,8 +126,8 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
         $this->config->add('mock')->toAlias('foo')->before('emphasis');
 
         $this->assertEquals(
-                array('strong', 'mock', 'emphasis'),
-                $this->config->getAliased('foo')
+            array('strong', 'mock', 'emphasis'),
+            $this->config->getAliased('foo')
         );
     }
 
@@ -167,7 +171,8 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
         $this->config->add('mock')->toParent('root')->after('emphasis');
 
         $this->assertEquals(
-            array('emphasis', 'mock', 'foo'), $this->config->getSubnames('root')
+            array('emphasis', 'mock', 'foo'),
+            $this->config->getSubnames('root')
         );
     }
 
@@ -179,7 +184,8 @@ class AnyMark_Pattern_FileArrayPatternConfigTest extends PHPUnit_Framework_TestC
         $this->config->add('mock')->toParent('root')->before('foo');
 
         $this->assertEquals(
-            array('emphasis', 'mock', 'foo'), $this->config->getSubnames('root')
+            array('emphasis', 'mock', 'foo'),
+            $this->config->getSubnames('root')
         );
     }
 }

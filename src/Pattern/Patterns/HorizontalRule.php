@@ -26,7 +26,9 @@ class HorizontalRule extends Pattern
     }
 
     public function handleMatch(
-        array $match, Element $parent = null, Pattern $parentPattern = null
+        array $match,
+        Element $parent = null,
+        Pattern $parentPattern = null
     ) {
         return $this->createElement('hr');
     }

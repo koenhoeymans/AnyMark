@@ -6,6 +6,7 @@ AnyMark Changelog
     *   Updated directory structure.
     *   Updated to latest library versions.
     *   Added QualityCheck library for simple quality checking.
+    *   Conforms to PSR2 rules.
 
 *	0.12.0
 

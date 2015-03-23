@@ -18,7 +18,8 @@ class EmptyLineFixerRegistrar implements Plugin
     {
         $fixer = new \AnyMark\Plugins\EmptyLineFixer\EmptyLineFixer();
         $eventDispatcher->registerForEvent(
-            'AnyMark\\PublicApi\\BeforeParsingEvent', function (BeforeParsingEvent $event) use ($fixer) {
+            'AnyMark\\PublicApi\\BeforeParsingEvent',
+            function (BeforeParsingEvent $event) use ($fixer) {
                 $event->setText($fixer->fix($event->getText()));
             }
         );

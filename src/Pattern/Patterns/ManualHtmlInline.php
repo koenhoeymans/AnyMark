@@ -54,7 +54,9 @@ class ManualHtmlInline extends Pattern
     }
 
     public function handleMatch(
-        array $match, Element $parent = null, Pattern $parentPattern = null
+        array $match,
+        Element $parent = null,
+        Pattern $parentPattern = null
     ) {
         if (isset($match['tag']) || isset($match['selfclosing'])) {
             $element = $this->createElement($match['tag']);
@@ -66,7 +68,8 @@ class ManualHtmlInline extends Pattern
             $attributes = $this->getAttributes($match['attributes']);
             foreach ($attributes['name'] as $key => $value) {
                 $attr = $element->setAttribute(
-                    $value, $attributes['value'][$key]
+                    $value,
+                    $attributes['value'][$key]
                 );
                 if ($attributes['quote'][$key] === "'") {
                     $attr->singleQuotes();

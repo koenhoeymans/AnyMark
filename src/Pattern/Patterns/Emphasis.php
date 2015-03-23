@@ -53,7 +53,9 @@ class Emphasis extends Pattern
     }
 
     public function handleMatch(
-        array $match, Element $parent = null, Pattern $parentPattern = null
+        array $match,
+        Element $parent = null,
+        Pattern $parentPattern = null
     ) {
         if (substr($match[0], 0, 2) === '**' && substr($match[0], -2) === '**') {
             return;

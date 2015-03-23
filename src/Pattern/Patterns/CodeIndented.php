@@ -27,7 +27,9 @@ class CodeIndented extends Code
     }
 
     public function handleMatch(
-        array $match, Element $parent = null, Pattern $parentPattern = null
+        array $match,
+        Element $parent = null,
+        Pattern $parentPattern = null
     ) {
         if ($parentPattern && $match['newline'] === "\n") {
             if ($parentPattern instanceof \AnyMark\Pattern\Patterns\ManualHtml) {

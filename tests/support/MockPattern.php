@@ -26,7 +26,9 @@ class MockPattern extends \AnyMark\Pattern\Pattern
     }
 
     public function handleMatch(
-        array $match, Element $parent = null, Pattern $parentPattern = null
+        array $match,
+        Element $parent = null,
+        Pattern $parentPattern = null
     ) {
         $element = $this->createElement($this->elementName);
         $text = $this->createText($this->textInElement);

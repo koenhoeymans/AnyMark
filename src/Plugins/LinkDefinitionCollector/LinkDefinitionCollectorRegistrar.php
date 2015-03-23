@@ -25,7 +25,8 @@ class LinkDefinitionCollectorRegistrar implements Plugin
     {
         $collector = $this->collector;
         $eventDispatcher->registerForEvent(
-            'AnyMark\\PublicApi\\BeforeParsingEvent', function (BeforeParsingEvent $event) use ($collector) {
+            'AnyMark\\PublicApi\\BeforeParsingEvent',
+            function (BeforeParsingEvent $event) use ($collector) {
                 $event->setText($collector->process($event->getText()));
             }
         );

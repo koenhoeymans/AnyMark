@@ -34,7 +34,9 @@ class HyperlinkDefinition extends Pattern
     }
 
     public function handleMatch(
-        array $match, Element $parent = null, Pattern $parentPattern = null
+        array $match,
+        Element $parent = null,
+        Pattern $parentPattern = null
     ) {
         $this->save($match);
 

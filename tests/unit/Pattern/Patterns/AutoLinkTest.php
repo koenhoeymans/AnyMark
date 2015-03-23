@@ -72,7 +72,7 @@ class AutoLinkTest extends \AnyMark\PatternReplacementAssertions
     /**
      * @test
      */
-    public function specialEmail_2()
+    public function specialEmail2()
     {
         $a = $this->elementTree()->createElement('a');
         $a->setAttribute('href', "mailto:!#$%&'*+-/=?^_`.{|}~@example.com");
@@ -87,7 +87,7 @@ class AutoLinkTest extends \AnyMark\PatternReplacementAssertions
     /**
      * @test
      */
-    public function specialEmail_3()
+    public function specialEmail3()
     {
         $a = $this->elementTree()->createElement('a');
         $a->setAttribute('href', "mailto:\"abc@def\"@example.com");

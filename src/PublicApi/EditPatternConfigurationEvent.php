@@ -32,14 +32,14 @@ interface EditPatternConfigurationEvent
      * Example:
      *
      *     $configuration
-     *     	->add('strong')
-     *     	->toAlias('inline')
-     *     	->last();
+     *         ->add('strong')
+     *         ->toAlias('inline')
+     *         ->last();
      *
      *    $configuration
-     *    	->add('strong')
-     *    	->toParent('italic')
-     *    	->first();
+     *        ->add('strong')
+     *        ->toParent('italic')
+     *        ->first();
      *
      * @param  string                                $name
      * @return \AnyMark\PublicApi\AddToAliasOrParent

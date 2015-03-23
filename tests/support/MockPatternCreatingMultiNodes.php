@@ -27,7 +27,9 @@ class MockPatternCreatingMultiNodes extends \AnyMark\Pattern\Pattern
     }
 
     public function handleMatch(
-        array $match, Element $parent = null, Pattern $parentPattern = null
+        array $match,
+        Element $parent = null,
+        Pattern $parentPattern = null
     ) {
         $el = $this->createElement($this->elementName);
         foreach ($this->subElements as $subElement) {

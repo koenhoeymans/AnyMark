@@ -1,8 +1,10 @@
 <?php
 
+namespace AnyMark\Plugins\EscapeRestorer;
+
 use ElementTree\ElementTreeElement;
 
-class AnyMark_Plugins_EscapeRestorer_EscapeRestorerTest extends PHPUnit_Framework_TestCase
+class EscapeRestorerTest extends \PHPUnit_Framework_TestCase
 {
     public function setup()
     {

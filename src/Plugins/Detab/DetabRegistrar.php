@@ -18,7 +18,8 @@ class DetabRegistrar implements Plugin
     {
         $detab = new \AnyMark\Plugins\Detab\Detab();
         $eventDispatcher->registerForEvent(
-            'AnyMark\\PublicApi\\BeforeParsingEvent', function (BeforeParsingEvent $event) use ($detab) {
+            'AnyMark\\PublicApi\\BeforeParsingEvent',
+            function (BeforeParsingEvent $event) use ($detab) {
                 $event->setText($detab->detab($event->getText()));
             }
         );

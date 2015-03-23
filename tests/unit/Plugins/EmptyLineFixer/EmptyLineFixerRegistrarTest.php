@@ -13,7 +13,11 @@ class EmptyLineFixerRegistrarTest extends \PHPUnit_Framework_TestCase
         $eventDispatcher
             ->expects($this->once())
             ->method('registerForEvent')
-            ->with('AnyMark\\PublicApi\\BeforeParsingEvent', function () {});
+            ->with(
+                'AnyMark\\PublicApi\\BeforeParsingEvent',
+                function () {
+                }
+            );
 
         $registrar = new \AnyMark\Plugins\EmptyLineFixer\EmptyLineFixerRegistrar();
         $registrar->registerHandlers($eventDispatcher);

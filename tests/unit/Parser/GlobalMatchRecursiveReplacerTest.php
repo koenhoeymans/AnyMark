@@ -56,7 +56,8 @@ class GlobalMatchRecursiveReplacerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array($mockPattern)));
 
         $this->assertEquals(
-            'text', $this->replacer->parse('text')->toString()
+            'text',
+            $this->replacer->parse('text')->toString()
         );
     }
 
@@ -227,7 +228,8 @@ class GlobalMatchRecursiveReplacerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array($mockPattern)));
 
         $event = new \AnyMark\Events\ParsingPatternMatch(
-            $element, $mockPattern
+            $element,
+            $mockPattern
         );
         $observer = $this->getMock('\\Epa\\Api\\Observer');
         $observer->expects($this->once())->method('notify')->with($event);

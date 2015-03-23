@@ -13,7 +13,11 @@ class LinkDefinitionCollectorRegistrarTest extends \PHPUnit_Framework_TestCase
         $eventDispatcher
             ->expects($this->once())
             ->method('registerForEvent')
-            ->with('AnyMark\\PublicApi\\BeforeParsingEvent', function () {});
+            ->with(
+                'AnyMark\\PublicApi\\BeforeParsingEvent',
+                function () {
+                }
+            );
 
         $registrar = new \AnyMark\Plugins\LinkDefinitionCollector\LinkDefinitionCollectorRegistrar(
             new \AnyMark\Plugins\LinkDefinitionCollector\LinkDefinitionCollector()

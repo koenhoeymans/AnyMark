@@ -5,7 +5,7 @@ namespace AnyMark\Pattern\Patterns;
 /**
  * @todo Tests would be more readable with:
  *
- * 	$this->element('h1', 'header')->withAttr('id', 'header');
+ *     $this->element('h1', 'header')->withAttr('id', 'header');
  *
  */
 class HeaderTest extends \AnyMark\PatternReplacementAssertions
@@ -327,7 +327,7 @@ class HeaderTest extends \AnyMark\PatternReplacementAssertions
     /**
      * @test
      */
-    public function headerMustNotBeFollowedByBlankLine_2()
+    public function headerMustNotBeFollowedByBlankLine2()
     {
         $text = "\n\n# header\nparagraph\n\n";
         $header = $this->createHeader('h1', 'header');

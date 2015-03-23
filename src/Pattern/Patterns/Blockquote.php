@@ -29,7 +29,9 @@ class Blockquote extends Pattern
     }
 
     public function handleMatch(
-        array $match, Element $parent = null, Pattern $parentPattern = null
+        array $match,
+        Element $parent = null,
+        Pattern $parentPattern = null
     ) {
         $text = preg_replace("#(^|\n)> ?#", "\${1}", $match['quote']);
         $blockquote = $this->createElement('blockquote');

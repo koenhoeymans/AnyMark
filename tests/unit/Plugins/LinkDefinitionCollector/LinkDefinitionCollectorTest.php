@@ -19,7 +19,8 @@ class LinkDefinitionCollectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                    'linkDefinition', 'http://example.com'
+                'linkDefinition',
+                'http://example.com'
             ),
             $this->plugin->get('linkDefinition')
         );
@@ -37,7 +38,9 @@ class LinkDefinitionCollectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'linkDefinition', 'http://example.com', 'title'
+                'linkDefinition',
+                'http://example.com',
+                'title'
             ),
             $this->plugin->get('linkDefinition')
         );
@@ -53,7 +56,9 @@ class LinkDefinitionCollectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'linkDefinition', 'http://example.com', 'title'
+                'linkDefinition',
+                'http://example.com',
+                'title'
             ),
             $this->plugin->get('linkDefinition')
         );
@@ -69,7 +74,9 @@ class LinkDefinitionCollectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'linkDefinition', 'http://example.com', 'title'
+                'linkDefinition',
+                'http://example.com',
+                'title'
             ),
             $this->plugin->get('linkDefinition')
         );
@@ -85,7 +92,8 @@ class LinkDefinitionCollectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'linkDefinition', 'http://example.com'
+                'linkDefinition',
+                'http://example.com'
             ),
             $this->plugin->get('linkDefinition')
         );
@@ -115,7 +123,9 @@ class LinkDefinitionCollectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                    'linkDefinition', 'http://example.com', 'title'
+                'linkDefinition',
+                'http://example.com',
+                'title'
             ),
             $this->plugin->get('linkDefinition')
         );
@@ -131,7 +141,9 @@ class LinkDefinitionCollectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                    'linkDefinition', 'http://example.com', 'title'
+                'linkDefinition',
+                'http://example.com',
+                'title'
             ),
             $this->plugin->get('linkDefinition')
         );
@@ -147,7 +159,8 @@ class LinkDefinitionCollectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new \AnyMark\Pattern\Patterns\LinkDefinition(
-                'definition', 'url://with space'
+                'definition',
+                'url://with space'
             ),
             $this->plugin->get('definition')
         );

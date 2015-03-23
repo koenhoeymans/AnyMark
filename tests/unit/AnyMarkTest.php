@@ -1,7 +1,8 @@
 <?php
 
+namespace AnyMark;
 
-class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
+class AnyMarkTest extends \PHPUnit_Framework_TestCase
 {
     public function setup()
     {
@@ -9,7 +10,9 @@ class AnyMark_AnyMarkTest extends PHPUnit_Framework_TestCase
         $this->eventDispatcher = $this->getMock('\\Epa\\Api\\EventDispatcher');
         $this->patternConfig = $this->getMock('\\AnyMark\\Pattern\\FileArrayPatternConfig');
         $this->anyMark = new \AnyMark\AnyMark(
-            $this->parser, $this->eventDispatcher, $this->patternConfig
+            $this->parser,
+            $this->eventDispatcher,
+            $this->patternConfig
         );
     }
 

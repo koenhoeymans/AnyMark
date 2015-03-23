@@ -19,12 +19,14 @@ class EscapeRestorerRegistrar implements Plugin
     {
         $restorer = new \AnyMark\Plugins\EscapeRestorer\EscapeRestorer();
         $eventDispatcher->registerForEvent(
-            'AnyMark\\PublicApi\\AfterParsingEvent', function (AfterParsingEvent $event) use ($restorer) {
+            'AnyMark\\PublicApi\\AfterParsingEvent',
+            function (AfterParsingEvent $event) use ($restorer) {
                 $restorer->restoreTree($event->getTree());
             }
         );
         $eventDispatcher->registerForEvent(
-            'AnyMark\\PublicApi\\PatternMatch', function (PatternMatch $match) use ($restorer) {
+            'AnyMark\\PublicApi\\PatternMatch',
+            function (PatternMatch $match) use ($restorer) {
                 $restorer->handlePatternMatch($match);
             }
         );

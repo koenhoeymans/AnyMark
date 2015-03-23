@@ -44,7 +44,9 @@ class EscapeRestorer
     private function restoreText($text)
     {
         return preg_replace(
-            '@\\\\([\\\\`*_{}\[\]()>#+-.!])@', "\${1}", $text
+            '@\\\\([\\\\`*_{}\[\]()>#+-.!])@',
+            "\${1}",
+            $text
         );
     }
 

@@ -67,7 +67,9 @@ class TextualList extends Pattern
     }
 
     public function handleMatch(
-        array $match, Element $parent = null, Pattern $parentPattern = null
+        array $match,
+        Element $parent = null,
+        Pattern $parentPattern = null
     ) {
         # different handling of allowed indentation for sublist
         if (($parentPattern != $this)
@@ -88,7 +90,9 @@ class TextualList extends Pattern
 
         # unindent
         $items = preg_replace(
-            "@(\n|^)".$indentation."@", "\${1}", $match['list']
+            "@(\n|^)" . $indentation . "@",
+            "\${1}",
+            $match['list']
         );
 
         $list = $this->createElement($listType);

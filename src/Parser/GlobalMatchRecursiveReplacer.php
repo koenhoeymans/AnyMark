@@ -81,12 +81,14 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
         $parentNode->replace($match['match'], $match['matched']);
         if ($match['textComponentBeforeMatch']->toString() !== '') {
             $parentNode->insertBefore(
-                $match['textComponentBeforeMatch'], $match['match']
+                $match['textComponentBeforeMatch'],
+                $match['match']
             );
         }
         if ($match['textComponentAfterMatch']->toString() !== '') {
             $parentNode->insertAfter(
-                $match['textComponentAfterMatch'], $match['match']
+                $match['textComponentAfterMatch'],
+                $match['match']
             );
         }
     }
@@ -105,7 +107,10 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
     }
 
     private function applyPattern(
-        Text $text, Pattern $pattern, Pattern $parentPattern = null, $offset = 0
+        Text $text,
+        Pattern $pattern,
+        Pattern $parentPattern = null,
+        $offset = 0
     ) {
         $parentElement = ($text->getParent() === $this->elementTree)
             ? null
@@ -113,7 +118,11 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
         $textToReplace = $text->getValue();
 
         if (!preg_match(
-            $pattern->getRegex(), $textToReplace, $match, PREG_OFFSET_CAPTURE, $offset
+            $pattern->getRegex(),
+            $textToReplace,
+            $match,
+            PREG_OFFSET_CAPTURE,
+            $offset
         )) {
             return array();
         }
@@ -133,7 +142,10 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
         # we can continue
         if (!$match) {
             return $this->applyPattern(
-                $text, $pattern, $parentPattern, $matchOffset + $matchLength
+                $text,
+                $pattern,
+                $parentPattern,
+                $matchOffset + $matchLength
             );
         }
 

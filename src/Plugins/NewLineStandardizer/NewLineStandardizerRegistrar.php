@@ -18,7 +18,8 @@ class NewLineStandardizerRegistrar implements Plugin
     {
         $standardizer = new \AnyMark\Plugins\NewLineStandardizer\NewLineStandardizer();
         $eventDispatcher->registerForEvent(
-            'AnyMark\\PublicApi\\BeforeParsingEvent', function (BeforeParsingEvent $event) use ($standardizer) {
+            'AnyMark\\PublicApi\\BeforeParsingEvent',
+            function (BeforeParsingEvent $event) use ($standardizer) {
                 $event->setText($standardizer->replace($event->getText()));
             }
         );

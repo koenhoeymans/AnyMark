@@ -5,8 +5,6 @@
  */
 namespace AnyMark\PublicApi;
 
-use AnyMark\Pattern\Pattern;
-
 /**
  * When a pattern has handled a match (eg created an element) this
  * event is thrown.

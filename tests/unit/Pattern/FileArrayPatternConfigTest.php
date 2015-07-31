@@ -9,7 +9,7 @@ class FileArrayPatternConfigTest extends \PHPUnit_Framework_TestCase
         $file = __DIR__
             . DIRECTORY_SEPARATOR . '..'
             . DIRECTORY_SEPARATOR . '..'
-            . DIRECTORY_SEPARATOR . 'Support'
+            . DIRECTORY_SEPARATOR . 'support'
             . DIRECTORY_SEPARATOR . 'SimpleConfig.php';
         $this->config = new \AnyMark\Pattern\FileArrayPatternConfig();
         $this->config->fillFrom($file);

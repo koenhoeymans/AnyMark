@@ -8,7 +8,7 @@
 		"role": "lead"
 	}],
 	"require": {
-		"php": ">=5.4.6",
+		"php": ">=7.2",
 		"fjor/fjor": "~0.2.0",
 		"elementtree/elementtree": "~0.8.1",
 		"epa/epa": "~0.4.0"

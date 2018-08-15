@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Plugins\EscapeRestorer;
 
 use AnyMark\PublicApi\PatternMatch;
@@ -10,12 +7,9 @@ use AnyMark\Pattern\Patterns\ManualHtmlBlock;
 use AnyMark\Pattern\Patterns\ManualHtmlInline;
 use ElementTree\ElementTree;
 
-/**
- * @package AnyMark
- */
 class EscapeRestorer
 {
-    public function restoreTree(ElementTree $tree)
+    public function restoreTree(ElementTree $tree) : void
     {
         # restore escaped
         $q = $tree->createQuery($tree);
@@ -50,7 +44,7 @@ class EscapeRestorer
         );
     }
 
-    public function handlePatternMatch(PatternMatch $match)
+    public function handlePatternMatch(PatternMatch $match) : void
     {
         if (!($match->getComponent() instanceof \ElementTree\Element)) {
             return;

@@ -1,17 +1,11 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use AnyMark\Plugins\LinkDefinitionCollector\LinkDefinitionCollector;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class Image extends Pattern
 {
     private $linkDefinitions;
@@ -21,7 +15,7 @@ class Image extends Pattern
         $this->linkDefinitions = $linkDefinitionCollector;
     }
 
-    public function getRegex()
+    public function getRegex() : string
     {
         return
             '@
@@ -54,7 +48,7 @@ class Image extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         if (isset($match['reference'])) {
             return $this->replaceReference($match);
         } else {

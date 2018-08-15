@@ -1,16 +1,10 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Plugins\NewLineStandardizer;
 
-/**
- * @package AnyMark
- */
 class NewLineStandardizer
 {
-    public function replace($text)
+    public function replace(string $text) : string
     {
         return preg_replace("#\r\n?#", "\n", $text);
     }

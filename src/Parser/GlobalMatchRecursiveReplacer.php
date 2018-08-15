@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Parser;
 
 use AnyMark\Events\ParsingPatternMatch;
@@ -14,9 +11,6 @@ use ElementTree\ElementTree;
 use ElementTree\Component;
 use ElementTree\Text;
 
-/**
- * @package vidola
- */
 class GlobalMatchRecursiveReplacer implements Parser, Observable
 {
     use ObserverStore;
@@ -32,9 +26,8 @@ class GlobalMatchRecursiveReplacer implements Parser, Observable
 
     /**
      * @see AnyMark\Parser.Parser::parse()
-     * @return \ElementTree\ElementTree
      */
-    public function parse($text)
+    public function parse(string $text) : ElementTree
     {
         $this->elementTree = new \ElementTree\ElementTree();
         $text = $this->elementTree->createText($text);

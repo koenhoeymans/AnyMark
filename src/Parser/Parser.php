@@ -1,14 +1,7 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Parser;
 
-/**
- * @package AnyMark
- */
-interface Parser
+interface Parser extends \AnyMark\Api\Parser
 {
-    public function parse($text);
 }

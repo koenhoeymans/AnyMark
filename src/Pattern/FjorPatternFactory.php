@@ -1,13 +1,7 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern;
 
-/**
- * @package AnyMark
- */
 class FjorPatternFactory implements PatternFactory
 {
     private $fjor;
@@ -17,7 +11,7 @@ class FjorPatternFactory implements PatternFactory
         $this->fjor = $fjor;
     }
 
-    public function create($patternClass)
+    public function create($patternClass) : \AnyMark\Api\Pattern
     {
         return $this->fjor->get($patternClass);
     }

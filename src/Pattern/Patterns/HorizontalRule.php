@@ -1,19 +1,13 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class HorizontalRule extends Pattern
 {
-    public function getRegex()
+    public function getRegex() : string
     {
         return
         '@
@@ -29,7 +23,7 @@ class HorizontalRule extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         return $this->createElement('hr');
     }
 }

@@ -1,17 +1,11 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Plugins\LinkDefinitionCollector;
 
 use AnyMark\PublicApi\BeforeParsingEvent;
 use Epa\Api\EventDispatcher;
 use Epa\Api\Plugin;
 
-/**
- * @package AnyMark
- */
 class LinkDefinitionCollectorRegistrar implements Plugin
 {
     private $collector;
@@ -21,7 +15,7 @@ class LinkDefinitionCollectorRegistrar implements Plugin
         $this->collector = $collector;
     }
 
-    public function registerHandlers(EventDispatcher $eventDispatcher)
+    public function registerHandlers(EventDispatcher $eventDispatcher) : void
     {
         $collector = $this->collector;
         $eventDispatcher->registerForEvent(

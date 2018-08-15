@@ -1,18 +1,12 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Plugins\HtmlEntities;
 
 use ElementTree\ElementTree;
 
-/**
- * @package AnyMark
- */
 class HtmlEntities
 {
-    public function handleTree(ElementTree $tree)
+    public function handleTree(ElementTree $tree) : void
     {
         $query = $tree->createQuery($tree);
 

@@ -1,19 +1,13 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class ManualHtmlInline extends Pattern
 {
-    public function getRegex()
+    public function getRegex() : string
     {
         return
             '@
@@ -57,7 +51,7 @@ class ManualHtmlInline extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         if (isset($match['tag']) || isset($match['selfclosing'])) {
             $element = $this->createElement($match['tag']);
             if ($match['content'] !== '') {

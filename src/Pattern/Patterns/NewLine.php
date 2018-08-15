@@ -1,19 +1,13 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class NewLine extends Pattern
 {
-    public function getRegex()
+    public function getRegex() : string
     {
         return "@[ ][ ](?=\n)@";
     }
@@ -22,7 +16,7 @@ class NewLine extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         return $this->createElement('br');
     }
 }

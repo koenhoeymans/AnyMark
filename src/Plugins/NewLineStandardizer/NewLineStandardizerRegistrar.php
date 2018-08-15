@@ -1,20 +1,14 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Plugins\NewLineStandardizer;
 
 use AnyMark\PublicApi\BeforeParsingEvent;
 use Epa\Api\EventDispatcher;
 use Epa\Api\Plugin;
 
-/**
- * @package AnyMark
- */
 class NewLineStandardizerRegistrar implements Plugin
 {
-    public function registerHandlers(EventDispatcher $eventDispatcher)
+    public function registerHandlers(EventDispatcher $eventDispatcher) : void
     {
         $standardizer = new \AnyMark\Plugins\NewLineStandardizer\NewLineStandardizer();
         $eventDispatcher->registerForEvent(

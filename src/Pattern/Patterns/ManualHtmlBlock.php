@@ -1,16 +1,10 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class ManualHtmlBlock extends Pattern
 {
     protected $blockTags = 'address|article|aside|audio|blockquote|canvas|dd|del|div|dl
@@ -21,7 +15,7 @@ class ManualHtmlBlock extends Pattern
 
     protected $attributes = '(\s+\w+(=(?:\"[^\"]*?\"|\'[^\']*?\'|[^\'\">\s]+))?)*';
 
-    public function getRegex()
+    public function getRegex() : string
     {
         return '
 		@(?J)
@@ -60,7 +54,7 @@ class ManualHtmlBlock extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         if (!empty($match['comment'])) {
             return $this->createComment($match['comment']);
         }

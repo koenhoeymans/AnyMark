@@ -1,15 +1,7 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern;
 
-/**
- * @package AnyMark
- *
- * List of patterns with its subpatterns.
- */
 class PatternList implements PatternTree
 {
     private $patternFactory;
@@ -33,7 +25,7 @@ class PatternList implements PatternTree
     /**
      * @see \AnyMark\Pattern\PatternTree::getSubpatterns()
      */
-    public function getSubpatterns(Pattern $parentPattern = null)
+    public function getSubpatterns(Pattern $parentPattern = null) : array
     {
         $this->updateFromConfig();
 
@@ -48,7 +40,7 @@ class PatternList implements PatternTree
             : array();
     }
 
-    private function updateFromConfig()
+    private function updateFromConfig() : void
     {
         if ($this->config != $this->configCopy) {
             $this->update();
@@ -56,7 +48,7 @@ class PatternList implements PatternTree
         }
     }
 
-    private function update()
+    private function update() : void
     {
         $this->tree = array();
         $this->hasBeenAddedFromConfig = array();

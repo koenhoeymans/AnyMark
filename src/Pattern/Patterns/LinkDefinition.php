@@ -1,13 +1,7 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
-/**
- * @package AnyMark
- */
 class LinkDefinition
 {
     private $name;
@@ -23,17 +17,17 @@ class LinkDefinition
         $this->title = $title;
     }
 
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-    public function getUrl()
+    public function getUrl() : string
     {
         return $this->url;
     }
 
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }

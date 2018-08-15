@@ -1,19 +1,13 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 abstract class Code extends Pattern
 {
-    protected function createCodeReplacement($code, $pre = true, Element $parent = null)
+    protected function createCodeReplacement($code, $pre = true, Element $parent = null) : Element
     {
         $code = htmlentities($code, ENT_NOQUOTES);
         $codeElement = $this->createElement('code');

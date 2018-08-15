@@ -1,32 +1,21 @@
 <?php
 
-/**
- * @package AnyMark
- */
-namespace AnyMark\PublicApi;
+namespace AnyMark\Api;
 
 /**
- * This is part of a fluent api that started with `\AnyMark\PublicApi\EditPatternConfig`.
- * A pattern can be added as part of an alias (eg. block, inline) or as @author koen
+ * This is part of a fluent api that started with `\AnyMark\Api\EditPatternConfig`.
+ * A pattern can be added as part of an alias (eg. block, inline) or as
  * subpattern.
- *
- * @package AnyMark
  */
 interface ToAliasOrParent
 {
     /**
      * Adds the pattern to an alias.
-     *
-     * @param  string                   $name
-     * @return \AnyMark\PublicApi\Where
      */
-    public function toAlias($name);
+    public function toAlias(string $name) : \AnyMark\Api\Where;
 
     /**
      * Adds the pattern as a subpattern of another (parent)pattern.
-     *
-     * @param  string                   $name
-     * @return \AnyMark\PublicApi\Where
      */
-    public function toParent($name);
+    public function toParent(string $name) : \AnyMark\Api\Where;
 }

@@ -1,18 +1,12 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Plugins\LinkDefinitionCollector;
 
-/**
- * @package AnyMark
- */
 class LinkDefinitionCollector
 {
     private $linkDefinitions = array();
 
-    public function process($text)
+    public function process(string $text) : void
     {
         return preg_replace_callback(
             '@
@@ -46,11 +40,8 @@ class LinkDefinitionCollector
 
     /**
      * Returns a link definition based on reference.
-     *
-     * @param  string                                  $linkDefinition
-     * @return AnyMark\Pattern\Patterns\LinkDefinition
      */
-    public function get($linkDefinition)
+    public function get(string $linkDefinition) : \AnyMark\Pattern\Patterns\LinkDefinition
     {
         if (!isset($this->linkDefinitions[$linkDefinition])) {
             return;

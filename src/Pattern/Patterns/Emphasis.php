@@ -1,19 +1,13 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class Emphasis extends Pattern
 {
-    public function getRegex()
+    public function getRegex() : string
     {
         return
         '@
@@ -56,7 +50,7 @@ class Emphasis extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         if (substr($match[0], 0, 2) === '**' && substr($match[0], -2) === '**') {
             return;
         }

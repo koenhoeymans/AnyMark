@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @package AnyMark
- */
-namespace AnyMark\PublicApi;
+namespace AnyMark\Api;
 
 /**
  * This event is thrown one time, before the first time the parser
@@ -27,18 +24,11 @@ namespace AnyMark\PublicApi;
  *
  * The default configuration file can be found in the `AnyMark` directory as
  * `Patterns.php`.
- *
- * The eventname is `SetPatternConfigFileEvent`.
- *
- * @package AnyMark
- * @eventname SetPatternConfigFileEvent
  */
 interface SetPatternConfigFileEvent
 {
     /**
      * Sets the file where the pattern configuration is found.
-     *
-     * @param string $file The file with the pattern configuration.
      */
-    public function setPatternConfigFile($file);
+    public function setPatternConfigFile(string $file);
 }

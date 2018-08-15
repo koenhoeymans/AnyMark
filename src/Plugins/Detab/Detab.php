@@ -1,16 +1,10 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Plugins\Detab;
 
-/**
- * @package AnyMark
- */
 class Detab
 {
-    public function detab($text)
+    public function detab(string $text) : string
     {
         # adapted from PHP Markdown
         return preg_replace_callback(

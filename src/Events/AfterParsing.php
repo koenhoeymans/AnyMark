@@ -1,17 +1,11 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Events;
 
 use ElementTree\ElementTree;
 use Epa\Api\Event;
 use AnyMark\PublicApi\AfterParsingEvent;
 
-/**
- * @package AnyMark
- */
 class AfterParsing implements Event, AfterParsingEvent
 {
     private $tree;
@@ -21,7 +15,7 @@ class AfterParsing implements Event, AfterParsingEvent
         $this->tree = $tree;
     }
 
-    public function getTree()
+    public function getTree() : ElementTree
     {
         return $this->tree;
     }

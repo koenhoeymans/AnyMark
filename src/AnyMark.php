@@ -1,24 +1,10 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark;
 
-use AnyMark\Pattern\FileArrayPatternConfig;
-use AnyMark\Parser\Parser;
-use ElementTree\ElementTree;
-use Epa\Api\EventDispatcher;
-use Epa\Api\Plugin;
-use Epa\Api\Observable;
-use Epa\Api\ObserverStore;
-
-/**
- * @package AnyMark
- */
-class AnyMark implements Parser, Observable
+class AnyMark implements Api\Parser, Parser\Parser
 {
-    use ObserverStore;
+    use \Epa\Api\ObserverStore;
 
     private $parser;
 
@@ -30,10 +16,8 @@ class AnyMark implements Parser, Observable
 
     /**
      * Sets up the wiring of objects and returns an instance.
-     *
-     * @return \AnyMark\AnyMark
      */
-    public static function setup(\Fjor\Api\ObjectGraphConstructor $fjor = null)
+    public static function setup(\Fjor\Api\ObjectGraphConstructor $fjor = null) : \AnyMark\Api\Parser
     {
         # lots of recursion while adding patterns to tree
         ini_set('xdebug.max_nesting_level', 200);
@@ -87,28 +71,27 @@ class AnyMark implements Parser, Observable
     }
 
     public function __construct(
-        Parser $parser,
-        EventDispatcher $eventDispatcher,
-        FileArrayPatternConfig $patternConfig
+        Parser\Parser $parser,
+        \Epa\Api\EventDispatcher $eventDispatcher,
+        Pattern\FileArrayPatternConfig $patternConfig
     ) {
         $this->parser = $parser;
         $this->eventDispatcher = $eventDispatcher;
         $this->patternConfig = $patternConfig;
     }
 
-    public function registerPlugin(Plugin $plugin)
+    public function registerPlugin(\Epa\Api\Plugin $plugin) : void
     {
         $this->eventDispatcher->addPlugin($plugin);
     }
 
     /**
-     * Add Markdown text and get the parsed to HTML version back in the
+     * Add Markdown text and get the 'parsed to HTML' version back in the
      * form of a `\ElementTree\ElementTree`.
      *
      * @see AnyMark\Parser.Parser::parse()
-     * @return \ElementTree\ElementTree
      */
-    public function parse($text)
+    public function parse($text) : \ElementTree\ElementTree
     {
         if (!$this->patternConfigFileEventThrown) {
             $this->notify(new \AnyMark\Events\PatternConfigFile($this->patternConfig));

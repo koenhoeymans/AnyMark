@@ -1,19 +1,13 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class AutoLink extends Pattern
 {
-    public function getRegex()
+    public function getRegex() : string
     {
         return
             '@
@@ -47,7 +41,7 @@ class AutoLink extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         $a = $this->createElement('a');
         if (isset($match['url'])) {
             $a->append($this->createText($match['url']));

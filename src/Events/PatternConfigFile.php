@@ -1,17 +1,11 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Events;
 
 use Epa\Api\Event;
 use AnyMark\Pattern\FileArrayPatternConfig;
 use AnyMark\PublicApi\SetPatternConfigFileEvent;
 
-/**
- * @package AnyMark
- */
 class PatternConfigFile implements Event, SetPatternConfigFileEvent
 {
     private $patternConfig;
@@ -21,7 +15,7 @@ class PatternConfigFile implements Event, SetPatternConfigFileEvent
         $this->patternConfig = $patternConfig;
     }
 
-    public function setPatternConfigFile($file)
+    public function setPatternConfigFile(string $file) : void
     {
         $this->patternConfig->fillFrom($file);
     }

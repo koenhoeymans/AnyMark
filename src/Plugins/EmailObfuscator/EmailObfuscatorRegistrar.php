@@ -1,20 +1,14 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Plugins\EmailObfuscator;
 
 use AnyMark\PublicApi\AfterParsingEvent;
 use Epa\Api\Plugin;
 use Epa\Api\EventDispatcher;
 
-/**
- * @package AnyMark
- */
 class EmailObfuscatorRegistrar implements Plugin
 {
-    public function registerHandlers(EventDispatcher $eventDispatcher)
+    public function registerHandlers(EventDispatcher $eventDispatcher) : void
     {
         $obfuscator = new \AnyMark\Plugins\EmailObfuscator\EmailObfuscator();
         $eventDispatcher->registerForEvent(

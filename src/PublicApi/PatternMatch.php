@@ -1,31 +1,21 @@
 <?php
 
-/**
- * @package AnyMark
- */
-namespace AnyMark\PublicApi;
+namespace AnyMark\Api;
 
 /**
- * When a pattern has handled a match (eg created an element) this
+ * When a pattern has handled a match and created an element this
  * event is thrown.
- *
- * @package AnyMark
- * @eventname PatternMatch
  */
 interface PatternMatch
 {
     /**
      * The element (or comment) that is created by the pattern in response
      * to the match.
-     *
-     * @return \ElementTree\Component;
      */
-    public function getComponent();
+    public function getComponent() : \ElementTree\Component;
 
     /**
      * The pattern that generated the match.
-     *
-     * @return Pattern
      */
-    public function getPattern();
+    public function getPattern() : \AnyMark\Api\Pattern;
 }

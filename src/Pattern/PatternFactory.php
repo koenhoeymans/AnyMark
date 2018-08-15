@@ -1,18 +1,8 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern;
 
-/**
- * @package AnyMark
- */
 interface PatternFactory
 {
-    /**
-     * @param  string                   $patternClass
-     * @return \AnyMark\Pattern\Pattern
-     */
-    public function create($patternClass);
+    public function create(string $patternClass) : \AnyMark\Api\Pattern;
 }

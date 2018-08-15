@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern;
 
 use ElementTree\Element;
@@ -11,52 +8,29 @@ use ElementTree\ElementTreeText;
 use ElementTree\ElementTreeComment;
 
 /**
- * @package vidola
- *
  * When a text matches its pattern it transforms it.
  */
-abstract class Pattern
+abstract class Pattern implements Api\Pattern
 {
-    /**
-     * @return string
-     */
-    abstract public function getRegex();
+    abstract public function getRegex() : string;
 
-    /**
-     * @param  array                  $match
-     * @param  ElementTree            $parent
-     * @param  Pattern                $parentPattern
-     * @return \ElementTree\Component
-     */
     abstract public function handleMatch(
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    );
+    ) : \ElementTree\Component;
 
-    /**
-     * @param  string                          $name
-     * @return \ElementTree\ElementTreeElement
-     */
-    public function createElement($name)
+    public function createElement(string $name) : \ElementTree\Element
     {
         return new ElementTreeElement($name);
     }
 
-    /**
-     * @param  string                       $text
-     * @return \ElementTree\ElementTreeText
-     */
-    public function createText($text)
+    public function createText(string $text) : \ElementTree\Element
     {
         return new ElementTreeText($text);
     }
 
-    /**
-     * @param  string                          $text
-     * @return \ElementTree\ElementTreeComment
-     */
-    public function createComment($text)
+    public function createComment(string $text) : \ElementTree\Comment
     {
         return new ElementTreeComment($text);
     }

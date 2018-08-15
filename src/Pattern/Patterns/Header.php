@@ -1,16 +1,10 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class Header extends Pattern
 {
     private $headerList = array(
@@ -29,7 +23,7 @@ class Header extends Pattern
      */
     private $ids;
 
-    public function getRegex()
+    public function getRegex() : string
     {
         return
         '@
@@ -55,7 +49,7 @@ class Header extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         if (isset($match['atx'])) {
             return $this->createAtxHeaders($match, $parent);
         } else {

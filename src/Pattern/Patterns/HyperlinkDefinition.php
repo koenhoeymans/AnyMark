@@ -1,21 +1,15 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class HyperlinkDefinition extends Pattern
 {
     private $linkDefinitions = array();
 
-    public function getRegex()
+    public function getRegex() : string
     {
         return
             '@
@@ -37,7 +31,7 @@ class HyperlinkDefinition extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         $this->save($match);
 
         return $this->createText('');

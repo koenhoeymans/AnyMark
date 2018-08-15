@@ -1,19 +1,13 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class Strong extends Pattern
 {
-    public function getRegex()
+    public function getRegex() : string
     {
         return
         '@
@@ -41,7 +35,7 @@ class Strong extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         $marker = $match['marker'].$match['marker'];
         if (substr($match[0], 0, 2) !== $marker || substr($match[0], -2) !== $marker) {
             return;

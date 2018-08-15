@@ -1,31 +1,25 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Events;
 
 use Epa\Api\Event;
 use AnyMark\PublicApi\BeforeParsingEvent;
 
-/**
- * @package AnyMark
- */
 class BeforeParsing implements Event, BeforeParsingEvent
 {
     private $text;
 
-    public function __construct($text)
+    public function __construct(string $text)
     {
         $this->text = $text;
     }
 
-    public function getText()
+    public function getText() : string
     {
         return $this->text;
     }
 
-    public function setText($text)
+    public function setText(string $text) : void
     {
         $this->text = $text;
     }

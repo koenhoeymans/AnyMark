@@ -1,19 +1,13 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class Paragraph extends Pattern
 {
-    public function getRegex()
+    public function getRegex() : string
     {
         return
             '@
@@ -40,7 +34,7 @@ class Paragraph extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         $p = $this->createElement('p');
         $p->append($this->createText($match['text']));
 

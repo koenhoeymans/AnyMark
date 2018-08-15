@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Util;
 
 interface InternalUrlBuilder
@@ -10,8 +7,6 @@ interface InternalUrlBuilder
     /**
      * Creates the url pointing to a resource. The resource must be specified
      * as a relative path.
-     *
-     * @param string $resource
      */
-    public function urlTo($resource);
+    public function urlTo(string $resource) : string;
 }

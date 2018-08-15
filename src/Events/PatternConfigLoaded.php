@@ -1,17 +1,12 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Events;
 
 use AnyMark\Pattern\FileArrayPatternConfig;
 use Epa\Api\Event;
 use AnyMark\PublicApi\EditPatternConfigurationEvent;
+use AnyMark\Api\ToAliasOrParent;
 
-/**
- * @package AnyMark
- */
 class PatternConfigLoaded implements Event, EditPatternConfigurationEvent
 {
     private $patternConfig;
@@ -21,7 +16,7 @@ class PatternConfigLoaded implements Event, EditPatternConfigurationEvent
         $this->patternConfig = $patternConfig;
     }
 
-    public function getPatternConfig()
+    public function getPatternConfig() : FileArrayPatternConfig
     {
         return $this->patternConfig;
     }
@@ -29,7 +24,7 @@ class PatternConfigLoaded implements Event, EditPatternConfigurationEvent
     /**
      * @see \AnyMark\PublicApi\EditPatternConfigurationEvent::setImplementation()
      */
-    public function setImplementation($name, $implementation)
+    public function setImplementation(string $name, $implementation)
     {
         $this->patternConfig->setImplementation($name, $implementation);
     }
@@ -37,7 +32,7 @@ class PatternConfigLoaded implements Event, EditPatternConfigurationEvent
     /**
      * @see \AnyMark\Pattern\PatternConfig::add()
      */
-    public function add($name, $implementation = null)
+    public function add(string $name, $implementation = null) : ToAliasOrParent
     {
         return $this->patternConfig->add($name, $implementation);
     }

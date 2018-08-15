@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Util\InternalUrlBuilder;
@@ -10,9 +7,6 @@ use AnyMark\Plugins\LinkDefinitionCollector\LinkDefinitionCollector;
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class Hyperlink extends Pattern
 {
     private $linkDefinitions;
@@ -27,7 +21,7 @@ class Hyperlink extends Pattern
         $this->internalUrlBuilder = $internalUrlBuilder;
     }
 
-    public function getRegex()
+    public function getRegex() : string
     {
         return
             '@
@@ -90,7 +84,7 @@ class Hyperlink extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         if ($parentPattern == $this) {
             return;
         }

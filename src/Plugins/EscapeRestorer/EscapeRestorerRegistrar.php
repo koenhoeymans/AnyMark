@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Plugins\EscapeRestorer;
 
 use AnyMark\PublicApi\AfterParsingEvent;
@@ -10,12 +7,9 @@ use AnyMark\PublicApi\PatternMatch;
 use Epa\Api\EventDispatcher;
 use Epa\Api\Plugin;
 
-/**
- * @package AnyMark
- */
 class EscapeRestorerRegistrar implements Plugin
 {
-    public function registerHandlers(EventDispatcher $eventDispatcher)
+    public function registerHandlers(EventDispatcher $eventDispatcher) : void
     {
         $restorer = new \AnyMark\Plugins\EscapeRestorer\EscapeRestorer();
         $eventDispatcher->registerForEvent(

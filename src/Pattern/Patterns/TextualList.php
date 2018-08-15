@@ -1,23 +1,17 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class TextualList extends Pattern
 {
     protected $ol_marker = "\d+[\.]";
 
     protected $ul_marker = "[*+-]";
 
-    public function getRegex()
+    public function getRegex() : string
     {
         return
         '@
@@ -70,7 +64,7 @@ class TextualList extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : string {
         # different handling of allowed indentation for sublist
         if (($parentPattern != $this)
             && !empty($match['on_next_line'])

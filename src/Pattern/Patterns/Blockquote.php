@@ -1,19 +1,13 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class Blockquote extends Pattern
 {
-    public function getRegex()
+    public function getRegex() : string
     {
         return
             '@
@@ -32,7 +26,7 @@ class Blockquote extends Pattern
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         $text = preg_replace("#(^|\n)> ?#", "\${1}", $match['quote']);
         $blockquote = $this->createElement('blockquote');
         $blockquote->append($this->createText($text."\n\n"));

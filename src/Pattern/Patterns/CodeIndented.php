@@ -1,19 +1,13 @@
 <?php
 
-/**
- * @package AnyMark
- */
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
 use ElementTree\Element;
 
-/**
- * @package AnyMark
- */
 class CodeIndented extends Code
 {
-    public function getRegex()
+    public function getRegex() : string
     {
         return
             '@
@@ -30,7 +24,7 @@ class CodeIndented extends Code
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) {
+    ) : Element {
         if ($parentPattern && $match['newline'] === "\n") {
             if ($parentPattern instanceof \AnyMark\Pattern\Patterns\ManualHtml) {
                 return false;

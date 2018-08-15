@@ -2,7 +2,7 @@
 
 namespace AnyMark;
 
-class AnyMarkTest extends \PHPUnit_Framework_TestCase
+class AnyMarkTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {

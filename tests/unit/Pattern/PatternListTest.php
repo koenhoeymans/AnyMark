@@ -2,7 +2,7 @@
 
 namespace Anymark\Pattern;
 
-class PatternListTest extends \PHPUnit_Framework_TestCase
+class PatternListTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {

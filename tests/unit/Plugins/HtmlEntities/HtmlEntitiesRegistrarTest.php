@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\HtmlEntities;
 
-class HtmlEntitiesRegistrarTest extends \PHPUnit_Framework_TestCase
+class HtmlEntitiesRegistrarTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

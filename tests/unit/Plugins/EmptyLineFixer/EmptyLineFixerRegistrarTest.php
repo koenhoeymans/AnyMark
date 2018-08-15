@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\EmptyLineFixer;
 
-class EmptyLineFixerRegistrarTest extends \PHPUnit_Framework_TestCase
+class EmptyLineFixerRegistrarTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

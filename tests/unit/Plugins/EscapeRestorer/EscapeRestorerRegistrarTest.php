@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\EscapeRestorer;
 
-class EscapeRestorerRegistrarTest extends \PHPUnit_Framework_TestCase
+class EscapeRestorerRegistrarTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

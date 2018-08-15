@@ -2,7 +2,7 @@
 
 namespace AnyMark\Pattern;
 
-class FileArrayPatternConfigTest extends \PHPUnit_Framework_TestCase
+class FileArrayPatternConfigTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {

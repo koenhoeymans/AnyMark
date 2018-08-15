@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\Detab;
 
-class DetabTest extends \PHPUnit_Framework_TestCase
+class DetabTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {

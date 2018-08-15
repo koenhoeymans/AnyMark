@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\NewLineStandardizer;
 
-class NewLineStandardizerTest extends \PHPUnit_Framework_TestCase
+class NewLineStandardizerTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {

@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\Detab;
 
-class DetabRegistrarTest extends \PHPUnit_Framework_TestCase
+class DetabRegistrarTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

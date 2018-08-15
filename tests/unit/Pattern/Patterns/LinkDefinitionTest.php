@@ -2,7 +2,7 @@
 
 namespace AnyMark\Pattern\Patterns;
 
-class LinkDefinitionTest extends \PHPUnit_Framework_TestCase
+class LinkDefinitionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

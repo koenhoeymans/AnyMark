@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\LinkDefinitionCollector;
 
-class LinkDefinitionCollectorTest extends \PHPUnit_Framework_TestCase
+class LinkDefinitionCollectorTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {

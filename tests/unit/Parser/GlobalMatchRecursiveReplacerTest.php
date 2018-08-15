@@ -2,7 +2,7 @@
 
 namespace AnyMark\Parser;
 
-class GlobalMatchRecursiveReplacerTest extends \PHPUnit_Framework_TestCase
+class GlobalMatchRecursiveReplacerTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {

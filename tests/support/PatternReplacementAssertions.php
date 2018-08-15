@@ -2,7 +2,7 @@
 
 namespace AnyMark;
 
-abstract class PatternReplacementAssertions extends \PHPUnit_Framework_TestCase
+abstract class PatternReplacementAssertions extends \PHPUnit\Framework\TestCase
 {
     protected $tree;
 

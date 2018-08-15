@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\HtmlEntities;
 
-class HtmlEntitiesTest extends \PHPUnit_Framework_TestCase
+class HtmlEntitiesTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {

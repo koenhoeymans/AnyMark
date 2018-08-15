@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\EmailObfuscator;
 
-class EmailObfuscatorTest extends \PHPUnit_Framework_TestCase
+class EmailObfuscatorTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {

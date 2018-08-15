@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\LinkDefinitionCollector;
 
-class LinkDefinitionCollectorRegistrarTest extends \PHPUnit_Framework_TestCase
+class LinkDefinitionCollectorRegistrarTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

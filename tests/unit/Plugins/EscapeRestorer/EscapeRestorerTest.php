@@ -4,7 +4,7 @@ namespace AnyMark\Plugins\EscapeRestorer;
 
 use ElementTree\ElementTreeElement;
 
-class EscapeRestorerTest extends \PHPUnit_Framework_TestCase
+class EscapeRestorerTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {

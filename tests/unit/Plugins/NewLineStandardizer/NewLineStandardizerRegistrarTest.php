@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\NewLineStandardizer;
 
-class NewLineStandardizerRegistrarTest extends \PHPUnit_Framework_TestCase
+class NewLineStandardizerRegistrarTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

@@ -14,8 +14,7 @@
 		"epa/epa": "~0.4.0"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "*",
-        "qualitycheck/qualitycheck": "*",
+		"phpunit/phpunit": "7.*",
 		"comparify/comparify": "*"
 	},
 	"autoload": {

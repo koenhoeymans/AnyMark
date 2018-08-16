@@ -5,7 +5,6 @@
 	"authors": [{
 		"name": "Koen Hoeymans",
 		"email": "koenhoeymans@gmail.com",
-		"role": "lead"
 	}],
 	"require": {
 		"php": ">=7.2",

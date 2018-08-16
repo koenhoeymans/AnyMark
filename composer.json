@@ -4,7 +4,7 @@
 	"license": "BSD-2-Clause",
 	"authors": [{
 		"name": "Koen Hoeymans",
-		"email": "koenhoeymans@gmail.com",
+		"email": "koenhoeymans@gmail.com"
 	}],
 	"require": {
 		"php": ">=7.2",

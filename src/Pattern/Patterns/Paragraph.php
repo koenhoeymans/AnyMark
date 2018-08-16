@@ -33,8 +33,8 @@ class Paragraph extends Pattern
     public function handleMatch(
         array $match,
         Element $parent = null,
-        Pattern $parentPattern = null
-    ) : Element {
+        \AnyMark\Api\Pattern $parentPattern = null
+    ) : ?\ElementTree\Component {
         $p = $this->createElement('p');
         $p->append($this->createText($match['text']));
 

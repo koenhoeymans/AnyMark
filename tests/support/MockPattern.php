@@ -20,7 +20,7 @@ class MockPattern extends \AnyMark\Pattern\Pattern
         $this->textInElement = $textInElement;
     }
 
-    public function getRegex()
+    public function getRegex() : string
     {
         return $this->regex;
     }
@@ -28,8 +28,8 @@ class MockPattern extends \AnyMark\Pattern\Pattern
     public function handleMatch(
         array $match,
         Element $parent = null,
-        Pattern $parentPattern = null
-    ) {
+        \AnyMark\Api\Pattern $parentPattern = null
+    ) : ?\ElementTree\Component {
         $element = $this->createElement($this->elementName);
         $text = $this->createText($this->textInElement);
         $element->append($text);

@@ -6,7 +6,7 @@ class ImageTest extends PatternReplacementAssertions
 {
     public function setup()
     {
-        $this->linkDefinitions = $this->getMock(
+        $this->linkDefinitions = $this->createMock(
             '\\AnyMark\\Plugins\\LinkDefinitionCollector\\LinkDefinitionCollector'
         );
         $this->image = new \AnyMark\Pattern\Patterns\Image($this->linkDefinitions);

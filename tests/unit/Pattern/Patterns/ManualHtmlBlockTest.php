@@ -17,7 +17,7 @@ class ManualHtmlBlockTest extends PatternReplacementAssertions
     public function create($tag, $content)
     {
         $element = $this->elementTree()->createElement($tag);
-        $text = new \ElementTree\ElementTreeText($content);
+        $text = new \ElementTree\Text($content);
         $element->append($text);
 
         return $element;

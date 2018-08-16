@@ -3,7 +3,6 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\Element;
 
 class Emphasis extends Pattern
 {
@@ -48,14 +47,14 @@ class Emphasis extends Pattern
 
     public function handleMatch(
         array $match,
-        Element $parent = null,
-        Pattern $parentPattern = null
-    ) : Element {
+        \ElementTree\Element $parent = null,
+        \AnyMark\Api\Pattern $parentPattern = null
+    ) : ?\ElementTree\Component {
         if (substr($match[0], 0, 2) === '**' && substr($match[0], -2) === '**') {
-            return;
+            return null;
         }
         if (substr($match[0], 0, 2) === '__' && substr($match[0], -2) === '__') {
-            return;
+            return null;
         }
 
         $em = $this->createElement('em');

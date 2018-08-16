@@ -9,12 +9,12 @@ class EscapeRestorerRegistrarTest extends \PHPUnit\Framework\TestCase
      */
     public function registersForAfterParsingEvent()
     {
-        $eventDispatcher = $this->getMock('Epa\\Api\\EventDispatcher');
+        $eventDispatcher = $this->createMock('Epa\\Api\\EventDispatcher');
         $eventDispatcher
             ->expects($this->at(0))
             ->method('registerForEvent')
             ->with(
-                'AnyMark\\PublicApi\\AfterParsingEvent',
+                'AnyMark\\Api\\AfterParsingEvent',
                 function () {
                 }
             );
@@ -28,12 +28,12 @@ class EscapeRestorerRegistrarTest extends \PHPUnit\Framework\TestCase
      */
     public function registersForPatternMatch()
     {
-        $eventDispatcher = $this->getMock('Epa\\Api\\EventDispatcher');
+        $eventDispatcher = $this->createMock('Epa\\Api\\EventDispatcher');
         $eventDispatcher
             ->expects($this->at(1))
             ->method('registerForEvent')
             ->with(
-                'AnyMark\\PublicApi\\PatternMatch',
+                'AnyMark\\Api\\PatternMatch',
                 function () {
                 }
             );

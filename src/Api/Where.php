@@ -11,7 +11,7 @@ interface Where
     /**
      * Add as last to process. Other patterns may be added as last afterwards.
      */
-    public function last() void;
+    public function last() : void;
 
     /**
      * Add as first to process. Other patterns may be added as first afterwards.

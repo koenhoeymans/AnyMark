@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\EscapeRestorer;
 
-use AnyMark\PublicApi\PatternMatch;
+use AnyMark\Api\PatternMatch;
 use AnyMark\Pattern\Patterns\ManualHtmlBlock;
 use AnyMark\Pattern\Patterns\ManualHtmlInline;
 use ElementTree\ElementTree;

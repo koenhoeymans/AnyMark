@@ -5,7 +5,7 @@ namespace AnyMark\Events;
 use AnyMark\Pattern\Pattern;
 use ElementTree\Component;
 use Epa\Api\Event;
-use AnyMark\PublicApi\PatternMatch;
+use AnyMark\Api\PatternMatch;
 
 class ParsingPatternMatch implements Event, PatternMatch
 {
@@ -20,7 +20,7 @@ class ParsingPatternMatch implements Event, PatternMatch
     }
 
     /**
-     * @see \AnyMark\PublicApi\PatternMatch::getComponent()
+     * @see \AnyMark\Api\PatternMatch::getComponent()
      */
     public function getComponent() : Component
     {
@@ -28,9 +28,9 @@ class ParsingPatternMatch implements Event, PatternMatch
     }
 
     /**
-     * @see \AnyMark\PublicApi\PatternMatch::getPattern()
+     * @see \AnyMark\Api\PatternMatch::getPattern()
      */
-    public function getPattern() : Pattern
+    public function getPattern() : \AnyMark\Api\Pattern
     {
         return $this->pattern;
     }

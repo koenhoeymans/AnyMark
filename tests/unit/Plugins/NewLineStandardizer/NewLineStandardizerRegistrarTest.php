@@ -9,12 +9,12 @@ class NewLineStandardizerRegistrarTest extends \PHPUnit\Framework\TestCase
      */
     public function registersForBeforeParsingEvent()
     {
-        $eventDispatcher = $this->getMock('Epa\\Api\\EventDispatcher');
+        $eventDispatcher = $this->createMock('Epa\\Api\\EventDispatcher');
         $eventDispatcher
             ->expects($this->once())
             ->method('registerForEvent')
             ->with(
-                'AnyMark\\PublicApi\\BeforeParsingEvent',
+                'AnyMark\\Api\\BeforeParsingEvent',
                 function () {
                 }
             );

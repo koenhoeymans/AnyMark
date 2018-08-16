@@ -8,9 +8,9 @@ interface Pattern
 
     public function handleMatch(
         array $match,
-        Element $parent = null,
+        \ElementTree\Element $parent = null,
         Pattern $parentPattern = null
-    ) : \ElementTree\Component;
+    ) : ?\ElementTree\Component;
 
     public function createElement(string $name) : \ElementTree\Element;
 

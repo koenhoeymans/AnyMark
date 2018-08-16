@@ -4,7 +4,7 @@ namespace AnyMark\Events;
 
 use ElementTree\ElementTree;
 use Epa\Api\Event;
-use AnyMark\PublicApi\AfterParsingEvent;
+use AnyMark\Api\AfterParsingEvent;
 
 class AfterParsing implements Event, AfterParsingEvent
 {

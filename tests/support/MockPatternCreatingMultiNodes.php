@@ -21,7 +21,7 @@ class MockPatternCreatingMultiNodes extends \AnyMark\Pattern\Pattern
         $this->subElements = $arguments;
     }
 
-    public function getRegex()
+    public function getRegex() : string
     {
         return $this->regex;
     }
@@ -29,8 +29,8 @@ class MockPatternCreatingMultiNodes extends \AnyMark\Pattern\Pattern
     public function handleMatch(
         array $match,
         Element $parent = null,
-        Pattern $parentPattern = null
-    ) {
+        \AnyMark\Api\Pattern $parentPattern = null
+    ) : ?\ElementTree\Component {
         $el = $this->createElement($this->elementName);
         foreach ($this->subElements as $subElement) {
             $subEl = $this->createElement($subElement['tag']);

@@ -6,10 +6,10 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
 {
     public function setup()
     {
-        $this->linkDefinitions = $this->getMock(
+        $this->linkDefinitions = $this->createMock(
             '\\AnyMark\\Plugins\\LinkDefinitionCollector\\LinkDefinitionCollector'
         );
-        $this->internalUrlBuilder = $this->getMock(
+        $this->internalUrlBuilder = $this->createMock(
             '\\AnyMark\\Util\\InternalUrlBuilder'
         );
         $this->hyperlink = new \AnyMark\Pattern\Patterns\Hyperlink(

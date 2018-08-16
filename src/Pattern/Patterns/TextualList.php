@@ -63,18 +63,18 @@ class TextualList extends Pattern
     public function handleMatch(
         array $match,
         Element $parent = null,
-        Pattern $parentPattern = null
-    ) : string {
+        \AnyMark\Api\Pattern $parentPattern = null
+    ) : ?\ElementTree\Component {
         # different handling of allowed indentation for sublist
         if (($parentPattern != $this)
             && !empty($match['on_next_line'])
         ) {
-            return;
+            return null;
         }
         if (($parentPattern != $this)
             && ($match['indentation'] === '    ')
         ) {
-            return;
+            return null;
         }
 
         $listType = (isset($match['ol']) && ($match['ol'] !== '')) ? 'ol' : 'ul';

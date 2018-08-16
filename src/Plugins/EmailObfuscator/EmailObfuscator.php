@@ -22,9 +22,12 @@ class EmailObfuscator
         if ($element->getName() !== 'a') {
             return;
         }
+        if (!$element->hasAttribute('href')) {
+            return;
+        }
         $mailto = $element->getAttributeValue('href');
 
-        if (empty($mailto) || substr($mailto, 0, 7) !== 'mailto:') {
+        if (substr($mailto, 0, 7) !== 'mailto:') {
             return;
         }
 

@@ -9,12 +9,12 @@ class EmailObfuscatorRegistrarTest extends \PHPUnit\Framework\TestCase
      */
     public function registersForAfterParsingEvent()
     {
-        $eventDispatcher = $this->getMock('Epa\\Api\\EventDispatcher');
+        $eventDispatcher = $this->createMock('Epa\\Api\\EventDispatcher');
         $eventDispatcher
             ->expects($this->once())
             ->method('registerForEvent')
             ->with(
-                'AnyMark\\PublicApi\\AfterParsingEvent',
+                'AnyMark\\Api\\AfterParsingEvent',
                 function () {
                 }
             );

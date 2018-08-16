@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\NewLineStandardizer;
 
-use AnyMark\PublicApi\BeforeParsingEvent;
+use AnyMark\Api\BeforeParsingEvent;
 use Epa\Api\EventDispatcher;
 use Epa\Api\Plugin;
 
@@ -12,7 +12,7 @@ class NewLineStandardizerRegistrar implements Plugin
     {
         $standardizer = new \AnyMark\Plugins\NewLineStandardizer\NewLineStandardizer();
         $eventDispatcher->registerForEvent(
-            'AnyMark\\PublicApi\\BeforeParsingEvent',
+            'AnyMark\\Api\\BeforeParsingEvent',
             function (BeforeParsingEvent $event) use ($standardizer) {
                 $event->setText($standardizer->replace($event->getText()));
             }

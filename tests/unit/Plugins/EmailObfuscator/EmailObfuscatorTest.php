@@ -15,9 +15,9 @@ class EmailObfuscatorTest extends \PHPUnit\Framework\TestCase
     public function encodesEmail()
     {
         $tree = new \ElementTree\ElementTree();
-        $element = new \ElementTree\ElementTreeElement('a');
+        $element = new \ElementTree\Element('a');
         $tree->append($element);
-        $text = new \ElementTree\ElementTreeText('my email');
+        $text = new \ElementTree\Text('my email');
         $element->append($text);
         $element->setAttribute('href', 'mailto:me@example.com');
 

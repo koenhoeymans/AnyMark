@@ -6,9 +6,9 @@ class AnyMarkTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {
-        $this->parser = $this->getMock('\\AnyMark\\Parser\\Parser');
-        $this->eventDispatcher = $this->getMock('\\Epa\\Api\\EventDispatcher');
-        $this->patternConfig = $this->getMock('\\AnyMark\\Pattern\\FileArrayPatternConfig');
+        $this->parser = $this->createMock('\\AnyMark\\Parser\\Parser');
+        $this->eventDispatcher = $this->createMock('\\Epa\\Api\\EventDispatcher');
+        $this->patternConfig = $this->createMock('\\AnyMark\\Pattern\\FileArrayPatternConfig');
         $this->anyMark = new \AnyMark\AnyMark(
             $this->parser,
             $this->eventDispatcher,
@@ -21,7 +21,7 @@ class AnyMarkTest extends \PHPUnit\Framework\TestCase
      */
     public function eventsAreThrown()
     {
-        $observer = $this->getMock('\\Epa\\Api\\Observer');
+        $observer = $this->createMock('\\Epa\\Api\\Observer');
         $this->anyMark->addObserver($observer);
 
         $this->parser

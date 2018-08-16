@@ -30,8 +30,8 @@ class HyperlinkDefinition extends Pattern
     public function handleMatch(
         array $match,
         Element $parent = null,
-        Pattern $parentPattern = null
-    ) : Element {
+        \AnyMark\Api\Pattern $parentPattern = null
+    ) : ?\ElementTree\Component {
         $this->save($match);
 
         return $this->createText('');

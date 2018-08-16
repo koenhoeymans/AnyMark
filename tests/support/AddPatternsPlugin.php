@@ -5,7 +5,7 @@
  */
 namespace AnyMark;
 
-use AnyMark\PublicApi\EditPatternConfigurationEvent;
+use AnyMark\Api\EditPatternConfigurationEvent;
 use Epa\Api\EventDispatcher;
 use Epa\Api\Plugin;
 use AnyMark\Events\PatternConfigLoaded;

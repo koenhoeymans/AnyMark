@@ -4,14 +4,13 @@ namespace AnyMark\Parser;
 
 use AnyMark\Events\ParsingPatternMatch;
 use Epa\Api\ObserverStore;
-use Epa\Api\Observable;
 use AnyMark\Pattern\Pattern;
 use AnyMark\Pattern\PatternTree;
 use ElementTree\ElementTree;
 use ElementTree\Component;
 use ElementTree\Text;
 
-class GlobalMatchRecursiveReplacer implements Parser, Observable
+class GlobalMatchRecursiveReplacer implements Parser
 {
     use ObserverStore;
 

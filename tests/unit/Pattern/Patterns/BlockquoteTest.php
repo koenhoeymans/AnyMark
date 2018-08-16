@@ -27,7 +27,7 @@ class BlockquoteTest extends PatternReplacementAssertions
 paragraph";
 
         $bq = $this->elementTree()->createElement('blockquote');
-        $bq->append(new \ElementTree\ElementTreeText("quote\ncontinued\n\n"));
+        $bq->append(new \ElementTree\Text("quote\ncontinued\n\n"));
 
         $this->assertEquals($bq, $this->applyPattern($text));
     }
@@ -45,7 +45,7 @@ continued
 paragraph";
 
         $bq = $this->elementTree()->createElement('blockquote');
-        $bq->append(new \ElementTree\ElementTreeText("quote\ncontinued\n\n"));
+        $bq->append(new \ElementTree\Text("quote\ncontinued\n\n"));
 
         $this->assertEquals($bq, $this->applyPattern($text));
     }
@@ -66,7 +66,7 @@ paragraph";
 paragraph";
 
         $bq = $this->elementTree()->createElement('blockquote');
-        $bq->append(new \ElementTree\ElementTreeText("quote\n\n> subquote\n\nquote continued\n\n"));
+        $bq->append(new \ElementTree\Text("quote\n\n> subquote\n\nquote continued\n\n"));
 
         $this->assertEquals($bq, $this->applyPattern($text));
     }
@@ -83,7 +83,7 @@ paragraph";
 paragraph";
 
         $bq = $this->elementTree()->createElement('blockquote');
-        $bq->append(new \ElementTree\ElementTreeText("quote\ncontinued\n\n"));
+        $bq->append(new \ElementTree\Text("quote\ncontinued\n\n"));
 
         $this->assertEquals($bq, $this->applyPattern($text));
     }

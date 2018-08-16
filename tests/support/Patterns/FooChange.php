@@ -13,7 +13,7 @@ use ElementTree\Element;
  */
 class FooChange extends \AnyMark\Pattern\Pattern
 {
-    public function getRegex()
+    public function getRegex() : string
     {
         return '@foo@';
     }
@@ -21,8 +21,8 @@ class FooChange extends \AnyMark\Pattern\Pattern
     public function handleMatch(
         array $match,
         Element $parent = null,
-        Pattern $parentPattern = null
-    ) {
+        \AnyMark\Api\Pattern $parentPattern = null
+    ) : ?\ElementTree\Component {
         return $this->createText('bar');
     }
 }

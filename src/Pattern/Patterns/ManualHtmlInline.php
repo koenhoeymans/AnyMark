@@ -50,8 +50,8 @@ class ManualHtmlInline extends Pattern
     public function handleMatch(
         array $match,
         Element $parent = null,
-        Pattern $parentPattern = null
-    ) : Element {
+        \AnyMark\Api\Pattern $parentPattern = null
+    ) : ?\ElementTree\Component {
         if (isset($match['tag']) || isset($match['selfclosing'])) {
             $element = $this->createElement($match['tag']);
             if ($match['content'] !== '') {

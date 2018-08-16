@@ -53,14 +53,14 @@ class ManualHtmlBlock extends Pattern
     public function handleMatch(
         array $match,
         Element $parent = null,
-        Pattern $parentPattern = null
-    ) : Element {
+        \AnyMark\Api\Pattern $parentPattern = null
+    ) : ?\ElementTree\Component {
         if (!empty($match['comment'])) {
             return $this->createComment($match['comment']);
         }
         if (($match['name'] === 'ins' || $match['name'] === 'del')
             && substr($match['content'], 0, 1) !== "\n") {
-            return;
+            return null;
         }
 
         $element = $this->createElement($match['name']);

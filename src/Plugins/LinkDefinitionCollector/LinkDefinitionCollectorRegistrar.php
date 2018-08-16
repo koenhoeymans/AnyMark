@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\LinkDefinitionCollector;
 
-use AnyMark\PublicApi\BeforeParsingEvent;
+use AnyMark\Api\BeforeParsingEvent;
 use Epa\Api\EventDispatcher;
 use Epa\Api\Plugin;
 
@@ -19,7 +19,7 @@ class LinkDefinitionCollectorRegistrar implements Plugin
     {
         $collector = $this->collector;
         $eventDispatcher->registerForEvent(
-            'AnyMark\\PublicApi\\BeforeParsingEvent',
+            'AnyMark\\Api\\BeforeParsingEvent',
             function (BeforeParsingEvent $event) use ($collector) {
                 $event->setText($collector->process($event->getText()));
             }

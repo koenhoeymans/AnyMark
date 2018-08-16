@@ -3,7 +3,6 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\Element;
 
 class AutoLink extends Pattern
 {
@@ -39,9 +38,9 @@ class AutoLink extends Pattern
 
     public function handleMatch(
         array $match,
-        Element $parent = null,
-        Pattern $parentPattern = null
-    ) : Element {
+        \ElementTree\Element $parent = null,
+        \AnyMark\Api\Pattern $parentPattern = null
+    ) : ?\ElementTree\Component {
         $a = $this->createElement('a');
         if (isset($match['url'])) {
             $a->append($this->createText($match['url']));

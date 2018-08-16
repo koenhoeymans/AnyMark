@@ -4,7 +4,7 @@ namespace AnyMark\Plugins\HtmlEntities;
 
 use Epa\Api\Plugin;
 use Epa\Api\EventDispatcher;
-use AnyMark\PublicApi\AfterParsingEvent;
+use AnyMark\Api\AfterParsingEvent;
 
 class HtmlEntitiesRegistrar implements Plugin
 {
@@ -12,7 +12,7 @@ class HtmlEntitiesRegistrar implements Plugin
     {
         $htmlEntities = new \AnyMark\Plugins\HtmlEntities\HtmlEntities();
         $eventDispatcher->registerForEvent(
-            'AnyMark\\PublicApi\\AfterParsingEvent',
+            'AnyMark\\Api\\AfterParsingEvent',
             function (AfterParsingEvent $event) use ($htmlEntities) {
                 $htmlEntities->handleTree($event->getTree());
             }

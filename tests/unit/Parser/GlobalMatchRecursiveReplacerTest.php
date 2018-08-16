@@ -6,7 +6,7 @@ class GlobalMatchRecursiveReplacerTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {
-        $this->patternTree = $this->getMock('\\AnyMark\\Pattern\\PatternTree');
+        $this->patternTree = $this->createMock('\\AnyMark\\Pattern\\PatternTree');
         $this->replacer = new \AnyMark\Parser\GlobalMatchRecursiveReplacer(
             $this->patternTree
         );
@@ -17,7 +17,7 @@ class GlobalMatchRecursiveReplacerTest extends \PHPUnit\Framework\TestCase
      */
     public function appliesPatternsToText()
     {
-        $mockPattern = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+        $mockPattern = $this->createMock('\\AnyMark\\Pattern\\Pattern');
         $mockPattern
             ->expects($this->atLeastOnce())
             ->method('getRegex')
@@ -25,7 +25,7 @@ class GlobalMatchRecursiveReplacerTest extends \PHPUnit\Framework\TestCase
         $mockPattern
             ->expects($this->atLeastOnce())
             ->method('handleMatch')
-            ->will($this->returnValue(new \ElementTree\ElementTreeElement('a')));
+            ->will($this->returnValue(new \ElementTree\Element('a')));
         $this->patternTree
             ->expects($this->atLeastOnce())
             ->method('getSubpatterns')
@@ -40,7 +40,7 @@ class GlobalMatchRecursiveReplacerTest extends \PHPUnit\Framework\TestCase
      */
     public function afterARegexMatchAPatternCanDecideItIsAFalsePositive()
     {
-        $mockPattern = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+        $mockPattern = $this->createMock('\\AnyMark\\Pattern\\Pattern');
         $mockPattern
             ->expects($this->atLeastOnce())
             ->method('getRegex')
@@ -67,7 +67,7 @@ class GlobalMatchRecursiveReplacerTest extends \PHPUnit\Framework\TestCase
     public function presentsTextAfterMatchToSamePattern()
     {
         $elementTree = new \ElementTree\ElementTree();
-        $mockPatternA = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+        $mockPatternA = $this->createMock('\\AnyMark\\Pattern\\Pattern');
         $mockPatternA
             ->expects($this->atLeastOnce())
             ->method('getRegex')
@@ -107,9 +107,9 @@ class GlobalMatchRecursiveReplacerTest extends \PHPUnit\Framework\TestCase
      */
     public function presentsTextLeftToNextPattern()
     {
-        $elementA = new \ElementTree\ElementTreeElement('a');
-        $elementA->append(new \ElementTree\ElementTreeText('o'));
-        $mockPatternA = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+        $elementA = new \ElementTree\Element('a');
+        $elementA->append(new \ElementTree\Text('o'));
+        $mockPatternA = $this->createMock('\\AnyMark\\Pattern\\Pattern');
         $mockPatternA
             ->expects($this->exactly(2))
             ->method('getRegex')
@@ -118,19 +118,19 @@ class GlobalMatchRecursiveReplacerTest extends \PHPUnit\Framework\TestCase
             ->expects($this->exactly(1))
             ->method('handleMatch')
             ->will($this->returnValue($elementA));
-        $mockPatternB = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+        $mockPatternB = $this->createMock('\\AnyMark\\Pattern\\Pattern');
         $mockPatternB
             ->expects($this->atLeastOnce())
             ->method('getRegex')
             ->will($this->returnValue('@t@'));
-        $elementB = new \ElementTree\ElementTreeElement('b');
-        $elementB->append(new \ElementTree\ElementTreeText('b'));
+        $elementB = new \ElementTree\Element('b');
+        $elementB->append(new \ElementTree\Text('b'));
         $mockPatternB
             ->expects($this->at(1))
             ->method('handleMatch')
             ->will($this->returnValue($elementB));
-        $elementB = new \ElementTree\ElementTreeElement('b');
-        $elementB->append(new \ElementTree\ElementTreeText('b'));
+        $elementB = new \ElementTree\Element('b');
+        $elementB->append(new \ElementTree\Text('b'));
         $mockPatternB
             ->expects($this->at(4))
             ->method('handleMatch')
@@ -212,8 +212,8 @@ class GlobalMatchRecursiveReplacerTest extends \PHPUnit\Framework\TestCase
      */
     public function notifiesObserversOfMatchesHandledByPatterns()
     {
-        $element = new \ElementTree\ElementTreeElement('a');
-        $mockPattern = $this->getMock('\\AnyMark\\Pattern\\Pattern');
+        $element = new \ElementTree\Element('a');
+        $mockPattern = $this->createMock('\\AnyMark\\Pattern\\Pattern');
         $mockPattern
             ->expects($this->atLeastOnce())
             ->method('getRegex')
@@ -231,7 +231,7 @@ class GlobalMatchRecursiveReplacerTest extends \PHPUnit\Framework\TestCase
             $element,
             $mockPattern
         );
-        $observer = $this->getMock('\\Epa\\Api\\Observer');
+        $observer = $this->createMock('\\Epa\\Api\\Observer');
         $observer->expects($this->once())->method('notify')->with($event);
         $this->replacer->addObserver($observer);
 

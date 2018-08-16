@@ -2,7 +2,7 @@
 
 namespace AnyMark\Plugins\EscapeRestorer;
 
-use ElementTree\ElementTreeElement;
+use ElementTree\Element;
 
 class EscapeRestorerTest extends \PHPUnit\Framework\TestCase
 {
@@ -61,7 +61,7 @@ class EscapeRestorerTest extends \PHPUnit\Framework\TestCase
      */
     public function adjustsInlineHtmlMatches()
     {
-        $a = new \ElementTree\ElementTreeElement('a');
+        $a = new \ElementTree\Element('a');
         $pattern = new \AnyMark\Pattern\Patterns\ManualHtmlInline();
         $event = new \AnyMark\Events\ParsingPatternMatch($a, $pattern);
 
@@ -75,7 +75,7 @@ class EscapeRestorerTest extends \PHPUnit\Framework\TestCase
      */
     public function listensForBlockHtmlMatches()
     {
-        $a = new \ElementTree\ElementTreeElement('a');
+        $a = new \ElementTree\Element('a');
         $pattern = new \AnyMark\Pattern\Patterns\ManualHtmlBlock();
         $event = new \AnyMark\Events\ParsingPatternMatch($a, $pattern);
 

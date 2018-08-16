@@ -6,8 +6,8 @@ class PatternListTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {
-        $this->config = $this->getMock('AnyMark\\Pattern\\PatternConfig');
-        $this->factory = $this->getMock('AnyMark\\Pattern\\PatternFactory');
+        $this->config = $this->createMock('AnyMark\\Pattern\\PatternConfig');
+        $this->factory = $this->createMock('AnyMark\\Pattern\\PatternFactory');
         $this->patternList = new \AnyMark\Pattern\PatternList(
             $this->config,
             $this->factory

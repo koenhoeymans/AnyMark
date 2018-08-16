@@ -3,7 +3,6 @@
 namespace AnyMark\Pattern\Patterns;
 
 use AnyMark\Pattern\Pattern;
-use ElementTree\Element;
 
 class CodeIndented extends Code
 {
@@ -22,9 +21,9 @@ class CodeIndented extends Code
 
     public function handleMatch(
         array $match,
-        Element $parent = null,
-        Pattern $parentPattern = null
-    ) : Element {
+        \ElementTree\Element $parent = null,
+        \AnyMark\Api\Pattern $parentPattern = null
+    ) : ?\ElementTree\Component {
         if ($parentPattern && $match['newline'] === "\n") {
             if ($parentPattern instanceof \AnyMark\Pattern\Patterns\ManualHtml) {
                 return false;

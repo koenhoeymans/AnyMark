@@ -2,9 +2,9 @@
 
 namespace AnyMark\Pattern;
 
-use AnyMark\PublicApi\EditPatternConfigurationEvent;
-use AnyMark\PublicApi\ToAliasOrParent;
-use AnyMark\PublicApi\Where;
+use AnyMark\Api\EditPatternConfigurationEvent;
+use AnyMark\Api\ToAliasOrParent;
+use AnyMark\Api\Where;
 
 class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationEvent, ToAliasOrParent, Where
 {
@@ -24,7 +24,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     /**
      * @see \AnyMark\Pattern\PatternConfig::getSpecifiedImplementation()
      */
-    public function getSpecifiedImplementation($name) : ?string
+    public function getSpecifiedImplementation($name)
     {
         return isset($this->config['implementations'][$name])
             ? $this->config['implementations'][$name]
@@ -52,7 +52,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     }
 
     /**
-     * @see \AnyMark\PublicApi\EditPatternConfigurationEvent::setImplementation()
+     * @see \AnyMark\Api\EditPatternConfigurationEvent::setImplementation()
      */
     public function setImplementation($name, $implementation) : void
     {
@@ -64,9 +64,9 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     }
 
     /**
-     * @see \AnyMark\PublicApi\EditPatternConfigurationEvent::add()
+     * @see \AnyMark\Api\EditPatternConfigurationEvent::add()
      */
-    public function add($name) : FileArrayPatternConfig
+    public function add(string $name) : \AnyMark\Api\ToAliasOrParent
     {
         $this->dsl['patternName'] = $name;
 
@@ -74,9 +74,9 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     }
 
     /**
-     * @see \AnyMark\PublicApi\ToAliasOrParent::toAlias()
+     * @see \AnyMark\Api\ToAliasOrParent::toAlias()
      */
-    public function toAlias($name) : FileArrayPatternConfig
+    public function toAlias(string $name) : \AnyMark\Api\Where
     {
         $this->dsl['type'] = 'alias';
         $this->dsl['parent'] = $name;
@@ -85,9 +85,9 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     }
 
     /**
-     * @see \AnyMark\PublicApi\ToAliasOrParent::toParent()
+     * @see \AnyMark\Api\ToAliasOrParent::toParent()
      */
-    public function toParent($name) : FileArrayPatternConfig
+    public function toParent($name) : \AnyMark\Api\Where
     {
         $this->dsl['type'] = 'tree';
         $this->dsl['parent'] = $name;
@@ -96,7 +96,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     }
 
     /**
-     * @see \AnyMark\PublicApi\Where::last()
+     * @see \AnyMark\Api\Where::last()
      */
     public function last() : void
     {
@@ -106,7 +106,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     }
 
     /**
-     * @see \AnyMark\PublicApi\Where::first()
+     * @see \AnyMark\Api\Where::first()
      */
     public function first() : void
     {
@@ -120,7 +120,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     }
 
     /**
-     * @see \AnyMark\PublicApi\Where::after()
+     * @see \AnyMark\Api\Where::after()
      */
     public function after($patternName) : void
     {
@@ -133,7 +133,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     }
 
     /**
-     * @see \AnyMark\PublicApi\Where::before()
+     * @see \AnyMark\Api\Where::before()
      */
     public function before($patternName) : void
     {

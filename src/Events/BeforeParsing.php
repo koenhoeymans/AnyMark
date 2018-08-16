@@ -3,7 +3,7 @@
 namespace AnyMark\Events;
 
 use Epa\Api\Event;
-use AnyMark\PublicApi\BeforeParsingEvent;
+use AnyMark\Api\BeforeParsingEvent;
 
 class BeforeParsing implements Event, BeforeParsingEvent
 {

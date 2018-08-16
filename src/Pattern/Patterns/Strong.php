@@ -34,14 +34,14 @@ class Strong extends Pattern
     public function handleMatch(
         array $match,
         Element $parent = null,
-        Pattern $parentPattern = null
-    ) : Element {
+        \AnyMark\Api\Pattern $parentPattern = null
+    ) : ?\ElementTree\Component {
         $marker = $match['marker'].$match['marker'];
         if (substr($match[0], 0, 2) !== $marker || substr($match[0], -2) !== $marker) {
-            return;
+            return null;
         }
         if (substr($match[0], 0, 4) === '____' && substr($match[0], -4) === '____') {
-            return;
+            return null;
         }
 
         $strong = $this->createElement('strong');

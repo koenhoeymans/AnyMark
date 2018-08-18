@@ -28,7 +28,7 @@ class GlobalMatchRecursiveReplacer implements Parser
      */
     public function parse(string $text) : ElementTree
     {
-        $this->elementTree = new \ElementTree\ElementTree();
+        $this->elementTree = new ElementTree();
         $text = $this->elementTree->createText($text);
         $this->elementTree->append($text);
         $this->applyPatterns($text);

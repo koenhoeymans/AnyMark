@@ -10,7 +10,7 @@ class NewLineStandardizerRegistrar implements Plugin
 {
     public function registerHandlers(EventDispatcher $eventDispatcher) : void
     {
-        $standardizer = new \AnyMark\Plugins\NewLineStandardizer\NewLineStandardizer();
+        $standardizer = new NewLineStandardizer();
         $eventDispatcher->registerForEvent(
             'AnyMark\\Api\\BeforeParsingEvent',
             function (BeforeParsingEvent $event) use ($standardizer) {

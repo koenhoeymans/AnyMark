@@ -2,19 +2,24 @@
 
 namespace AnyMark\Api;
 
+use ElementTree\Comment;
+use ElementTree\Component;
+use ElementTree\Element;
+use ElementTree\Text;
+
 interface Pattern
 {
     public function getRegex() : string;
 
     public function handleMatch(
         array $match,
-        \ElementTree\Element $parent = null,
+        Element $parent = null,
         Pattern $parentPattern = null
-    ) : ?\ElementTree\Component;
+    ) : ?Component;
 
-    public function createElement(string $name) : \ElementTree\Element;
+    public function createElement(string $name) : Element;
 
-    public function createText(string $text) : \ElementTree\Text;
+    public function createText(string $text) : Text;
 
-    public function createComment(string $text) : \ElementTree\Comment;
+    public function createComment(string $text) : Comment;
 }

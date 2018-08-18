@@ -12,10 +12,10 @@ interface ToAliasOrParent
     /**
      * Adds the pattern to an alias.
      */
-    public function toAlias(string $name) : \AnyMark\Api\Where;
+    public function toAlias(string $name) : Where;
 
     /**
      * Adds the pattern as a subpattern of another (parent)pattern.
      */
-    public function toParent(string $name) : \AnyMark\Api\Where;
+    public function toParent(string $name) : Where;
 }

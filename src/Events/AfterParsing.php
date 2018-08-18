@@ -2,8 +2,8 @@
 
 namespace AnyMark\Events;
 
-use ElementTree\ElementTree;
 use Epa\Api\Event;
+use ElementTree\ElementTree;
 use AnyMark\Api\AfterParsingEvent;
 
 class AfterParsing implements Event, AfterParsingEvent

@@ -8,9 +8,9 @@ use Epa\Api\Plugin;
 
 class DetabRegistrar implements Plugin
 {
-    public function registerHandlers(\Epa\Api\EventDispatcher $eventDispatcher) : void
+    public function registerHandlers(EventDispatcher $eventDispatcher) : void
     {
-        $detab = new \AnyMark\Plugins\Detab\Detab();
+        $detab = new Detab();
         $eventDispatcher->registerForEvent(
             'AnyMark\\Api\\BeforeParsingEvent',
             function (BeforeParsingEvent $event) use ($detab) {

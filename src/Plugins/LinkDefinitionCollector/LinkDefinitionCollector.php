@@ -2,6 +2,8 @@
 
 namespace AnyMark\Plugins\LinkDefinitionCollector;
 
+use AnyMark\Pattern\Patterns\LinkDefinition;
+
 class LinkDefinitionCollector
 {
     private $linkDefinitions = array();
@@ -41,7 +43,7 @@ class LinkDefinitionCollector
     /**
      * Returns a link definition based on reference.
      */
-    public function get(string $linkDefinition) : ?\AnyMark\Pattern\Patterns\LinkDefinition
+    public function get(string $linkDefinition) : ?LinkDefinition
     {
         if (!isset($this->linkDefinitions[$linkDefinition])) {
             return null;

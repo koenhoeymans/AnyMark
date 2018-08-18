@@ -10,7 +10,7 @@ class EmptyLineFixerRegistrar implements Plugin
 {
     public function registerHandlers(EventDispatcher $eventDispatcher) : void
     {
-        $fixer = new \AnyMark\Plugins\EmptyLineFixer\EmptyLineFixer();
+        $fixer = new EmptyLineFixer();
         $eventDispatcher->registerForEvent(
             'AnyMark\\Api\\BeforeParsingEvent',
             function (BeforeParsingEvent $event) use ($fixer) {

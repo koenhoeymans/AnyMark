@@ -11,7 +11,7 @@ class EscapeRestorerRegistrar implements Plugin
 {
     public function registerHandlers(EventDispatcher $eventDispatcher) : void
     {
-        $restorer = new \AnyMark\Plugins\EscapeRestorer\EscapeRestorer();
+        $restorer = new EscapeRestorer();
         $eventDispatcher->registerForEvent(
             'AnyMark\\Api\\AfterParsingEvent',
             function (AfterParsingEvent $event) use ($restorer) {

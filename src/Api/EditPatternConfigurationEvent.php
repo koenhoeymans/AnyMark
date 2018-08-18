@@ -33,5 +33,5 @@ interface EditPatternConfigurationEvent
      *        ->toParent('italic')
      *        ->first();
      */
-    public function add(string $name) : \AnyMark\Api\ToAliasOrParent;
+    public function add(string $name) : ToAliasOrParent;
 }

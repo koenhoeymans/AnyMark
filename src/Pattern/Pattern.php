@@ -2,31 +2,37 @@
 
 namespace AnyMark\Pattern;
 
+use \ElementTree\Element;
+use \ElementTree\Text;
+use \ElementTree\Comment;
+use \ElementTree\Component;
+use \AnyMark\Api\Pattern as PatternApi;
+
 /**
  * When a text matches its pattern it transforms it.
  */
-abstract class Pattern implements \AnyMark\Api\Pattern
+abstract class Pattern implements PatternApi
 {
     abstract public function getRegex() : string;
 
     abstract public function handleMatch(
         array $match,
-        \ElementTree\Element $parent = null,
-        \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component;
+        Element $parent = null,
+        PatternApi $parentPattern = null
+    ) : ?Component;
 
-    public function createElement(string $name) : \ElementTree\Element
+    public function createElement(string $name) : Element
     {
-        return new \ElementTree\Element($name);
+        return new Element($name);
     }
 
-    public function createText(string $text) : \ElementTree\Text
+    public function createText(string $text) : Text
     {
-        return new \ElementTree\Text($text);
+        return new Text($text);
     }
 
-    public function createComment(string $text) : \ElementTree\Comment
+    public function createComment(string $text) : Comment
     {
-        return new \ElementTree\Comment($text);
+        return new Comment($text);
     }
 }

@@ -10,7 +10,7 @@ class EmailObfuscatorRegistrar implements Plugin
 {
     public function registerHandlers(EventDispatcher $eventDispatcher) : void
     {
-        $obfuscator = new \AnyMark\Plugins\EmailObfuscator\EmailObfuscator();
+        $obfuscator = new EmailObfuscator();
         $eventDispatcher->registerForEvent(
             'AnyMark\\Api\\AfterParsingEvent',
             function (AfterParsingEvent $event) use ($obfuscator) {

@@ -10,7 +10,7 @@ class HtmlEntitiesRegistrar implements Plugin
 {
     public function registerHandlers(EventDispatcher $eventDispatcher) : void
     {
-        $htmlEntities = new \AnyMark\Plugins\HtmlEntities\HtmlEntities();
+        $htmlEntities = new HtmlEntities();
         $eventDispatcher->registerForEvent(
             'AnyMark\\Api\\AfterParsingEvent',
             function (AfterParsingEvent $event) use ($htmlEntities) {

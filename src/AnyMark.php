@@ -116,7 +116,6 @@ class AnyMark implements Parser
         if (!$this->patternConfigFileEventThrown) {
             $this->notify(new PatternConfigFile($this->patternConfig));
             $this->patternConfigFileEventThrown = true;
-
             $this->notify(new PatternConfigLoaded($this->patternConfig));
         }
 

@@ -5,7 +5,7 @@
  */
 namespace AnyMark;
 
-use AnyMark\Api\EditPatternConfigurationEvent;
+use AnyMark\Api\PatternConfigLoaded as PatternConfigLoadedApi;
 use Epa\Api\EventDispatcher;
 use Epa\Api\Plugin;
 use AnyMark\Events\PatternConfigLoaded;
@@ -33,7 +33,7 @@ class AddPatternsPlugin implements Plugin
         );
     }
 
-    public function addPatterns(EditPatternConfigurationEvent $patternConfig)
+    public function addPatterns(PatternConfigLoadedApi $patternConfig)
     {
         $patternConfig->setImplementation('emphasis', 'AnyMark\\Pattern\\Patterns\\Emphasis');
         $patternConfig->setImplementation('foo', 'AnyMark\\Patterns\\FooChange');

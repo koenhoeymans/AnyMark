@@ -5,7 +5,7 @@ namespace AnyMark\Api;
 /**
  * This event is thrown after the configuration of the patterns is loaded.
  */
-interface EditPatternConfigurationEvent
+interface PatternConfigLoaded
 {
     /**
      * Set the implementation that should be used for a given pattern name. This can

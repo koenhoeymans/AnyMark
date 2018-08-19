@@ -4,10 +4,10 @@ namespace AnyMark\Events;
 
 use AnyMark\Pattern\FileArrayPatternConfig;
 use Epa\Api\Event;
-use AnyMark\Api\EditPatternConfigurationEvent;
+use AnyMark\Api\PatternConfigLoaded as PatternConfigLoadedApi;
 use AnyMark\Api\ToAliasOrParent;
 
-class PatternConfigLoaded implements Event, EditPatternConfigurationEvent
+class PatternConfigLoaded implements Event, PatternConfigLoadedApi
 {
     private $patternConfig;
 
@@ -22,7 +22,7 @@ class PatternConfigLoaded implements Event, EditPatternConfigurationEvent
     }
 
     /**
-     * @see \AnyMark\Api\EditPatternConfigurationEvent::setImplementation()
+     * @see \AnyMark\Api\PatternConfigLoaded::setImplementation()
      */
     public function setImplementation(string $name, $implementation): void
     {

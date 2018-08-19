@@ -2,11 +2,11 @@
 
 namespace AnyMark\Pattern;
 
-use AnyMark\Api\EditPatternConfigurationEvent;
+use AnyMark\Api\PatternConfigLoaded;
 use AnyMark\Api\ToAliasOrParent;
 use AnyMark\Api\Where;
 
-class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationEvent, ToAliasOrParent, Where
+class FileArrayPatternConfig implements PatternConfig, PatternConfigLoaded, ToAliasOrParent, Where
 {
     private $config = array();
 
@@ -52,7 +52,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     }
 
     /**
-     * @see \AnyMark\Api\EditPatternConfigurationEvent::setImplementation()
+     * @see \AnyMark\Api\PatternConfigLoaded::setImplementation()
      */
     public function setImplementation($name, $implementation): void
     {
@@ -64,7 +64,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     }
 
     /**
-     * @see \AnyMark\Api\EditPatternConfigurationEvent::add()
+     * @see \AnyMark\Api\PatternConfigLoaded::add()
      */
     public function add(string $name): ToAliasOrParent
     {

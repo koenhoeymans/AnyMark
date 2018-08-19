@@ -23,7 +23,7 @@ class Header extends Pattern
      */
     private $ids;
 
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
         '@
@@ -49,7 +49,7 @@ class Header extends Pattern
         array $match,
         Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         if (isset($match['atx'])) {
             return $this->createAtxHeaders($match, $parent);
         } else {

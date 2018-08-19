@@ -9,17 +9,17 @@ use ElementTree\Text;
 
 interface Pattern
 {
-    public function getRegex() : string;
+    public function getRegex(): string;
 
     public function handleMatch(
         array $match,
         Element $parent = null,
         Pattern $parentPattern = null
-    ) : ?Component;
+    ): ?Component;
 
-    public function createElement(string $name) : Element;
+    public function createElement(string $name): Element;
 
-    public function createText(string $text) : Text;
+    public function createText(string $text): Text;
 
-    public function createComment(string $text) : Comment;
+    public function createComment(string $text): Comment;
 }

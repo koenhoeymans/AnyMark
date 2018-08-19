@@ -6,7 +6,7 @@ use ElementTree\ElementTree;
 
 class HtmlEntities
 {
-    public function handleTree(ElementTree $tree) : void
+    public function handleTree(ElementTree $tree): void
     {
         $query = $tree->createQuery($tree);
 

@@ -15,7 +15,7 @@ class AfterParsing implements Event, AfterParsingEvent
         $this->tree = $tree;
     }
 
-    public function getTree() : ElementTree
+    public function getTree(): ElementTree
     {
         return $this->tree;
     }

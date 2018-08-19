@@ -4,7 +4,7 @@ namespace AnyMark\Plugins\Detab;
 
 class Detab
 {
-    public function detab(string $text) : string
+    public function detab(string $text): string
     {
         # adapted from PHP Markdown
         return preg_replace_callback(

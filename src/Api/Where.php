@@ -11,22 +11,22 @@ interface Where
     /**
      * Add as last to process. Other patterns may be added as last afterwards.
      */
-    public function last() : void;
+    public function last(): void;
 
     /**
      * Add as first to process. Other patterns may be added as first afterwards.
      */
-    public function first() : void;
+    public function first(): void;
 
     /**
      * Add to process after a certain pattern. Other patterns may be added
      * after that pattern afterwards.
      */
-    public function after(string $patternName) : void;
+    public function after(string $patternName): void;
 
     /**
      * Add to process before a certain pattern. Other patterns may be added
      * before that pattern afterwards.
      */
-    public function before(string $patternName) : void;
+    public function before(string $patternName): void;
 }

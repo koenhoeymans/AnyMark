@@ -11,5 +11,5 @@ interface Parser extends Observable
      * Parse text and return an `ElementTree` with the different detected
      * components.
      */
-    public function parse(string $text) : ElementTree;
+    public function parse(string $text): ElementTree;
 }

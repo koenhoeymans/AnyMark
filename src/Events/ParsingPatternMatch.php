@@ -22,7 +22,7 @@ class ParsingPatternMatch implements Event, PatternMatch
     /**
      * @see \AnyMark\Api\PatternMatch::getComponent()
      */
-    public function getComponent() : Component
+    public function getComponent(): Component
     {
         return $this->component;
     }
@@ -30,7 +30,7 @@ class ParsingPatternMatch implements Event, PatternMatch
     /**
      * @see \AnyMark\Api\PatternMatch::getPattern()
      */
-    public function getPattern() : Pattern
+    public function getPattern(): Pattern
     {
         return $this->pattern;
     }

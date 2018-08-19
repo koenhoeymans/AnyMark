@@ -37,7 +37,7 @@ class AnyMark implements Parser
     /**
      * Sets up the wiring of objects and returns an instance.
      */
-    public static function setup(ObjectGraphConstructor $fjor = null) : Parser
+    public static function setup(ObjectGraphConstructor $fjor = null): Parser
     {
         # lots of recursion while adding patterns to tree
         ini_set('xdebug.max_nesting_level', 200);
@@ -100,7 +100,7 @@ class AnyMark implements Parser
         $this->patternConfig = $patternConfig;
     }
 
-    public function registerPlugin(Plugin $plugin) : void
+    public function registerPlugin(Plugin $plugin): void
     {
         $this->eventDispatcher->addPlugin($plugin);
     }
@@ -111,7 +111,7 @@ class AnyMark implements Parser
      *
      * @see AnyMark\Parser.Parser::parse()
      */
-    public function parse($text) : ElementTree
+    public function parse($text): ElementTree
     {
         if (!$this->patternConfigFileEventThrown) {
             $this->notify(new PatternConfigFile($this->patternConfig));

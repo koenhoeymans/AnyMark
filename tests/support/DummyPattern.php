@@ -6,7 +6,7 @@ use AnyMark\Pattern\Pattern;
 
 class DummyPattern extends Pattern
 {
-    public function getRegex() : string
+    public function getRegex(): string
     {
     }
 
@@ -14,6 +14,6 @@ class DummyPattern extends Pattern
         array $match,
         \ElementTree\Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : \ElementTree\Component {
+    ): \ElementTree\Component {
     }
 }

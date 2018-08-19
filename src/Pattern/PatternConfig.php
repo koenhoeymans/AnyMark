@@ -15,10 +15,10 @@ interface PatternConfig
      * The alias groups several patterns. Eg `inline` may be a name for several
      * patterns like `italic` and `strong`.
      */
-    public function getAliased(string $alias) : array;
+    public function getAliased(string $alias): array;
 
     /**
      * Get the names of the subpatterns or aliases.
      */
-    public function getSubnames(string $name) : array;
+    public function getSubnames(string $name): array;
 }

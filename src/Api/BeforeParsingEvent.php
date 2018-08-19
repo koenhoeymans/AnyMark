@@ -10,10 +10,10 @@ interface BeforeParsingEvent
     /**
      * Get the text as it is before before being parsed.
      */
-    public function getText() : string;
+    public function getText(): string;
 
     /**
      * Set the text that will be parsed.
      */
-    public function setText(string $text) : void;
+    public function setText(string $text): void;
 }

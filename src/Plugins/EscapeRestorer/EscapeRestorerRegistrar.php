@@ -9,7 +9,7 @@ use Epa\Api\Plugin;
 
 class EscapeRestorerRegistrar implements Plugin
 {
-    public function registerHandlers(EventDispatcher $eventDispatcher) : void
+    public function registerHandlers(EventDispatcher $eventDispatcher): void
     {
         $restorer = new EscapeRestorer();
         $eventDispatcher->registerForEvent(

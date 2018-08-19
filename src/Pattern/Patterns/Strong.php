@@ -7,7 +7,7 @@ use ElementTree\Element;
 
 class Strong extends Pattern
 {
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
         '@
@@ -35,7 +35,7 @@ class Strong extends Pattern
         array $match,
         Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         $marker = $match['marker'] . $match['marker'];
         if (substr($match[0], 0, 2) !== $marker || substr($match[0], -2) !== $marker) {
             return null;

@@ -7,7 +7,7 @@ use ElementTree\Element;
 
 abstract class Code extends Pattern
 {
-    protected function createCodeReplacement($code, $pre = true, Element $parent = null) : Element
+    protected function createCodeReplacement($code, $pre = true, Element $parent = null): Element
     {
         $code = htmlentities($code, ENT_NOQUOTES);
         $codeElement = $this->createElement('code');

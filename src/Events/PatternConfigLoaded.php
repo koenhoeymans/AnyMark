@@ -16,7 +16,7 @@ class PatternConfigLoaded implements Event, EditPatternConfigurationEvent
         $this->patternConfig = $patternConfig;
     }
 
-    public function getPatternConfig() : FileArrayPatternConfig
+    public function getPatternConfig(): FileArrayPatternConfig
     {
         return $this->patternConfig;
     }
@@ -24,7 +24,7 @@ class PatternConfigLoaded implements Event, EditPatternConfigurationEvent
     /**
      * @see \AnyMark\Api\EditPatternConfigurationEvent::setImplementation()
      */
-    public function setImplementation(string $name, $implementation) : void
+    public function setImplementation(string $name, $implementation): void
     {
         $this->patternConfig->setImplementation($name, $implementation);
     }
@@ -32,7 +32,7 @@ class PatternConfigLoaded implements Event, EditPatternConfigurationEvent
     /**
      * @see \AnyMark\Pattern\PatternConfig::add()
      */
-    public function add(string $name, $implementation = null) : ToAliasOrParent
+    public function add(string $name, $implementation = null): ToAliasOrParent
     {
         return $this->patternConfig->add($name, $implementation);
     }

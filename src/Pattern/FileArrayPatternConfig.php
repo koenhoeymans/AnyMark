@@ -16,7 +16,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
         'parent' => null,
     );
 
-    public function fillFrom($file) : void
+    public function fillFrom($file): void
     {
         $this->config = require $file;
     }
@@ -34,7 +34,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     /**
      * @see \AnyMark\Pattern\PatternConfig::getAliased()
      */
-    public function getAliased($alias) : array
+    public function getAliased($alias): array
     {
         return isset($this->config['alias'][$alias])
             ? $this->config['alias'][$alias]
@@ -44,7 +44,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     /**
      * @see \AnyMark\Pattern\PatternConfig::getSubnames()
      */
-    public function getSubnames($name) : array
+    public function getSubnames($name): array
     {
         return isset($this->config['tree'][$name])
             ? $this->config['tree'][$name]
@@ -54,7 +54,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     /**
      * @see \AnyMark\Api\EditPatternConfigurationEvent::setImplementation()
      */
-    public function setImplementation($name, $implementation) : void
+    public function setImplementation($name, $implementation): void
     {
         if (is_object($implementation)) {
             $this->config['implementations'][$name] = $implementation;
@@ -66,7 +66,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     /**
      * @see \AnyMark\Api\EditPatternConfigurationEvent::add()
      */
-    public function add(string $name) : ToAliasOrParent
+    public function add(string $name): ToAliasOrParent
     {
         $this->dsl['patternName'] = $name;
 
@@ -76,7 +76,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     /**
      * @see \AnyMark\Api\ToAliasOrParent::toAlias()
      */
-    public function toAlias(string $name) : Where
+    public function toAlias(string $name): Where
     {
         $this->dsl['type'] = 'alias';
         $this->dsl['parent'] = $name;
@@ -87,7 +87,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     /**
      * @see \AnyMark\Api\ToAliasOrParent::toParent()
      */
-    public function toParent($name) : Where
+    public function toParent($name): Where
     {
         $this->dsl['type'] = 'tree';
         $this->dsl['parent'] = $name;
@@ -98,7 +98,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     /**
      * @see \AnyMark\Api\Where::last()
      */
-    public function last() : void
+    public function last(): void
     {
         $name = $this->dsl['patternName'];
         $parentName = $this->dsl['parent'];
@@ -108,7 +108,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     /**
      * @see \AnyMark\Api\Where::first()
      */
-    public function first() : void
+    public function first(): void
     {
         $name = $this->dsl['patternName'];
         $parentName = $this->dsl['parent'];
@@ -122,7 +122,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     /**
      * @see \AnyMark\Api\Where::after()
      */
-    public function after($patternName) : void
+    public function after($patternName): void
     {
         $name = $this->dsl['patternName'];
         $parentName = $this->dsl['parent'];
@@ -135,7 +135,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
     /**
      * @see \AnyMark\Api\Where::before()
      */
-    public function before($patternName) : void
+    public function before($patternName): void
     {
         $name = $this->dsl['patternName'];
         $parentName = $this->dsl['parent'];

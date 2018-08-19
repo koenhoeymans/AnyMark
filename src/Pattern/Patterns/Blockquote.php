@@ -6,7 +6,7 @@ use AnyMark\Pattern\Pattern;
 
 class Blockquote extends Pattern
 {
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
             '@
@@ -25,7 +25,7 @@ class Blockquote extends Pattern
         array $match,
         \ElementTree\Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         $text = preg_replace("#(^|\n)> ?#", "\${1}", $match['quote']);
         $blockquote = $this->createElement('blockquote');
         $blockquote->append($this->createText($text . "\n\n"));

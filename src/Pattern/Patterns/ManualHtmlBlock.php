@@ -15,7 +15,7 @@ class ManualHtmlBlock extends Pattern
 
     protected $attributes = '(\s+\w+(=(?:\"[^\"]*?\"|\'[^\']*?\'|[^\'\">\s]+))?)*';
 
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return '
 		@(?J)
@@ -54,7 +54,7 @@ class ManualHtmlBlock extends Pattern
         array $match,
         Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         if (!empty($match['comment'])) {
             return $this->createComment($match['comment']);
         }

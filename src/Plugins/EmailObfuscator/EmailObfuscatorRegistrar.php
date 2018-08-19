@@ -8,7 +8,7 @@ use Epa\Api\EventDispatcher;
 
 class EmailObfuscatorRegistrar implements Plugin
 {
-    public function registerHandlers(EventDispatcher $eventDispatcher) : void
+    public function registerHandlers(EventDispatcher $eventDispatcher): void
     {
         $obfuscator = new EmailObfuscator();
         $eventDispatcher->registerForEvent(

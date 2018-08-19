@@ -6,7 +6,7 @@ use AnyMark\Pattern\Pattern;
 
 class Emphasis extends Pattern
 {
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
         '@
@@ -49,7 +49,7 @@ class Emphasis extends Pattern
         array $match,
         \ElementTree\Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         if (substr($match[0], 0, 2) === '**' && substr($match[0], -2) === '**') {
             return null;
         }

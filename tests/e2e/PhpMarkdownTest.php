@@ -21,7 +21,7 @@ class PhpMarkdownTest extends \AnyMark\Tidy
             $this->tidy(file_get_contents(
                 __DIR__
                 . DIRECTORY_SEPARATOR . 'PhpMarkdown.mdtest'
-                . DIRECTORY_SEPARATOR . $name . ' .xhtml'
+                . DIRECTORY_SEPARATOR . $name . '.xhtml'
             )),
             $this->tidy($parsedText)
         );

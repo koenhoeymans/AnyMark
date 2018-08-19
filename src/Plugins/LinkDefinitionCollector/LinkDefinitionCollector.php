@@ -8,7 +8,7 @@ class LinkDefinitionCollector
 {
     private $linkDefinitions = array();
 
-    public function process(string $text) : string
+    public function process(string $text): string
     {
         return preg_replace_callback(
             '@
@@ -43,7 +43,7 @@ class LinkDefinitionCollector
     /**
      * Returns a link definition based on reference.
      */
-    public function get(string $linkDefinition) : ?LinkDefinition
+    public function get(string $linkDefinition): ?LinkDefinition
     {
         if (!isset($this->linkDefinitions[$linkDefinition])) {
             return null;

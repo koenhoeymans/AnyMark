@@ -8,7 +8,7 @@ use Epa\Api\Plugin;
 
 class NewLineStandardizerRegistrar implements Plugin
 {
-    public function registerHandlers(EventDispatcher $eventDispatcher) : void
+    public function registerHandlers(EventDispatcher $eventDispatcher): void
     {
         $standardizer = new NewLineStandardizer();
         $eventDispatcher->registerForEvent(

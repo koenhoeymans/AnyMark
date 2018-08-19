@@ -8,7 +8,7 @@ use AnyMark\Api\AfterParsingEvent;
 
 class HtmlEntitiesRegistrar implements Plugin
 {
-    public function registerHandlers(EventDispatcher $eventDispatcher) : void
+    public function registerHandlers(EventDispatcher $eventDispatcher): void
     {
         $htmlEntities = new HtmlEntities();
         $eventDispatcher->registerForEvent(

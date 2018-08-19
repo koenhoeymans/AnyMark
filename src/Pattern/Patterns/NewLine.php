@@ -7,7 +7,7 @@ use ElementTree\Element;
 
 class NewLine extends Pattern
 {
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return "@[ ][ ](?=\n)@";
     }
@@ -16,7 +16,7 @@ class NewLine extends Pattern
         array $match,
         Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         return $this->createElement('br');
     }
 }

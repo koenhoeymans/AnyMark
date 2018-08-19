@@ -9,7 +9,7 @@ class HyperlinkDefinition extends Pattern
 {
     private $linkDefinitions = array();
 
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
             '@
@@ -31,7 +31,7 @@ class HyperlinkDefinition extends Pattern
         array $match,
         Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         $this->save($match);
 
         return $this->createText('');

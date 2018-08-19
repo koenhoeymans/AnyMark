@@ -9,7 +9,7 @@ use ElementTree\ElementTree;
 
 class EscapeRestorer
 {
-    public function restoreTree(ElementTree $tree) : void
+    public function restoreTree(ElementTree $tree): void
     {
         # restore escaped
         $q = $tree->createQuery($tree);
@@ -44,7 +44,7 @@ class EscapeRestorer
         );
     }
 
-    public function handlePatternMatch(PatternMatch $match) : void
+    public function handlePatternMatch(PatternMatch $match): void
     {
         if (!($match->getComponent() instanceof \ElementTree\Element)) {
             return;

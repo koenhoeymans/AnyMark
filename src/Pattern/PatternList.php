@@ -25,7 +25,7 @@ class PatternList implements PatternTree
     /**
      * @see \AnyMark\Pattern\PatternTree::getSubpatterns()
      */
-    public function getSubpatterns(Pattern $parentPattern = null) : array
+    public function getSubpatterns(Pattern $parentPattern = null): array
     {
         $this->updateFromConfig();
 
@@ -40,7 +40,7 @@ class PatternList implements PatternTree
             : array();
     }
 
-    private function updateFromConfig() : void
+    private function updateFromConfig(): void
     {
         if ($this->config != $this->configCopy) {
             $this->update();
@@ -48,7 +48,7 @@ class PatternList implements PatternTree
         }
     }
 
-    private function update() : void
+    private function update(): void
     {
         $this->tree = array();
         $this->hasBeenAddedFromConfig = array();

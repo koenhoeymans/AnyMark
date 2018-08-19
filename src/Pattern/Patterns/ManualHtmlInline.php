@@ -7,7 +7,7 @@ use ElementTree\Element;
 
 class ManualHtmlInline extends Pattern
 {
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
             '@
@@ -51,7 +51,7 @@ class ManualHtmlInline extends Pattern
         array $match,
         Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         if (isset($match['tag']) || isset($match['selfclosing'])) {
             $element = $this->createElement($match['tag']);
             if ($match['content'] !== '') {

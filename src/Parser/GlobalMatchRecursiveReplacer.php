@@ -26,7 +26,7 @@ class GlobalMatchRecursiveReplacer implements Parser
     /**
      * @see AnyMark\Parser.Parser::parse()
      */
-    public function parse(string $text) : ElementTree
+    public function parse(string $text): ElementTree
     {
         $this->elementTree = new ElementTree();
         $text = $this->elementTree->createText($text);

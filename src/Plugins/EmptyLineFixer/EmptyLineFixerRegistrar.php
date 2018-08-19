@@ -8,7 +8,7 @@ use Epa\Api\Plugin;
 
 class EmptyLineFixerRegistrar implements Plugin
 {
-    public function registerHandlers(EventDispatcher $eventDispatcher) : void
+    public function registerHandlers(EventDispatcher $eventDispatcher): void
     {
         $fixer = new EmptyLineFixer();
         $eventDispatcher->registerForEvent(

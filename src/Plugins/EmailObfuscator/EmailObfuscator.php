@@ -7,7 +7,7 @@ use ElementTree\ElementTree;
 
 class EmailObfuscator
 {
-    public function handleTree(ElementTree $tree) : void
+    public function handleTree(ElementTree $tree): void
     {
         $query = $tree->createQuery($tree);
         $elements = $query->find($query->allElements());

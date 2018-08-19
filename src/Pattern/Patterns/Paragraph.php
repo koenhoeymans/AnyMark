@@ -7,7 +7,7 @@ use ElementTree\Element;
 
 class Paragraph extends Pattern
 {
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
             '@
@@ -34,7 +34,7 @@ class Paragraph extends Pattern
         array $match,
         Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         $p = $this->createElement('p');
         $p->append($this->createText($match['text']));
 

@@ -13,7 +13,7 @@ interface EditPatternConfigurationEvent
      *
      * @param string|object $implementation The class name or object.
      */
-    public function setImplementation(string $name, $implementation) : void;
+    public function setImplementation(string $name, $implementation): void;
 
     /**
      * Adds a pattern to the configuration. It can be added to an alias
@@ -33,5 +33,5 @@ interface EditPatternConfigurationEvent
      *        ->toParent('italic')
      *        ->first();
      */
-    public function add(string $name) : ToAliasOrParent;
+    public function add(string $name): ToAliasOrParent;
 }

@@ -7,7 +7,7 @@ use ElementTree\Element;
 
 class HorizontalRule extends Pattern
 {
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
         '@
@@ -23,7 +23,7 @@ class HorizontalRule extends Pattern
         array $match,
         Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         return $this->createElement('hr');
     }
 }

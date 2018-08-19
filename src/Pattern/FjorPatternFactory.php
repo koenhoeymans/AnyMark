@@ -14,7 +14,7 @@ class FjorPatternFactory implements PatternFactory
         $this->fjor = $fjor;
     }
 
-    public function create($patternClass) : Pattern
+    public function create($patternClass): Pattern
     {
         return $this->fjor->get($patternClass);
     }

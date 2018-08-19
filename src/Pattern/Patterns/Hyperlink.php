@@ -21,7 +21,7 @@ class Hyperlink extends Pattern
         $this->internalUrlBuilder = $internalUrlBuilder;
     }
 
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
             '@
@@ -84,7 +84,7 @@ class Hyperlink extends Pattern
         array $match,
         Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         if ($parentPattern == $this) {
             return null;
         }
@@ -118,7 +118,7 @@ class Hyperlink extends Pattern
     private function createDomForInlineLink(array $match)
     {
         $url = (isset($match['url'][0]) && ($match['url'][0] == '<'))
-            ? substr($match['url'], 1, -1) : $match['url'];
+            ? substr($match['url'], 1, -1): $match['url'];
         $title = isset($match['title']) ? $match['title'] : null;
 
         return $this->createDomForLink($url, $match['anchor'], $title);

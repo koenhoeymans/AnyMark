@@ -6,7 +6,7 @@ use AnyMark\Pattern\Pattern;
 
 class CodeIndented extends Code
 {
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
             '@
@@ -23,7 +23,7 @@ class CodeIndented extends Code
         array $match,
         \ElementTree\Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         if ($parentPattern && $match['newline'] === "\n") {
             if ($parentPattern instanceof \AnyMark\Pattern\Patterns\ManualHtml) {
                 return false;

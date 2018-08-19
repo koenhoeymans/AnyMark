@@ -14,10 +14,10 @@ interface PatternMatch
      * The element (or comment) that is created by the pattern in response
      * to the match.
      */
-    public function getComponent() : Component;
+    public function getComponent(): Component;
 
     /**
      * The pattern that generated the match.
      */
-    public function getPattern() : Pattern;
+    public function getPattern(): Pattern;
 }

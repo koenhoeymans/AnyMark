@@ -6,7 +6,7 @@ use AnyMark\Pattern\Pattern;
 
 class AutoLink extends Pattern
 {
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
             '@
@@ -40,7 +40,7 @@ class AutoLink extends Pattern
         array $match,
         \ElementTree\Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         $a = $this->createElement('a');
         if (isset($match['url'])) {
             $a->append($this->createText($match['url']));

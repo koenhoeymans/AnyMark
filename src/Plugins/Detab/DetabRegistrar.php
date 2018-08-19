@@ -8,7 +8,7 @@ use Epa\Api\Plugin;
 
 class DetabRegistrar implements Plugin
 {
-    public function registerHandlers(EventDispatcher $eventDispatcher) : void
+    public function registerHandlers(EventDispatcher $eventDispatcher): void
     {
         $detab = new Detab();
         $eventDispatcher->registerForEvent(

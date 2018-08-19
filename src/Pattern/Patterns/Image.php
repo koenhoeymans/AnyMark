@@ -15,7 +15,7 @@ class Image extends Pattern
         $this->linkDefinitions = $linkDefinitionCollector;
     }
 
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
             '@
@@ -48,7 +48,7 @@ class Image extends Pattern
         array $match,
         Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         if (isset($match['reference'])) {
             return $this->replaceReference($match);
         } else {

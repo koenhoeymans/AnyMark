@@ -15,7 +15,7 @@ class LinkDefinitionCollectorRegistrar implements Plugin
         $this->collector = $collector;
     }
 
-    public function registerHandlers(EventDispatcher $eventDispatcher) : void
+    public function registerHandlers(EventDispatcher $eventDispatcher): void
     {
         $collector = $this->collector;
         $eventDispatcher->registerForEvent(

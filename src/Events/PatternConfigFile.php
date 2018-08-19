@@ -15,7 +15,7 @@ class PatternConfigFile implements Event, SetPatternConfigFileEvent
         $this->patternConfig = $patternConfig;
     }
 
-    public function setPatternConfigFile(string $file) : void
+    public function setPatternConfigFile(string $file): void
     {
         $this->patternConfig->fillFrom($file);
     }

@@ -11,7 +11,7 @@ class TextualList extends Pattern
 
     protected $ul_marker = "[*+-]";
 
-    public function getRegex() : string
+    public function getRegex(): string
     {
         return
         '@
@@ -64,7 +64,7 @@ class TextualList extends Pattern
         array $match,
         Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
-    ) : ?\ElementTree\Component {
+    ): ?\ElementTree\Component {
         # different handling of allowed indentation for sublist
         if (($parentPattern != $this)
             && !empty($match['on_next_line'])

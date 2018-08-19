@@ -14,5 +14,5 @@ interface AfterParsingEvent
      * manipulate the tree. More information about `ElementTree` is
      * available: [ElementTree](https://github.com/koenhoeymans/ElementTree).
      */
-    public function getTree() : ElementTree;
+    public function getTree(): ElementTree;
 }

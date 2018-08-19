@@ -25,7 +25,7 @@ namespace AnyMark\Api;
  * The default configuration file can be found in the `AnyMark` directory as
  * `Patterns.php`.
  */
-interface SetPatternConfigFileEvent
+interface SetPatternConfig
 {
     /**
      * Sets the file where the pattern configuration is found.

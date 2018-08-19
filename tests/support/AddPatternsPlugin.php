@@ -9,7 +9,7 @@ use AnyMark\Api\PatternConfigLoaded as PatternConfigLoadedApi;
 use Epa\Api\EventDispatcher;
 use Epa\Api\Plugin;
 use AnyMark\Events\PatternConfigLoaded;
-use AnyMark\Events\PatternConfigFile;
+use AnyMark\Events\SetPatternConfig;
 
 /**
  * @package
@@ -21,7 +21,7 @@ class AddPatternsPlugin implements Plugin
         $configFile = __DIR__ . DIRECTORY_SEPARATOR . 'CustomPatterns.php';
         $eventDispatcher->registerForEvent(
             'AnyMark\\Events\\PatternConfigFile',
-            function (PatternConfigFile $event) use ($configFile) {
+            function (SetPatternConfig $event) use ($configFile) {
                 $event->setPatternConfigFile($configFile);
             }
         );

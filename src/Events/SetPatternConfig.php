@@ -4,9 +4,9 @@ namespace AnyMark\Events;
 
 use Epa\Api\Event;
 use AnyMark\Pattern\FileArrayPatternConfig;
-use AnyMark\Api\SetPatternConfigFileEvent;
+use AnyMark\Api\SetPatternConfig as SetPatternConfigApi;
 
-class PatternConfigFile implements Event, SetPatternConfigFileEvent
+class SetPatternConfig implements Event, SetPatternConfigApi
 {
     private $patternConfig;
 

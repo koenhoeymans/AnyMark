@@ -5,7 +5,7 @@ namespace AnyMark;
 use AnyMark\Api\Parser;
 use AnyMark\Events\AfterParsing;
 use AnyMark\Events\BeforeParsing;
-use AnyMark\Events\PatternConfigFile;
+use AnyMark\Events\SetPatternConfig;
 use AnyMark\Events\PatternConfigLoaded;
 use AnyMark\Pattern\FileArrayPatternConfig;
 use AnyMark\Plugins\Detab\DetabRegistrar;
@@ -32,7 +32,7 @@ class AnyMark implements Parser
 
     private $patternConfig;
 
-    private $patternConfigFileEventThrown = false;
+    private $setPatternConfigEventThrown = false;
 
     /**
      * Sets up the wiring of objects and returns an instance.
@@ -113,9 +113,9 @@ class AnyMark implements Parser
      */
     public function parse($text): ElementTree
     {
-        if (!$this->patternConfigFileEventThrown) {
-            $this->notify(new PatternConfigFile($this->patternConfig));
-            $this->patternConfigFileEventThrown = true;
+        if (!$this->SetPatternConfigEventThrown) {
+            $this->notify(new SetPatternConfig($this->patternConfig));
+            $this->setPatternConfigEventThrown = true;
             $this->notify(new PatternConfigLoaded($this->patternConfig));
         }
 

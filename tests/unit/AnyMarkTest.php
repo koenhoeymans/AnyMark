@@ -32,7 +32,7 @@ class AnyMarkTest extends \PHPUnit\Framework\TestCase
         $observer
             ->expects($this->at(0))
             ->method('notify')
-            ->with(new \AnyMark\Events\PatternConfigFile($this->patternConfig));
+            ->with(new \AnyMark\Events\SetPatternConfig($this->patternConfig));
         $observer
             ->expects($this->at(1))
             ->method('notify')

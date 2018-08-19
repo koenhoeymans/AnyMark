@@ -5,7 +5,7 @@
  */
 namespace AnyMark;
 
-use AnyMark\Events\PatternConfigFile;
+use AnyMark\Events\SetPatternConfig;
 use Epa\Api\EventDispatcher;
 use Epa\Api\Plugin;
 
@@ -18,8 +18,8 @@ class CustomPatternFilePlugin implements Plugin
     {
         $configFile = __DIR__ . DIRECTORY_SEPARATOR . 'CustomPatterns.php';
         $eventDispatcher->registerForEvent(
-            'AnyMark\\Events\\PatternConfigFile',
-            function (PatternConfigFile $event) use ($configFile) {
+            'AnyMark\\Events\\SetPatternConfig',
+            function (SetPatternConfig $event) use ($configFile) {
                 $event->setPatternConfigFile($configFile);
             }
         );

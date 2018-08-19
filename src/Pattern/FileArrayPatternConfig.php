@@ -128,7 +128,7 @@ class FileArrayPatternConfig implements PatternConfig, EditPatternConfigurationE
         $parentName = $this->dsl['parent'];
         $subpatterns = $this->config[$this->dsl['type']][$parentName];
         $position = array_search($patternName, $subpatterns);
-        array_splice($subpatterns, $position+1, 0, $name);
+        array_splice($subpatterns, $position + 1, 0, $name);
         $this->config[$this->dsl['type']][$parentName] = $subpatterns;
     }
 

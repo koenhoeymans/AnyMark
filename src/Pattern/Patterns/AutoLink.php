@@ -47,7 +47,7 @@ class AutoLink extends Pattern
             $a->setAttribute('href', $match['url']);
         } else {
             $a->append($this->createText($match['mail']));
-            $a->setAttribute('href', 'mailto:'.$match['mail']);
+            $a->setAttribute('href', 'mailto:' . $match['mail']);
         }
 
         return $a;

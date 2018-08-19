@@ -23,15 +23,15 @@ class TextualList extends Pattern
 
 		(
 			(?<ol_indentation>[ \t]*)					# indentation
-			(?<ol>'.$this->ol_marker.')			# marker
+			(?<ol>' . $this->ol_marker . ')			# marker
 			(?<ol_space_after_marker>[ \t]+)			# space after marker
 			\S.*									# text
 			(										# continuation of list
-				\n(?!'.$this->ul_marker.').+	# -> on next line
+				\n(?!' . $this->ul_marker . ').+	# -> on next line
 				|
 				\n\n\g{ol_indentation}						# -> white line
 														#	+ indent
-					('.$this->ol_marker.')?	#	+ marker (when new item, else paragraph in item)
+					(' . $this->ol_marker . ')?	#	+ marker (when new item, else paragraph in item)
 						\g{ol_space_after_marker}			#	+ space
  				.+										#	+ text
 			)*
@@ -41,22 +41,22 @@ class TextualList extends Pattern
 
 		(
 			(?<ul_indentation>[ \t]*)
-			(?<ul>'.$this->ul_marker.')
+			(?<ul>' . $this->ul_marker . ')
 			(?<ul_space_after_marker>[ \t]+)
 			\S.*
 			(
-				\n(?!'.$this->ol_marker.').+
+				\n(?!' . $this->ol_marker . ').+
 				|
 				\n\n\g{ul_indentation}
 
-					('.$this->ul_marker.')?
+					(' . $this->ul_marker . ')?
 						\g{ul_space_after_marker}
  				.+
 			)*
 		)
 	)
 
-		(?=\n\n|\n$|$|\n'.$this->ol_marker.'|\n'.$this->ul_marker.')
+		(?=\n\n|\n$|$|\n' . $this->ol_marker . '|\n' . $this->ul_marker . ')
 		@x';
     }
 
@@ -113,7 +113,7 @@ class TextualList extends Pattern
 			# ------------------------------
 			(
 			(?<marker_indent>[ ]{0,3})	# indentation of the list marker
-			('.$this->ol_marker.'|'.$this->ul_marker.')		# markers
+			(' . $this->ol_marker . '|' . $this->ul_marker . ')		# markers
 			(?<text_indent>[ ]{0,3}|\t|(?=\n))	# spaces/tabs
 			)
 
@@ -125,12 +125,12 @@ class TextualList extends Pattern
 					\n							# continue on next line unindented
 					(?!
 						\g{marker_indent}
-						('.$this->ol_marker.'|'.$this->ul_marker.')
+						(' . $this->ol_marker . '|' . $this->ul_marker . ')
 					)
 					.+
 					|							# or indented
 					\n\n\g{marker_indent}
-						(?!('.$this->ol_marker.'|'.$this->ul_marker.'))
+						(?!(' . $this->ol_marker . '|' . $this->ul_marker . '))
 					.+
 				)*
 			)
@@ -143,7 +143,7 @@ class TextualList extends Pattern
         $paragraph = (($match['para_before'] == "\n\n") || isset($match['para_after']))
             ? "\n\n" : "";
         $content = preg_replace(
-            "@\n".$match['marker_indent']."[ ]".$match['text_indent']."@",
+            "@\n" . $match['marker_indent'] . "[ ]" . $match['text_indent'] . "@",
             "\n",
             $match['content']
         );
@@ -151,7 +151,7 @@ class TextualList extends Pattern
         $li = $this->createElement('li');
 
         if ($paragraph !== '' || $content !== '') {
-            $li->append($this->createText($paragraph.$content.$paragraph));
+            $li->append($this->createText($paragraph . $content . $paragraph));
         }
 
         $parent->append($li);

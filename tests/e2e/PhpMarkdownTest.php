@@ -13,15 +13,15 @@ class PhpMarkdownTest extends \AnyMark\Tidy
 
         $parsedText = $anyMark->parse(file_get_contents(
             __DIR__
-            .DIRECTORY_SEPARATOR.'PhpMarkdown.mdtest'
-            .DIRECTORY_SEPARATOR.$name.'.text'
+            . DIRECTORY_SEPARATOR . 'PhpMarkdown.mdtest'
+            . DIRECTORY_SEPARATOR . $name . '.text'
         ))->toString();
 
         $this->assertEquals(
             $this->tidy(file_get_contents(
                 __DIR__
-                .DIRECTORY_SEPARATOR.'PhpMarkdown.mdtest'
-                .DIRECTORY_SEPARATOR.$name.'.xhtml'
+                . DIRECTORY_SEPARATOR . 'PhpMarkdown.mdtest'
+                . DIRECTORY_SEPARATOR . $name . ' .xhtml'
             )),
             $this->tidy($parsedText)
         );

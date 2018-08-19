@@ -28,7 +28,7 @@ class Blockquote extends Pattern
     ) : ?\ElementTree\Component {
         $text = preg_replace("#(^|\n)> ?#", "\${1}", $match['quote']);
         $blockquote = $this->createElement('blockquote');
-        $blockquote->append($this->createText($text."\n\n"));
+        $blockquote->append($this->createText($text . "\n\n"));
 
         return $blockquote;
     }

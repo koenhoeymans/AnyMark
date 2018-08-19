@@ -26,15 +26,15 @@ class ManualHtmlBlock extends Pattern
 
 		|
 
-		<(?<name>'.$this->blockTags.')(?<attributes>'.$this->attributes.')>
+		<(?<name>' . $this->blockTags . ')(?<attributes>' . $this->attributes . ')>
 		(?<content>
 			(
 			([ ]{4}|\t)+.+\n
 			|
-			<(\w+)'.$this->attributes.'[ ]?/>
+			<(\w+)' . $this->attributes . '[ ]?/>
 			|
 			(?<subpattern>
-				<(?<subname>\w+)'.$this->attributes.'>(?&content)?</\g{subname}>
+				<(?<subname>\w+)' . $this->attributes . '>(?&content)?</\g{subname}>
 			)
 			|
 			[^<]
@@ -44,7 +44,7 @@ class ManualHtmlBlock extends Pattern
 
 		|
 
-		<(?<name>br|div|hr)(?<attributes>'.$this->attributes.')[ ]?/?>
+		<(?<name>br|div|hr)(?<attributes>' . $this->attributes . ')[ ]?/?>
 
 		)
 		@x';

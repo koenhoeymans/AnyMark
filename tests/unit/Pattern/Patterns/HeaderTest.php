@@ -280,7 +280,7 @@ class HeaderTest extends \AnyMark\PatternReplacementAssertions
         $this->assertEquals($header, $this->applyPattern($text));
     }
 
-    //	------------ atx style ------------
+    // ------------ atx style ------------
 
     /**
      * @test

@@ -80,7 +80,7 @@ class Image extends Pattern
     {
         $linkDefinition = $this->linkDefinitions->get($match['id']);
         if (!$linkDefinition) {
-            throw new \Exception('Following link definition not found: "[' .$match['id'].']"');
+            throw new \Exception('Following link definition not found: "[' . $match['id'] . ']"');
         }
         $title = $linkDefinition->getTitle();
 

@@ -21,7 +21,7 @@ class Detab
                         // @todo set tab amount of spaces option
                         $amount = 4 - mb_strlen($line, 'UTF-8') % 4;
                     }
-                    $line .= str_repeat(" ", $amount).$block;
+                    $line .= str_repeat(" ", $amount) . $block;
                 }
 
                 return $line;

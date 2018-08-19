@@ -42,7 +42,7 @@ class EmailObfuscator
     private function encode($addr)
     {
         // based on/copied from PHPMarkdowns Implementation
-        $addr = 'mailto:'.$addr;
+        $addr = 'mailto:' . $addr;
         $chars = preg_split('/(?<!^)(?!$)/', $addr);
         $seed = (int) abs(crc32($addr) / strlen($addr)); # Deterministic seed.
 
@@ -56,9 +56,9 @@ class EmailObfuscator
                 if ($r > 90 && $char != '@') {
                     /* do nothing */;
                 } elseif ($r < 45) {
-                    $chars[$key] = '&#x'.dechex($ord).';';
+                    $chars[$key] = '&#x' . dechex($ord) . ';';
                 } else {
-                    $chars[$key] = '&#'.$ord.';';
+                    $chars[$key] = '&#' . $ord . ';';
                 }
             }
         }

@@ -36,7 +36,7 @@ class Strong extends Pattern
         Element $parent = null,
         \AnyMark\Api\Pattern $parentPattern = null
     ) : ?\ElementTree\Component {
-        $marker = $match['marker'].$match['marker'];
+        $marker = $match['marker'] . $match['marker'];
         if (substr($match[0], 0, 2) !== $marker || substr($match[0], -2) !== $marker) {
             return null;
         }

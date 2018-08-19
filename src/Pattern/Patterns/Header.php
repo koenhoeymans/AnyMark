@@ -71,7 +71,7 @@ class Header extends Pattern
             }
         }
 
-        $h = $this->createElement('h'.$level);
+        $h = $this->createElement('h' . $level);
         $h->append($this->createText($match['text']));
 
         return $h;
@@ -82,7 +82,7 @@ class Header extends Pattern
         $level = strlen($match['level']);
         $level = ($level > 5) ? 6 : $level;
 
-        $h = $this->createElement('h'.$level);
+        $h = $this->createElement('h' . $level);
         $h->append($this->createText($match['text']));
 
         return $h;

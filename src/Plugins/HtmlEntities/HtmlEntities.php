@@ -22,7 +22,7 @@ class HtmlEntities
                         ENT_NOQUOTES,
                         'UTF-8',
                         false
-                    ).$match[2];
+                    ) . $match[2];
                 },
                 $text->getValue()
             );

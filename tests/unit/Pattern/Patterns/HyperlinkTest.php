@@ -93,7 +93,7 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             ->method('urlTo')->with('http://example.com')
             ->will($this->returnValue('http://example.com'));
         $text = "Visit [my site][1] for info.\n\n"
-            ."paragraph\n\n";
+            . "paragraph\n\n";
         $expected = $this->createDomForLink('http://example.com', 'my site');
         $this->assertEquals($expected, $this->applyPattern($text));
     }
@@ -114,7 +114,7 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             ->method('urlTo')->with('http://example.com')
             ->will($this->returnValue('http://example.com'));
         $text = "Visit [my site][1] for info.\n\n"
-            ."paragraph\n\n";
+            . "paragraph\n\n";
         $expected = $this->createDomForLink('http://example.com', 'my site', 'title');
         $this->assertEquals($expected, $this->applyPattern($text));
     }
@@ -135,7 +135,7 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             ->method('urlTo')->with('http://example.com')
             ->will($this->returnValue('http://example.com'));
         $text = "Visit [my site] [1] for info.\n\n"
-            ."paragraph\n\n";
+            . "paragraph\n\n";
         $expected = $this->createDomForLink('http://example.com', 'my site');
         $this->assertEquals($expected, $this->applyPattern($text));
     }
@@ -156,7 +156,7 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             ->method('urlTo')->with('http://example.com')
             ->will($this->returnValue('http://example.com'));
         $text = "Visit [my site] [] for info.\n\n"
-            ."paragraph\n\n";
+            . "paragraph\n\n";
         $expected = $this->createDomForLink('http://example.com', 'my site');
         $this->assertEquals($expected, $this->applyPattern($text));
     }
@@ -177,7 +177,7 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             ->method('urlTo')->with('http://example.com')
             ->will($this->returnValue('http://example.com'));
         $text = "You may [visit [my site] [] for] info.\n\n"
-            ."paragraph\n\n";
+            . "paragraph\n\n";
         $expected = $this->createDomForLink('http://example.com', 'my site');
         $this->assertEquals($expected, $this->applyPattern($text));
     }
@@ -198,7 +198,7 @@ class HyperlinkTest extends \AnyMark\PatternReplacementAssertions
             ->method('urlTo')->with('http://example.com')
             ->will($this->returnValue('http://example.com'));
         $text = "Visit [my site] for info.\n\n"
-            ."paragraph\n\n";
+            . "paragraph\n\n";
         $expected = $this->createDomForLink('http://example.com', 'my site');
         $this->assertEquals($expected, $this->applyPattern($text));
     }

@@ -42,7 +42,7 @@ class AnyMark implements Parser
         # lots of recursion while adding patterns to tree
         ini_set('xdebug.max_nesting_level', 200);
 
-        $patternsFile = __DIR__.DIRECTORY_SEPARATOR.'Patterns.php';
+        $patternsFile = __DIR__ . DIRECTORY_SEPARATOR . 'Patterns.php';
 
         if (!$fjor) {
             $fjor = FjorFactory::create();
@@ -120,7 +120,7 @@ class AnyMark implements Parser
             $this->notify(new PatternConfigLoaded($this->patternConfig));
         }
 
-        $beforeParsingEvent = new BeforeParsing($text."\n\n");
+        $beforeParsingEvent = new BeforeParsing($text . "\n\n");
         $this->notify($beforeParsingEvent);
 
         $tree = $this->parser->parse($beforeParsingEvent->getText());

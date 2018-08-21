@@ -5,8 +5,9 @@ namespace AnyMark\Api;
 use ElementTree\Component;
 
 /**
- * When a pattern has handled a match and created an element this
- * event is thrown.
+ * When a pattern has found a match and returned an `ElementTree\Component`,
+ * e.g. a `Text`, `Comment` or `Element`, this event is passed to subscribers
+ * before it is inserted into the `ElementTree`.
  */
 interface PatternMatch
 {

@@ -16,7 +16,7 @@ use AnyMark\Events\SetPatternConfig;
  */
 class AddPatternsPlugin implements Plugin
 {
-    public function registerHandlers(EventDispatcher $eventDispatcher)
+    public function registerHandlers(EventDispatcher $eventDispatcher) : void
     {
         $configFile = __DIR__ . DIRECTORY_SEPARATOR . 'CustomPatterns.php';
         $eventDispatcher->registerForEvent(

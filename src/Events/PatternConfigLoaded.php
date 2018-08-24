@@ -16,11 +16,6 @@ class PatternConfigLoaded implements Event, PatternConfigLoadedApi
         $this->patternConfig = $patternConfig;
     }
 
-    public function getPatternConfig(): FileArrayPatternConfig
-    {
-        return $this->patternConfig;
-    }
-
     /**
      * @see \AnyMark\Api\PatternConfigLoaded::setImplementation()
      */
@@ -30,7 +25,7 @@ class PatternConfigLoaded implements Event, PatternConfigLoadedApi
     }
 
     /**
-     * @see \AnyMark\Pattern\PatternConfig::add()
+     * @see \AnyMark\Api\PatternConfigLoaded::add()
      */
     public function add(string $name, $implementation = null): ToAliasOrParent
     {

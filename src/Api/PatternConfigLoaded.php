@@ -3,7 +3,9 @@
 namespace AnyMark\Api;
 
 /**
- * This event is thrown after the configuration of the patterns is loaded.
+ * This event is thrown after the configuration of the patterns is loaded. It
+ * allows for the modification of the configuration of the pattern order and
+ * the patterns that are used.
  */
 interface PatternConfigLoaded
 {
